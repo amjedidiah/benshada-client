@@ -1,0 +1,84 @@
+/* CSS File */
+* {
+  box-sizing: border-box;
+  word-wrap: break-word;
+  font-family: "Open Sans", sans-serif;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: "Poppins", sans-serif;
+}
+
+i.text-primary,
+.text-primary {
+  color: #ef932e !important;
+}
+
+p .text-primary:hover {
+  color: #ef932e !important;
+}
+
+.form-control,
+.form-control:hover,
+.form-control:focus,
+.form-control:active {
+  box-shadow: none !important;
+  -moz-box-shadow: none !important;
+  -o-box-shadow: none !important;
+  -webkit-box-shadow: none !important;
+  border-radius: 0px !important;
+}
+
+.form-control:-webkit-autofill,
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus,
+.form-control:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 100px white inset !important;
+  -moz-box-shadow: 0 0 0 100px white inset !important;
+  -o-box-shadow: 0 0 0 100px white inset !important;
+  box-shadow: 0 0 0 100px white inset !important;
+}
+
+.btn {
+  box-shadow: none !important;
+}
+
+.btn-outline-primary {
+  border-color: #ef932e !important;
+  color: #ef932e !important;
+}
+
+.btn-outline-primary:hover {
+  background: #ef932e !important;
+  color: #fff !important;
+}
+
+.btn-primary {
+  border-color: #ef932e !important;
+  color: #fff !important;
+  background: #ef932e !important;
+}
+
+.btn-primary:hover {
+  background: #fff !important;
+  color: #ef932e !important;
+}
+
+.border.border-primary {
+  border-color: #ef932e !important;
+}
+
+span.bg-primary {
+  background: #ef932e !important;
+}
+
+.grow:hover {
+  transform: scale(1.1);
+}
