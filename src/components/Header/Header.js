@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { connect } from "react-redux";
+import { googleSignOut } from "../../actions";
 
 import "./header.css";
 
@@ -12,38 +13,21 @@ class Header extends React.Component {
     if (this.props.isSignedIn) {
       return (
         <form className="form-inline">
-          {/* <Link to="/register">
-      <button
-        className="btn btn-outline-primary flex-grow-1 mr-3"
-        type="button"
-      >
-        Register
-      </button>
-    </Link> */}
-          <Link to="/login">
-            <button
-              className="btn btn-outline-primary flex-grow-1"
-              type="button"
-            >
-              Nice
-            </button>
-          </Link>
+          <button
+            className="btn btn-outline-primary"
+            type="button"
+            onClick={this.props.googleSignOut}
+          >
+            signOut
+          </button>
         </form>
       );
     }
 
     return (
       <form className="form-inline">
-        {/* <Link to="/register">
-      <button
-        className="btn btn-outline-primary flex-grow-1 mr-3"
-        type="button"
-      >
-        Register
-      </button>
-    </Link> */}
-        <Link to="/login">
-          <button className="btn btn-outline-primary flex-grow-1" type="button">
+        <Link to="/login" className="w-100">
+          <button className="btn btn-outline-primary w-100" type="button">
             Login
           </button>
         </Link>
@@ -53,23 +37,27 @@ class Header extends React.Component {
 
   render() {
     return (
-      <div>
-        <nav className="navbar navbar-expand-lg bg-white">
+      <>
+        <nav className="navbar navbar-expand-lg bg-white shadow-sm">
           <div className="container">
             <Link className="navbar-brand" to="/">
-              <img src={logo} className="mb-1" width="50" alt="" />
+              <img src={logo} className="mb-1" width="65" alt="" />
             </Link>
 
             <button
-              className="navbar-toggler"
+              className="navbar-toggler mt-0 pb-0 btn border border-primary"
               type="button"
               data-toggle="collapse"
               data-target="#navbarSupportedContent"
               aria-controls="navbarSupportedContent"
               aria-expanded="false"
               aria-label="Toggle navigation"
+              style={{
+                paddingTop: "12px",
+                transform: "scale(0.8)"
+              }}
             >
-              <span className="navbar-toggler-icon" />
+              <span className="navbar-toggler-icon w-100 p-0 m-0">MENU</span>
             </button>
 
             <div
@@ -99,7 +87,7 @@ class Header extends React.Component {
             </div>
           </div>
         </nav>
-      </div>
+      </>
     );
   }
 }
@@ -108,4 +96,7 @@ const mapStateToProps = state => {
   return { isSignedIn: state.auth.isSignedIn };
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(
+  mapStateToProps,
+  { googleSignOut }
+)(Header);

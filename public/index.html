@@ -37,16 +37,20 @@
 
     <!-- Google Fonts -->
     <link
-      href="https://fonts.googleapis.com/css?family=Open+Sans:400,700%7CPoppins:400,500"
+      href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
       rel="stylesheet"
     />
 
     <!-- FontAwesome -->
     <script src="https://kit.fontawesome.com/5de0804f0f.js"></script>
+
+    <!-- owlCarousel -->
+    <link rel="stylesheet" href="./owl/dist/assets/owl.carousel.min.css" />
+    <link rel="stylesheet" href="./owl/dist/assets/owl.theme.default.css" />
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <div class="h-100" id="root"></div>
+    <div class="" id="root"></div>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -57,5 +61,48 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- OWL Scripts -->
+    <script src="./owl/dist/owl.carousel.min.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $(".product-carousel").owlCarousel({
+          margin: 20,
+          responsive: {
+            0: {
+              items: 1
+            },
+            600: {
+              items: 3
+            },
+            1000: {
+              items: 5
+            }
+          }
+        });
+        $(".shop-carousel").owlCarousel({
+          margin: 5,
+          nav: false,
+          responsive: {
+            0: {
+              items: 1
+            },
+            600: {
+              items: 2
+            }
+          }
+        });
+        $(".jumbo-carousel").owlCarousel({
+          items: 1,
+          margin: 0,
+          nav: false
+        });
+      });
+    </script>
   </body>
 </html>

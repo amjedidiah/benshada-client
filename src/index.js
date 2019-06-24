@@ -2,7 +2,15 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import * as serviceWorker from "./serviceWorker";
+
 import "bootstrap/dist/css/bootstrap.css";
+// import $ from "jquery";
+import "bootstrap/dist/js/bootstrap.min.js";
+import "popper.js/dist/popper.min.js";
+
+// import "owl.carousel/dist/assets/owl.carousel.css";
+// import "owl.carousel/dist/assets/owl.carousel.css";
+// import "owl.carousel";
 
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware, compose } from "redux";

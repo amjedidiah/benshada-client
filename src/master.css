@@ -2,7 +2,7 @@
 * {
   box-sizing: border-box;
   word-wrap: break-word;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Montserrat", sans-serif;
 }
 
 html,
@@ -12,7 +12,10 @@ body {
 
 h1,
 h2,
-h3 {
+h3,
+h4,
+h5,
+h6 {
   font-family: "Poppins", sans-serif;
 }
 
@@ -34,6 +37,7 @@ p .text-primary:hover {
   -o-box-shadow: none !important;
   -webkit-box-shadow: none !important;
   border-radius: 0px !important;
+  background: transparent;
 }
 
 .form-control:-webkit-autofill,
@@ -75,7 +79,9 @@ p .text-primary:hover {
   border-color: #ef932e !important;
 }
 
-span.bg-primary {
+span.bg-primary,
+div.bg-primary,
+i.bg-primary {
   background: #ef932e !important;
 }
 
