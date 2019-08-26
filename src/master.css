@@ -1,90 +1,181 @@
-/* CSS File */
+/*CSS Document*/
 * {
+  font-family: "Montserrat", sans-serif;
   box-sizing: border-box;
   word-wrap: break-word;
-  font-family: "Montserrat", sans-serif;
 }
 
-html,
-body {
+body,
+html {
   height: 100%;
 }
 
 h1,
+h1 ul li,
 h2,
+h2 ul li,
 h3,
+h3 ul li,
 h4,
+h4 ul li,
 h5,
-h6 {
-  font-family: "Poppins", sans-serif;
+h5 ul li,
+h6,
+h6 ul li {
+  font-family: "Roboto", serif;
+  font-family: "Montserrat", sans-serif;
 }
 
-i.text-primary,
-.text-primary {
+a,
+Link {
+  text-decoration: none !important;
+  color: #212529;
+  box-shadow: none;
+  background: inherit !important;
+}
+
+a:hover,
+a:active,
+a:visited,
+Link:hover,
+Link:active,
+Link:visited {
   color: #ef932e !important;
 }
 
-p .text-primary:hover {
-  color: #ef932e !important;
+.btn:hover,
+.pointer {
+  box-shadow: none;
+}
+
+.navbar-brand {
+  font-family: "Eczar", serif;
 }
 
 .form-control,
-.form-control:hover,
-.form-control:focus,
-.form-control:active {
-  box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  -o-box-shadow: none !important;
-  -webkit-box-shadow: none !important;
-  border-radius: 0px !important;
-  background: transparent;
-}
-
 .form-control:-webkit-autofill,
 .form-control:-webkit-autofill:hover,
 .form-control:-webkit-autofill:focus,
 .form-control:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 100px white inset !important;
-  -moz-box-shadow: 0 0 0 100px white inset !important;
-  -o-box-shadow: 0 0 0 100px white inset !important;
-  box-shadow: 0 0 0 100px white inset !important;
+  box-shadow: none;
+  -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+}
+
+.border-primary {
+  border-color: #ef932e !important;
 }
 
 .btn {
   box-shadow: none !important;
 }
 
+.bg-primary,
+.btn-primary {
+  background: #ef932e !important;
+}
+
 .btn-outline-primary {
-  border-color: #ef932e !important;
   color: #ef932e !important;
 }
 
 .btn-outline-primary:hover {
-  background: #ef932e !important;
-  color: #fff !important;
-}
-
-.btn-primary {
-  border-color: #ef932e !important;
   color: #fff !important;
   background: #ef932e !important;
 }
 
-.btn-primary:hover {
-  background: #fff !important;
+.bg-transparent {
+  background: rgba(239, 147, 46, 0.7) !important;
+}
+
+.bg-light {
+  /*background: #fefbf6 !important;*/
+  /*background: #f3eded !important;*/
+  background: #fbf9f9 !important;
+}
+
+.text-primary {
   color: #ef932e !important;
 }
 
-.border.border-primary {
-  border-color: #ef932e !important;
+.btn {
+  border: none;
 }
 
-span.bg-primary,
-div.bg-primary,
-i.bg-primary {
-  background: #ef932e !important;
+.card-columns {
+  column-count: 1;
 }
 
-.grow:hover {
-  transform: scale(1.1);
+.card-columns.card-columns-double {
+  column-count: 2 !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.clear {
+  clear: both;
+}
+
+.no-Link {
+  text-decoration: none !important;
+}
+
+.v-parent {
+  position: relative;
+  border: 1px solid red;
+  width: 100%;
+}
+
+.v-child {
+  position: absolute;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  left: 0;
+  width: 100%;
+  border: 1px solid red;
+}
+
+.d-fixed {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+.v-assist {
+  z-index: 2;
+}
+
+.v-assist section {
+  min-height: 300px;
+}
+
+@media (min-width: 576px) {
+  .card-columns.card-columns-two {
+    column-count: 2 !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .card-columns {
+    column-count: 2 !important;
+  }
+
+  .card-columns.products {
+    column-count: 3 !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .card-columns {
+    column-count: 3 !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .card-columns.no-restrict,
+  .card-columns.products {
+    column-count: 4 !important;
+  }
 }

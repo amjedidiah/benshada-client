@@ -1,93 +1,117 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
-import { connect } from "react-redux";
-import { googleSignOut } from "../../actions";
-
+import searchAnimate from "./searchAnimate";
 import "./header.css";
 
-import logo from "../../img/logo2.png";
+// Connect to redux for Authentication, to see if user is logged in
+import { connect } from "react-redux";
 
 class Header extends React.Component {
-  renderAside() {
-    if (this.props.isSignedIn) {
+  authRender() {
+    if (this.props.isSignedIn === false) {
       return (
-        <form className="form-inline">
-          <button
-            className="btn btn-outline-primary"
-            type="button"
-            onClick={this.props.googleSignOut}
-          >
-            signOut
-          </button>
+        <form className="form-inline px-md-3">
+          <Link to="/login" className="flex-grow-1">
+            <button className="btn btn-primary rounded-0 w-100" type="button">
+              Login
+            </button>
+          </Link>
         </form>
       );
+    } else {
+      return (
+        <ul className="navbar-nav ml-auto " id="loggedIn">
+          <li className="nav-item border border-left-0 border-top-0 border-bottom-0 border-right-light px-md-3">
+            <Link className="nav-link" to="/cart">
+              <i className="fas fa-shopping-cart mr-2" />
+              Cart
+            </Link>
+          </li>
+          <li className="nav-item dropdown px-md-3">
+            <Link
+              className="nav-link dropdown-toggle"
+              to="/user"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              <i className="far fa-user mr-2" />
+              Amaraegbu
+            </Link>
+            <div
+              className="dropdown-menu border-0 shadow-md-sm"
+              aria-labelledby="navbarDropdown"
+            >
+              <Link className="dropdown-item" to="/users">
+                Account
+              </Link>
+              <Link className="dropdown-item" to="/orders">
+                My Orders
+              </Link>
+              <Link className="dropdown-item" to="/saved">
+                My Saved Items
+              </Link>
+              <div className="dropdown-divider" />
+              <Link className="dropdown-item" to="/logout">
+                Logout
+              </Link>
+            </div>
+          </li>
+        </ul>
+      );
     }
-
-    return (
-      <form className="form-inline">
-        <Link to="/login" className="w-100">
-          <button className="btn btn-outline-primary w-100" type="button">
-            Login
-          </button>
-        </Link>
-      </form>
-    );
   }
 
+  componentDidMount() {
+    searchAnimate();
+  }
   render() {
     return (
-      <>
-        <nav className="navbar navbar-expand-lg bg-white shadow-sm">
-          <div className="container">
-            <Link className="navbar-brand" to="/">
-              <img src={logo} className="mb-1" width="65" alt="" />
-            </Link>
-
-            <button
-              className="navbar-toggler mt-0 pb-0 btn border border-primary"
-              type="button"
-              data-toggle="collapse"
-              data-target="#navbarSupportedContent"
-              aria-controls="navbarSupportedContent"
-              aria-expanded="false"
-              aria-label="Toggle navigation"
-              style={{
-                paddingTop: "12px",
-                transform: "scale(0.8)"
-              }}
-            >
-              <span className="navbar-toggler-icon w-100 p-0 m-0">MENU</span>
-            </button>
-
-            <div
-              className="collapse navbar-collapse"
-              id="navbarSupportedContent"
-            >
-              <form className="form-inline my-3 my-lg-0 mx-lg-3 flex-grow-1">
-                <div className="input-group flex-grow-1 border border-primary rounded">
-                  <input
-                    className="form-control border-0 rounded-0"
-                    type="search"
-                    placeholder="Search"
-                    aria-label="Search"
-                  />
-                  <div className="input-group-append">
-                    <span
-                      className="input-group-text bg-primary border-0 rounded-0"
-                      id="basic-addon2"
-                    >
-                      <i className="fas fa-search text-white" />
-                    </span>
-                  </div>
+      <nav className="navbar navbar-expand-md shadow-sm mb-1 bg-white">
+        <div className="container-fluid">
+          <Link to="/" className="navbar-brand">
+            <i className="text-primary">benshada</i>
+          </Link>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <i className="fas fa-stream" />
+          </button>
+          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+            <form className="form-inline flex-grow-1 mb-2 mb-md-0">
+              <div className="input-group flex-grow-1">
+                <input
+                  className="form-control border-top-0 border-right-0 border-left-0 rounded-0 search-bar invisible"
+                  data-toggle="dropdown"
+                  type="search"
+                  placeholder="Search"
+                  aria-label="Search"
+                />
+                <div className="input-group-append">
+                  <span
+                    className="input-group-text bg-white border-0"
+                    id="basic-addon2"
+                  >
+                    <i
+                      className="fas fa-search text-primary pointer"
+                      id="showSearchBar"
+                    />
+                  </span>
                 </div>
-              </form>
-
-              {this.renderAside()}
-            </div>
+              </div>
+            </form>
+            {this.authRender()}
           </div>
-        </nav>
-      </>
+        </div>
+      </nav>
     );
   }
 }
@@ -96,7 +120,4 @@ const mapStateToProps = state => {
   return { isSignedIn: state.auth.isSignedIn };
 };
 
-export default connect(
-  mapStateToProps,
-  { googleSignOut }
-)(Header);
+export default connect(mapStateToProps)(Header);

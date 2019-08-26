@@ -1,0 +1,19 @@
+/*Header CSS*/
+#header ul li a,
+#header ul li a:hover,
+#header ul a li,
+#header ul a li:hover {
+    color: #ef932e !important;
+}
+
+#searchDropDown a li:hover,
+#searchDropDown a:hover {
+    background: #fefbf6;
+    text-decoration: none !important
+}
+
+@media (max-width: 768px) {
+  .search-bar {
+    visibility: visible !important;
+  }
+}
