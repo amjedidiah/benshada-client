@@ -17,14 +17,15 @@
     "react": "^16.8.6",
     "react-bootstrap": "^1.0.0-beta.9",
     "react-dom": "^16.8.6",
-    "react-loading": "^2.0.3",
     "react-loading-screen": "0.0.17",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "redux-form": "^8.2.4",
-    "redux-thunk": "^2.3.0"
+    "redux-persist": "^5.10.0",
+    "redux-thunk": "^2.3.0",
+    "string-hash": "^1.1.3"
   },
   "scripts": {
     "start": "react-scripts start",

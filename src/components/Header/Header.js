@@ -1,10 +1,11 @@
 import React from "react";
 import { Link } from "react-router-dom";
+// Connect to redux for Authentication, to see if user is logged in
+import { connect } from "react-redux";
+
 import searchAnimate from "./searchAnimate";
 import "./header.css";
 
-// Connect to redux for Authentication, to see if user is logged in
-import { connect } from "react-redux";
 
 class Header extends React.Component {
   authRender() {
@@ -30,7 +31,7 @@ class Header extends React.Component {
           <li className="nav-item dropdown px-md-3">
             <Link
               className="nav-link dropdown-toggle"
-              to="/user"
+              to=""
               id="navbarDropdown"
               role="button"
               data-toggle="dropdown"
@@ -38,13 +39,13 @@ class Header extends React.Component {
               aria-expanded="false"
             >
               <i className="far fa-user mr-2" />
-              Amaraegbu
+              {this.props.user.name.split(" ")[0]}
             </Link>
             <div
               className="dropdown-menu border-0 shadow-md-sm"
               aria-labelledby="navbarDropdown"
             >
-              <Link className="dropdown-item" to="/users">
+              <Link className="dropdown-item" to={`/user`}>
                 Account
               </Link>
               <Link className="dropdown-item" to="/orders">
@@ -117,7 +118,7 @@ class Header extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return { isSignedIn: state.auth.isSignedIn };
+  return { isSignedIn: state.auth.isSignedIn, user: state.auth.user };
 };
 
 export default connect(mapStateToProps)(Header);

@@ -1,63 +1,102 @@
 import React from "react";
-import { Field, reduxForm } from "redux-form";
+import { Field, reduxForm, SubmissionError } from "redux-form";
+import { connect } from "react-redux";
+import { loadForm, doneForm } from "../../actions/load";
 
 class BenshadaForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.pRef = React.createRef();
+  }
+
   renderError({ touched, error }) {
     if (touched && error) {
       return (
         <div
-          className="alert alert-danger alert-dismissible fade show my-3"
+          className="alert text-danger alert-dismissible fade show p-0"
           role="alert"
         >
-          {error}
-          <button
+          <small>{error}</small>
+          {/* <button
             type="button"
             className="close"
             data-dismiss="alert"
             aria-label="Close"
           >
             <span aria-hidden="true">&times;</span>
-          </button>
+          </button> */}
         </div>
       );
     }
   }
 
-  renderInput = ({ input, icon, placeholder, meta, type, required }) => {
+  renderInput = ({
+    input,
+    icon,
+    placeholder,
+    meta,
+    type,
+    required,
+    autoComplete
+  }) => {
     //meta to help us display error
     const className = `border border-${
       meta.error && meta.touched ? "danger" : ""
     }`;
     return (
-      <div className="input-group my-3">
-        <div className="input-group-append">
-          <span
-            className={`input-group-text bg-white border-top-0 border-right-0 border-left-0 ${className}`}
-            id="basic-addon2"
-          >
-            <i className={`${icon} text-primary`} />
-          </span>
+      <>
+        <div className="input-group my-3">
+          <div className="input-group-append">
+            <span
+              className={`input-group-text bg-white border-top-0 border-right-0 border-left-0 ${className}`}
+              id="basic-addon2"
+            >
+              <i className={`${icon} text-primary`} />
+            </span>
+          </div>
+          <input
+            className={`form-control border-top-0 border-right-0 border-left-0 ${className}`}
+            type={type}
+            placeholder={placeholder}
+            required={required}
+            autoComplete={autoComplete}
+            {...input}
+          />
         </div>
-        <input
-          className={`form-control border-top-0 border-right-0 border-left-0 ${className}`}
-          type={type}
-          placeholder={placeholder}
-          required={required}
-          {...input}
-        />
         {this.renderError(meta)}
-      </div>
+      </>
     );
   };
 
+  
   onSubmit = formValues => {
-    this.props.onSubmitForm(formValues);
+    this.props.loadForm();
+    this.props
+      .onSubmitForm(formValues)
+      .then(response => {
+        this.props.doneForm();
+        if (this.pRef.current) {
+          this.pRef.current.innerHTML = response.response
+            ? response.response.data.message
+            : response;
+        }
+      })
+      .catch(error => {
+        this.props.doneForm();
+        if (this.pRef.current) {
+          this.pRef.current.innerHTML = error;
+        }
+        if (error.validationErrors) {
+          throw new SubmissionError(error.validationErrors);
+        }
+      });
   };
 
   render() {
+    let { valid, pristine, submitting, handleSubmit } = this.props;
     return (
       <form
-        onSubmit={this.props.handleSubmit(this.onSubmit)}
+        onSubmit={handleSubmit(this.onSubmit)}
         className={this.props.className}
       >
         {this.props.btn === "Register" ? (
@@ -66,8 +105,9 @@ class BenshadaForm extends React.Component {
             component={this.renderInput}
             placeholder="FullName"
             type="text"
-            name="fullname"
+            name="name"
             required="required"
+            autoComplete="off"
           />
         ) : (
           ""
@@ -87,11 +127,19 @@ class BenshadaForm extends React.Component {
           type="password"
           name="password"
           required="required"
+          autoComplete="off"
         />
+        <div
+          className="alert text-danger alert-dismissible fade show p-0"
+          role="alert"
+        >
+          <small ref={this.pRef}></small>
+        </div>
         <button
           className="mt-3 w-100 btn btn-primary"
           type="submit"
           name="button"
+          disabled={!valid || submitting || pristine}
         >
           {this.props.btn}
         </button>
@@ -103,19 +151,30 @@ class BenshadaForm extends React.Component {
 const validate = formValues => {
   let errors = { password: [] };
 
-  if (/[A-Z]/.test(formValues.password) === false) {
-    errors.password.push("Password must contain an uppercase letter");
+  if ("name" in formValues) {
+    if (/[A-Z]/.test(formValues.password) === false) {
+      errors.password.push(`Password must contain an uppercase letter\r\n.`);
+    }
+
+    if (/\d/.test(formValues.password) === false) {
+      errors.password.push("Password must contain a number");
+    }
   }
 
-  if (/\d/.test(formValues.password) === false) {
-    errors.password.push("\n\nPassword must contain a number");
+  if (errors.password.length === 0) {
+    errors = {};
   }
 
   // .title && .description because that's the name we gave our fields
   return errors;
 };
 
-export default reduxForm({
-  form: "benshadaForm",
-  validate
-})(BenshadaForm);
+export default connect(
+  null,
+  { loadForm, doneForm }
+)(
+  reduxForm({
+    form: "benshadaForm",
+    validate
+  })(BenshadaForm)
+);

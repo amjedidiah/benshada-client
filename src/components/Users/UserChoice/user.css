@@ -1,0 +1,50 @@
+#userSide {
+  overflow-y: auto;
+  overflow-x: hidden !important;
+  z-index: 2;
+}
+
+#userNav li a {
+  color: #8b8888;
+  padding: 12px;
+  margin-bottom: 10px;
+}
+
+#userNav li a:hover,
+#userNav li a.active {
+  color: #ef932e !important;
+  background: #fff !important;
+  border-radius: 22px 0 0 22px !important;
+  padding: 12px 45px;
+}
+
+.user-notification {
+  position: relative;
+  top: 8px;
+  font-size: 40px;
+}
+
+@media (max-width: 767.98px) {
+  #dashboardHeader {
+    width: 100%;
+    z-index: 2;
+  }
+}
+
+@media (min-width: 768px) {
+  #userSide {
+    z-index: 3;
+  }
+
+  #dashboardHeader {
+    width: 75%;
+    z-index: 2;
+    border: ;
+  }
+}
+
+@media (min-width: 992px) {
+  #dashboardHeader {
+    width: 83.33%;
+  }
+}

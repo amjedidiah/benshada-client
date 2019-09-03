@@ -1,0 +1,9 @@
+/* CSS Document */
+.products.card-columns {
+  column-count: 2;
+}
+
+.card-img-overlay {
+  background: rgba(239, 147, 46, 0.7);
+  height: fit-content;
+}
