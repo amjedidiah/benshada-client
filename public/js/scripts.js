@@ -64,6 +64,7 @@
 	// Circular Progress Bar
 
 	var isAnimated = false;
+  const getRandPic = Math.floor((Math.random() * 1) + 1)
 
 	$("form").on("submit", (e) => {
 		e.preventDefault()
@@ -79,7 +80,7 @@
 		btn.innerHTML = `<i class="fas fa-spinner fa-pulse"></i>`
 
 		validateEmail(email) === true ? (
-			fetch('http://localhost:3000/signup', {
+			fetch('https://benshada.herokuapp.com/signup', {
         method: 'post',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -99,7 +100,7 @@
 
 
 	})
-
+  $(".left-section").css("background-image", `url(../img/countdown/${getRandPic}.jpg)`)
 
 })(jQuery);
 
@@ -306,7 +307,25 @@ function initMap() {
 	map.setMapTypeId('styled_map');
 }
 
+
+
+
+// Mine
 const showResponse = (response, responseHolder,	btn) => {
 	$(responseHolder).addClass('fadeIn').html(response)
 	btn.innerHTML = `NOTIFY	US`
 }
+
+$('#homeModal').on('show.bs.modal', function (event) {
+  let button = $(event.relatedTarget),
+      title = button.data('whatever'),
+      modal = $(this),
+      info = {
+        about: $('.about-content').html(),
+        categories: $('.categories-content').html()
+      }
+
+
+  modal.find('.modal-body h1').text(title)
+  modal.find('.modal-body .koko-content').html(info[title])
+})
