@@ -19,8 +19,8 @@ const app = express(),
   });
 
 // HTTPS ENFORCER
-//app.enable("trust proxy");
-//app.use(express_enforces_ssl());
+app.enable("trust proxy");
+app.use(express_enforces_ssl());
 
 app.use((req, res, next) => {
   let now = new Date().toString(),
