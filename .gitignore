@@ -1,5 +1,4 @@
 node_modules/
 public/working/
-app.log
 working/
 package-lock.json
