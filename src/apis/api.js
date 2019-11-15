@@ -1,6 +1,6 @@
 import axios from "axios";
 
 export default axios.create({
-  baseURL: "https://alpha-benshada-api.herokuapp.com/api",
-  headers: {"Content-Type": "application/json"}
+  baseURL: "http://localhost:8000/api",
+  headers: { "Content-Type": "application/json" }
 });

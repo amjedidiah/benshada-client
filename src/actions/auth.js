@@ -64,20 +64,20 @@ export const selectRole = type => async (dispatch, getState) => {
 };
 
 export const updateUser = formValues => async (dispatch, getState) => {
-  let {user} = getState().auth;
+  let { user } = getState().auth;
 
   try {
     const response = await api.put(`/users/${user.email}`, formValues, {
       headers: { Authorization: "Bearer " + user.token }
     });
 
-    user = { ...user, ...formValues }
+    user = { ...user, ...formValues };
 
     dispatch({
       type: UPDATE_USER,
       payload: user
     });
-    return response.data.message
+    return response.data.message;
   } catch (error) {
     return error;
   }

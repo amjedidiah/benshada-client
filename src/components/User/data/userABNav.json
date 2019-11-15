@@ -1,0 +1,9 @@
+[
+  { "icon": "far fa-user", "Title": "Profile" },
+  { "icon": "fas fa-box", "Title": "Product" },
+  { "icon": "fas fa-shopping-bag", "Title": "Orders" },
+  { "icon": "fas fa-funnel-dollar", "Title": "Revenue" },
+  { "icon": "fas fa-calendar", "Title": "Analytics" },
+  { "icon": "far fa-bell", "Title": "Notifications" },
+  { "icon": "fas fa-cog", "Title": "Settings" }
+]

@@ -1,6 +1,6 @@
 // JS Document
 import $ from "jquery";
-const user = () => {
+const menu = () => {
   $("#dashboardMenuToggle").click(function() {
     $("#userSide").toggle();
   });
@@ -9,4 +9,4 @@ const user = () => {
   });
 };
 
-export default user;
+export default menu;

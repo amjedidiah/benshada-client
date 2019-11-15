@@ -11,11 +11,16 @@ import BenshadaForm from "../../BenshadaForm/BenshadaForm";
 class Register extends React.Component {
   render() {
     if (this.props.isSignedIn === true) {
-      return <Redirect to={{
-        pathname: '/role',
-        state: { from: this.props.location }
-      }} />;
+      return (
+        <Redirect
+          to={{
+            pathname: "/role",
+            state: { from: this.props.location }
+          }}
+        />
+      );
     }
+
     return (
       <div className="container-fluid h-100">
         <div className="row align-items-center h-100">
@@ -32,6 +37,7 @@ class Register extends React.Component {
             </p>
 
             <BenshadaForm
+              form={`form-${this.props.location.pathname.substr(1)}`}
               onSubmitForm={this.props.register}
               className="form px-4 px-md-5 mx-md-3"
               btn="Register"
@@ -57,7 +63,4 @@ const mapStateToProps = state => {
   return { isSignedIn: state.auth.isSignedIn };
 };
 
-export default connect(
-  mapStateToProps,
-  { register }
-)(Register);
+export default connect(mapStateToProps, { register })(Register);

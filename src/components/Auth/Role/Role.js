@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { selectRole } from "../../../actions/auth";
 import { loadForm, doneForm } from "../../../actions/load";
 
@@ -62,10 +63,10 @@ class Role extends React.Component {
               Choose your role on Benshada Place
             </h3>
             <p className="lead mb-4 text-center">
-              Or go{" "}
-              <a className="text-primary" href="./login.html">
-                back
-              </a>
+              Or{" "}
+              <Link className="text-primary" to="./logout">
+                logout
+              </Link>
             </p>
             <div className="row justify-content-around px-4 px-md-5 mx-md-3">
               <div
@@ -108,7 +109,6 @@ const mapStateToProps = state => {
   return { isSignedIn: state.auth.isSignedIn, role };
 };
 
-export default connect(
-  mapStateToProps,
-  { selectRole, loadForm, doneForm }
-)(Role);
+export default connect(mapStateToProps, { selectRole, loadForm, doneForm })(
+  Role
+);

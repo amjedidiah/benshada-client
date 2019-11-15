@@ -3,6 +3,7 @@
   font-family: "Montserrat", sans-serif;
   box-sizing: border-box;
   word-wrap: break-word;
+  transition: all 0.3s !important;
 }
 
 body,
@@ -11,23 +12,17 @@ html {
 }
 
 h1,
-h1 ul li,
 h2,
-h2 ul li,
 h3,
-h3 ul li,
 h4,
-h4 ul li,
 h5,
-h5 ul li,
-h6,
-h6 ul li {
-  font-family: "Roboto", serif;
-  font-family: "Montserrat", sans-serif;
+h6 {
+  /* font-family: "Roboto", serif !important; */
+  font-family: "Montserrat", sans-serif !important;
 }
 
 a,
-Link {
+link {
   text-decoration: none !important;
   color: #212529;
   box-shadow: none;
@@ -35,17 +30,24 @@ Link {
 }
 
 a:hover,
-a:active,
-a:visited,
-Link:hover,
-Link:active,
-Link:visited {
+a.active,
+link:hover,
+link.active {
   color: #ef932e !important;
 }
 
-.btn:hover,
 .pointer {
-  box-shadow: none;
+  box-shadow: none !important;
+}
+
+.btn,
+button,
+.btn:focus,
+button:focus,
+.btn:hover,
+button:hover {
+  font-weight: 500;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
 }
 
 .navbar-brand {
@@ -59,14 +61,11 @@ Link:visited {
 .form-control:-webkit-autofill:active {
   box-shadow: none;
   -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+  font-family: "Montserrat", sans-serif !important;
 }
 
 .border-primary {
   border-color: #ef932e !important;
-}
-
-.btn {
-  box-shadow: none !important;
 }
 
 .bg-primary,

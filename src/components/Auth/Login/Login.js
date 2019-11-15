@@ -35,6 +35,7 @@ class Login extends React.Component {
             </p>
 
             <BenshadaForm
+              form={`form-${this.props.location.pathname.substr(1)}`}
               onSubmitForm={this.props.login}
               className="form px-4 px-md-5 mx-md-3"
               btn="Login"
@@ -60,7 +61,4 @@ const mapStateToProps = state => {
   return { isSignedIn: state.auth.isSignedIn };
 };
 
-export default connect(
-  mapStateToProps,
-  { login }
-)(Login);
+export default connect(mapStateToProps, { login })(Login);

@@ -23,6 +23,7 @@
     "react-scripts": "3.0.1",
     "redux": "^4.0.1",
     "redux-form": "^8.2.4",
+    "redux-localstorage-simple": "^2.1.6",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
     "string-hash": "^1.1.3"

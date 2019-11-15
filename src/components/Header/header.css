@@ -9,7 +9,7 @@
 #searchDropDown a li:hover,
 #searchDropDown a:hover {
     background: #fefbf6;
-    text-decoration: none !important
+    text-decoration: none !important;
 }
 
 @media (max-width: 768px) {
