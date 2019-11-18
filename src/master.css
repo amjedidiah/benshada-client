@@ -37,7 +37,7 @@ link.active {
 }
 
 .pointer {
-  box-shadow: none !important;
+  box-shadow: none;
 }
 
 .btn,
@@ -51,7 +51,7 @@ button:hover {
 }
 
 .navbar-brand {
-  font-family: "Eczar", serif;
+  /* font-family: "Eczar", serif; */
 }
 
 .form-control,

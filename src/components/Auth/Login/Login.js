@@ -10,7 +10,24 @@ import BenshadaForm from "../../BenshadaForm/BenshadaForm";
 
 class Login extends React.Component {
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/" } };
+    const { from } = this.props.location.state || { from: { pathname: "/" } },
+      loginFields = [
+        {
+          desc: "email",
+          placeholder: "Email Address",
+          varClass: "input",
+          type: "email",
+          options: []
+        },
+        {
+          desc: "password",
+          placeholder: "Password",
+          varClass: "input",
+          type: "password",
+          options: []
+        }
+      ],
+      loginButtons = [{ value: "login", className: "btn-primary" }];
     if (this.props.isSignedIn === true) {
       return (
         <Redirect
@@ -34,12 +51,20 @@ class Login extends React.Component {
               </Link>
             </p>
 
-            <BenshadaForm
+            {/* <BenshadaForm
               form={`form-${this.props.location.pathname.substr(1)}`}
               onSubmitForm={this.props.login}
               className="form px-4 px-md-5 mx-md-3"
               btn="Login"
               type="login"
+            /> */}
+
+            <BenshadaForm
+              form={`form-${this.props.location.pathname.substr(1)}`}
+              onSubmitForm={this.props.login}
+              className="form px-4 px-md-5 mx-md-3"
+              fields={loginFields}
+              buttons={loginButtons}
             />
 
             <p className="text-muted text-left px-4 px-md-5 mx-md-3 my-3">

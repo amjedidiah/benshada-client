@@ -73,7 +73,7 @@ class Header extends React.Component {
       <nav className="navbar navbar-expand-md shadow-sm mb-1 bg-white">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
-            <i className="text-primary">benshada</i>
+            <i className="text-primary font-weight-bold">benshada</i>
           </Link>
           <button
             className="navbar-toggler"

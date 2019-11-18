@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 class DashNav extends React.Component {
-  renderList = ({list}) =>
+  renderList = ({ list }) =>
     list.map((item, index) => {
       let { icon, Title } = item,
         active,
@@ -52,6 +52,12 @@ class DashNav extends React.Component {
             role="tablist"
           >
             {this.renderList(this.props)}
+            <li className="nav-item text-danger">
+              <Link className="nav-link text-capitalize text-danger" to="/logout">
+                <i className="fas fa-sign-out-alt mr-3 text-danger"></i>
+                Logout
+              </Link>
+            </li>
           </ul>
         </div>
       </>

@@ -36,16 +36,13 @@ class DashBody extends Component {
           aria-labelledby={`pills-${Title}-tab`}
           key={Title}
         >
-          <TagName />
+          <TagName user={this.props.user} />
         </div>
       );
     });
   }
 
   render() {
-    let { name, email } = this.props.user,
-      fname = this.props.user.name.split(" ")[0];
-
     return (
       <>
         <div
@@ -76,12 +73,15 @@ class DashBody extends Component {
               <div className="img-holder rounded-circle d-inline border-light">
                 <img
                   src={""}
+                  alt=""
                   className="rounded-circle"
                   width="50"
                   height="50"
                 />
               </div>
-              <span className="mt-2 ml-1 d-none d-md-inline">{name}</span>
+              <span className="mt-2 ml-1 d-none d-md-inline">
+                {this.props.user.name}
+              </span>
             </div>
             <div className="clear"></div>
           </div>

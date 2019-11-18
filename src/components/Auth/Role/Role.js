@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import { selectRole } from "../../../actions/auth";
 import { loadForm, doneForm } from "../../../actions/load";
 
+import "../Login/login.css"
+
 class Role extends React.Component {
   roleSelect() {
     [...document.querySelectorAll(".role-benshada")].forEach(div => {

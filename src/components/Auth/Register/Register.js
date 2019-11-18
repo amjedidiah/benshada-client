@@ -10,6 +10,38 @@ import BenshadaForm from "../../BenshadaForm/BenshadaForm";
 
 class Register extends React.Component {
   render() {
+    const registerFields = [
+        {
+          desc: "name",
+          placeholder: "Full Name",
+          varClass: "input",
+          type: "text",
+          options: []
+        },
+        {
+          desc: "email",
+          placeholder: "Email Address",
+          varClass: "input",
+          type: "email",
+          options: []
+        },
+        {
+          desc: "password",
+          placeholder: "Password",
+          varClass: "input",
+          type: "password",
+          options: []
+        },
+        {
+          desc: "confirmpassword",
+          placeholder: "Confirm Password",
+          varClass: "input",
+          type: "password",
+          options: []
+        }
+      ],
+      registerButtons = [{ value: "register", className: "btn-primary" }];
+
     if (this.props.isSignedIn === true) {
       return (
         <Redirect
@@ -40,9 +72,17 @@ class Register extends React.Component {
               form={`form-${this.props.location.pathname.substr(1)}`}
               onSubmitForm={this.props.register}
               className="form px-4 px-md-5 mx-md-3"
+              fields={registerFields}
+              buttons={registerButtons}
+            />
+
+            {/* <BenshadaFormOld
+              form={`form-${this.props.location.pathname.substr(1)}`}
+              onSubmitForm={this.props.register}
+              className="form px-4 px-md-5 mx-md-3"
               btn="Register"
               type="register"
-            />
+            /> */}
 
             <p className="text-muted text-left px-4 px-md-5 mx-md-3 my-3">
               Have an account?
