@@ -150,6 +150,12 @@ button:hover {
   min-height: 300px;
 }
 
+#questionMark {
+  bottom: 30px;
+  right: 30px;
+  cursor: pointer;
+}
+
 @media (min-width: 576px) {
   .card-columns.card-columns-two {
     column-count: 2 !important;

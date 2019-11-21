@@ -59,8 +59,8 @@ class Role extends React.Component {
     return (
       <div className="container-fluid h-100">
         <div className="row align-items-center h-100">
-          <div className="col col-md-3 col-lg-6 d-none d-md-block h-100 login-left"></div>
-          <div className="col col-md-9 col-lg-6">
+        <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
+          <div className="col col-md-9 col-lg-6 offset-lg-6 offset-md-3">
             <h3 className="mb-2 text-center pt-5">
               Choose your role on Benshada Place
             </h3>

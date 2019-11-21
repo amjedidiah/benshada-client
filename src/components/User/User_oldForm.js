@@ -9,7 +9,7 @@ import user from "./assets/menu";
 
 import DashNav from "./DashNav";
 
-import { updateUser } from "../../actions/auth";
+import { updateUserProfile } from "../../actions/auth";
 import { loadForm, doneForm } from "../../actions/load";
 
 class User extends Component {
@@ -26,7 +26,7 @@ class User extends Component {
   onSubmit = formValues => {
     this.props.loadForm();
     this.props
-      .updateUser(formValues)
+      .updateUserProfile(formValues)
       .then(response => {
         this.props.doneForm();
         if (this.pRef.current) {
@@ -296,6 +296,6 @@ const mapStateToProps = state => ({
   isSignedIn: state.auth.isSignedIn
 });
 
-export default connect(mapStateToProps, { updateUser, loadForm, doneForm })(
+export default connect(mapStateToProps, { updateUserProfile, loadForm, doneForm })(
   User
 );

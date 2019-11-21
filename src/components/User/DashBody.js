@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import BenshadaForm from "../BenshadaForm/BenshadaForm";
+
+import { productUpload } from "../../actions/user";
 // import "./assets/bodyComponents";
 import {
   Profile,
@@ -22,6 +25,101 @@ const Components = {
 };
 
 class DashBody extends Component {
+  productUploadRenderer(user) {
+    let productFields = [
+        {
+          desc: "name",
+          placeholder: "Name",
+          varClass: "input",
+          type: "text",
+          options: [],
+          row: 1,
+          icon: 0
+        },
+        {
+          desc: "description",
+          placeholder: "Description",
+          varClass: "textarea",
+          type: "text",
+          options: [],
+          row: 1,
+          icon: 0
+        },
+        {
+          desc: "price",
+          placeholder: "Price",
+          varClass: "input",
+          type: "number",
+          options: [],
+          row: 1,
+          icon: 1
+        },
+        {
+          desc: "quantity",
+          placeholder: "Quantity",
+          varClass: "input",
+          type: "number",
+          options: [],
+          row: 1,
+          icon: 0
+        }
+      ],
+      productButtons = [{ value: "Upload Product", className: "btn-primary" }];
+    return user.type === "c" ? (
+      ""
+    ) : (
+      <>
+        <div
+          className="modal fade"
+          id="exampleModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="exampleModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-xl" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5
+                  className="modal-title font-weight-light"
+                  id="exampleModalLabel"
+                >
+                  Upload Product
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <BenshadaForm
+                  form={`form-product-add`}
+                  onSubmitForm={this.props.productUpload}
+                  className="form"
+                  fields={productFields}
+                  buttons={productButtons}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div
+          className="btn btn-primary d-fixed rounded-circle shadow-sm "
+          id="questionMark"
+          data-toggle="modal"
+          data-target="#exampleModal"
+        >
+          <i className="fas fa-plus"></i>
+        </div>
+      </>
+    );
+  }
+
   renderBodyComponents(list) {
     return list.map((listItem, i) => {
       let { Title } = listItem,
@@ -70,23 +168,24 @@ class DashBody extends Component {
               </a>
             </div>
             <div className="user float-right">
-              <div className="img-holder rounded-circle d-inline border-light">
-                <img
+              <div className="img-holder rounded-circle d-inline py-1 px-2 d-none">
+                {/* <img
                   src={""}
                   alt=""
                   className="rounded-circle"
                   width="50"
                   height="50"
-                />
+                /> */}
               </div>
-              <span className="mt-2 ml-1 d-none d-md-inline">
-                {this.props.user.name}
+              <span className="mt-2 ml-3 d-none d-md-inline">
+                Hello, {this.props.user.name.split(" ")[0]}
               </span>
             </div>
             <div className="clear"></div>
           </div>
           {this.renderBodyComponents(this.props.list)}
         </div>
+        {this.productUploadRenderer(this.props.user)}
       </>
     );
   }
@@ -94,4 +193,4 @@ class DashBody extends Component {
 
 const mapStateToProps = state => ({});
 
-export default connect(mapStateToProps)(DashBody);
+export default connect(mapStateToProps, { productUpload })(DashBody);

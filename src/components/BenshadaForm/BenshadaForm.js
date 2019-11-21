@@ -8,8 +8,10 @@ import {
   faLock,
   faUser,
   faEnvelope,
-  faAlignJustify
+  faDollarSign
 } from "@fortawesome/free-solid-svg-icons";
+
+import "./BenshadaForm.css";
 
 class BenshadaForm extends React.Component {
   constructor(props) {
@@ -92,16 +94,23 @@ class BenshadaForm extends React.Component {
       case "password":
         return <FontAwesomeIcon icon={faLock} />;
       default:
-        return <FontAwesomeIcon icon={faAlignJustify} />;
+        return this.props.user.country === undefined ||
+          this.props.user.country === null ||
+          this.props.user.country === "" ? (
+          <FontAwesomeIcon icon={faDollarSign} />
+        ) : this.props.user.country === "Nigeria" ? (
+          <span>&#8358;</span>
+        ) : (
+          <span>GHS</span>
+        );
     }
   }
 
   renderSelectOptions(options) {
     return options.map((option, key) => {
-      let { value, placeholder } = option;
       return (
-        <option key={key} value={value}>
-          {placeholder}
+        <option key={key} value={option}>
+          {option}
         </option>
       );
     });
@@ -115,13 +124,41 @@ class BenshadaForm extends React.Component {
     type,
     options,
     className,
-    meta
+    meta,
+    stateVal
   ) {
     const { error, touched } = meta;
     className = `form-control bg-white border-left-0 border-right-0 border-top-0 rounded-0 ${className}`;
 
     let title = touched && error ? "error" : "",
-      randString = this.makeid(5);
+      randString = this.makeid(5),
+      inputVal = stateVal === undefined ? "" : stateVal;
+    label = (name => {
+      switch (name) {
+        case "email":
+          return "e.g: example@gmail.com";
+        case "confirmpassword":
+          return "Same as password";
+        case "street":
+          return "e.g: 123 Right Avenue";
+        case "state":
+          return "e.g: Lagos";
+        case "country":
+          return "e.g: Nigeria";
+        case "bio":
+          return "Tell us a bit about yourself";
+        case "description":
+          return "Enter a description";
+        case "phone":
+          return "e.g: +2348161923259";
+        case "price":
+          return "e.g: 1000";
+        case "quantity":
+          return "e.g: 10";
+        default:
+          return name;
+      }
+    })(name);
 
     switch (varClass) {
       case "input":
@@ -133,23 +170,27 @@ class BenshadaForm extends React.Component {
             aria-describedby={`${name}Help`}
             placeholder={label}
             title={title}
+            value={inputVal}
+            required
             {...input}
           />
         );
       case "select":
         return (
-          <select
-            className={className}
-            id={name}
-            aria-describedby={`${name}Help`}
-            title={title}
-            {...input}
-          >
-            <option defaultValue disabled>
-              Select A Category
-            </option>
-            {this.renderSelectOptions(options)}
-          </select>
+          <>
+            <input
+              className={className}
+              id={name}
+              aria-describedby={`${name}Help`}
+              title={`Select a ${name}`}
+              list={`${name}-list`}
+              placeholder={label}
+              {...input}
+            />
+            <datalist id={`${name}-list`}>
+              {this.renderSelectOptions(options.sort())}
+            </datalist>
+          </>
         );
       case "textarea":
         return (
@@ -161,6 +202,7 @@ class BenshadaForm extends React.Component {
             title={title}
             rows="2"
             required
+            value={inputVal}
             {...input}
           ></textarea>
         );
@@ -177,7 +219,8 @@ class BenshadaForm extends React.Component {
     type,
     options,
     icon,
-    row
+    row,
+    stateVal
   }) => {
     const { name } = input;
 
@@ -190,13 +233,16 @@ class BenshadaForm extends React.Component {
           row === undefined || row === 0
             ? ""
             : row === 1
-            ? "d-inline-flex w-50 pr-5"
-            : "d-inline-flex w-50 pl-5"
+            ? "d-inline-flex w-100 w-md-50 pr-md-5"
+            : "d-inline-flex w-100 w-md-50 pl-md-5"
         }`}
       >
         <div className="w-100">
-          <label className="text-capitalize text-primary" htmlFor="profileName">
-            {label}
+          <label
+            className="text-uppercase m-0 p-0 text-primary"
+            htmlFor="profileName"
+          >
+            <small className="font-weight-bold">{label}</small>
           </label>
           <div className="input-group">
             {this.renderFieldIconHelper(icon, name)}
@@ -209,7 +255,8 @@ class BenshadaForm extends React.Component {
               type,
               options,
               className,
-              meta
+              meta,
+              stateVal
             )}
             {this.renderFieldIconPrepend(name)}
           </div>
@@ -221,7 +268,17 @@ class BenshadaForm extends React.Component {
 
   renderFields(fields) {
     return fields.map((field, key) => {
-      let { desc, placeholder, varClass, type, options, icon, row } = field;
+      let {
+        desc,
+        placeholder,
+        varClass,
+        type,
+        options,
+        icon,
+        row,
+        value
+      } = field;
+
       return (
         <Field
           name={desc}
@@ -233,6 +290,7 @@ class BenshadaForm extends React.Component {
           key={key}
           icon={icon}
           row={row}
+          stateVal={value}
         />
       );
     });
@@ -267,52 +325,37 @@ class BenshadaForm extends React.Component {
 
 const emailIsValid = email => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-const validate = ({
-  name,
-  email,
-  password,
-  confirmpassword,
-  need,
-  approach,
-  benefits,
-  competition
-}) => {
+const validate = ({ name, email, password, confirmpassword }) => {
   const errors = {};
 
-  errors.name = !name ? "Please enter your name" : "";
-
   errors.email = !email
-    ? "Please enter a email"
+    ? ""
     : emailIsValid(email)
     ? ""
-    : "Please enter a valid email address";
+    : "Please enter a valid email";
 
   errors.password = !password
-    ? "Please enter a password"
+    ? ""
     : !/\d/.test(password)
     ? "Password must contain a number"
     : !/[A-Z]/.test(password)
-    ? "Password must contain a capital letter"
+    ? "Password must contain an upperCase letter"
     : password.length < 6
     ? "Password must be at least 6 characters long"
     : "";
 
-  errors.confirmpassword =
-    confirmpassword !== password && confirmpassword
-      ? "Passwords do not match"
-      : "";
-
-  //Validate Idea Form
-  errors.need = !need ? "This field is required" : "";
-  errors.approach = !approach ? "This field is required" : "";
-  errors.benefits = !benefits ? "This field is required" : "";
-  // errors.competition = !competition ? "This field is required" : "";
-  // console.log(errors);
+  errors.confirmpassword = !confirmpassword
+    ? ""
+    : confirmpassword !== password
+    ? "Passwords do not match"
+    : "";
 
   return errors;
 };
 
-export default connect(null, { loadForm, doneForm })(
+const mapStateToProps = state => ({ user: state.auth.user });
+
+export default connect(mapStateToProps, { loadForm, doneForm })(
   reduxForm({
     form: "benshadaForm",
     validate

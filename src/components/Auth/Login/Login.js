@@ -41,8 +41,8 @@ class Login extends React.Component {
     return (
       <div className="container-fluid h-100">
         <div className="row align-items-center h-100">
-          <div className="col col-md-3 col-lg-6 d-none d-md-block h-100 login-left" />
-          <div className="col col-md-9 col-lg-6">
+          <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
+          <div className="col col-md-9 col-lg-6 offset-lg-6 offset-md-3">
             <h3 className="mb-2 text-center pt-5">Login to Benshada Place</h3>
             <p className="lead mb-4 text-center">
               Or return{" "}
@@ -60,7 +60,7 @@ class Login extends React.Component {
             /> */}
 
             <BenshadaForm
-              form={`form-${this.props.location.pathname.substr(1)}`}
+              form={`form-login`}
               onSubmitForm={this.props.login}
               className="form px-4 px-md-5 mx-md-3"
               fields={loginFields}
@@ -87,3 +87,4 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { login })(Login);
+

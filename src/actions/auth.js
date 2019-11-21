@@ -19,8 +19,8 @@ export const login = formValues => async (dispatch, getState) => {
       type: LOGIN,
       payload: response.data
     });
-  } catch (error) {
-    return error;
+  } catch (e) {
+    return e.message;
   }
 };
 
@@ -47,6 +47,7 @@ export const register = formValues => async dispatch => {
 
 export const selectRole = type => async (dispatch, getState) => {
   let { user } = getState().auth;
+
   await api.put(
     `/users/${user.email}`,
     { isDeleted: false, type },
@@ -57,13 +58,27 @@ export const selectRole = type => async (dispatch, getState) => {
 
   user = { ...user, type };
 
+  if (type !== "c") {
+    let store = {
+      name: `store${user._id}`,
+      description: "I am a new Benshada store",
+      user: user._id
+    };
+
+    let storeResp = await api.post(`/shops`, store, {
+      headers: { Authorization: "Bearer " + user.token }
+    });
+
+    user.store = storeResp.data.data;
+  }
+
   dispatch({
     type: ROLE,
     payload: user
   });
 };
 
-export const updateUser = formValues => async (dispatch, getState) => {
+export const updateUserProfile = formValues => async (dispatch, getState) => {
   let { user } = getState().auth;
 
   try {
@@ -77,7 +92,6 @@ export const updateUser = formValues => async (dispatch, getState) => {
       type: UPDATE_USER,
       payload: user
     });
-    return response.data.message;
   } catch (error) {
     return error;
   }

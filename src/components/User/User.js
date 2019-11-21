@@ -12,7 +12,7 @@ import DashBody from "./DashBody";
 import userABlist from "./data/userABNav";
 import userClist from "./data/userCNav";
 
-import { updateUser } from "../../actions/auth";
+import { updateUserProfile } from "../../actions/auth";
 import { loadForm, doneForm } from "../../actions/load";
 
 class User extends Component {
@@ -62,6 +62,6 @@ const mapStateToProps = state => ({
   isSignedIn: state.auth.isSignedIn
 });
 
-export default connect(mapStateToProps, { updateUser, loadForm, doneForm })(
+export default connect(mapStateToProps, { updateUserProfile, loadForm, doneForm })(
   User
 );
