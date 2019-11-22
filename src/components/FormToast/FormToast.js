@@ -6,7 +6,7 @@ class FormToast extends Component {
   render() {
     let { body, show } = this.props;
 
-    return body === null || body === "" ? (
+    return body === null || body === "" || body === undefined ? (
       ""
     ) : (
       <div
@@ -20,12 +20,9 @@ class FormToast extends Component {
       >
         <Toast show={show}>
           <Toast.Header>
-            <img
-              src="holder.js/20x20?text=%20"
-              className="rounded mr-2"
-              alt=""
-            />
-            <strong className="text-uppercase mr-auto">form response</strong>
+            <small className="text-uppercase font-weight-bold mr-auto">
+              alert
+            </small>
             {/* <small>just now</small> */}
           </Toast.Header>
           <Toast.Body>{body}</Toast.Body>
