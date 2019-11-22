@@ -25,12 +25,10 @@ class App extends React.Component {
           <Route path="/user" component={User} />
           <Route path="/logout" component={Logout} exact />
         </Router>
-
         <LoadingScreen
           loading={loading}
           bgColor={bgColor}
           spinnerColor={spinnerColor}
-          className="h-100"
         >
           {""}
         </LoadingScreen>

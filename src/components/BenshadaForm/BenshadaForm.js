@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, reduxForm, SubmissionError } from "redux-form";
 import { connect } from "react-redux";
-import { loadForm, doneForm } from "../../actions/load";
+import { formLoad, formDone, formError } from "../../actions/load";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -13,6 +13,8 @@ import {
 
 import "./BenshadaForm.css";
 
+import FormToast from "../FormToast/FormToast";
+
 class BenshadaForm extends React.Component {
   constructor(props) {
     super(props);
@@ -20,26 +22,31 @@ class BenshadaForm extends React.Component {
   }
 
   onSubmit = formValues => {
-    this.props.loadForm();
+    this.props.formLoad();
     this.props
       .onSubmitForm(formValues)
       .then(response => {
-        this.props.doneForm();
-        if (this.pRef.current) {
-          this.pRef.current.innerHTML = response.response
-            ? response.response.data.message
-            : response;
-        }
+        console.log(response);
+        this.props.formError(response);
+        // if (this.pRef.current) {
+        //   this.pRef.current.innerHTML = response.response
+        //     ? response.response.data.message
+        //     : response;
+        // }
       })
       .catch(error => {
-        this.props.doneForm();
-        if (this.pRef.current) {
-          this.pRef.current.innerHTML = error;
-        }
+        // if (this.pRef.current) {
+        //   this.pRef.current.innerHTML = error;
+        // }
         if (error.validationErrors) {
           throw new SubmissionError(error.validationErrors);
         }
-      });
+      })
+      .finally(() =>
+        setTimeout(() => {
+          this.props.formDone();
+        }, 5000)
+      );
   };
 
   makeid(length) {
@@ -124,15 +131,13 @@ class BenshadaForm extends React.Component {
     type,
     options,
     className,
-    meta,
-    stateVal
+    meta
   ) {
     const { error, touched } = meta;
     className = `form-control bg-white border-left-0 border-right-0 border-top-0 rounded-0 ${className}`;
 
     let title = touched && error ? "error" : "",
-      randString = this.makeid(5),
-      inputVal = stateVal === undefined ? "" : stateVal;
+      randString = this.makeid(5);
     label = (name => {
       switch (name) {
         case "email":
@@ -170,14 +175,13 @@ class BenshadaForm extends React.Component {
             aria-describedby={`${name}Help`}
             placeholder={label}
             title={title}
-            value={inputVal}
             required
             {...input}
           />
         );
       case "select":
         return (
-          <>
+          <div>
             <input
               className={className}
               id={name}
@@ -190,7 +194,7 @@ class BenshadaForm extends React.Component {
             <datalist id={`${name}-list`}>
               {this.renderSelectOptions(options.sort())}
             </datalist>
-          </>
+          </div>
         );
       case "textarea":
         return (
@@ -202,9 +206,8 @@ class BenshadaForm extends React.Component {
             title={title}
             rows="2"
             required
-            value={inputVal}
             {...input}
-          ></textarea>
+          />
         );
       default:
         break;
@@ -219,8 +222,7 @@ class BenshadaForm extends React.Component {
     type,
     options,
     icon,
-    row,
-    stateVal
+    row
   }) => {
     const { name } = input;
 
@@ -255,8 +257,7 @@ class BenshadaForm extends React.Component {
               type,
               options,
               className,
-              meta,
-              stateVal
+              meta
             )}
             {this.renderFieldIconPrepend(name)}
           </div>
@@ -290,7 +291,7 @@ class BenshadaForm extends React.Component {
           key={key}
           icon={icon}
           row={row}
-          stateVal={value}
+          value={value}
         />
       );
     });
@@ -318,6 +319,7 @@ class BenshadaForm extends React.Component {
       >
         {this.renderFields(this.props.fields)}
         {this.renderButtons(this.props.buttons)}
+        <FormToast body={this.props.message} title={this.props.form} />
       </form>
     );
   }
@@ -353,9 +355,12 @@ const validate = ({ name, email, password, confirmpassword }) => {
   return errors;
 };
 
-const mapStateToProps = state => ({ user: state.auth.user });
+const mapStateToProps = state => ({
+  user: state.auth.user,
+  message: state.load.message
+});
 
-export default connect(mapStateToProps, { loadForm, doneForm })(
+export default connect(mapStateToProps, { formLoad, formDone, formError })(
   reduxForm({
     form: "benshadaForm",
     validate

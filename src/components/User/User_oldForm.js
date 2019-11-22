@@ -9,8 +9,8 @@ import user from "./assets/menu";
 
 import DashNav from "./DashNav";
 
-import { updateUserProfile } from "../../actions/auth";
-import { loadForm, doneForm } from "../../actions/load";
+import { userUpdateProfile } from "../../actions/auth";
+import { formLoad, formDone } from "../../actions/load";
 
 class User extends Component {
   constructor(props) {
@@ -24,11 +24,11 @@ class User extends Component {
   };
 
   onSubmit = formValues => {
-    this.props.loadForm();
+    this.props.formLoad();
     this.props
-      .updateUserProfile(formValues)
+      .userUpdateProfile(formValues)
       .then(response => {
-        this.props.doneForm();
+        this.props.formDone();
         if (this.pRef.current) {
           this.pRef.current.innerHTML = response.response
             ? response.response.data.message
@@ -36,7 +36,7 @@ class User extends Component {
         }
       })
       .catch(error => {
-        this.props.doneForm();
+        this.props.formDone();
         if (this.pRef.current) {
           this.pRef.current.innerHTML = error;
         }
@@ -296,6 +296,6 @@ const mapStateToProps = state => ({
   isSignedIn: state.auth.isSignedIn
 });
 
-export default connect(mapStateToProps, { updateUserProfile, loadForm, doneForm })(
+export default connect(mapStateToProps, { userUpdateProfile, formLoad, formDone })(
   User
 );

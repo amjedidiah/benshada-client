@@ -1,4 +1,4 @@
-import { LOGIN, REGISTER, LOGOUT, ROLE, UPDATE_USER } from "../actions/types";
+import { LOGIN, REGISTER, LOGOUT, ROLE, USER_UPDATE } from "../actions/types";
 
 const INITIAL_STATE = {
   isSignedIn: false,
@@ -13,7 +13,7 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE;
     case REGISTER:
       return { ...state, user: action.payload.data, isSignedIn: true };
-      case UPDATE_USER:
+      case USER_UPDATE:
         return { ...state, user: action.payload };
     case ROLE:
       return { ...state, user: action.payload };

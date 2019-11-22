@@ -1,98 +1,134 @@
 import api from "../apis/api";
-import { LOGIN, REGISTER, LOGOUT, ROLE, UPDATE_USER } from "./types";
+import axios from "axios" 
+import { LOGIN, REGISTER, LOGOUT, ROLE, USER_UPDATE } from "./types";
 import history from "../history";
 
-export const validateLogin = formValues => {
+export const login = formValues => dispatch =>
   api
     .post(`/users/login`, formValues)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(error => console.log(error))
-    .finally(console.log("end"));
-};
+    .then(res =>
+      dispatch({
+        type: LOGIN,
+        payload: res.data
+      })
+    )
+    .catch(error => error.response.data.message || error.message);
 
-export const login = formValues => async (dispatch, getState) => {
+export const logout = () => async dispatch => {
   try {
-    const response = await api.post(`/users/login`, formValues);
-
-    dispatch({
-      type: LOGIN,
-      payload: response.data
+    await dispatch({
+      type: LOGOUT
     });
+
+    history.push("/");
   } catch (e) {
     return e.message;
   }
 };
 
-export const logout = () => async dispatch => {
-  await dispatch({
-    type: LOGOUT
-  });
-
-  history.push("/");
-};
-
-export const register = formValues => async dispatch => {
-  try {
-    const response = await api.post(`/users/signup`, formValues);
-
-    dispatch({
-      type: REGISTER,
-      payload: response.data
-    });
-  } catch (error) {
-    return error;
-  }
-};
+export const register = formValues => dispatch =>
+  api
+    .post(`/users/signup`, formValues)
+    .then(res =>
+      dispatch({
+        type: REGISTER,
+        payload: res.data
+      })
+    )
+    .catch(error => error.response.data.message || error.message);
 
 export const selectRole = type => async (dispatch, getState) => {
   let { user } = getState().auth;
 
-  await api.put(
-    `/users/${user.email}`,
-    { isDeleted: false, type },
-    {
-      headers: { Authorization: "Bearer " + user.token }
-    }
-  );
+  const updateType = (user, type) =>
+    api.put(
+      `/users/${user.email}`,
+      { isDeleted: false, type },
+      {
+        headers: { Authorization: "Bearer " + user.token }
+      }
+    );
 
-  user = { ...user, type };
+  const createStore = (user, type) => {
+    return type !== "c"
+      ? api.post(
+          `/shops`,
+          {
+            name: `${user.name} Store`,
+            description: `This is a store by ${user.name}`,
+            user: user._id
+          },
+          {
+            headers: { Authorization: "Bearer " + user.token }
+          }
+        )
+      : "";
+  };
 
-  if (type !== "c") {
-    let store = {
-      name: `store${user._id}`,
-      description: "I am a new Benshada store",
-      user: user._id
-    };
+  axios
+    .all([updateType(user, type), createStore(user, type)])
+    .then(
+      axios.spread((acct, storeRes) => {
+        user.type = type;
 
-    let storeResp = await api.post(`/shops`, store, {
-      headers: { Authorization: "Bearer " + user.token }
-    });
+        user.store = type !== "c" ? storeRes.data.data : undefined;
 
-    user.store = storeResp.data.data;
-  }
-
-  dispatch({
-    type: ROLE,
-    payload: user
-  });
+        dispatch({
+          type: ROLE,
+          payload: user
+        });
+      })
+    )
+    .catch(error => error.response.data.message || error.message);
 };
 
-export const updateUserProfile = formValues => async (dispatch, getState) => {
+// export const selectRole = type => async (dispatch, getState) => {
+//   let { user } = getState().auth;
+
+//   await api.put(
+//     `/users/${user.email}`,
+//     { isDeleted: false, type },
+//     {
+//       headers: { Authorization: "Bearer " + user.token }
+//     }
+//   );
+
+//   user = { ...user, type };
+
+//   if (type !== "c") {
+//     let store = {
+//       name: `store${user._id}`,
+//       description: "I am a new Benshada store",
+//       user: user._id
+//     };
+
+//     let storeResp = await api.post(`/shops`, store, {
+//       headers: { Authorization: "Bearer " + user.token }
+//     });
+
+//     user.store = storeResp.data.data;
+//   }
+
+//   dispatch({
+//     type: ROLE,
+//     payload: user
+//   });
+// };
+
+export const userUpdateProfile = formValues => (dispatch, getState) => {
   let { user } = getState().auth;
 
-  try {
-    const response = await api.put(`/users/${user.email}`, formValues, {
+  api
+    .put(`/users/${user.email}`, formValues, {
       headers: { Authorization: "Bearer " + user.token }
-    });
+    })
+    .then(res => {
+      user = { ...user, ...formValues };
 
-    user = { ...user, ...formValues };
-
-    dispatch({
-      type: UPDATE_USER,
-      payload: user
-    });
-  } catch (error) {
-    return error;
-  }
+      dispatch({
+        type: USER_UPDATE,
+        payload: user
+      });
+    })
+    .catch(error => error.response.data.message || error.message);
 };

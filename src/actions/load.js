@@ -1,12 +1,18 @@
-import { LOAD_FORM, DONE_FORM } from "./types";
+import { FORM_LOAD, FORM_DONE, FORM_ERROR } from "./types";
 
-export const loadForm = () => {
+export const formLoad = () => {
   return {
-    type: LOAD_FORM
+    type: FORM_LOAD
   };
 };
-export const doneForm = () => {
+export const formDone = () => {
   return {
-    type: DONE_FORM
+    type: FORM_DONE
+  };
+};
+export const formError = payload => {
+  return {
+    type: FORM_ERROR,
+    payload
   };
 };

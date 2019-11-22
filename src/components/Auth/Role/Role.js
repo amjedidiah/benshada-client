@@ -3,7 +3,7 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectRole } from "../../../actions/auth";
-import { loadForm, doneForm } from "../../../actions/load";
+import { formLoad, formDone } from "../../../actions/load";
 
 import "../Login/login.css"
 
@@ -23,10 +23,10 @@ class Role extends React.Component {
         div.classList.add("bg-primary");
         div.classList.add("text-white");
 
-        this.props.loadForm();
+        this.props.formLoad();
         this.props
           .selectRole(div.getAttribute("id"))
-          .then(response => this.props.doneForm());
+          .then(response => this.props.formDone());
       });
     });
   }
@@ -111,6 +111,6 @@ const mapStateToProps = state => {
   return { isSignedIn: state.auth.isSignedIn, role };
 };
 
-export default connect(mapStateToProps, { selectRole, loadForm, doneForm })(
+export default connect(mapStateToProps, { selectRole, formLoad, formDone })(
   Role
 );

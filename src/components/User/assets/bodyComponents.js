@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import BenshadaForm from "../../BenshadaForm/BenshadaForm";
 import { connect } from "react-redux";
-import { updateUserProfile } from "../../../actions/auth";
+import { userUpdateProfile } from "../../../actions/auth";
 import { stateSelect } from "../../../assets/location";
 
-const renderTabList = array =>
-  array.map((item, i) => (
-    <li class="nav-item">
+const renderTabList = (array,type) =>
+  array.map((item, i) => type === "c" && item === "store" ? ("") :   (
+    <li className="nav-item" key={i}>
       <a
-        class={`nav-link text-uppercase font-weight-bold ${
+        className={`nav-link text-uppercase font-weight-bold ${
           i === 0 ? "active" : ""
         }`}
         id={`profile-${item}-tab`}
@@ -27,7 +27,7 @@ class TabBody extends Component {
   render() {
     return (
       <div
-        class={`tab-pane fade ${this.props.active} py-3`}
+        className={`tab-pane fade ${this.props.active} py-3`}
         id={this.props.name}
         role="tabpanel"
         aria-labelledby={`${this.props.name}-tab`}
@@ -41,21 +41,31 @@ class TabBody extends Component {
 class ProfileTabBodyContainer extends Component {
   renderFollowers = (cat, type) =>
     type === "c" ? (
-      ""
+      
+      <><span className="text-primary d-block d-md-inline">Following</span>: 0</>
     ) : cat !== "store" ? (
-      ""
+      <><span className="text-primary d-block d-md-inline">Following</span>: 0</>
     ) : (
       <p className="mt-3">
         <span className="text-primary">Followers</span>:{" "}
         <span className="mr-md-3"> 0</span>
-        <span className="text-primary d-block d-md-inline">Following</span>: 0
       </p>
     );
 
   render() {
     let { user, type } = this.props,
-      name = type === "store" ? user.store.name : user.name,
-      info = type === "store" ? user.store.description : user.email;
+      name =
+        type !== "store"
+          ? user.name
+          : user.store !== undefined
+          ? user.store.name
+          : "",
+      info =
+        type !== "store"
+          ? user.email
+          : user.store !== undefined
+          ? user.store.description
+          : "";
 
     return (
       <div className="px-4 mb-4 text-center text-lg-left">
@@ -178,7 +188,7 @@ class Profile extends Component {
         <ProfileTabBodyContainer user={user} type="store" />
         <BenshadaForm
           form={`form-profile-update-store`}
-          onSubmitForm={this.props.updateUserProfile}
+          onSubmitForm={this.props.userUpdateProfile}
           className="form"
           fields={profileStoreFields}
           buttons={profileStoreButtons}
@@ -266,15 +276,15 @@ class Profile extends Component {
 
     return (
       <>
-        <ul class="nav nav-test nav-tabs" id="myTab" role="tablist">
-          {renderTabList(tablist)}
+        <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
+        {renderTabList(tablist, user.type)}
         </ul>
-        <div class="tab-content" id="profileTabContent">
+        <div className="tab-content" id="profileTabContent">
           <TabBody active="show active" name="profile-personal">
             <ProfileTabBodyContainer user={user} type="user" />
             <BenshadaForm
               form={`form-profile-update-personal`}
-              onSubmitForm={this.props.updateUserProfile}
+              onSubmitForm={this.props.userUpdateProfile}
               className="form"
               fields={profileFields}
               buttons={profileButtons}
@@ -323,7 +333,7 @@ class Settings extends Component {
   }
 }
 
-Profile = connect(null, { updateUserProfile })(Profile);
+Profile = connect(null, { userUpdateProfile })(Profile);
 
 export {
   Profile,
