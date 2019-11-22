@@ -13,7 +13,7 @@ export default (state = INITIAL_STATE, action) => {
     case FORM_LOAD:
       return { ...state, loading: true, show: false };
     case FORM_DONE:
-      return { ...state, loading: false, show: false };
+      return { ...state, loading: false, message: null, show: false };
     case FORM_ERROR:
       return { ...state, loading: false, message: action.payload, show: true };
     default:

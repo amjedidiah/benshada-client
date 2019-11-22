@@ -54,7 +54,7 @@ export const selectRole = type => async (dispatch, getState) => {
       ? api.post(
           `/shops`,
           {
-            name: `${user.name} Store`,
+            name: `${user.name}'s Store`,
             description: `This is a store by ${user.name}`,
             user: user._id
           },

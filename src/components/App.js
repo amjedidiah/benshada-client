@@ -9,6 +9,7 @@ import Role from "./Auth/Role/Role";
 import Logout from "./Auth/Logout/Logout";
 import User from "./User/User";
 import LoadingScreen from "react-loading-screen";
+import FormToast from "./FormToast/FormToast";
 
 import history from "../history";
 
@@ -32,6 +33,8 @@ class App extends React.Component {
         >
           {""}
         </LoadingScreen>
+
+        <FormToast body={this.props.load.message} />
       </div>
     );
   }

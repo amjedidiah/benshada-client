@@ -26,13 +26,11 @@ class BenshadaForm extends React.Component {
     this.props
       .onSubmitForm(formValues)
       .then(response => {
-        console.log(response);
+        response =
+          typeof response === "string"
+            ? response
+            : response.payload.message || "Successful";
         this.props.formError(response);
-        // if (this.pRef.current) {
-        //   this.pRef.current.innerHTML = response.response
-        //     ? response.response.data.message
-        //     : response;
-        // }
       })
       .catch(error => {
         // if (this.pRef.current) {
@@ -45,7 +43,7 @@ class BenshadaForm extends React.Component {
       .finally(() =>
         setTimeout(() => {
           this.props.formDone();
-        }, 5000)
+        }, 2000)
       );
   };
 
@@ -319,7 +317,6 @@ class BenshadaForm extends React.Component {
       >
         {this.renderFields(this.props.fields)}
         {this.renderButtons(this.props.buttons)}
-        <FormToast body={this.props.message} title={this.props.form} />
       </form>
     );
   }
@@ -356,8 +353,7 @@ const validate = ({ name, email, password, confirmpassword }) => {
 };
 
 const mapStateToProps = state => ({
-  user: state.auth.user,
-  message: state.load.message
+  user: state.auth.user
 });
 
 export default connect(mapStateToProps, { formLoad, formDone, formError })(
