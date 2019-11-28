@@ -15,7 +15,8 @@ import history from "../history";
 
 class App extends React.Component {
   render() {
-    let { loading, bgColor, spinnerColor } = this.props.load;
+    let { loading, bgColor, spinnerColor, show, message } = this.props.loader;
+
     return (
       <div className="h-100">
         <Router history={history}>
@@ -34,13 +35,12 @@ class App extends React.Component {
           {""}
         </LoadingScreen>
 
-        <FormToast body={this.props.load.message} />
+        <FormToast message={message} show={show} />
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return { load: state.load };
-};
+const mapStateToProps = state => ({ loader: state.load });
+
 export default connect(mapStateToProps)(App);

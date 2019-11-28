@@ -13,7 +13,6 @@ import userABlist from "./data/userABNav";
 import userClist from "./data/userCNav";
 
 import { userUpdateProfile } from "../../actions/auth";
-import { formLoad, formDone } from "../../actions/load";
 
 class User extends Component {
   componentDidMount = () => menu();
@@ -62,6 +61,4 @@ const mapStateToProps = state => ({
   isSignedIn: state.auth.isSignedIn
 });
 
-export default connect(mapStateToProps, { userUpdateProfile, formLoad, formDone })(
-  User
-);
+export default connect(mapStateToProps, { userUpdateProfile })(User);

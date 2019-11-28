@@ -3,9 +3,9 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { selectRole } from "../../../actions/auth";
-import { formLoad, formDone } from "../../../actions/load";
+import { actionLoad, actionNotify } from "../../../actions/load";
 
-import "../Login/login.css"
+import "../Login/login.css";
 
 class Role extends React.Component {
   roleSelect() {
@@ -23,10 +23,12 @@ class Role extends React.Component {
         div.classList.add("bg-primary");
         div.classList.add("text-white");
 
-        this.props.formLoad();
+        this.props.actionLoad();
         this.props
           .selectRole(div.getAttribute("id"))
-          .then(response => this.props.formDone());
+          .then(response =>
+            this.props.actionNotify("Role updated successfully")
+          );
       });
     });
   }
@@ -59,7 +61,7 @@ class Role extends React.Component {
     return (
       <div className="container-fluid h-100">
         <div className="row align-items-center h-100">
-        <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
+          <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
           <div className="col col-md-9 col-lg-6 offset-lg-6 offset-md-3">
             <h3 className="mb-2 text-center pt-5">
               Choose your role on Benshada Place
@@ -111,6 +113,8 @@ const mapStateToProps = state => {
   return { isSignedIn: state.auth.isSignedIn, role };
 };
 
-export default connect(mapStateToProps, { selectRole, formLoad, formDone })(
-  Role
-);
+export default connect(mapStateToProps, {
+  selectRole,
+  actionLoad,
+  actionNotify
+})(Role);

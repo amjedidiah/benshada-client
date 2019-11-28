@@ -1,6 +1,7 @@
 import React from "react";
 import { Field, reduxForm, SubmissionError } from "redux-form";
 import { connect } from "react-redux";
+import { actionLoad, actionDone, actionNotify } from "../../actions/load";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
@@ -12,10 +13,39 @@ import {
 
 import "./BenshadaForm.css";
 
+import FormToast from "../FormToast/FormToast";
 
 class BenshadaForm extends React.Component {
-  onSubmit = formValues => 
-    this.props.onSubmitForm(formValues)
+  constructor(props) {
+    super(props);
+    this.pRef = React.createRef();
+  }
+
+  onSubmit = formValues => {
+    this.props.actionLoad();
+    this.props
+      .onSubmitForm(formValues)
+      .then(response => {
+        response =
+          typeof response === "string"
+            ? response
+            : response.payload.message || "Successful";
+        this.props.actionNotify(response);
+      })
+      .catch(error => {
+        // if (this.pRef.current) {
+        //   this.pRef.current.innerHTML = error;
+        // }
+        if (error.validationErrors) {
+          throw new SubmissionError(error.validationErrors);
+        }
+      })
+      .finally(() =>
+        setTimeout(() => {
+          this.props.actionDone();
+        }, 2000)
+      );
+  };
 
   makeid(length) {
     let result = "",
@@ -326,7 +356,7 @@ const mapStateToProps = state => ({
   user: state.auth.user
 });
 
-export default connect(mapStateToProps)(
+export default connect(mapStateToProps, { actionLoad, actionDone, actionNotify })(
   reduxForm({
     form: "benshadaForm",
     validate

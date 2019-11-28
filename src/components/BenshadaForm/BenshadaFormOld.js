@@ -1,7 +1,7 @@
 import React from "react";
 import { Field, reduxForm, SubmissionError } from "redux-form";
 import { connect } from "react-redux";
-import { formLoad, formDone } from "../../actions/load";
+import { actionLoad, actionDone } from "../../actions/load";
 
 class BenshadaFormOld extends React.Component {
   constructor(props) {
@@ -23,11 +23,11 @@ class BenshadaFormOld extends React.Component {
   }
 
   onSubmit = formValues => {
-    this.props.formLoad();
+    this.props.actionLoad();
     this.props
       .onSubmitForm(formValues)
       .then(response => {
-        this.props.formDone();
+        this.props.actionDone();
         if (this.pRef.current) {
           this.pRef.current.innerHTML = response.response
             ? response.response.data.message
@@ -35,7 +35,7 @@ class BenshadaFormOld extends React.Component {
         }
       })
       .catch(error => {
-        this.props.formDone();
+        this.props.actionDone();
         if (this.pRef.current) {
           this.pRef.current.innerHTML = error;
         }
@@ -160,7 +160,7 @@ const validate = formValues => {
   return errors;
 };
 
-export default connect(null, { formLoad, formDone })(
+export default connect(null, { actionLoad, actionDone })(
   reduxForm({
     form: "benshadaForm",
     validate

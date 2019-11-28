@@ -1,4 +1,4 @@
-import { FORM_LOAD, FORM_DONE, FORM_ERROR } from "../actions/types";
+import { ACTION_LOAD, ACTION_NOTIFY, ACTION_DONE } from "../actions/types";
 
 const INITIAL_STATE = {
   loading: false,
@@ -10,12 +10,12 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case FORM_LOAD:
-      return { ...state, loading: true, show: false };
-    case FORM_DONE:
+    case ACTION_LOAD:
+      return { ...state, loading: true, message: null, show: false };
+    case ACTION_NOTIFY:
+      return { ...state, loading: true, message: action.payload, show: true };
+    case ACTION_DONE:
       return { ...state, loading: false, message: null, show: false };
-    case FORM_ERROR:
-      return { ...state, loading: false, message: action.payload, show: true };
     default:
       return state;
   }

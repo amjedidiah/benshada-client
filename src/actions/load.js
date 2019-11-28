@@ -1,18 +1,14 @@
-import { FORM_LOAD, FORM_DONE, FORM_ERROR } from "./types";
+import { ACTION_LOAD, ACTION_NOTIFY, ACTION_DONE } from "./types";
 
-export const formLoad = () => {
-  return {
-    type: FORM_LOAD
-  };
-};
-export const formDone = () => {
-  return {
-    type: FORM_DONE
-  };
-};
-export const formError = payload => {
-  return {
-    type: FORM_ERROR,
-    payload
-  };
-};
+export const actionLoad = () => ({
+  type: ACTION_LOAD
+});
+
+export const actionNotify = payload => ({
+  type: ACTION_NOTIFY,
+  payload
+});
+
+export const actionDone = () => ({
+  type: ACTION_DONE
+});

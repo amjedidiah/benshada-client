@@ -1,41 +1,70 @@
 import api from "../apis/api";
-import axios from "axios" 
+import axios from "axios";
 import { LOGIN, REGISTER, LOGOUT, ROLE, USER_UPDATE } from "./types";
+
+import { actionLoad, actionDone, actionNotify } from "./load";
 import history from "../history";
 
-export const login = formValues => dispatch =>
-  api
-    .post(`/users/login`, formValues)
-    .then(res =>
-      dispatch({
+export const login = formValues => async dispatch => {
+  try {
+    await dispatch(actionLoad());
+    const res = await api.post(`/users/login`, formValues);
+
+    dispatch([
+      {
         type: LOGIN,
         payload: res.data
-      })
-    )
-    .catch(error => error.response.data.message || error.message);
-
-export const logout = () => async dispatch => {
-  try {
-    await dispatch({
-      type: LOGOUT
-    });
-
-    history.push("/");
-  } catch (e) {
-    return e.message;
+      },
+      actionNotify(res.data.message)
+    ]);
+  } catch (error) {
+    dispatch(actionNotify(error.response.data.message || error.message));
   }
 };
 
-export const register = formValues => dispatch =>
-  api
-    .post(`/users/signup`, formValues)
-    .then(res =>
-      dispatch({
+export const logout = () => async dispatch => {
+  try {
+    await dispatch([
+      actionLoad(),
+      {
+        type: LOGOUT
+      },
+      actionNotify("Logout successful")
+    ]);
+
+    history.push("/");
+  } catch (error) {
+    dispatch([actionNotify("Error with logout")]);
+  }
+};
+
+export const register = formValues => async dispatch => {
+  try {
+    await dispatch(actionLoad());
+    const res = await api.post(`/users/signup`, formValues);
+
+    dispatch([
+      {
         type: REGISTER,
         payload: res.data
-      })
-    )
-    .catch(error => error.response.data.message || error.message);
+      },
+      actionNotify(res.data.message)
+    ]);
+  } catch (error) {
+    dispatch(actionNotify(error.response.data.message || error.message));
+  }
+};
+
+// export const register = formValues => dispatch =>
+//   api
+//     .post(`/users/signup`, formValues)
+//     .then(res =>
+//       dispatch({
+//         type: REGISTER,
+//         payload: res.data
+//       })
+//     )
+//     .catch(error => error.response.data.message || error.message);
 
 export const selectRole = type => async (dispatch, getState) => {
   let { user } = getState().auth;
@@ -64,7 +93,7 @@ export const selectRole = type => async (dispatch, getState) => {
         )
       : "";
   };
-
+  
   axios
     .all([updateType(user, type), createStore(user, type)])
     .then(
@@ -82,53 +111,25 @@ export const selectRole = type => async (dispatch, getState) => {
     .catch(error => error.response.data.message || error.message);
 };
 
-// export const selectRole = type => async (dispatch, getState) => {
-//   let { user } = getState().auth;
-
-//   await api.put(
-//     `/users/${user.email}`,
-//     { isDeleted: false, type },
-//     {
-//       headers: { Authorization: "Bearer " + user.token }
-//     }
-//   );
-
-//   user = { ...user, type };
-
-//   if (type !== "c") {
-//     let store = {
-//       name: `store${user._id}`,
-//       description: "I am a new Benshada store",
-//       user: user._id
-//     };
-
-//     let storeResp = await api.post(`/shops`, store, {
-//       headers: { Authorization: "Bearer " + user.token }
-//     });
-
-//     user.store = storeResp.data.data;
-//   }
-
-//   dispatch({
-//     type: ROLE,
-//     payload: user
-//   });
-// };
-
-export const userUpdateProfile = formValues => (dispatch, getState) => {
+export const userUpdateProfile = formValues => async (dispatch, getState) => {
   let { user } = getState().auth;
 
-  api
-    .put(`/users/${user.email}`, formValues, {
+  try {
+    await dispatch(actionLoad());
+    const res = await api.put(`/users/${user.email}`, formValues, {
       headers: { Authorization: "Bearer " + user.token }
     })
-    .then(res => {
-      user = { ...user, ...formValues };
 
-      dispatch({
+    user = { ...user, ...formValues };
+
+    dispatch([
+      {
         type: USER_UPDATE,
         payload: user
-      });
-    })
-    .catch(error => error.response.data.message || error.message);
+      },
+      actionNotify(res.data.message)
+    ]);
+  } catch (error) {
+    dispatch(actionNotify(error.response.data.message || error.message));
+  }
 };
