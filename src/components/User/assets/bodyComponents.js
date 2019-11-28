@@ -115,7 +115,7 @@ class ProfileTabBodyContainer extends Component {
 
 class Profile extends Component {
   renderStoreInfoTab(user) {
-    let { name, description } = user.store,
+    let { name, description } = user.store || { name: "", description: "" },
       profileStoreFields = [
         {
           desc: "name",
