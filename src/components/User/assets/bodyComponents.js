@@ -1,27 +1,31 @@
 import React, { Component } from "react";
 import BenshadaForm from "../../BenshadaForm/BenshadaForm";
 import { connect } from "react-redux";
-import { userUpdateProfile } from "../../../actions/auth";
+import { userUpdateProfile, userUpdateStore } from "../../../actions/user";
 import { stateSelect } from "../../../assets/location";
 
-const renderTabList = (array,type) =>
-  array.map((item, i) => type === "c" && item === "store" ? ("") :   (
-    <li className="nav-item" key={i}>
-      <a
-        className={`nav-link text-uppercase font-weight-bold ${
-          i === 0 ? "active" : ""
-        }`}
-        id={`profile-${item}-tab`}
-        data-toggle="tab"
-        href={`#profile-${item}`}
-        role="tab"
-        aria-controls={`profile-${item}`}
-        aria-selected={i === 0}
-      >
-        {item}
-      </a>
-    </li>
-  ));
+const renderTabList = (array, type) =>
+  array.map((item, i) =>
+    type === "c" && item === "store" ? (
+      ""
+    ) : (
+      <li className="nav-item" key={i}>
+        <a
+          className={`nav-link text-uppercase font-weight-bold ${
+            i === 0 ? "active" : ""
+          }`}
+          id={`profile-${item}-tab`}
+          data-toggle="tab"
+          href={`#profile-${item}`}
+          role="tab"
+          aria-controls={`profile-${item}`}
+          aria-selected={i === 0}
+        >
+          {item}
+        </a>
+      </li>
+    )
+  );
 
 class TabBody extends Component {
   render() {
@@ -41,10 +45,13 @@ class TabBody extends Component {
 class ProfileTabBodyContainer extends Component {
   renderFollowers = (cat, type) =>
     type === "c" ? (
-      
-      <><span className="text-primary d-block d-md-inline">Following</span>: 0</>
+      <>
+        <span className="text-primary d-block d-md-inline">Following</span>: 0
+      </>
     ) : cat !== "store" ? (
-      <><span className="text-primary d-block d-md-inline">Following</span>: 0</>
+      <>
+        <span className="text-primary d-block d-md-inline">Following</span>: 0
+      </>
     ) : (
       <p className="mt-3">
         <span className="text-primary">Followers</span>:{" "}
@@ -108,11 +115,11 @@ class ProfileTabBodyContainer extends Component {
 
 class Profile extends Component {
   renderStoreInfoTab(user) {
-    let { name, email, state, country, street, bio, phone, type } = user,
+    let { name, description } = user.store,
       profileStoreFields = [
         {
           desc: "name",
-          placeholder: "Full Name",
+          placeholder: "Shop Name",
           varClass: "input",
           type: "text",
           options: [],
@@ -120,62 +127,13 @@ class Profile extends Component {
           value: name
         },
         {
-          desc: "phone",
-          placeholder: "Mobile Number",
-          varClass: "input",
-          type: "tel",
-          options: [],
-          row: 1,
-          icon: 0,
-          value: phone
-        },
-        {
-          desc: "email",
-          placeholder: "Email Address",
-          varClass: "input",
-          type: "email",
-          options: [],
-          row: 2,
-          icon: 0,
-          value: email
-        },
-        {
-          desc: "street",
-          placeholder: "Street",
+          desc: "description",
+          placeholder: "Description",
           varClass: "textarea",
           type: "text",
           options: [],
           icon: 0,
-          value: street
-        },
-        {
-          desc: "state",
-          placeholder: "State",
-          varClass: "select",
-          type: "text",
-          options: stateSelect,
-          row: 1,
-          icon: 0,
-          value: state
-        },
-        {
-          desc: "country",
-          placeholder: "Country",
-          varClass: "select",
-          type: "text",
-          options: ["Nigeria", "Ghana"],
-          row: 2,
-          icon: 0,
-          value: country
-        },
-        {
-          desc: "bio",
-          placeholder: "Bio",
-          varClass: "textarea",
-          type: "text",
-          options: [],
-          icon: 0,
-          value: bio
+          value: description
         }
       ],
       profileStoreButtons = [
@@ -188,7 +146,7 @@ class Profile extends Component {
         <ProfileTabBodyContainer user={user} type="store" />
         <BenshadaForm
           form={`form-profile-update-store`}
-          onSubmitForm={this.props.userUpdateProfile}
+          onSubmitForm={this.props.userUpdateStore}
           className="form"
           fields={profileStoreFields}
           buttons={profileStoreButtons}
@@ -199,7 +157,7 @@ class Profile extends Component {
 
   render() {
     let user = this.props.user,
-      { name, email, state, country, street, bio, phone, type } = user,
+      { name, email, state, country, street, bio, phone, type, store } = user,
       profileFields = [
         {
           desc: "name",
@@ -277,7 +235,7 @@ class Profile extends Component {
     return (
       <>
         <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
-        {renderTabList(tablist, user.type)}
+          {renderTabList(tablist, user.type)}
         </ul>
         <div className="tab-content" id="profileTabContent">
           <TabBody active="show active" name="profile-personal">
@@ -333,7 +291,7 @@ class Settings extends Component {
   }
 }
 
-Profile = connect(null, { userUpdateProfile })(Profile);
+Profile = connect(null, { userUpdateProfile, userUpdateStore })(Profile);
 
 export {
   Profile,

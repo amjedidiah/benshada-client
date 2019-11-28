@@ -12,7 +12,7 @@ import DashBody from "./DashBody";
 import userABlist from "./data/userABNav";
 import userClist from "./data/userCNav";
 
-import { userUpdateProfile } from "../../actions/auth";
+import { userUpdateProfile } from "../../actions/user";
 
 class User extends Component {
   componentDidMount = () => menu();

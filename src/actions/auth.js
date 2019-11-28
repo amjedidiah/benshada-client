@@ -1,8 +1,8 @@
 import api from "../apis/api";
 import axios from "axios";
-import { LOGIN, REGISTER, LOGOUT, ROLE, USER_UPDATE } from "./types";
+import { LOGIN, REGISTER, LOGOUT, ROLE } from "./types";
 
-import { actionLoad, actionDone, actionNotify } from "./load";
+import { actionLoad, actionNotify } from "./load";
 import history from "../history";
 
 export const login = formValues => async dispatch => {
@@ -109,27 +109,4 @@ export const selectRole = type => async (dispatch, getState) => {
       })
     )
     .catch(error => error.response.data.message || error.message);
-};
-
-export const userUpdateProfile = formValues => async (dispatch, getState) => {
-  let { user } = getState().auth;
-
-  try {
-    await dispatch(actionLoad());
-    const res = await api.put(`/users/${user.email}`, formValues, {
-      headers: { Authorization: "Bearer " + user.token }
-    })
-
-    user = { ...user, ...formValues };
-
-    dispatch([
-      {
-        type: USER_UPDATE,
-        payload: user
-      },
-      actionNotify(res.data.message)
-    ]);
-  } catch (error) {
-    dispatch(actionNotify(error.response.data.message || error.message));
-  }
 };
