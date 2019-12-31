@@ -11,18 +11,35 @@ import DashNav from "./DashNav";
 import DashBody from "./DashBody";
 import userABlist from "./data/userABNav";
 import userClist from "./data/userCNav";
-
-import { userUpdateProfile } from "../../actions/user";
+import { ifSeller } from "../../actions/auth";
 
 class User extends Component {
   componentDidMount = () => menu();
 
-  renderHelp = () =>
-    this.props.isSignedIn === false ? (
+  renderPage() {
+    const { user, store } = this.props,
+      list = !ifSeller(user && user.type) ? userClist : userABlist;
+
+    return (
+      <>
+        <div className="container-fluid h-100">
+          <div className="row h-100">
+            <DashNav list={list} user={user} />
+            <DashBody list={list} user={user} store={store} />
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  renderHelp() {
+    let { isSignedIn, user, location } = this.props;
+
+    return isSignedIn === false ? (
       <Redirect
         to={{
           pathname: "/login",
-          state: { from: this.props.location }
+          state: { from: location }
         }}
       />
     ) : (
@@ -31,34 +48,23 @@ class User extends Component {
           <Redirect
             to={{
               pathname: "/role",
-              state: { from: this.props.location }
+              state: { from: location }
             }}
           />
         )
-      }[this.props.user.type]
+      }[user && user.type] || this.renderPage()
     );
+  }
 
   render() {
-    const { user } = this.props,
-      list = user.type === "c" ? userClist : userABlist;
-
-    return (
-      <>
-        {this.renderHelp()}
-        <div className="container-fluid h-100">
-          <div className="row h-100">
-            <DashNav list={list} user={user} />
-            <DashBody list={list} user={user} />
-          </div>
-        </div>
-      </>
-    );
+    return <>{this.renderHelp()}</>;
   }
 }
 
 const mapStateToProps = state => ({
-  user: state.auth.user === null ? null : state.auth.user,
+  user: state.auth && state.auth.user,
+  store: state.store,
   isSignedIn: state.auth.isSignedIn
 });
 
-export default connect(mapStateToProps, { userUpdateProfile })(User);
+export default connect(mapStateToProps, {})(User);

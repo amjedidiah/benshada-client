@@ -154,6 +154,14 @@ button:hover {
   bottom: 30px;
   right: 30px;
   cursor: pointer;
+  z-index: 2147483645;
+}
+
+/* Loading screen style */
+.sc-htpNat {
+  position: fixed !important;
+  /* z-index: 2147483638 !important; */
+  height: 100% !important;
 }
 
 @media (min-width: 576px) {

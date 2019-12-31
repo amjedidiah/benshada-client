@@ -6,10 +6,11 @@ import { connect } from "react-redux";
 import searchAnimate from "./searchAnimate";
 import "./header.css";
 
-
 class Header extends React.Component {
   authRender() {
-    if (this.props.isSignedIn === false) {
+    let { isSignedIn, user } = this.props;
+
+    if (isSignedIn === false) {
       return (
         <form className="form-inline px-md-3">
           <Link to="/login" className="flex-grow-1">
@@ -39,7 +40,7 @@ class Header extends React.Component {
               aria-expanded="false"
             >
               <i className="far fa-user mr-2" />
-              {this.props.user.name.split(" ")[0]}
+              {user && user.name.split(" ")[0]}
             </Link>
             <div
               className="dropdown-menu border-0 shadow-md-sm"
@@ -70,7 +71,10 @@ class Header extends React.Component {
   }
   render() {
     return (
-      <nav className="navbar navbar-expand-md shadow-sm mb-1 bg-white">
+      <nav
+        className="navbar navbar-expand-md shadow-sm mb-1 bg-white"
+        id="header"
+      >
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
             <i className="text-primary font-weight-bold">benshada</i>

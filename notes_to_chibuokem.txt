@@ -3,3 +3,4 @@ Changes To Be Made To API
 2. Email verification on register 
 3. Uploading User Profile Image
 4. Uploading Product Image
+5. Updating user store info not working for policies, categories(modal serving as not yet in React app), deliveryOptions(modal serving as not yet in React app) and bank object

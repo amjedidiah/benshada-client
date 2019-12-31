@@ -3,20 +3,21 @@ import { connect } from "react-redux";
 import BenshadaForm from "../BenshadaForm/BenshadaForm";
 
 import { productUpload } from "../../actions/user";
-// import "./assets/bodyComponents";
 import {
   Profile,
-  Product,
+  Products,
   Orders,
   Revenue,
   Analytics,
   Notifications,
   Settings
 } from "./assets/bodyComponents";
+import { Link } from "react-router-dom";
+import { ifSeller } from "../../actions/auth";
 
 const Components = {
   Profile,
-  Product,
+  Products,
   Orders,
   Revenue,
   Analytics,
@@ -64,8 +65,10 @@ class DashBody extends Component {
           icon: 0
         }
       ],
-      productButtons = [{ value: "Upload Product", className: "btn-primary" }];
-    return user.type === "c" ? (
+      productButtons = [{ value: "Upload Product", className: "btn-primary" }],
+      type = user && user.type;
+
+    return !ifSeller(type) ? (
       ""
     ) : (
       <>
@@ -123,7 +126,8 @@ class DashBody extends Component {
   renderBodyComponents(list) {
     return list.map((listItem, i) => {
       let { Title } = listItem,
-        TagName = Components[Title];
+        TagName = Components[Title],
+        { user, store } = this.props;
       return (
         <div
           className={`tab-pane p-5 mt-5 fade ${
@@ -134,13 +138,15 @@ class DashBody extends Component {
           aria-labelledby={`pills-${Title}-tab`}
           key={Title}
         >
-          <TagName user={this.props.user} />
+          <TagName user={user} store={store} />
         </div>
       );
     });
   }
 
   render() {
+    let name = this.props.user && this.props.user.name.split(" ")[0];
+
     return (
       <>
         <div
@@ -160,12 +166,12 @@ class DashBody extends Component {
               </span>
             </button>
             <div className="flex-grow-1 d-md-none pt-2 text-center">
-              <a
+              <Link
                 className="no-link lead text-primary font-weight-bolder"
-                href="./"
+                to="/"
               >
                 benshada
-              </a>
+              </Link>
             </div>
             <div className="user float-right">
               <div className="img-holder rounded-circle d-inline py-1 px-2 d-none">
@@ -178,7 +184,7 @@ class DashBody extends Component {
                 /> */}
               </div>
               <span className="mt-2 ml-3 d-none d-md-inline">
-                Hello, {this.props.user.name.split(" ")[0]}
+                Hello, {name}
               </span>
             </div>
             <div className="clear"></div>

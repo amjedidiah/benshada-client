@@ -1,5 +1,5 @@
 import React from "react";
-import { Field, reduxForm, SubmissionError } from "redux-form";
+import { Field, reduxForm } from "redux-form";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -12,10 +12,8 @@ import {
 
 import "./BenshadaForm.css";
 
-
 class BenshadaForm extends React.Component {
-  onSubmit = formValues => 
-    this.props.onSubmitForm(formValues)
+  onSubmit = formValues => this.props.onSubmitForm(formValues);
 
   makeid(length) {
     let result = "",
@@ -59,6 +57,8 @@ class BenshadaForm extends React.Component {
   }
 
   renderFieldIcon(name) {
+    let { user } = this.props;
+
     switch (name) {
       case "name":
         return <FontAwesomeIcon icon={faUser} />;
@@ -69,11 +69,11 @@ class BenshadaForm extends React.Component {
       case "password":
         return <FontAwesomeIcon icon={faLock} />;
       default:
-        return this.props.user.country === undefined ||
-          this.props.user.country === null ||
-          this.props.user.country === "" ? (
+        return user.country === undefined ||
+          user.country === null ||
+          user.country === "" ? (
           <FontAwesomeIcon icon={faDollarSign} />
-        ) : this.props.user.country === "Nigeria" ? (
+        ) : user.country === "Nigeria" ? (
           <span>&#8358;</span>
         ) : (
           <span>GHS</span>
@@ -99,7 +99,8 @@ class BenshadaForm extends React.Component {
     type,
     options,
     className,
-    meta
+    meta,
+    value
   ) {
     const { error, touched } = meta;
     className = `form-control bg-white border-left-0 border-right-0 border-top-0 rounded-0 ${className}`;
@@ -129,7 +130,7 @@ class BenshadaForm extends React.Component {
         case "quantity":
           return "e.g: 10";
         default:
-          return name;
+          return label;
       }
     })(name);
 
@@ -137,6 +138,7 @@ class BenshadaForm extends React.Component {
       case "input":
         return (
           <input
+            defaultValue={value}
             type={type}
             className={className}
             id={`${randString}${name}`}
@@ -167,6 +169,7 @@ class BenshadaForm extends React.Component {
       case "textarea":
         return (
           <textarea
+            defaultValue={value}
             className={className}
             id={name}
             aria-describedby={`${name}Help`}
@@ -190,7 +193,8 @@ class BenshadaForm extends React.Component {
     type,
     options,
     icon,
-    row
+    row,
+    value
   }) => {
     const { name } = input;
 
@@ -225,7 +229,8 @@ class BenshadaForm extends React.Component {
               type,
               options,
               className,
-              meta
+              meta,
+              value
             )}
             {this.renderFieldIconPrepend(name)}
           </div>

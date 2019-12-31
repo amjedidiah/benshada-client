@@ -28,6 +28,7 @@ class Login extends React.Component {
         }
       ],
       loginButtons = [{ value: "login", className: "btn-primary" }];
+      
     if (this.props.isSignedIn === true) {
       return (
         <Redirect

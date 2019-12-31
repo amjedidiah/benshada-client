@@ -14,6 +14,7 @@ import FormToast from "./FormToast/FormToast";
 import history from "../history";
 
 class App extends React.Component {
+  
   render() {
     let { loading, bgColor, spinnerColor, show, message } = this.props.loader;
 

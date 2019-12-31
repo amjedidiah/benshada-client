@@ -30,6 +30,9 @@ const createStoreWithBatching = batchedSubscribe(fn => fn())(
 
 const store = createStoreWithBatching(reducers, load());
 
+// localStorage.clear();
+// sessionStorage.clear();
+
 ReactDOM.render(
   <Provider store={store}>
     <App />

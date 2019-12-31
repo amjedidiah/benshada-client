@@ -283,7 +283,7 @@ class BenshadaForm extends React.Component {
           name={desc}
           component={this.renderFormField}
           label={placeholder}
-          varClass={varClass}
+          varclassName={varClass}
           type={type}
           options={options}
           key={key}

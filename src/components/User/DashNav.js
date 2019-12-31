@@ -26,7 +26,7 @@ class DashNav extends React.Component {
           >
             <i className={`${icon} mr-3`}></i>
             {Title}
-          </a>
+          </a> 
         </li>
       );
     });

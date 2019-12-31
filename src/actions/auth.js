@@ -1,11 +1,14 @@
 import api from "../apis/api";
-import axios from "axios";
-import { LOGIN, REGISTER, LOGOUT, ROLE } from "./types";
+// import axios from "axios";
+import { LOGIN, REGISTER, LOGOUT, ROLE_SELECT } from "./types";
 
 import { actionLoad, actionNotify } from "./load";
 import history from "../history";
+import { userFetch, storeCreate } from "./user";
 
-export const login = formValues => async dispatch => {
+export const ifSeller = type => (type === "a" || type === "b" ? true : false);
+
+export const login = formValues => async (dispatch, getState) => {
   try {
     await dispatch(actionLoad());
     const res = await api.post(`/users/login`, formValues);
@@ -13,12 +16,17 @@ export const login = formValues => async dispatch => {
     dispatch([
       {
         type: LOGIN,
-        payload: res.data
+        payload: [res.data.data.email, res.data.data.token]
       },
-      actionNotify(res.data.message)
+      actionNotify(res.data.message),
+      userFetch()
     ]);
   } catch (error) {
-    dispatch(actionNotify(error.response.data.message || error.message));
+    dispatch(
+      actionNotify(
+        error.response.data.message && error.response.data.message.name
+      )
+    );
   }
 };
 
@@ -38,21 +46,41 @@ export const logout = () => async dispatch => {
   }
 };
 
-export const register = formValues => async dispatch => {
-  try {
-    await dispatch(actionLoad());
-    const res = await api.post(`/users/signup`, formValues);
+export const register = formValues => async (dispatch, getState) => {
+  api
+    .post(`/users/login`, formValues)
+    .then(res =>
+      dispatch(actionNotify("A user already exists with this email."))
+    )
+    .catch(async error => {
+      if (error.response.status !== 500) {
+        try {
+          await dispatch(actionLoad());
 
-    dispatch([
-      {
-        type: REGISTER,
-        payload: res.data
-      },
-      actionNotify(res.data.message)
-    ]);
-  } catch (error) {
-    dispatch(actionNotify(error.response.data.message || error.message));
-  }
+          const res = await api.post(`/users/signup`, formValues);
+          dispatch([
+            {
+              type: REGISTER,
+              payload: [res.data.data.email, res.data.data.token]
+            },
+            actionNotify(res.data.message),
+            userFetch()
+          ]);
+        } catch (error) {
+          dispatch(
+            actionNotify(
+              error.response.data.message && error.response.data.message.name
+            )
+          );
+        }
+      } else {
+        dispatch(
+          actionNotify(
+            error.response.data.message && error.response.data.message.name
+          )
+        );
+      }
+    });
 };
 
 // export const register = formValues => dispatch =>
@@ -64,49 +92,36 @@ export const register = formValues => async dispatch => {
 //         payload: res.data
 //       })
 //     )
-//     .catch(error => error.response.data.message || error.message);
+//     .catch(error => error.response.data.message && error.response.data.message.name || error.response.data.message && error.response.data.message.name);
 
-export const selectRole = type => async (dispatch, getState) => {
-  let { user } = getState().auth;
+export const roleSelect = type => async (dispatch, getState) => {
+  let { token, email, user } = getState().auth;
 
-  const updateType = (user, type) =>
-    api.put(
-      `/users/${user.email}`,
+  try {
+    const res = await api.put(
+      `/users/${email}`,
       { isDeleted: false, type },
       {
-        headers: { Authorization: "Bearer " + user.token }
+        headers: { Authorization: "Bearer " + token }
       }
     );
 
-  const createStore = (user, type) => {
-    return type !== "c"
-      ? api.post(
-          `/shops`,
-          {
-            name: `${user.name}'s Store`,
-            description: `This is a store by ${user.name}`,
-            user: user._id
-          },
-          {
-            headers: { Authorization: "Bearer " + user.token }
-          }
-        )
-      : "";
-  };
-  
-  axios
-    .all([updateType(user, type), createStore(user, type)])
-    .then(
-      axios.spread((acct, storeRes) => {
-        user.type = type;
+    await dispatch([
+      actionLoad(),
+      {
+        type: ROLE_SELECT,
+        payload: { ...user, type }
+      },
+      actionNotify(res.data.message),
+      storeCreate()
+    ]);
 
-        user.store = type !== "c" ? storeRes.data.data : undefined;
-
-        dispatch({
-          type: ROLE,
-          payload: user
-        });
-      })
-    )
-    .catch(error => error.response.data.message || error.message);
+    history.push("/user");
+  } catch (error) {
+    dispatch(
+      actionNotify(
+        error.response.data.message && error.response.data.message.name
+      )
+    );
+  }
 };

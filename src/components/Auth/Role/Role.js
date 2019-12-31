@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { selectRole } from "../../../actions/auth";
+import { roleSelect, ifSeller } from "../../../actions/auth";
 import { actionLoad, actionNotify } from "../../../actions/load";
 
 import "../Login/login.css";
@@ -23,12 +23,7 @@ class Role extends React.Component {
         div.classList.add("bg-primary");
         div.classList.add("text-white");
 
-        this.props.actionLoad();
-        this.props
-          .selectRole(div.getAttribute("id"))
-          .then(response =>
-            this.props.actionNotify("Role updated successfully")
-          );
+        this.props.roleSelect(div.getAttribute("id"));
       });
     });
   }
@@ -38,22 +33,25 @@ class Role extends React.Component {
   }
 
   render() {
-    if (this.props.isSignedIn === false) {
+    let { isSignedIn, role, location } = this.props;
+
+    if (isSignedIn === false) {
       return (
         <Redirect
           to={{
             pathname: "/login",
-            state: { from: this.props.location }
+            state: { from: location }
           }}
         />
       );
     }
-    if (this.props.role !== "user") {
+
+    if (ifSeller(role) || role === "c") {
       return (
         <Redirect
           to={{
             pathname: "/user",
-            state: { from: this.props.location }
+            state: { from: location }
           }}
         />
       );
@@ -109,12 +107,14 @@ class Role extends React.Component {
 }
 
 const mapStateToProps = state => {
-  let role = state.auth.user === null ? null : state.auth.user.type;
-  return { isSignedIn: state.auth.isSignedIn, role };
+  return {
+    isSignedIn: state.auth.isSignedIn,
+    role: state.auth.user && state.auth.user.type
+  };
 };
 
 export default connect(mapStateToProps, {
-  selectRole,
+  roleSelect,
   actionLoad,
   actionNotify
 })(Role);
