@@ -12,9 +12,9 @@ import LoadingScreen from "react-loading-screen";
 import FormToast from "./FormToast/FormToast";
 
 import history from "../history";
+import Cart from "./Cart/Cart";
 
 class App extends React.Component {
-  
   render() {
     let { loading, bgColor, spinnerColor, show, message } = this.props.loader;
 
@@ -27,6 +27,7 @@ class App extends React.Component {
           <Route path="/role" component={Role} exact />
           <Route path="/user" component={User} />
           <Route path="/logout" component={Logout} exact />
+          <Route path="/cart" component={Cart} exact />
         </Router>
         <LoadingScreen
           loading={loading}

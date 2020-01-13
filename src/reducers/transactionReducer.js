@@ -1,10 +1,10 @@
-import { LOGOUT, ORDERS_FETCH } from "../actions/types";
+import { LOGOUT, TRANSACTIONS_FETCH } from "../actions/types";
 
 const INITIAL_STATE = [];
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case ORDERS_FETCH:
+    case TRANSACTIONS_FETCH:
       return action.payload;
     case LOGOUT:
       return INITIAL_STATE;

@@ -72,7 +72,7 @@ class Header extends React.Component {
   render() {
     return (
       <nav
-        className="navbar navbar-expand-md shadow-sm mb-1 bg-white"
+        className="navbar navbar-expand-md shadow-sm mb-1 bg-white fixed-top"
         id="header"
       >
         <div className="container-fluid">

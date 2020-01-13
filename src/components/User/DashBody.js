@@ -8,9 +8,8 @@ import {
   Products,
   Orders,
   Revenue,
-  Analytics,
   Notifications,
-  Settings
+  Messages
 } from "./assets/bodyComponents";
 import { Link } from "react-router-dom";
 import { ifSeller } from "../../actions/auth";
@@ -20,9 +19,8 @@ const Components = {
   Products,
   Orders,
   Revenue,
-  Analytics,
   Notifications,
-  Settings
+  Messages
 };
 
 class DashBody extends Component {
@@ -44,6 +42,24 @@ class DashBody extends Component {
           type: "text",
           options: [],
           row: 1,
+          icon: 0
+        },
+        {
+          desc: "category",
+          placeholder: "Category",
+          varClass: "select",
+          type: "text",
+          options: ["Bags", "Shoes", "Clothes", "Accessories"],
+          rows: 1,
+          icon: 0
+        },
+        {
+          desc: "gender",
+          placeholder: "Gender",
+          varClass: "select",
+          type: "text",
+          options: ["Male", "Female", "Unisex"],
+          rows: 2,
           icon: 0
         },
         {
@@ -74,10 +90,10 @@ class DashBody extends Component {
       <>
         <div
           className="modal fade"
-          id="exampleModal"
+          id="productModal"
           tabIndex="-1"
           role="dialog"
-          aria-labelledby="exampleModalLabel"
+          aria-labelledby="productModalLabel"
           aria-hidden="true"
         >
           <div className="modal-dialog modal-xl" role="document">
@@ -85,7 +101,7 @@ class DashBody extends Component {
               <div className="modal-header">
                 <h5
                   className="modal-title font-weight-light"
-                  id="exampleModalLabel"
+                  id="productModalLabel"
                 >
                   Upload Product
                 </h5>
@@ -115,7 +131,7 @@ class DashBody extends Component {
           className="btn btn-primary d-fixed rounded-circle shadow-sm "
           id="questionMark"
           data-toggle="modal"
-          data-target="#exampleModal"
+          data-target="#productModal"
         >
           <i className="fas fa-plus"></i>
         </div>
@@ -130,68 +146,78 @@ class DashBody extends Component {
         { user, store } = this.props;
       return (
         <div
-          className={`tab-pane p-5 mt-5 fade ${
-            Title === "Profile" ? "show active" : ""
-          }`}
+          className={`h-100 p-0 tab-pane fade ${i === 0 ? "show active" : ""}`}
           id={`pills-${Title}`}
           role="tabpanel"
           aria-labelledby={`pills-${Title}-tab`}
           key={Title}
         >
-          <TagName user={user} store={store} />
+          {user !== undefined ? (
+            <TagName user={user} store={store} />
+          ) : (
+            <Messages />
+          )}
         </div>
       );
     });
   }
 
+  renderHeader(user, name) {
+    return user !== undefined ? (
+      <div
+        className="p-3 position-fixed bg-white shadow-sm d-flex d-md-block"
+        id="dashboardHeader"
+      >
+        <button
+          className="btn btn-white float-left border-0 d-md-none"
+          id="dashboardMenuToggle"
+        >
+          <span>
+            <i className="fas fa-stream"></i>
+          </span>
+        </button>
+        <div className="flex-grow-1 d-md-none pt-2 text-center">
+          <Link className="no-link lead text-primary font-weight-bolder" to="/">
+            benshada
+          </Link>
+        </div>
+        <div className="user float-right">
+          <div className="img-holder float-left">
+            {/* <img
+          src={""}
+          alt=""
+          className="rounded-circle"
+          width="50"
+          height="50"
+        /> */}
+          </div>
+          <span className="mt-4 ml-3 d-none d-md-inline">Hello, {name}</span>
+        </div>
+        <div className="clear"></div>
+      </div>
+    ) : (
+      ""
+    );
+  }
+
   render() {
-    let name = this.props.user && this.props.user.name.split(" ")[0];
+    let { user, list } = this.props,
+      name = user && user.name,
+      divClass =
+        user === undefined ? "col-9 offset-3 col-sm-10 offset-sm-2" : "col-12";
+
+    name = name !== undefined ? name.split(" ")[0] : "";
 
     return (
       <>
         <div
-          className="col-12 col-md-9 offset-md-3 col-lg-10 offset-lg-2 tab-content p-0"
+          className={`${divClass} p-0 col-md-9 offset-md-3 col-lg-10 offset-lg-2 position-relative tab-content`}
           id="pills-tabContent"
         >
-          <div
-            className="p-3 position-fixed bg-white shadow-sm d-flex d-md-block"
-            id="dashboardHeader"
-          >
-            <button
-              className="btn btn-white float-left border-0 d-md-none border border-primary"
-              id="dashboardMenuToggle"
-            >
-              <span>
-                <i className="fas fa-stream"></i>
-              </span>
-            </button>
-            <div className="flex-grow-1 d-md-none pt-2 text-center">
-              <Link
-                className="no-link lead text-primary font-weight-bolder"
-                to="/"
-              >
-                benshada
-              </Link>
-            </div>
-            <div className="user float-right">
-              <div className="img-holder rounded-circle d-inline py-1 px-2 d-none">
-                {/* <img
-                  src={""}
-                  alt=""
-                  className="rounded-circle"
-                  width="50"
-                  height="50"
-                /> */}
-              </div>
-              <span className="mt-2 ml-3 d-none d-md-inline">
-                Hello, {name}
-              </span>
-            </div>
-            <div className="clear"></div>
-          </div>
-          {this.renderBodyComponents(this.props.list)}
+          {this.renderHeader(user, name)}
+          {this.renderBodyComponents(list)}
         </div>
-        {this.productUploadRenderer(this.props.user)}
+        {this.productUploadRenderer(user)}
       </>
     );
   }

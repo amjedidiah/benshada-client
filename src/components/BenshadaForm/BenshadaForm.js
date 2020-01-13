@@ -154,7 +154,7 @@ class BenshadaForm extends React.Component {
           <div>
             <input
               className={className}
-              id={name}
+              id={`${randString}${name}`}
               aria-describedby={`${name}Help`}
               title={`Select a ${name}`}
               list={`${name}-list`}
@@ -171,7 +171,7 @@ class BenshadaForm extends React.Component {
           <textarea
             defaultValue={value}
             className={className}
-            id={name}
+            id={`${randString}${name}`}
             aria-describedby={`${name}Help`}
             placeholder={label}
             title={title}
@@ -274,12 +274,13 @@ class BenshadaForm extends React.Component {
     return buttons.map((button, key) => {
       let { value, className } = button;
       return (
-        <button
-          key={key}
-          className={`${className} mt-3 w-100 btn text-uppercase border border-0`}
-        >
-          {value}
-        </button>
+        <p key={key}>
+          <button
+            className={`${className} mt-3 btn text-uppercase border border-0`}
+          >
+            {value}
+          </button>
+        </p>
       );
     });
   }

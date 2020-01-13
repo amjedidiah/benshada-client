@@ -2,16 +2,17 @@ import api from "../apis/api";
 import {
   USER_UPDATE_PROFILE,
   USER_FETCH,
-  USER_ORDERS_FETCH,
+  ORDERS_FETCH,
   STORE_FETCH,
   STORE_UPDATE_INFO,
   USER_STORE_SET,
   STORE_CREATE,
   PRODUCT_UPLOAD,
   STORE_FETCH_FAILED,
-  STORE_UPDATE_BANK
+  STORE_UPDATE_BANK,
+  TRANSACTIONS_FETCH
 } from "./types";
-import { actionLoad, actionNotify } from "./load";
+import { actionLoad, actionNotify, errorReport } from "./load";
 import { ifSeller } from "./auth";
 
 // PROFILE Actions
@@ -29,18 +30,12 @@ export const userFetch = () => async (dispatch, getState) => {
             type: USER_FETCH,
             payload: res.data.data
           },
-          userOrdersFetch(),
+          ordersFetch(),
           storeFetch(),
           actionNotify(res.data.message)
         ])
     )
-    .catch(error =>
-      dispatch(
-        actionNotify(
-          error.response.data.message && error.response.data.message.name
-        )
-      )
-    );
+    .catch(error => dispatch(errorReport(error)));
 };
 
 export const userUpdateProfile = formValues => async (dispatch, getState) => {
@@ -62,11 +57,7 @@ export const userUpdateProfile = formValues => async (dispatch, getState) => {
       userFetch()
     ]);
   } catch (error) {
-    dispatch(
-      actionNotify(
-        error.response.data.message && error.response.data.message.name
-      )
-    );
+    dispatch(errorReport(error));
   }
 };
 
@@ -91,40 +82,52 @@ export const userShopsUpdate = shopId => async (dispatch, getState) => {
       userFetch()
     ]);
   } catch (error) {
-    dispatch(
-      actionNotify(
-        error.response.data.message && error.response.data.message.name
-      )
-    );
+    dispatch(errorReport(error));
   }
 };
 
-export const userOrdersFetch = () => async (dispatch, getState) => {
+export const ordersFetch = () => async (dispatch, getState) => {
   let { user } = getState().auth;
 
   api
     .get(`/orders`)
     .then(async res => {
-      let payload;
+      let payload = [];
       res.data.data.forEach(order =>
         order.user._id === user._id ? payload.push(order) : ""
       );
 
       await dispatch([
         {
-          type: USER_ORDERS_FETCH,
+          type: ORDERS_FETCH,
           payload
         },
         actionNotify(res.data.message)
       ]);
     })
-    .catch(error =>
-      dispatch(
-        actionNotify(
-          error.response.data.message && error.response.data.message.name
-        )
-      )
-    );
+    .catch(error => dispatch(errorReport(error)));
+};
+
+export const transactionsFetch = () => async (dispatch, getState) => {
+  let { user } = getState().auth;
+
+  api
+    .get(`/transactions`)
+    .then(async res => {
+      let payload = [];
+      res.data.data.forEach(transaction =>
+        transaction.user._id === user._id ? payload.push(transaction) : ""
+      );
+
+      await dispatch([
+        {
+          type: TRANSACTIONS_FETCH,
+          payload
+        },
+        actionNotify(res.data.message)
+      ]);
+    })
+    .catch(error => dispatch(errorReport(error)));
 };
 
 // STORE Actions
@@ -153,13 +156,7 @@ export const storeCreate = () => async (dispatch, getState) => {
           userShopsUpdate(res.data.data._id)
         ])
       )
-      .catch(error =>
-        dispatch(
-          actionNotify(
-            error.response.data.message && error.response.data.message.name
-          )
-        )
-      );
+      .catch(error => dispatch(errorReport(error)));
   }
 };
 
@@ -180,11 +177,7 @@ export const storeFetch = () => async (dispatch, getState) => {
         actionNotify(res.data.message)
       ]);
     } catch (error) {
-      dispatch(
-        actionNotify(
-          error.response.data.message && error.response.data.message.name
-        )
-      );
+      dispatch(errorReport(error));
     }
   } else {
     await dispatch({ type: STORE_FETCH_FAILED });
@@ -211,11 +204,7 @@ export const storeUpdateInfo = formValues => async (dispatch, getState) => {
         storeFetch()
       ]);
     } catch (error) {
-      dispatch(
-        actionNotify(
-          error.response.data.message && error.response.data.message.name
-        )
-      );
+      dispatch(errorReport(error));
     }
   }
 };
@@ -241,11 +230,7 @@ export const storeUpdateBank = formValues => async (dispatch, getState) => {
         storeFetch()
       ]);
     } catch (error) {
-      dispatch(
-        actionNotify(
-          error.response.data.message && error.response.data.message.name
-        )
-      );
+      dispatch(errorReport(error));
     }
   }
 };
@@ -278,10 +263,6 @@ export const productUpload = formValues => async (dispatch, getState) => {
       storeFetch()
     ]);
   } catch (error) {
-    dispatch(
-      actionNotify(
-        error.response.data.message && error.response.data.message.name
-      )
-    );
+    dispatch(errorReport(error));
   }
 };

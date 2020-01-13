@@ -1,0 +1,9 @@
+.card-select {
+  background: #fff;
+}
+
+.card-select.active {
+  background: #ef932e;
+  color: #fff;
+  font-weight: 700;
+}

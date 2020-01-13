@@ -1,10 +1,4 @@
-import {
-  LOGIN,
-  REGISTER,
-  LOGOUT,
-  USER_FETCH,
-  ROLE_SELECT
-} from "../actions/types";
+import { LOGIN, LOGOUT, USER_FETCH } from "../actions/types";
 
 const INITIAL_STATE = {
   isSignedIn: false,
@@ -24,18 +18,6 @@ export default (state = INITIAL_STATE, action) => {
       };
     case LOGOUT:
       return INITIAL_STATE;
-    case REGISTER:
-      return {
-        ...state,
-        email: action.payload[0],
-        token: action.payload[1],
-        isSignedIn: true
-      };
-    case ROLE_SELECT:
-      return {
-        ...state,
-        user: action.payload
-      };
     case USER_FETCH:
       return { ...state, user: action.payload };
     default:

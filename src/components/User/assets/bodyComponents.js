@@ -9,6 +9,13 @@ import {
 import { stateSelect } from "../../../assets/location";
 import { ifSeller } from "../../../actions/auth";
 
+import MultiSelect from "../MultiSelect/MultiSelect";
+import fedex from "../assets/img/fedex_logo.png";
+import dhl from "../assets/img/dhl_logo.png";
+import Product from "../../Product/Product";
+import DashNav from "../DashNav";
+import DashBody from "../DashBody";
+
 const renderTabList = (array, id) =>
   array.map((item, i) => (
     <li className="nav-item" key={i}>
@@ -99,7 +106,7 @@ class ProfileTabBodyContainer extends Component {
             <strong>{name}</strong> <br />
             {info}
           </p>
-          {this.renderFollowers(type, user && user.type)}
+          {/* {this.renderFollowers(type, user && user.type)} */}
         </div>
 
         <div className=" clear"></div>
@@ -109,40 +116,203 @@ class ProfileTabBodyContainer extends Component {
 }
 
 class ProductsTabBodyContainer extends Component {
-  renderProducts() {
+  render() {
     return (
-      <div className="card mb-4 product rounded shadow-sm border-0">
-        <div className="card-body p-0">
-          <img
-            className="card-img rounded-top p-0"
-            src="./img/products/product.jpg"
-            alt="product"
-          />
-          <div className=" text-center px-2 pb-2">
-            <p className="float-left py-1 px-2 rounded-0 text-white bg-primary text-left">
-              Wished
-            </p>
-            <div className="clear"></div>
+      <div className="px-4 mb-4 text-center text-lg-left">
+        <Product
+          title={""}
+          products={[
+            {
+              src: "",
+              name: "nike shoes",
+              price: "1500",
+              category: "shoe",
+              ratings: 10,
+              discount: 10
+            },
+            {
+              src: "",
+              name: "nike shoes",
+              price: "1500",
+              category: "shoe",
+              ratings: 10,
+              discount: 0
+            },
+            {
+              src: "",
+              name: "nike shoes",
+              price: "1500",
+              category: "shoe",
+              ratings: 10,
+              discount: 0
+            },
+            {
+              src: "",
+              name: "nike shoes",
+              price: "1500",
+              category: "shoe",
+              ratings: 10,
+              discount: 10
+            }
+          ]}
+        />
 
-            <p className="lead font-weight-bolder mb-2 text-truncate">
-              {this.props.time}
-            </p>
-            <h3 className="mt-2 mb-4">
-              <span>&#x20A6; 12230</span>
-            </h3>
-            <p className="text-right m-1 text-truncate">Uploaded: </p>
-            <p className="text-right m-1 text-truncate">Remaining: </p>
-            <p className="text-right m-1 text-truncate">Ordered: </p>
-            <div className="mb-4 mt-5">
-              <button
-                className="btn bg-white text-primary mx-3"
-                data-toggle="modal"
-                data-target="#exampleModal"
-              >
-                Edit
-              </button>
-              <button className="btn btn-danger mx-3">Delete</button>
+        <div className=" clear"></div>
+
+        <div
+          className="modal fade"
+          id="infoModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="infoModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5
+                  className="modal-title font-weight-light"
+                  id="infoModalLabel"
+                >
+                  Product Info
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="card-columns">
+                  <div className="card shadow-sm text-left">
+                    <p>Uploaded: </p>
+                    <p>Remaining: </p>
+                    <p>Ordered: </p>{" "}
+                  </div>
+                </div>
+              </div>
             </div>
+          </div>
+        </div>
+
+        <div
+          className="modal fade"
+          id="reviewModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="reviewModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-xl" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5
+                  className="modal-title font-weight-light"
+                  id="reviewModalLabel"
+                >
+                  Reviews
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="card-columns">
+                  <div className="card shadow-sm text-left">
+                    <div className="card-header bg-white d-flex">
+                      <img
+                        src="../"
+                        alt="Review"
+                        className="img-fluid rounded-circle border border-light"
+                        width="40"
+                        height="40"
+                      />
+                      <p className="flex-grow-1 mx-3 pt-3">Reviewer</p>
+                      <p className="pt-3">
+                        <i className="fas fa-star text-primary mr-2"></i>{" "}
+                        <span>4</span>
+                      </p>
+                    </div>
+                    <div className="card-body">
+                      <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Magni laudantium, molestiae necessitatibus dolorem alias
+                        labore nostrum voluptatem reprehenderit vel cum vitae ab
+                        repudiandae mollitia minima, ad, at temporibus modi
+                        ducimus?
+                      </p>
+                      <small className="float-right">5th December 2019</small>
+                      <div className="clear"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+class OrdersTabBodyContainer extends Component {
+  renderOrders() {
+    return (
+      <div className="card mb-4 pb-3 product rounded shadow-sm border-0">
+        <div className="card-body p-0">
+          <div className="d-flex orders">
+            <div className="card-img-holder border border-light shadow-sm">
+              <img src={fedex} className="img-fluid" alt="order" />
+            </div>
+            <div className="card-img-holder border border-light shadow-sm">
+              <img src={fedex} className="img-fluid" alt="order" />
+            </div>
+            <div className="card-img-holder border border-light shadow-sm">
+              <img src={fedex} className="img-fluid" alt="order" />
+            </div>
+            <div className="card-img-holder border border-light shadow-sm">
+              <img src={fedex} className="img-fluid" alt="order" />
+            </div>
+          </div>
+          <div>
+            <div className="px-3">
+              <p className="float-left mr-3 rounded-0 text-left pointer">
+                <i className="fas fa-times text-primary ml-2"></i>
+              </p>
+              <h4 className="flex-grow-1 font-weight-bold text-right">
+                <p className="mb-0">
+                  &#x20A6; <span>1200</span>
+                </p>
+              </h4>
+              <div className="clear"></div>
+            </div>
+            <div className="my-4 px-3 text-center">
+              <p className="lead text-truncate text-capitalize my-0">
+                1234567890
+              </p>
+              <small className="text-uppercase font-weight-bold my-0">
+                buyer name
+              </small>
+
+              <p className="py-1 px-2 rounded-0 text-white bg-success ml-auto mr-auto">
+                paid
+              </p>
+            </div>
+            <button
+              className="btn btn-primary mx-3"
+              data-toggle="modal"
+              data-target="#orderModal"
+            >
+              View
+            </button>
           </div>
         </div>
       </div>
@@ -151,12 +321,69 @@ class ProductsTabBodyContainer extends Component {
 
   render() {
     return (
-      <div className="px-4 mb-4 text-center text-lg-left">
-        <div className="card-columns products no-restrict">
-          {this.renderProducts()}
-        </div>
+      <div className="px-4 mb-4 text-center">
+        <div className="card-columns products">{this.renderOrders()}</div>
 
-        <div className=" clear"></div>
+        <div className="clear"></div>
+
+        <div
+          className="modal fade"
+          id="orderModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="orderModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-xl" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5
+                  className="modal-title font-weight-light"
+                  id="orderModalLabel"
+                >
+                  Order
+                </h5>
+                <button
+                  type="button"
+                  className="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <div className="container bg-white p-4 mb-4 text-center d-md-flex shadow-sm">
+                  <img
+                    src="./img/login/login.jpg"
+                    className="float-sm-left rounded mr-4 cart-img mb-3"
+                    alt=""
+                  />
+                  <div className="flex-grow-1 text-left">
+                    <h4>La Cote Body Fitting Men T-Shirt</h4>
+                    <div className="my-4">
+                      <p className="float-sm-left">Quantity: 1</p>
+                      <p className="lead font-weight-bold float-sm-right">
+                        <span>
+                          ₦ 12230<span></span>
+                        </span>
+                      </p>
+                      <div className="clear"></div>
+                    </div>
+                    <div className="my-4">
+                      <p className="float-sm-left">
+                        Color
+                        <span className="bg-primary px-3 py-2 mr-2 rounded"></span>
+                      </p>
+                      <div className="clear"></div>
+                    </div>
+                  </div>
+                  <div className="clear"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
@@ -274,6 +501,34 @@ class Profile extends Component {
           fields={profileStoreFields}
           buttons={profileStoreButtons}
         />
+
+        <MultiSelect
+          title="categories"
+          availableOptions={[
+            { name: "ankara" },
+            { name: "adire" },
+            { name: "agbada" },
+            { name: "bags" }
+          ]}
+          selectedOptions={[
+            { name: "ankara" },
+            { name: "adire" },
+            { name: "agbada" }
+          ]}
+        />
+
+        <MultiSelect
+          title="delivery_options"
+          availableOptions={[
+            { name: "fedex", src: fedex },
+            { name: "dhl", src: dhl }
+          ]}
+          selectedOptions={[
+            { name: "fedex", src: fedex },
+            { name: "dhl", src: dhl }
+          ]}
+        />
+
         <h4 className="mt-5 pt-5">Bank Details</h4>
         <BenshadaForm
           form={`form-profile-update-bank`}
@@ -356,7 +611,7 @@ class Profile extends Component {
         : ["personal", "store"];
 
     return (
-      <>
+      <div className="p-5 mt-5">
         <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
           {renderTabList(tablist, "profile")}
         </ul>
@@ -373,7 +628,7 @@ class Profile extends Component {
           </TabBody>
           {this.renderStoreInfoTab(user, store)}
         </div>
-      </>
+      </div>
     );
   }
 }
@@ -393,46 +648,140 @@ class Products extends Component {
   render() {
     let tablist = ["today", "this_week", "this_month", "this_year", "all_time"];
     return (
-      <>
+      <div className="p-5 mt-5">
         <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
           {renderTabList(tablist, "products")}
         </ul>
         <div className="tab-content" id="productsTabContent">
           {this.renderTabBody(tablist)}
-          {/* {this.renderStoreInfoTab(user)} */}
         </div>
-      </>
+      </div>
     );
   }
 }
 
 class Orders extends Component {
+  renderTabBody(tablist) {
+    return tablist.map((item, i) => {
+      let active = i === 0 ? "show active" : "";
+      return (
+        <TabBody active={active} name={`orders-${item}`} key={i}>
+          <OrdersTabBodyContainer time={item} />
+        </TabBody>
+      );
+    });
+  }
+
   render() {
-    return <div className="p-5 m-5 ">Orders</div>;
+    let tablist = ["today", "this_week", "this_month", "this_year", "all_time"];
+    return (
+      <div className="p-5 mt-5">
+        <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
+          {renderTabList(tablist, "orders")}
+        </ul>
+        <div className="tab-content" id="ordersTabContent">
+          {this.renderTabBody(tablist)}
+        </div>
+      </div>
+    );
   }
 }
 
 class Revenue extends Component {
   render() {
-    return <div className="p-5 m-5 ">Revenue</div>;
+    return <div className="p-5 mt-5">Revenue</div>;
   }
 }
 
-class Analytics extends Component {
+class Messages extends Component {
   render() {
-    return <div className="p-5 m-5 ">Analytics</div>;
+    return (
+      <div className="py-5 px-4 px-md-5 mx-0 mt-5 h-100 message-div">
+        <div className="p-0">
+          <div className="my-3">
+            <div className="rounded-circle float-left mr-3 img-holder">
+              <img
+                src="./img/login/login.jpg"
+                className="rounded-circle"
+                width="50"
+                height="50"
+                alt=""
+              />
+            </div>
+            <div className="float-left p-3 bg-white shadow-sm">
+              Hello
+              <br />I am your assistant
+            </div>
+            <div className="clear"></div>
+          </div>
+          <div className="my-3">
+            <div className="rounded-circle float-right ml-3 img-holder">
+              <img
+                src="./img/login/login.jpg"
+                className="rounded-circle"
+                width="50"
+                height="50"
+                alt=""
+              />
+            </div>
+            <div className=" float-right p-3 bg-white shadow-sm">
+              Hello
+              <br />I am your assistant
+            </div>
+            <div className="clear"></div>
+          </div>
+          <div
+            className="position-absolute pl-5"
+            style={{
+              bottom: 40,
+              width: "100%",
+              right: 0,
+              border: "1px solid red"
+            }}
+          >
+            Hello
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
 class Notifications extends Component {
   render() {
-    return <div className="p-5 m-5 ">Notifications</div>;
-  }
-}
-
-class Settings extends Component {
-  render() {
-    return <div className="p-5 m-5 ">Settings</div>;
+    let list = [
+      {
+        icon: "far fa-user",
+        Title: "Paul",
+        message: "I am happy to be at Benshada"
+      },
+      {
+        icon: "fas fa-box",
+        Title: "James",
+        message: "I am happy to be at Benshada"
+      },
+      {
+        icon: "fas fa-shopping-bag",
+        Title: "Yinka",
+        message: "I am happy to be at Benshada"
+      },
+      {
+        icon: "fas fa-funnel-dollar",
+        Title: "Benjamin",
+        message: "I am happy to be at Benshada"
+      },
+      {
+        icon: "far fa-bell",
+        Title: "Tayo",
+        message: "I am happy to be at Benshada"
+      }
+    ];
+    return (
+      <div className="row h-100">
+        <DashNav list={list} user={""} className="bg-white" />
+        <DashBody list={list} store={"hello"} />
+      </div>
+    );
   }
 }
 
@@ -442,12 +791,4 @@ Profile = connect(null, {
   storeUpdateBank
 })(Profile);
 
-export {
-  Profile,
-  Products,
-  Orders,
-  Revenue,
-  Analytics,
-  Notifications,
-  Settings
-};
+export { Profile, Products, Orders, Revenue, Notifications, Messages };

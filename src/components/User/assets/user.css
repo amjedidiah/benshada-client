@@ -1,7 +1,16 @@
+#dashboardHeader {
+  width: 100%;
+  z-index: 4;
+}
+
 #userSide {
   overflow-y: auto;
   overflow-x: hidden !important;
   z-index: 2;
+}
+
+#userSide.user-side-main {
+  z-index: 3;
 }
 
 #userNav li a {
@@ -12,10 +21,21 @@
 
 #userNav li a:hover,
 #userNav li a.active {
-  color: #ef932e !important;
+  padding: 15px 15px 15px 25px;
   background: #fff !important;
+  color: #ef932e !important;
   border-radius: 22px 0 0 22px !important;
-  padding: 12px 45px;
+}
+
+.user-side-main #userNav li a:hover,
+.user-side-main #userNav li a.active {
+  padding: 9.33px 35px;
+}
+
+#userNav li a:hover .img-holder,
+#userNav li a.active .img-holder {
+  transform: scale(1.1);
+  border: 2px solid #ef932e;
 }
 
 .user-notification {
@@ -24,27 +44,77 @@
   font-size: 40px;
 }
 
-@media (max-width: 767.98px) {
-  #dashboardHeader {
-    width: 100%;
-    z-index: 2;
-  }
+#userSide .img-holder {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -20px;
+}
+
+#pills-tabContent {
+  overflow: hidden;
+}
+
+small.message {
+  width: 30%;
+  display: block;
+}
+
+.img-holder img {
+  width: inherit;
+}
+
+#messageFooter {
+  bottom: 0;
+  width: auto;
+}
+
+.message-div {
+  position: relative;
+  left: -2.5%;
 }
 
 @media (min-width: 768px) {
-  #userSide {
-    z-index: 3;
-  }
-
   #dashboardHeader {
     width: 75%;
-    z-index: 2;
-    border: ;
+    z-index: 4;
+  }
+
+  #userNav li a:hover,
+  #userNav li a.active {
+    background: #fbf9f9 !important;
+    padding: 12px 45px;
+  }
+
+  .user-side-main #userNav li a:hover,
+  .user-side-main #userNav li a.active {
+    background: #fff !important;
+  }
+
+  #userSide .img-holder {
+    position: relative;
+    float: left;
+    top: -3.5px;
+    width: 45px;
+    height: 45px;
+  }
+
+  #userNav li a:hover .img-holder,
+  #userNav li a.active .img-holder {
+    transform: scale(1);
+    border: 1px solid #ccc;
+  }
+
+  .message-div {
+    left: 2.5%;
   }
 }
 
 @media (min-width: 992px) {
   #dashboardHeader {
     width: 83.33%;
+  }
+
+  .message-div {
+    left: 1%;
   }
 }

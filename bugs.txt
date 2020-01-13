@@ -1,1 +1,2 @@
-Replace <a> anchor tags with React anchor tags</a>
+1. Replace <a> anchor tags with React anchor tags</a>
+2. Fix actionLoad on register and roleSelect actions

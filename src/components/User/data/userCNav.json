@@ -1,6 +1,5 @@
 [
-  { "icon": "far fa-user", "Title": "Profile"},
-  { "icon": "fas fa-shopping-bag", "Title": "Orders"},
-  { "icon": "far fa-bell", "Title": "Notifications"},
-  { "icon": "fas fa-cog", "Title": "Settings"}
+  { "icon": "far fa-user", "Title": "Profile" },
+  { "icon": "fas fa-shopping-bag", "Title": "Orders" },
+  { "icon": "far fa-bell", "Title": "Notifications" }
 ]

@@ -24,7 +24,11 @@ class User extends Component {
       <>
         <div className="container-fluid h-100">
           <div className="row h-100">
-            <DashNav list={list} user={user} />
+            <DashNav
+              list={list}
+              user={user}
+              className="bg-light user-side-main"
+            />
             <DashBody list={list} user={user} store={store} />
           </div>
         </div>

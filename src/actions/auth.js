@@ -2,7 +2,7 @@ import api from "../apis/api";
 // import axios from "axios";
 import { LOGIN, REGISTER, LOGOUT, ROLE_SELECT } from "./types";
 
-import { actionLoad, actionNotify } from "./load";
+import { actionLoad, actionNotify, errorReport } from "./load";
 import history from "../history";
 import { userFetch, storeCreate } from "./user";
 
@@ -22,11 +22,7 @@ export const login = formValues => async (dispatch, getState) => {
       userFetch()
     ]);
   } catch (error) {
-    dispatch(
-      actionNotify(
-        error.response.data.message && error.response.data.message.name
-      )
-    );
+    dispatch(errorReport(error));
   }
 };
 
@@ -53,32 +49,23 @@ export const register = formValues => async (dispatch, getState) => {
       dispatch(actionNotify("A user already exists with this email."))
     )
     .catch(async error => {
-      if (error.response.status !== 500) {
+      if (error.response && error.response.status !== 500) {
         try {
           await dispatch(actionLoad());
 
           const res = await api.post(`/users/signup`, formValues);
           dispatch([
             {
-              type: REGISTER,
-              payload: [res.data.data.email, res.data.data.token]
+              type: REGISTER
             },
             actionNotify(res.data.message),
-            userFetch()
+            login()
           ]);
         } catch (error) {
-          dispatch(
-            actionNotify(
-              error.response.data.message && error.response.data.message.name
-            )
-          );
+          dispatch(errorReport(error));
         }
       } else {
-        dispatch(
-          actionNotify(
-            error.response.data.message && error.response.data.message.name
-          )
-        );
+        dispatch(errorReport(error));
       }
     });
 };
@@ -92,10 +79,16 @@ export const register = formValues => async (dispatch, getState) => {
 //         payload: res.data
 //       })
 //     )
-//     .catch(error => error.response.data.message && error.response.data.message.name || error.response.data.message && error.response.data.message.name);
+//     .catch(
+//       error =>
+//         (error.response &&
+//           error.response.data.message &&
+//           error.response.data.message.name) ||
+//         error.message
+//     );
 
 export const roleSelect = type => async (dispatch, getState) => {
-  let { token, email, user } = getState().auth;
+  let { token, email } = getState().auth;
 
   try {
     const res = await api.put(
@@ -109,19 +102,15 @@ export const roleSelect = type => async (dispatch, getState) => {
     await dispatch([
       actionLoad(),
       {
-        type: ROLE_SELECT,
-        payload: { ...user, type }
+        type: ROLE_SELECT
       },
       actionNotify(res.data.message),
+      userFetch(),
       storeCreate()
     ]);
 
     history.push("/user");
   } catch (error) {
-    dispatch(
-      actionNotify(
-        error.response.data.message && error.response.data.message.name
-      )
-    );
+    dispatch(errorReport(error));
   }
 };
