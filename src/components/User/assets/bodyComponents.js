@@ -425,7 +425,8 @@ class Profile extends Component {
       profileStoreFields = [
         {
           desc: "name",
-          placeholder: "Shop Name",
+          label: "Shop Name",
+          placeholder: "e.g Paul Ahmed's Shop",
           varClass: "input",
           type: "text",
           options: [],
@@ -434,7 +435,7 @@ class Profile extends Component {
         },
         {
           desc: "description",
-          placeholder: "Description",
+          label: "Shop Description",
           varClass: "textarea",
           type: "text",
           options: [],
@@ -443,7 +444,7 @@ class Profile extends Component {
         },
         {
           desc: "policies",
-          placeholder: "Store Policies",
+          label: "Store Policies",
           varClass: "textarea",
           type: "text",
           options: [],
@@ -457,7 +458,7 @@ class Profile extends Component {
       profileBankFields = [
         {
           desc: "bankName",
-          placeholder: "Account Name",
+          label: "Account Name",
           varClass: "input",
           type: "text",
           options: [],
@@ -467,7 +468,7 @@ class Profile extends Component {
         },
         {
           desc: "number",
-          placeholder: "Account Number",
+          label: "Account Number",
           varClass: "input",
           type: "number",
           options: [],
@@ -477,7 +478,7 @@ class Profile extends Component {
         },
         {
           desc: "bankType",
-          placeholder: "Bank Name",
+          label: "Bank Name",
           varClass: "select",
           type: "text",
           options: bankSelect,
@@ -548,7 +549,8 @@ class Profile extends Component {
       profileFields = [
         {
           desc: "name",
-          placeholder: "Full Name",
+          label: "Full Name",
+          placeholder: "Paul Ahmed",
           varClass: "input",
           type: "text",
           options: [],
@@ -557,7 +559,8 @@ class Profile extends Component {
         },
         {
           desc: "phone",
-          placeholder: "Mobile Number",
+          label: "Mobile Number",
+          placeholder: "+234 816 597 2229",
           varClass: "input",
           type: "tel",
           options: [],
@@ -566,7 +569,8 @@ class Profile extends Component {
         },
         {
           desc: "street",
-          placeholder: "Street",
+          label: "Street",
+          placeholder: "91 Ojuelegba Road Surulere",
           varClass: "textarea",
           type: "text",
           options: [],
@@ -575,7 +579,7 @@ class Profile extends Component {
         },
         {
           desc: "state",
-          placeholder: "State",
+          label: "State",
           varClass: "select",
           type: "text",
           options: stateSelect,
@@ -585,7 +589,7 @@ class Profile extends Component {
         },
         {
           desc: "country",
-          placeholder: "Country",
+          label: "Country",
           varClass: "select",
           type: "text",
           options: ["Nigeria", "Ghana"],
@@ -595,7 +599,7 @@ class Profile extends Component {
         },
         {
           desc: "bio",
-          placeholder: "Bio",
+          label: "Bio",
           varClass: "textarea",
           type: "text",
           options: [],
@@ -695,11 +699,24 @@ class Revenue extends Component {
 
 class Messages extends Component {
   render() {
+    let chatFields = [
+        {
+          desc: "message",
+          placeholder: "Type a message",
+          varClass: "input",
+          className: "mx-4 py-4",
+          type: "text",
+          options: [],
+          icon: 0
+        }
+      ],
+      chatButtons = [];
+
     return (
-      <div className="py-5 px-4 px-md-5 mx-0 mt-5 h-100 message-div">
-        <div className="p-0">
-          <div className="my-3">
-            <div className="rounded-circle float-left mr-3 img-holder">
+      <div className="py-5  mx-0 mt-5 h-100 message-div">
+        <div className="p-0 position-relative h-100">
+          <div className="my-3 px-4 px-md-5">
+            {/* <div className="rounded-circle float-left mr-3 img-holder">
               <img
                 src="./img/login/login.jpg"
                 className="rounded-circle"
@@ -707,15 +724,15 @@ class Messages extends Component {
                 height="50"
                 alt=""
               />
-            </div>
+            </div> */}
             <div className="float-left p-3 bg-white shadow-sm">
               Hello
               <br />I am your assistant
             </div>
             <div className="clear"></div>
           </div>
-          <div className="my-3">
-            <div className="rounded-circle float-right ml-3 img-holder">
+          <div className="my-3 px-4 px-md-5">
+            {/* <div className="rounded-circle float-right ml-3 img-holder">
               <img
                 src="./img/login/login.jpg"
                 className="rounded-circle"
@@ -723,23 +740,31 @@ class Messages extends Component {
                 height="50"
                 alt=""
               />
-            </div>
+            </div> */}
             <div className=" float-right p-3 bg-white shadow-sm">
               Hello
               <br />I am your assistant
             </div>
             <div className="clear"></div>
           </div>
-          <div
-            className="position-absolute pl-5"
-            style={{
-              bottom: 40,
-              width: "100%",
-              right: 0,
-              border: "1px solid red"
-            }}
-          >
-            Hello
+          <div className="position-absolute chat-form-holder bg-white shadow">
+            <div className="position-relative">
+              <BenshadaForm
+                form={`form-chat`}
+                onSubmitForm={() => console.log("form-chat")}
+                className="form py-0"
+                fields={chatFields}
+                buttons={chatButtons}
+              />
+              <p class="px-4">
+                <small>
+                  Press enter to send your message.
+                  <br />
+                  Hold down <em>Shift</em> and press Enter to go to the next
+                  line
+                </small>
+              </p>
+            </div>
           </div>
         </div>
       </div>

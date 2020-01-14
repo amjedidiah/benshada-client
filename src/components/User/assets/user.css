@@ -73,6 +73,16 @@ small.message {
   left: -2.5%;
 }
 
+.chat-form-holder {
+  bottom: 15px;
+  width: 100%;
+  left: -0.5%;
+}
+
+.chat-form-holder > div {
+  padding: 0;
+}
+
 @media (min-width: 768px) {
   #dashboardHeader {
     width: 75%;
@@ -106,6 +116,11 @@ small.message {
 
   .message-div {
     left: 2.5%;
+  }
+
+  .chat-form-holder {
+    padding: 0 30px;
+    left: 0;
   }
 }
 

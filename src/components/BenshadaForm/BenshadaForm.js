@@ -94,7 +94,7 @@ class BenshadaForm extends React.Component {
   renderFormControl(
     input,
     name,
-    label,
+    placeholder,
     varClass,
     type,
     options,
@@ -107,32 +107,6 @@ class BenshadaForm extends React.Component {
 
     let title = touched && error ? "error" : "",
       randString = this.makeid(5);
-    label = (name => {
-      switch (name) {
-        case "email":
-          return "e.g: example@gmail.com";
-        case "confirmpassword":
-          return "Same as password";
-        case "street":
-          return "e.g: 123 Right Avenue";
-        case "state":
-          return "e.g: Lagos";
-        case "country":
-          return "e.g: Nigeria";
-        case "bio":
-          return "Tell us a bit about yourself";
-        case "description":
-          return "Enter a description";
-        case "phone":
-          return "e.g: +2348161923259";
-        case "price":
-          return "e.g: 1000";
-        case "quantity":
-          return "e.g: 10";
-        default:
-          return label;
-      }
-    })(name);
 
     switch (varClass) {
       case "input":
@@ -143,7 +117,7 @@ class BenshadaForm extends React.Component {
             className={className}
             id={`${randString}${name}`}
             aria-describedby={`${name}Help`}
-            placeholder={label}
+            placeholder={placeholder}
             title={title}
             required
             {...input}
@@ -158,7 +132,7 @@ class BenshadaForm extends React.Component {
               aria-describedby={`${name}Help`}
               title={`Select a ${name}`}
               list={`${name}-list`}
-              placeholder={label}
+              placeholder={placeholder}
               {...input}
             />
             <datalist id={`${name}-list`}>
@@ -173,7 +147,7 @@ class BenshadaForm extends React.Component {
             className={className}
             id={`${randString}${name}`}
             aria-describedby={`${name}Help`}
-            placeholder={label}
+            placeholder={placeholder}
             title={title}
             rows="2"
             required
@@ -188,18 +162,21 @@ class BenshadaForm extends React.Component {
   renderFormField = ({
     input,
     label,
+    placeholder,
     meta,
     varClass,
     type,
     options,
     icon,
     row,
-    value
+    value,
+    className
   }) => {
     const { name } = input;
 
     //meta to help us display error
-    const className = meta.error && meta.touched ? "error" : "";
+    className = className + (meta.error && meta.touched ? " error" : "");
+    placeholder = placeholder === undefined ? label : placeholder;
 
     return (
       <div
@@ -212,19 +189,23 @@ class BenshadaForm extends React.Component {
         }`}
       >
         <div className="w-100">
-          <label
-            className="text-uppercase m-0 p-0 text-primary"
-            htmlFor="profileName"
-          >
-            <small className="font-weight-bold">{label}</small>
-          </label>
+          {label === undefined ? (
+            ""
+          ) : (
+            <label
+              className="text-uppercase m-0 p-0 text-primary"
+              htmlFor="profileName"
+            >
+              <small className="font-weight-bold">{label}</small>
+            </label>
+          )}
           <div className="input-group">
             {this.renderFieldIconHelper(icon, name)}
 
             {this.renderFormControl(
               input,
               name,
-              label,
+              placeholder,
               varClass,
               type,
               options,
@@ -250,14 +231,17 @@ class BenshadaForm extends React.Component {
         options,
         icon,
         row,
-        value
+        value,
+        label,
+        className
       } = field;
 
       return (
         <Field
           name={desc}
           component={this.renderFormField}
-          label={placeholder}
+          label={label}
+          placeholder={placeholder}
           varClass={varClass}
           type={type}
           options={options}
@@ -265,6 +249,7 @@ class BenshadaForm extends React.Component {
           icon={icon}
           row={row}
           value={value}
+          className={className}
         />
       );
     });

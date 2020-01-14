@@ -13,28 +13,30 @@ class Register extends React.Component {
     const registerFields = [
         {
           desc: "name",
-          placeholder: "Full Name",
+          label: "Full Name",
+          placeholder: "e.g Paul Ahmed",
           varClass: "input",
           type: "text",
           options: []
         },
         {
           desc: "email",
-          placeholder: "Email Address",
+          label: "Email Address",
+          placeholder: "example@gmail.com",
           varClass: "input",
           type: "email",
           options: []
         },
         {
           desc: "password",
-          placeholder: "Password",
+          label: "Password",
           varClass: "input",
           type: "password",
           options: []
         },
         {
           desc: "confirmpassword",
-          placeholder: "Confirm Password",
+          label: "Confirm Password",
           varClass: "input",
           type: "password",
           options: []
@@ -56,7 +58,7 @@ class Register extends React.Component {
     return (
       <div className="container-fluid h-100">
         <div className="row align-items-center h-100">
-        <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
+          <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
           <div className="col col-md-9 col-lg-6 offset-lg-6 offset-md-3">
             <h3 className="mb-2 text-center pt-5">
               Register on Benshada Place

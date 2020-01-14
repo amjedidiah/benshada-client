@@ -14,21 +14,22 @@ class Login extends React.Component {
       loginFields = [
         {
           desc: "email",
-          placeholder: "Email Address",
+          label: "Email Address",
+          placeholder: "example@gmail.com",
           varClass: "input",
           type: "email",
           options: []
         },
         {
           desc: "password",
-          placeholder: "Password",
+          label: "Password",
           varClass: "input",
           type: "password",
           options: []
         }
       ],
       loginButtons = [{ value: "login", className: "btn-primary" }];
-      
+
     if (this.props.isSignedIn === true) {
       return (
         <Redirect
@@ -88,4 +89,3 @@ const mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, { login })(Login);
-

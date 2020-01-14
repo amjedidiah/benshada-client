@@ -28,7 +28,8 @@ class DashBody extends Component {
     let productFields = [
         {
           desc: "name",
-          placeholder: "Name",
+          label: "Name",
+          placeholder: "Product Name",
           varClass: "input",
           type: "text",
           options: [],
@@ -37,7 +38,8 @@ class DashBody extends Component {
         },
         {
           desc: "description",
-          placeholder: "Description",
+          label: "Description",
+          placeholder: "Product Description",
           varClass: "textarea",
           type: "text",
           options: [],
@@ -46,7 +48,7 @@ class DashBody extends Component {
         },
         {
           desc: "category",
-          placeholder: "Category",
+          label: "Category",
           varClass: "select",
           type: "text",
           options: ["Bags", "Shoes", "Clothes", "Accessories"],
@@ -55,7 +57,7 @@ class DashBody extends Component {
         },
         {
           desc: "gender",
-          placeholder: "Gender",
+          label: "Gender",
           varClass: "select",
           type: "text",
           options: ["Male", "Female", "Unisex"],
@@ -64,7 +66,7 @@ class DashBody extends Component {
         },
         {
           desc: "price",
-          placeholder: "Price",
+          label: "Price",
           varClass: "input",
           type: "number",
           options: [],
@@ -73,7 +75,7 @@ class DashBody extends Component {
         },
         {
           desc: "quantity",
-          placeholder: "Quantity",
+          label: "Quantity",
           varClass: "input",
           type: "number",
           options: [],
@@ -191,7 +193,7 @@ class DashBody extends Component {
           height="50"
         /> */}
           </div>
-          <span className="mt-4 ml-3 d-none d-md-inline">Hello, {name}</span>
+          <p className="pt-5 ml-3 d-none d-md-inline position-relative" style={{top: "10px"}}>Hello, {name}</p>
         </div>
         <div className="clear"></div>
       </div>
