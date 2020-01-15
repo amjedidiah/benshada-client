@@ -119,145 +119,9 @@ class ProductsTabBodyContainer extends Component {
   render() {
     return (
       <div className="px-4 mb-4 text-center text-lg-left">
-        <Product
-          title={""}
-          products={[
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              discount: 10
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              discount: 10
-            }
-          ]}
-        />
+        <Product title={""} products={this.props.store.products} />
 
         <div className=" clear"></div>
-
-        <div
-          className="modal fade"
-          id="infoModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="infoModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5
-                  className="modal-title font-weight-light"
-                  id="infoModalLabel"
-                >
-                  Product Info
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="card-columns">
-                  <div className="card shadow-sm text-left">
-                    <p>Uploaded: </p>
-                    <p>Remaining: </p>
-                    <p>Ordered: </p>{" "}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className="modal fade"
-          id="reviewModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="reviewModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-xl" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5
-                  className="modal-title font-weight-light"
-                  id="reviewModalLabel"
-                >
-                  Reviews
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="card-columns">
-                  <div className="card shadow-sm text-left">
-                    <div className="card-header bg-white d-flex">
-                      <img
-                        src="../"
-                        alt="Review"
-                        className="img-fluid rounded-circle border border-light"
-                        width="40"
-                        height="40"
-                      />
-                      <p className="flex-grow-1 mx-3 pt-3">Reviewer</p>
-                      <p className="pt-3">
-                        <i className="fas fa-star text-primary mr-2"></i>{" "}
-                        <span>4</span>
-                      </p>
-                    </div>
-                    <div className="card-body">
-                      <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                        Magni laudantium, molestiae necessitatibus dolorem alias
-                        labore nostrum voluptatem reprehenderit vel cum vitae ab
-                        repudiandae mollitia minima, ad, at temporibus modi
-                        ducimus?
-                      </p>
-                      <small className="float-right">5th December 2019</small>
-                      <div className="clear"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -441,16 +305,16 @@ class Profile extends Component {
           options: [],
           icon: 0,
           value: description
-        },
-        {
-          desc: "policies",
-          label: "Store Policies",
-          varClass: "textarea",
-          type: "text",
-          options: [],
-          icon: 0,
-          value: policies
         }
+        // {
+        //   desc: "policies",
+        //   label: "Store Policies",
+        //   varClass: "textarea",
+        //   type: "text",
+        //   options: [],
+        //   icon: 0,
+        //   value: policies
+        // }
       ],
       profileStoreButtons = [
         { value: "Update Store Profile", className: "btn-primary" }
@@ -503,7 +367,7 @@ class Profile extends Component {
           buttons={profileStoreButtons}
         />
 
-        <MultiSelect
+        {/* <MultiSelect
           title="categories"
           availableOptions={[
             { name: "ankara" },
@@ -537,7 +401,7 @@ class Profile extends Component {
           className="form"
           fields={profileBankFields}
           buttons={profileBankButtons}
-        />
+        /> */}
       </TabBody>
     ) : (
       ""
@@ -557,26 +421,26 @@ class Profile extends Component {
           icon: 0,
           value: user && user.name
         },
-        {
-          desc: "phone",
-          label: "Mobile Number",
-          placeholder: "+234 816 597 2229",
-          varClass: "input",
-          type: "tel",
-          options: [],
-          icon: 0,
-          value: user && user.phone
-        },
-        {
-          desc: "street",
-          label: "Street",
-          placeholder: "91 Ojuelegba Road Surulere",
-          varClass: "textarea",
-          type: "text",
-          options: [],
-          icon: 0,
-          value: user && user.street
-        },
+        // {
+        //   desc: "phone",
+        //   label: "Mobile Number",
+        //   placeholder: "+234 816 597 2229",
+        //   varClass: "input",
+        //   type: "tel",
+        //   options: [],
+        //   icon: 0,
+        //   value: user && user.phone
+        // },
+        // {
+        //   desc: "street",
+        //   label: "Street",
+        //   placeholder: "91 Ojuelegba Road Surulere",
+        //   varClass: "textarea",
+        //   type: "text",
+        //   options: [],
+        //   icon: 0,
+        //   value: user && user.street
+        // },
         {
           desc: "state",
           label: "State",
@@ -586,26 +450,26 @@ class Profile extends Component {
           row: 1,
           icon: 0,
           value: user && user.state
-        },
-        {
-          desc: "country",
-          label: "Country",
-          varClass: "select",
-          type: "text",
-          options: ["Nigeria", "Ghana"],
-          row: 2,
-          icon: 0,
-          value: user && user.country
-        },
-        {
-          desc: "bio",
-          label: "Bio",
-          varClass: "textarea",
-          type: "text",
-          options: [],
-          icon: 0,
-          value: user && user.bio
         }
+        // {
+        //   desc: "country",
+        //   label: "Country",
+        //   varClass: "select",
+        //   type: "text",
+        //   options: ["Nigeria", "Ghana"],
+        //   row: 2,
+        //   icon: 0,
+        //   value: user && user.country
+        // },
+        // {
+        //   desc: "bio",
+        //   label: "Bio",
+        //   varClass: "textarea",
+        //   type: "text",
+        //   options: [],
+        //   icon: 0,
+        //   value: user && user.bio
+        // }
       ],
       profileButtons = [
         { value: "Update Personal Profile", className: "btn-primary" }
@@ -638,12 +502,12 @@ class Profile extends Component {
 }
 
 class Products extends Component {
-  renderTabBody(tablist) {
+  renderTabBody(tablist, store) {
     return tablist.map((item, i) => {
       let active = i === 0 ? "show active" : "";
       return (
         <TabBody active={active} name={`products-${item}`} key={i}>
-          <ProductsTabBodyContainer time={item} />
+          <ProductsTabBodyContainer time={item} store={store} />
         </TabBody>
       );
     });
@@ -653,11 +517,11 @@ class Products extends Component {
     let tablist = ["today", "this_week", "this_month", "this_year", "all_time"];
     return (
       <div className="p-5 mt-5">
-        <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
+        {/* <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
           {renderTabList(tablist, "products")}
-        </ul>
+        </ul> */}
         <div className="tab-content" id="productsTabContent">
-          {this.renderTabBody(tablist)}
+          {this.renderTabBody(tablist, this.props.store)}
         </div>
       </div>
     );
@@ -680,9 +544,9 @@ class Orders extends Component {
     let tablist = ["today", "this_week", "this_month", "this_year", "all_time"];
     return (
       <div className="p-5 mt-5">
-        <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
+        {/* <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
           {renderTabList(tablist, "orders")}
-        </ul>
+        </ul> */}
         <div className="tab-content" id="ordersTabContent">
           {this.renderTabBody(tablist)}
         </div>
@@ -756,7 +620,7 @@ class Messages extends Component {
                 fields={chatFields}
                 buttons={chatButtons}
               />
-              <p class="px-4">
+              <p className="px-4">
                 <small>
                   Press enter to send your message.
                   <br />

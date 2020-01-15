@@ -26,9 +26,11 @@ class BenshadaForm extends React.Component {
     return result;
   }
 
-  renderError({ error, touched }) {
+  renderError({ error, touched }, help) {
     if (touched && error) {
       return <small className="text-danger text-left w-100">{error}</small>;
+    } else {
+      return <small className="text-left w-100">{help}</small>;
     }
   }
 
@@ -125,7 +127,7 @@ class BenshadaForm extends React.Component {
         );
       case "select":
         return (
-          <div>
+          <div className="w-100">
             <input
               className={className}
               id={`${randString}${name}`}
@@ -170,7 +172,8 @@ class BenshadaForm extends React.Component {
     icon,
     row,
     value,
-    className
+    className,
+    help
   }) => {
     const { name } = input;
 
@@ -215,7 +218,7 @@ class BenshadaForm extends React.Component {
             )}
             {this.renderFieldIconPrepend(name)}
           </div>
-          {this.renderError(meta)}
+          {this.renderError(meta, help)}
         </div>
       </div>
     );
@@ -233,7 +236,8 @@ class BenshadaForm extends React.Component {
         row,
         value,
         label,
-        className
+        className,
+        help
       } = field;
 
       return (
@@ -250,6 +254,7 @@ class BenshadaForm extends React.Component {
           row={row}
           value={value}
           className={className}
+          help={help}
         />
       );
     });

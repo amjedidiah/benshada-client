@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_FETCH } from "../actions/types";
+import { LOGIN, LOGOUT, USER_FETCH, ROLE_SELECT } from "../actions/types";
 
 const INITIAL_STATE = {
   isSignedIn: false,
@@ -20,6 +20,7 @@ export default (state = INITIAL_STATE, action) => {
       return INITIAL_STATE;
     case USER_FETCH:
       return { ...state, user: action.payload };
+
     default:
       return state;
   }

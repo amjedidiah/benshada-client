@@ -1,5 +1,6 @@
 //LOAD Types
 export const ACTION_LOAD = "ACTION_LOAD";
+export const ACTION_LOAD_AVOIDED = "ACTION_LOAD_AVOIDED";
 export const ACTION_NOTIFY = "ACTION_NOTIFY";
 export const ACTION_DONE = "ACTION_DONE";
 
@@ -25,3 +26,4 @@ export const STORE_UPDATE_BANK = "STORE_UPDATE_BANK";
 
 //PRODUCTS Types
 export const PRODUCT_UPLOAD = "PRODUCT_UPLOAD";
+export const PRODUCT_DELETE = "PRODUCT_DELETE";

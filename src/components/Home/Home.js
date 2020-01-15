@@ -29,7 +29,7 @@ class Home extends React.Component {
         <Header />
         <Jumbo />
         <Gender />
-        <Product
+        {/* <Product
           title={"recently added"}
           products={[
             {
@@ -38,6 +38,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 10
             },
             {
@@ -46,6 +49,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 0
             },
             {
@@ -54,6 +60,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 0
             },
             {
@@ -62,10 +71,13 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 10
             }
           ]}
-        />
+        /> */}
         <Stores
           title={"featured stores"}
           stores={[
@@ -76,7 +88,7 @@ class Home extends React.Component {
           ]}
           radius={0}
         />
-        <Product
+        {/* <Product
           title={"top rated"}
           products={[
             {
@@ -85,6 +97,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 10
             },
             {
@@ -93,6 +108,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 0
             },
             {
@@ -101,6 +119,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 0
             },
             {
@@ -109,10 +130,13 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 10
             }
           ]}
-        />
+        /> */}
         <Stores
           title={"featured stores"}
           stores={[
@@ -123,7 +147,7 @@ class Home extends React.Component {
           ]}
           radius={1}
         />
-        <Product
+        {/* <Product
           title={"discounted"}
           products={[
             {
@@ -132,6 +156,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 10
             },
             {
@@ -140,6 +167,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 0
             },
             {
@@ -148,6 +178,9 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 0
             },
             {
@@ -156,10 +189,13 @@ class Home extends React.Component {
               price: "1500",
               category: "shoe",
               ratings: 10,
+              description: "Lovely product",
+              gender: "male",
+              inStock: true,
               discount: 10
             }
           ]}
-        />
+        /> */}
         <Testimonies
           title="customer testimonies"
           customers={[

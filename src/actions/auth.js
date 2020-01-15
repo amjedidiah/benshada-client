@@ -1,29 +1,40 @@
 import api from "../apis/api";
 // import axios from "axios";
-import { LOGIN, REGISTER, LOGOUT, ROLE_SELECT } from "./types";
+import {
+  LOGIN,
+  REGISTER,
+  LOGOUT,
+  ROLE_SELECT,
+  ACTION_LOAD_AVOIDED
+} from "./types";
 
-import { actionLoad, actionNotify, errorReport } from "./load";
+import { actionLoad, actionNotify, errorReport, timeOut } from "./load";
 import history from "../history";
 import { userFetch, storeCreate } from "./user";
 
 export const ifSeller = type => (type === "a" || type === "b" ? true : false);
 
-export const login = formValues => async (dispatch, getState) => {
-  try {
-    await dispatch(actionLoad());
-    const res = await api.post(`/users/login`, formValues);
+export const login = formValues => (dispatch, getState) => {
+  dispatch(
+    getState().load.loading === false
+      ? actionLoad()
+      : { type: ACTION_LOAD_AVOIDED }
+  );
 
-    dispatch([
-      {
-        type: LOGIN,
-        payload: [res.data.data.email, res.data.data.token]
-      },
-      actionNotify(res.data.message),
-      userFetch()
-    ]);
-  } catch (error) {
-    dispatch(errorReport(error));
-  }
+  const res = api.post(`/users/login`, formValues, timeOut);
+
+  return res
+    .then(res =>
+      dispatch([
+        {
+          type: LOGIN,
+          payload: [res.data.data.email, res.data.data.token]
+        },
+        actionNotify(res.data.message)
+      ])
+    )
+    .then(() => dispatch(userFetch()))
+    .catch(error => dispatch(errorReport(error)));
 };
 
 export const logout = () => async dispatch => {
@@ -43,74 +54,68 @@ export const logout = () => async dispatch => {
 };
 
 export const register = formValues => async (dispatch, getState) => {
-  api
-    .post(`/users/login`, formValues)
-    .then(res =>
-      dispatch(actionNotify("A user already exists with this email."))
-    )
-    .catch(async error => {
-      if (error.response && error.response.status !== 500) {
-        try {
-          await dispatch(actionLoad());
+  dispatch(
+    getState().load.loading === false
+      ? actionLoad()
+      : { type: ACTION_LOAD_AVOIDED }
+  );
 
-          const res = await api.post(`/users/signup`, formValues);
+  try {
+    await api.post(`/users/login`, formValues, timeOut);
+
+    dispatch(actionNotify("A user already exists with this email."));
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      let { email, password } = formValues;
+
+      const req = api.post(`/users/signup`, formValues, timeOut);
+
+      return req
+        .then(res =>
           dispatch([
             {
               type: REGISTER
             },
-            actionNotify(res.data.message),
-            login()
-          ]);
-        } catch (error) {
-          dispatch(errorReport(error));
-        }
-      } else {
-        dispatch(errorReport(error));
-      }
-    });
+            actionNotify(res.data.message)
+          ])
+        )
+        .then(() => dispatch(login({ email, password })))
+        .catch(error => dispatch(errorReport(error)));
+    } else {
+      dispatch(errorReport(error));
+    }
+  }
 };
 
-// export const register = formValues => dispatch =>
-//   api
-//     .post(`/users/signup`, formValues)
-//     .then(res =>
-//       dispatch({
-//         type: REGISTER,
-//         payload: res.data
-//       })
-//     )
-//     .catch(
-//       error =>
-//         (error.response &&
-//           error.response.data.message &&
-//           error.response.data.message.name) ||
-//         error.message
-//     );
-
-export const roleSelect = type => async (dispatch, getState) => {
+export const roleSelect = type => (dispatch, getState) => {
   let { token, email } = getState().auth;
 
-  try {
-    const res = await api.put(
-      `/users/${email}`,
-      { isDeleted: false, type },
-      {
-        headers: { Authorization: "Bearer " + token }
-      }
-    );
+  dispatch(
+    getState().load.loading === false
+      ? actionLoad()
+      : { type: ACTION_LOAD_AVOIDED }
+  );
 
-    await dispatch([
-      actionLoad(),
-      {
-        type: ROLE_SELECT
-      },
-      actionNotify(res.data.message),
-      userFetch(),
-      storeCreate()
-    ]);
+  const res = api.put(
+    `/users/${email}`,
+    { isDeleted: false, type },
+    {
+      headers: { Authorization: "Bearer " + token },
+      timeout: 30000
+    }
+  );
 
-    history.push("/user");
-  } catch (error) {
-    dispatch(errorReport(error));
-  }
+  return res
+    .then(res =>
+      dispatch([
+        {
+          type: ROLE_SELECT
+        },
+        actionNotify(res.data.message)
+      ])
+    )
+    .then(() =>
+      dispatch([userFetch(), setTimeout(() => dispatch(storeCreate()), 3000)])
+    )
+    .catch(error => dispatch(errorReport(error)));
 };

@@ -1,6 +1,9 @@
 Changes To Be Made To API
-1. Check if user has already registered, before registering them
-2. Email verification on register 
-3. Uploading User Profile Image
-4. Uploading Product Image
-5. Updating user store info not working for policies, categories(modal serving as not yet in React app), deliveryOptions(modal serving as not yet in React app) and bank object
+1. Email verification on register 
+2. Uploading User Profile Image
+3. Uploading Product Image
+4. Store update to support: policies, categories, deliveryOptions and bank object(account name, number and bank name)
+5. User update to support: src, phone, street, country & bio
+6. Product upload to support: src,category, gender, quantity
+7. Product fetch to include: src,category,gender, quantity
+              

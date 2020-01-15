@@ -43,7 +43,7 @@ class DashBody extends Component {
           varClass: "textarea",
           type: "text",
           options: [],
-          row: 1,
+          row: 2,
           icon: 0
         },
         {
@@ -52,7 +52,7 @@ class DashBody extends Component {
           varClass: "select",
           type: "text",
           options: ["Bags", "Shoes", "Clothes", "Accessories"],
-          rows: 1,
+          row: 1,
           icon: 0
         },
         {
@@ -61,7 +61,7 @@ class DashBody extends Component {
           varClass: "select",
           type: "text",
           options: ["Male", "Female", "Unisex"],
-          rows: 2,
+          row: 2,
           icon: 0
         },
         {
@@ -71,7 +71,18 @@ class DashBody extends Component {
           type: "number",
           options: [],
           row: 1,
-          icon: 1
+          icon: 1,
+          help: "Price is in dollars"
+        },
+        {
+          desc: "discountPercentage",
+          label: "Discount",
+          varClass: "input",
+          type: "number",
+          options: [],
+          row: 2,
+          icon: 0,
+          help: "Discount in percentage"
         },
         {
           desc: "quantity",
@@ -79,7 +90,6 @@ class DashBody extends Component {
           varClass: "input",
           type: "number",
           options: [],
-          row: 1,
           icon: 0
         }
       ],
@@ -193,7 +203,12 @@ class DashBody extends Component {
           height="50"
         /> */}
           </div>
-          <p className="pt-5 ml-3 d-none d-md-inline position-relative" style={{top: "10px"}}>Hello, {name}</p>
+          <p
+            className="pt-5 ml-3 d-none d-md-inline position-relative"
+            style={{ top: "10px" }}
+          >
+            Hello, {name}
+          </p>
         </div>
         <div className="clear"></div>
       </div>

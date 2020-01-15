@@ -21,7 +21,11 @@ import { save, load } from "redux-localstorage-simple";
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const createStoreWithMiddleware = composeEnhancers(
-  applyMiddleware(save(["auth"]), reduxThunk, reduxMulti)
+  applyMiddleware(
+    save(["auth, store, order, transaction"]),
+    reduxThunk,
+    reduxMulti
+  )
 )(createStore);
 
 const createStoreWithBatching = batchedSubscribe(fn => fn())(
