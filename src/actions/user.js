@@ -13,7 +13,8 @@ import {
   STORE_UPDATE_BANK,
   TRANSACTIONS_FETCH,
   PRODUCT_DELETE,
-  ACTION_LOAD_AVOIDED
+  ACTION_LOAD_AVOIDED,
+  STORE_PRODUCT_FETCH
 } from "./types";
 import { actionLoad, actionNotify, errorReport, timeOut } from "./load";
 import { ifSeller } from "./auth";
@@ -187,7 +188,7 @@ export const storeFetch = () => async (dispatch, getState) => {
         Promise.all(promises).then(data =>
           dispatch([
             {
-              type: "STORE_PRODUCT_FETCH",
+              type: STORE_PRODUCT_FETCH,
               payload: data
             },
             actionNotify("Products updated successfully")
