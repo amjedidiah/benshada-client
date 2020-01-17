@@ -16,7 +16,13 @@ import {
   ACTION_LOAD_AVOIDED,
   STORE_PRODUCT_FETCH
 } from "./types";
-import { actionLoad, actionNotify, errorReport, timeOut } from "./load";
+import {
+  actionLoad,
+  actionNotify,
+  errorReport,
+  timeOut,
+  actionDone
+} from "./load";
 import { ifSeller } from "./auth";
 
 // PROFILE Actions
@@ -156,8 +162,7 @@ export const storeCreate = () => (dispatch, getState) => {
             type: STORE_CREATE
           },
           actionNotify(res.data.message),
-          userShopsUpdate(res.data.data._id),
-          setTimeout(() => window.location.reload(), 3000)
+          userShopsUpdate(res.data.data._id)
         ])
       )
       .catch(error => dispatch(errorReport(error)));
@@ -195,6 +200,10 @@ export const storeFetch = () => async (dispatch, getState) => {
           ])
         )
       )
+      .then(() =>
+        setTimeout(() => history.push(history.location.pathname), 2000)
+      )
+      .then(() => dispatch(actionDone()))
       .catch(error => dispatch(errorReport(error)));
   } else {
     await dispatch({ type: STORE_FETCH_FAILED });
@@ -397,9 +406,7 @@ export const productDelete = id => (dispatch, getState) => {
     .then(res =>
       dispatch([{ type: PRODUCT_DELETE }, actionNotify(res.data.message)])
     )
-    .then(() =>
-      dispatch([storeFetch(), setTimeout(() => window.location.reload(), 3000)])
-    )
+    .then(() => dispatch(storeFetch()))
     .catch(error => dispatch(errorReport(error)));
 };
 

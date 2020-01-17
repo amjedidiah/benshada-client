@@ -116,8 +116,7 @@ export const roleSelect = type => (dispatch, getState) => {
         actionNotify(res.data.message)
       ])
     )
-    .then(() =>
-      dispatch([userFetch(), setTimeout(() => dispatch(storeCreate()), 3000)])
-    )
+    .then(() => dispatch(userFetch()))
+    .then(() => setTimeout(() => dispatch(storeCreate()), 2000))
     .catch(error => dispatch(errorReport(error)));
 };
