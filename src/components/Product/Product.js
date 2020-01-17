@@ -64,8 +64,8 @@ class Product extends Component {
     ) : reviews.length < 1 ? (
       <div>No reviews for this product yet.</div>
     ) : (
-      reviews.map(review => (
-        <div className="card shadow-sm text-left">
+      reviews.map((review, i) => (
+        <div className="card shadow-sm text-left" key={`review${i}`}>
           <div className="card-header bg-white d-flex">
             <img
               src="../"
@@ -96,42 +96,15 @@ class Product extends Component {
   renderProducts = products => {
     let display =
       products === undefined ? (
-        <>
-          No products found.
-          <span
-            className="pointer text-primary"
-            data-toggle="modal"
-            data-target="#productModal"
-          >
-            {window.location.href.includes("user") ? " Upload one" : ""}
-          </span>
-        </>
+        ""
       ) : products.length < 1 ? (
-        <>
-          No products found.
-          <span
-            className="pointer text-primary"
-            data-toggle="modal"
-            data-target="#productModal"
-          >
-            {window.location.href.includes("user") ? " Upload one" : ""}
-          </span>
-        </>
+        ""
       ) : (
         <div className="card-columns products my-2">
           {" "}
           {products.map((product, i) =>
             product.isDeleted ? (
-              <>
-                No products found.
-                <span
-                  className="pointer text-primary"
-                  data-toggle="modal"
-                  data-target="#productModal"
-                >
-                  {window.location.href.includes("user") ? " Upload one" : ""}
-                </span>
-              </>
+              ""
             ) : (
               <>
                 <div
@@ -140,10 +113,10 @@ class Product extends Component {
                 >
                   <div className="card-body p-0">
                     {/* <img
-            className="card-img rounded-top p-0"
-            src={product.src}
-            alt="product"
-          /> */}
+              className="card-img rounded-top p-0"
+              src={product.src}
+              alt="product"
+            /> */}
                     <div className="px-3">
                       <p
                         className="float-left mr-3 rounded-0 text-left pointer"
@@ -154,8 +127,8 @@ class Product extends Component {
                         <span className="">{product.overallRating}</span>
                       </p>
                       {/* <p className="float-left mr-3 rounded-0 text-left">
-                <i className="fas fa-shopping-cart text-secondary"></i>
-              </p> */}
+                  <i className="fas fa-shopping-cart text-secondary"></i>
+                </p> */}
                       {this.renderProductActions(i, product._id)}
                       <h4 className="flex-grow-1 font-weight-bold text-right">
                         {this.renderDiscountedPrice(
@@ -170,12 +143,12 @@ class Product extends Component {
                         {product.name}
                       </p>
                       {/* <small className="text-uppercase font-weight-bold my-0 px-2">
-                {product.category}
-              </small>
-              |
-              <small className="text-uppercase font-weight-bold my-0 px-2">
-                {product.gender}
-              </small> */}
+                  {product.category}
+                </small>
+                |
+                <small className="text-uppercase font-weight-bold my-0 px-2">
+                  {product.gender}
+                </small> */}
                       <p
                         className={`py-1 px-2 rounded-0 text-white ${
                           product.inStock ? "bg-success" : "bg-danger"
@@ -194,7 +167,7 @@ class Product extends Component {
                   role="dialog"
                   aria-labelledby="reviewModalLabel"
                   aria-hidden="true"
-                  key={`review${i}`}
+                  key={`reviewModal${i}`}
                 >
                   <div className="modal-dialog modal-xl" role="document">
                     <div className="modal-content">
@@ -230,6 +203,7 @@ class Product extends Component {
                   role="dialog"
                   aria-labelledby="infoModalLabel"
                   aria-hidden="true"
+                  key={`infoModal${i}`}
                 >
                   <div className="modal-dialog" role="document">
                     <div className="modal-content">
@@ -260,6 +234,44 @@ class Product extends Component {
           )}{" "}
         </div>
       );
+
+    if (typeof display === "object") {
+      let res = null;
+      display.props.children[1].forEach(child => {
+        if (child !== "") {
+          res = display;
+        }
+      });
+
+      display =
+        res === null ? (
+          <>
+            No products found.
+            <span
+              className="pointer text-primary"
+              data-toggle="modal"
+              data-target="#productModal"
+            >
+              {window.location.href.includes("user") ? " Upload one" : ""}
+            </span>
+          </>
+        ) : (
+          res
+        );
+    } else {
+      display = (
+        <>
+          No products found.
+          <span
+            className="pointer text-primary"
+            data-toggle="modal"
+            data-target="#productModal"
+          >
+            {window.location.href.includes("user") ? " Upload one" : ""}
+          </span>
+        </>
+      );
+    }
 
     return display;
   };

@@ -12,7 +12,8 @@ import {
   STORE_FETCH_FAILED,
   STORE_UPDATE_BANK,
   TRANSACTIONS_FETCH,
-  PRODUCT_DELETE
+  PRODUCT_DELETE,
+  ACTION_LOAD_AVOIDED
 } from "./types";
 import { actionLoad, actionNotify, errorReport, timeOut } from "./load";
 import { ifSeller } from "./auth";
@@ -168,61 +169,133 @@ export const storeFetch = () => async (dispatch, getState) => {
     type = user && user.type;
 
   if (ifSeller(type) && id !== undefined) {
-    try {
-      const res = await api.get(`/shops/${id}`, timeOut),
-        store = res.data.data,
-        { products } = store;
+    const req = api.get(`/shops/${id}`, timeOut);
 
-      products.forEach(async ({ _id }, i) => {
-        const productRes = await api.get(`/products/${_id}`);
-
-        products[i] = productRes.data.data;
-      });
-
-      await dispatch([
-        {
+    return req
+      .then(res => res.data.data)
+      .then(store => {
+        dispatch({
           type: STORE_FETCH,
-          payload: { ...store, products }
-        },
-        actionNotify(res.data.message)
-      ]);
-    } catch (error) {
-      dispatch(errorReport(error));
-    }
+          payload: store
+        });
+
+        return store.products.map(({ _id }, i) =>
+          api.get(`/products/${_id}`).then(product => product.data.data)
+        );
+      })
+      .then(promises =>
+        Promise.all(promises).then(data =>
+          dispatch([
+            {
+              type: "STORE_PRODUCT_FETCH",
+              payload: data
+            },
+            actionNotify("Products updated successfully")
+          ])
+        )
+      )
+      .catch(error => dispatch(errorReport(error)));
   } else {
     await dispatch({ type: STORE_FETCH_FAILED });
   }
 };
 
-export const storeUpdateInfo = formValues => async (dispatch, getState) => {
+// export const storeFetch = () => async (dispatch, getState) => {
+//   let { user } = getState().auth,
+//     id = user.shops && user.shops[0],
+//     type = user && user.type;
+
+//   if (ifSeller(type) && id !== undefined) {
+//     try {
+//       const res = await api.get(`/shops/${id}`, timeOut),
+//         store = res.data.data,
+//         { products } = store;
+
+//       await products.forEach(async ({ _id }, i) => {
+//         const productRes = await api.get(`/products/${_id}`);
+
+//         products[i] = await productRes.data.data;
+
+//         console.log("mean");
+//       });
+
+//       console.log("her");
+
+//       await dispatch([
+//         {
+//           type: STORE_FETCH,
+//           payload: { ...store, products }
+//         },
+//         actionNotify(res.data.message)
+//       ]);
+//     } catch (error) {
+//       dispatch(errorReport(error));
+//     }
+//   } else {
+//     await dispatch({ type: STORE_FETCH_FAILED });
+//   }
+// };
+
+export const storeUpdateInfo = formValues => (dispatch, getState) => {
   let { token, user } = getState().auth;
 
   if (ifSeller(user.type)) {
+    dispatch(
+      getState().load.loading === false
+        ? actionLoad()
+        : { type: ACTION_LOAD_AVOIDED }
+    );
+
     let store = getState().store;
 
-    try {
-      await dispatch(actionLoad());
-      const res = await api.put(
-        `/shops/${store._id}`,
-        formValues,
-        {
-          headers: { Authorization: "Bearer " + token }
-        },
-        timeOut
-      );
+    const req = api.put(`/shops/${store._id}`, formValues, {
+      headers: { Authorization: "Bearer " + token },
+      timeout: 30000
+    });
 
-      dispatch([
-        {
-          type: STORE_UPDATE_INFO
-        },
-        actionNotify(res.data.message),
-        storeFetch()
-      ]);
-    } catch (error) {
-      dispatch(errorReport(error));
-    }
+    return req
+      .then(res =>
+        dispatch([
+          {
+            type: STORE_UPDATE_INFO
+          },
+          actionNotify(res.data.message)
+        ])
+      )
+      .then(() => dispatch(storeFetch()))
+      .catch(error => dispatch(errorReport(error)));
   }
 };
+
+// export const storeUpdateInfo = formValues => async (dispatch, getState) => {
+//   let { token, user } = getState().auth;
+
+//   if (ifSeller(user.type)) {
+//     let store = getState().store;
+
+//     try {
+//       await dispatch(actionLoad());
+//       const res = await api.put(
+//         `/shops/${store._id}`,
+//         formValues,
+//         {
+//           headers: { Authorization: "Bearer " + token }
+//         },
+//         timeOut
+//       );
+
+//       dispatch([
+//         {
+//           type: STORE_UPDATE_INFO
+//         },
+//         actionNotify(res.data.message),
+//         storeFetch()
+//       ]);
+//     } catch (error) {
+//       dispatch(errorReport(error));
+//     }
+//   }
+// };
 
 export const storeUpdateBank = formValues => async (dispatch, getState) => {
   let { token, user } = getState().auth,
@@ -256,50 +329,98 @@ export const storeUpdateBank = formValues => async (dispatch, getState) => {
 };
 
 // PRODUCT Actions
-export const productUpload = formValues => async (dispatch, getState) => {
-  await dispatch(actionLoad());
+// export const productUpload = formValues => async (dispatch, getState) => {
+//   await dispatch(actionLoad());
+
+//   let { user, token } = getState().auth,
+//     product = { ...formValues, shop: user.shops[0] };
+
+//   try {
+//     const res = await api.post(
+//       `/products`,
+//       product,
+//       {
+//         headers: { Authorization: "Bearer " + token }
+//       },
+//       timeOut
+//     );
+
+//     dispatch([
+//       { type: PRODUCT_UPLOAD },
+//       actionNotify(res.data.message),
+//       storeFetch()
+//     ]);
+//   } catch (error) {
+//     dispatch(errorReport(error));
+//   }
+// };
+
+export const productUpload = formValues => (dispatch, getState) => {
+  dispatch(
+    getState().load.loading === false
+      ? actionLoad()
+      : { type: ACTION_LOAD_AVOIDED }
+  );
 
   let { user, token } = getState().auth,
     product = { ...formValues, shop: user.shops[0] };
 
-  try {
-    const res = await api.post(
-      `/products`,
-      product,
-      {
-        headers: { Authorization: "Bearer " + token }
-      },
-      timeOut
-    );
+  const req = api.post(`/products`, product, {
+    headers: { Authorization: "Bearer " + token },
+    timeout: 30000
+  });
 
-    dispatch([
-      { type: PRODUCT_UPLOAD },
-      actionNotify(res.data.message),
-      storeFetch()
-    ]);
-  } catch (error) {
-    dispatch(errorReport(error));
-  }
+  return req
+    .then(res =>
+      dispatch([{ type: PRODUCT_UPLOAD }, actionNotify(res.data.message)])
+    )
+    .then(() => dispatch(storeFetch()))
+    .catch(error => dispatch(errorReport(error)));
 };
 
-export const productDelete = id => async (dispatch, getState) => {
+export const productDelete = id => (dispatch, getState) => {
+  dispatch(
+    getState().load.loading === false
+      ? actionLoad()
+      : { type: ACTION_LOAD_AVOIDED }
+  );
+
   let { token } = getState().auth;
 
-  dispatch(actionLoad());
+  const req = api.delete(`/products/${id}`, {
+    headers: { Authorization: "Bearer " + token },
+    timeout: 30000
+  });
 
-  try {
-    await api.delete(
-      `/products/${id}`,
-      {
-        headers: { Authorization: "Bearer " + token }
-      },
-      timeOut
-    );
-
-    await dispatch([{ type: PRODUCT_DELETE }, storeFetch()]);
-
-    history.push("/user");
-  } catch (error) {
-    dispatch(errorReport(error));
-  }
+  return req
+    .then(res =>
+      dispatch([{ type: PRODUCT_DELETE }, actionNotify(res.data.message)])
+    )
+    .then(() =>
+      dispatch([storeFetch(), setTimeout(() => window.location.reload(), 3000)])
+    )
+    .catch(error => dispatch(errorReport(error)));
 };
+
+// export const productDelete = id => async (dispatch, getState) => {
+
+//   let { token } = getState().auth;
+
+//   dispatch(actionLoad());
+
+//   try {
+//     await api.delete(
+//       `/products/${id}`,
+//       {
+//         headers: { Authorization: "Bearer " + token }
+//       },
+//       timeOut
+//     );
+
+//     await dispatch([{ type: PRODUCT_DELETE }, storeFetch()]);
+
+//     history.push("/user");
+//   } catch (error) {
+//     dispatch(errorReport(error));
+//   }
+// };

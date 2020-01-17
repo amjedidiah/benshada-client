@@ -121,6 +121,7 @@ class BenshadaForm extends React.Component {
             aria-describedby={`${name}Help`}
             placeholder={placeholder}
             title={title}
+            min={0}
             required
             {...input}
           />

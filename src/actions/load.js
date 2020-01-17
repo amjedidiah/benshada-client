@@ -1,5 +1,13 @@
 import { ACTION_LOAD, ACTION_NOTIFY, ACTION_DONE } from "./types";
 
+export const enqueueDynamicArray = functionArray => {
+  let p = Promise.resolve();
+  for (let i = 0; i < functionArray.length; i++) {
+    p = p.then(functionArray[i]);
+  }
+  return p;
+};
+
 export const errorReport = error => {
   let message =
     (error.response &&

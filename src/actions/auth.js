@@ -8,7 +8,13 @@ import {
   ACTION_LOAD_AVOIDED
 } from "./types";
 
-import { actionLoad, actionNotify, errorReport, timeOut } from "./load";
+import {
+  actionLoad,
+  actionNotify,
+  errorReport,
+  timeOut,
+  enqueueDynamicArray
+} from "./load";
 import history from "../history";
 import { userFetch, storeCreate } from "./user";
 
@@ -21,9 +27,9 @@ export const login = formValues => (dispatch, getState) => {
       : { type: ACTION_LOAD_AVOIDED }
   );
 
-  const res = api.post(`/users/login`, formValues, timeOut);
+  const req = api.post(`/users/login`, formValues, timeOut);
 
-  return res
+  return req
     .then(res =>
       dispatch([
         {
@@ -37,21 +43,15 @@ export const login = formValues => (dispatch, getState) => {
     .catch(error => dispatch(errorReport(error)));
 };
 
-export const logout = () => async dispatch => {
-  try {
-    await dispatch([
-      actionLoad(),
-      {
-        type: LOGOUT
-      },
-      actionNotify("Logout successful")
-    ]);
-
-    history.push("/");
-  } catch (error) {
-    dispatch([actionNotify("Error with logout")]);
-  }
-};
+export const logout = () => dispatch =>
+  enqueueDynamicArray([
+    dispatch(actionLoad()),
+    dispatch({
+      type: LOGOUT
+    }),
+    dispatch(actionNotify("Logout successful")),
+    history.push("/")
+  ]);
 
 export const register = formValues => async (dispatch, getState) => {
   dispatch(
@@ -60,31 +60,33 @@ export const register = formValues => async (dispatch, getState) => {
       : { type: ACTION_LOAD_AVOIDED }
   );
 
-  try {
-    await api.post(`/users/login`, formValues, timeOut);
+  const loginReq = api.post(`/users/login`, formValues, timeOut);
 
-    dispatch(actionNotify("A user already exists with this email."));
-  } catch (error) {
-    if (error.response && error.response.status === 404) {
-      let { email, password } = formValues;
+  return loginReq
+    .then(() =>
+      dispatch(actionNotify("A user already exists with this email."))
+    )
+    .catch(error => {
+      if (error.response && error.response.status === 404) {
+        let { email, password } = formValues;
 
-      const req = api.post(`/users/signup`, formValues, timeOut);
+        const req = api.post(`/users/signup`, formValues, timeOut);
 
-      return req
-        .then(res =>
-          dispatch([
-            {
-              type: REGISTER
-            },
-            actionNotify(res.data.message)
-          ])
-        )
-        .then(() => dispatch(login({ email, password })))
-        .catch(error => dispatch(errorReport(error)));
-    } else {
-      dispatch(errorReport(error));
-    }
-  }
+        return req
+          .then(res =>
+            dispatch([
+              {
+                type: REGISTER
+              },
+              actionNotify(res.data.message)
+            ])
+          )
+          .then(() => dispatch(login({ email, password })))
+          .catch(error => dispatch(errorReport(error)));
+      } else {
+        dispatch(errorReport(error));
+      }
+    });
 };
 
 export const roleSelect = type => (dispatch, getState) => {
