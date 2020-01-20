@@ -4,6 +4,4 @@ Changes To Be Made To API
 3. Uploading Product Image
 4. Store update to support: policies, categories, deliveryOptions and bank object(account name, number and bank name)
 5. User update to support: src, phone, street, country & bio
-6. Product upload to support: src,category, gender, quantity
-7. Product fetch to include: src,category,gender, quantity
-              
+6. Product to support: src,category, gender, quantity

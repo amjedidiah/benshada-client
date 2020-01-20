@@ -7,8 +7,8 @@ import {
   Profile,
   Products,
   Orders,
-  Revenue,
-  Notifications,
+  Analytics,
+  // Notifications,
   Messages
 } from "./assets/bodyComponents";
 import { Link } from "react-router-dom";
@@ -18,8 +18,8 @@ const Components = {
   Profile,
   Products,
   Orders,
-  Revenue,
-  Notifications,
+  Analytics,
+  // Notifications,
   Messages
 };
 
@@ -47,24 +47,6 @@ class DashBody extends Component {
           icon: 0
         },
         {
-          desc: "category",
-          label: "Category",
-          varClass: "select",
-          type: "text",
-          options: ["Bags", "Shoes", "Clothes", "Accessories"],
-          row: 1,
-          icon: 0
-        },
-        {
-          desc: "gender",
-          label: "Gender",
-          varClass: "select",
-          type: "text",
-          options: ["Male", "Female", "Unisex"],
-          row: 2,
-          icon: 0
-        },
-        {
           desc: "price",
           label: "Price",
           varClass: "input",
@@ -83,14 +65,6 @@ class DashBody extends Component {
           row: 2,
           icon: 0,
           help: "Discount in percentage"
-        },
-        {
-          desc: "quantity",
-          label: "Quantity",
-          varClass: "input",
-          type: "number",
-          options: [],
-          icon: 0
         }
       ],
       productButtons = [{ value: "Upload Product", className: "btn-primary" }],

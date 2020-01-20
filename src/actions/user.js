@@ -13,6 +13,7 @@ import {
   STORE_UPDATE_BANK,
   TRANSACTIONS_FETCH,
   PRODUCT_DELETE,
+  PRODUCT_UPDATE,
   ACTION_LOAD_AVOIDED,
   STORE_PRODUCT_FETCH
 } from "./types";
@@ -26,6 +27,26 @@ import {
 import { ifSeller } from "./auth";
 
 // PROFILE Actions
+// export const userResetPass = formValues => async (dispatch, getState) => {
+//   let { user, token } = getState().auth;
+
+//   try {
+//     await dispatch(actionLoad());
+//     const res = await api.put(`/users/${user.email}`, formValues, {
+//       headers: { Authorization: "Bearer " + token },
+//       timeOut
+//     });
+
+//     dispatch([
+//       { type: USER_UPDATE_PROFILE },
+//       actionNotify(res.data.message),
+//       userFetch()
+//     ]);
+//   } catch (error) {
+//     dispatch(errorReport(error));
+//   }
+// };
+
 export const userFetch = () => (dispatch, getState) => {
   let { email, token } = getState().auth;
 
@@ -405,6 +426,28 @@ export const productDelete = id => (dispatch, getState) => {
   return req
     .then(res =>
       dispatch([{ type: PRODUCT_DELETE }, actionNotify(res.data.message)])
+    )
+    .then(() => dispatch(storeFetch()))
+    .catch(error => dispatch(errorReport(error)));
+};
+
+export const productUpdate = formValues => (dispatch, getState) => {
+  dispatch(
+    getState().load.loading === false
+      ? actionLoad()
+      : { type: ACTION_LOAD_AVOIDED }
+  );
+
+  let { token } = getState().auth;
+
+  const req = api.put(`/products/${formValues._id}`, formValues, {
+    headers: { Authorization: "Bearer " + token },
+    timeout: 30000
+  });
+
+  return req
+    .then(res =>
+      dispatch([{ type: PRODUCT_UPDATE }, actionNotify(res.data.message)])
     )
     .then(() => dispatch(storeFetch()))
     .catch(error => dispatch(errorReport(error)));

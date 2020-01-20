@@ -2,6 +2,5 @@
   { "icon": "far fa-user", "Title": "Profile" },
   { "icon": "fas fa-box", "Title": "Products" },
   { "icon": "fas fa-shopping-bag", "Title": "Orders" },
-  { "icon": "fas fa-funnel-dollar", "Title": "Revenue" },
-  { "icon": "far fa-bell", "Title": "Notifications" }
+  { "icon": "fas fa-chart-pie", "Title": "Analytics" }
 ]

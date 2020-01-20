@@ -11,6 +11,7 @@
     "@fortawesome/react-fontawesome": "^0.1.8",
     "axios": "^0.19.1",
     "bootstrap": "^4.4.1",
+    "d3": "4.13.0",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
     "owl.carousel": "^2.3.4",
@@ -18,12 +19,13 @@
     "react": "^16.12.0",
     "react-anchor-link-smooth-scroll": "^1.0.12",
     "react-bootstrap": "^1.0.0-beta.16",
+    "react-container-dimensions": "^1.4.1",
     "react-dev-utils": "^10.0.0",
     "react-dom": "^16.12.0",
     "react-loading-screen": "0.0.17",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
-    "react-scripts": "^3.2.0",
+    "react-scripts": "^3.3.0",
     "redux": "^4.0.5",
     "redux-batched-subscribe": "^0.1.6",
     "redux-form": "^8.2.4",
@@ -31,7 +33,8 @@
     "redux-multi": "^0.1.12",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
-    "string-hash": "^1.1.3"
+    "string-hash": "^1.1.3",
+    "webpack": "^4.41.2"
   },
   "scripts": {
     "start": "react-scripts start",

@@ -101,8 +101,7 @@ class BenshadaForm extends React.Component {
     type,
     options,
     className,
-    meta,
-    value
+    meta
   ) {
     const { error, touched } = meta;
     className = `form-control bg-white border-left-0 border-right-0 border-top-0 rounded-0 ${className}`;
@@ -114,7 +113,6 @@ class BenshadaForm extends React.Component {
       case "input":
         return (
           <input
-            defaultValue={value}
             type={type}
             className={className}
             id={`${randString}${name}`}
@@ -146,7 +144,6 @@ class BenshadaForm extends React.Component {
       case "textarea":
         return (
           <textarea
-            defaultValue={value}
             className={className}
             id={`${randString}${name}`}
             aria-describedby={`${name}Help`}
@@ -172,7 +169,6 @@ class BenshadaForm extends React.Component {
     options,
     icon,
     row,
-    value,
     className,
     help
   }) => {
@@ -182,7 +178,9 @@ class BenshadaForm extends React.Component {
     className = className + (meta.error && meta.touched ? " error" : "");
     placeholder = placeholder === undefined ? label : placeholder;
 
-    return (
+    return type === "hidden" ? (
+      ""
+    ) : (
       <div
         className={`my-3 ${
           row === undefined || row === 0
@@ -214,8 +212,7 @@ class BenshadaForm extends React.Component {
               type,
               options,
               className,
-              meta,
-              value
+              meta
             )}
             {this.renderFieldIconPrepend(name)}
           </div>
@@ -235,7 +232,6 @@ class BenshadaForm extends React.Component {
         options,
         icon,
         row,
-        value,
         label,
         className,
         help
@@ -253,7 +249,6 @@ class BenshadaForm extends React.Component {
           key={key}
           icon={icon}
           row={row}
-          value={value}
           className={className}
           help={help}
         />
@@ -274,6 +269,10 @@ class BenshadaForm extends React.Component {
         </p>
       );
     });
+  }
+
+  componentDidMount() {
+    this.props.initialize(this.props.initialValues);
   }
 
   render() {

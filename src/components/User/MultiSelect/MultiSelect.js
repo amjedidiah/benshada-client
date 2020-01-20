@@ -8,8 +8,6 @@ export default class MultiSelect extends Component {
       : window.event.target.parentElement;
 
     element.classList.toggle("active");
-
-    console.log(element);
   };
 
   renderOptionsElement = ({ name, src }) =>
