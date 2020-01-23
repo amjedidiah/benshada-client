@@ -10,9 +10,9 @@
   color: #ef932e !important;
 }
 
-#searchDropDown a li:hover,
-#searchDropDown a:hover {
-  background: #fefbf6;
+#searchDropDown li:hover a,
+#searchDropDown li:hover link {
+  background: #fefbf6 !important;
   text-decoration: none !important;
 }
 

@@ -13,6 +13,7 @@ export const errorReport = error => {
     (error.response &&
       error.response.data.message &&
       error.response.data.message.name) ||
+    (error.response && error.response.data && error.response.data.message) ||
     error.message;
 
   message =
@@ -35,3 +36,8 @@ export const actionDone = () => ({
 });
 
 export const timeOut = { timeout: 30000 };
+
+export const isDeleted = item => item.isDeleted === false;
+
+export const filterContent = array =>
+  array === undefined ? array : array.filter(isDeleted);

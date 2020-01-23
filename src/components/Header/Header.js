@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 
 import searchAnimate from "./searchAnimate";
 import "./header.css";
+import Search from "./Search";
 
 class Header extends React.Component {
   authRender() {
@@ -49,9 +50,9 @@ class Header extends React.Component {
               <Link className="dropdown-item" to={`/user`}>
                 Account
               </Link>
-              <Link className="dropdown-item" to="/orders">
+              {/* <Link className="dropdown-item" to="/orders">
                 My Orders
-              </Link>
+              </Link> */}
               <Link className="dropdown-item" to="/saved">
                 My Saved Items
               </Link>
@@ -91,28 +92,7 @@ class Header extends React.Component {
             <i className="fas fa-stream" />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <form className="form-inline flex-grow-1 mb-2 mb-md-0">
-              <div className="input-group flex-grow-1">
-                <input
-                  className="form-control border-top-0 border-right-0 border-left-0 rounded-0 search-bar invisible"
-                  data-toggle="dropdown"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                />
-                <div className="input-group-append">
-                  <span
-                    className="input-group-text bg-white border-0"
-                    id="basic-addon2"
-                  >
-                    <i
-                      className="fas fa-search text-primary pointer"
-                      id="showSearchBar"
-                    />
-                  </span>
-                </div>
-              </div>
-            </form>
+            <Search />
             {this.authRender()}
           </div>
         </div>

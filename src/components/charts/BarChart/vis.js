@@ -17,7 +17,7 @@ const draw = props => {
 
   // format the data
   data.forEach(function(d) {
-    d.age = +d.age;
+    d.revenue = +d.revenue;
   });
 
   // Scale the range of the data in the domains
@@ -34,7 +34,7 @@ const draw = props => {
   y.domain([
     0,
     d3.max(data, function(d) {
-      return d.age;
+      return d.revenue;
     })
   ]);
 
@@ -50,10 +50,10 @@ const draw = props => {
     })
     .attr("width", x.bandwidth())
     .attr("y", function(d) {
-      return y(d.age);
+      return y(d.revenue);
     })
     .attr("height", function(d) {
-      return height - y(d.age);
+      return height - y(d.revenue);
     });
 
   // add the x Axis

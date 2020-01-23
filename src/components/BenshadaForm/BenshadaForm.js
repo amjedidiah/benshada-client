@@ -71,11 +71,11 @@ class BenshadaForm extends React.Component {
       case "password":
         return <FontAwesomeIcon icon={faLock} />;
       default:
-        return user.country === undefined ||
-          user.country === null ||
-          user.country === "" ? (
+        return (user && user.country === undefined) ||
+          (user && user.country === null) ||
+          (user && user.country === "") ? (
           <FontAwesomeIcon icon={faDollarSign} />
-        ) : user.country === "Nigeria" ? (
+        ) : user && user.country === "Nigeria" ? (
           <span>&#8358;</span>
         ) : (
           <span>GHS</span>

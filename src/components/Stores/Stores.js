@@ -10,11 +10,11 @@ export default class Stores extends Component {
         key={i}
       >
         <div className="card-body px-0 py-4">
-          <img
+          {/* <img
             className="card-img rounded-top p-0"
             src={store.src}
             alt="product"
-          />
+          /> */}
           <div className=" text-center px-3">
             <p className="lead font-weight-bold mb-0 text-truncate text-capitalize flex-grow-1">
               {store.name}

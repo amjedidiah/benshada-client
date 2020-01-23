@@ -129,7 +129,7 @@ class DashBody extends Component {
     return list.map((listItem, i) => {
       let { Title } = listItem,
         TagName = Components[Title],
-        { user, store } = this.props;
+        { user, store, orders } = this.props;
       return (
         <div
           className={`h-100 p-0 tab-pane fade ${i === 0 ? "show active" : ""}`}
@@ -139,7 +139,7 @@ class DashBody extends Component {
           key={Title}
         >
           {user !== undefined ? (
-            <TagName user={user} store={store} />
+            <TagName user={user} store={store} orders={orders} />
           ) : (
             <Messages />
           )}

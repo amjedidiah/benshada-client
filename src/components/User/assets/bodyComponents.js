@@ -4,8 +4,10 @@ import { connect } from "react-redux";
 import {
   userUpdateProfile,
   storeUpdateInfo,
-  storeUpdateBank
+  storeUpdateBank,
+  orderCancel
 } from "../../../actions/user";
+import { filterContent } from "../../../actions/load";
 import { stateSelect } from "../../../assets/location";
 import { ifSeller } from "../../../actions/auth";
 
@@ -134,126 +136,165 @@ class ProductsTabBodyContainer extends Component {
 }
 
 class OrdersTabBodyContainer extends Component {
-  renderOrders() {
-    return (
-      <div className="card mb-4 pb-3 product rounded shadow-sm border-0">
-        <div className="card-body p-0">
-          <div className="d-flex orders">
-            <div className="card-img-holder border border-light shadow-sm">
-              <img src={fedex} className="img-fluid" alt="order" />
-            </div>
-            <div className="card-img-holder border border-light shadow-sm">
-              <img src={fedex} className="img-fluid" alt="order" />
-            </div>
-            <div className="card-img-holder border border-light shadow-sm">
-              <img src={fedex} className="img-fluid" alt="order" />
-            </div>
-            <div className="card-img-holder border border-light shadow-sm">
-              <img src={fedex} className="img-fluid" alt="order" />
-            </div>
-          </div>
-          <div>
-            <div className="px-3">
-              <p className="float-left mr-3 rounded-0 text-left pointer">
-                <i className="fas fa-times text-primary ml-2"></i>
-              </p>
-              <h4 className="flex-grow-1 font-weight-bold text-right">
-                <p className="mb-0">
-                  &#x20A6; <span>1200</span>
-                </p>
-              </h4>
-              <div className="clear"></div>
-            </div>
-            <div className="my-4 px-3 text-center">
-              <p className="lead text-truncate text-capitalize my-0">
-                1234567890
-              </p>
-              <small className="text-uppercase font-weight-bold my-0">
-                buyer name
-              </small>
-
-              <p className="py-1 px-2 rounded-0 text-white bg-success ml-auto mr-auto">
-                paid
-              </p>
-            </div>
-            <button
-              className="btn btn-primary mx-3"
-              data-toggle="modal"
-              data-target="#orderModal"
-            >
-              View
-            </button>
-          </div>
-        </div>
-      </div>
+  renderDiscountedPrice = (price, discount) =>
+    discount > 0 ? (
+      <>
+        <small className="mb-0 font-weight-normal">
+          <strike>
+            &#x20A6; <span>{price}</span>
+          </strike>
+        </small>
+        <p className="mb-0">
+          &#x20A6; <span>{price * (1 - discount / 100)}</span>
+        </p>
+      </>
+    ) : (
+      <p className="mb-0">
+        &#x20A6; <span>{price}</span>
+      </p>
     );
-  }
 
-  render() {
-    return (
-      <div className="px-4 mb-4 text-center">
-        <div className="card-columns products">{this.renderOrders()}</div>
-
-        <div className="clear"></div>
-
-        <div
-          className="modal fade"
-          id="orderModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="orderModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-xl" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5
-                  className="modal-title font-weight-light"
-                  id="orderModalLabel"
-                >
-                  Order
-                </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <div className="container bg-white p-4 mb-4 text-center d-md-flex shadow-sm">
-                  <img
-                    src="./img/login/login.jpg"
-                    className="float-sm-left rounded mr-4 cart-img mb-3"
-                    alt=""
-                  />
-                  <div className="flex-grow-1 text-left">
-                    <h4>La Cote Body Fitting Men T-Shirt</h4>
-                    <div className="my-4">
-                      <p className="float-sm-left">Quantity: 1</p>
-                      <p className="lead font-weight-bold float-sm-right">
-                        <span>
-                          ₦ 12230<span></span>
-                        </span>
-                      </p>
-                      <div className="clear"></div>
+  renderOrders = orders =>
+    orders.length < 1 ? (
+      <>No orders have been made yet</>
+    ) : (
+      <div className="card-columns products">
+        {orders.map(
+          (
+            { isDeleted, products, status, _id, user, totalPrice, createdAt },
+            i
+          ) => {
+            products = filterContent(products);
+            return (
+              <>
+                <div className="card mb-4 pb-3 product rounded shadow-sm border-0">
+                  <div className="card-body p-0">
+                    <div className="d-flex orders">
+                      {products.map(({ name, src }) => (
+                        <div className="card-img-holder border border-light shadow-sm">
+                          <img src={src} className="img-fluid" alt={name} />
+                        </div>
+                      ))}
                     </div>
-                    <div className="my-4">
+                    <div>
+                      <div className="px-3">
+                        <p className="float-left mr-3 rounded-0 text-left">
+                          <small>{createdAt}</small>
+                        </p>
+                        <h4 className="flex-grow-1 font-weight-bold text-right">
+                          <p className="mb-0">
+                            &#x20A6; <span>{totalPrice}</span>
+                          </p>
+                        </h4>
+                        <div className="clear"></div>
+                      </div>
+                      <div className="my-4 px-3 text-center">
+                        <p className="lead text-truncate text-capitalize my-0">
+                          {_id}
+                        </p>
+                        <small className="text-uppercase font-weight-bold my-0">
+                          {user && user.name}
+                        </small>
+
+                        <p className="py-1 px-2 rounded-0 text-white bg-success ml-auto mr-auto">
+                          {status}
+                        </p>
+                      </div>
+                      <button
+                        className="btn btn-primary mx-3"
+                        data-toggle="modal"
+                        data-target={`#orderModal${i}`}
+                      >
+                        View
+                      </button>
+                      {ifSeller(this.props.user.type) ? (
+                        <button
+                          className="btn btn-danger mx-3"
+                          onClick={this.props.orderCancel(_id)}
+                        >
+                          Delete
+                        </button>
+                      ) : (
+                        ""
+                      )}
+                    </div>
+                  </div>
+                </div>
+                <div
+                  className="modal fade"
+                  id={`#orderModal${i}`}
+                  tabIndex="-1"
+                  role="dialog"
+                  aria-labelledby={`#orderModal${i}Label`}
+                  aria-hidden="true"
+                >
+                  <div className="modal-dialog modal-xl" role="document">
+                    <div className="modal-content">
+                      <div className="modal-header">
+                        <h5
+                          className="modal-title font-weight-light"
+                          id={`#orderModal${i}Label`}
+                        >
+                          Order {_id}
+                        </h5>
+                        <button
+                          type="button"
+                          className="close"
+                          data-dismiss="modal"
+                          aria-label="Close"
+                        >
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div className="modal-body">
+                        {products.map(({ name, price, discountPercentage }) => (
+                          <div className="container bg-white p-4 mb-4 text-center d-md-flex shadow-sm">
+                            {/* <img
+                    src={src}
+                    className="float-sm-left rounded mr-4 cart-img mb-3"
+                    alt={name}
+                  /> */}
+                            <div className="flex-grow-1 text-left">
+                              <h4>{name}</h4>
+                              <div className="my-4">
+                                {/* <p className="float-sm-left">Quantity: 1</p> */}
+                                <p className="lead font-weight-bold float-sm-right">
+                                  ₦{" "}
+                                  {this.renderDiscountedPrice(
+                                    price,
+                                    discountPercentage
+                                  )}
+                                </p>
+                                <div className="clear"></div>
+                              </div>
+                              {/* <div className="my-4">
                       <p className="float-sm-left">
                         Color
                         <span className="bg-primary px-3 py-2 mr-2 rounded"></span>
                       </p>
                       <div className="clear"></div>
+                    </div> */}
+                            </div>
+                            <div className="clear"></div>
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <div className="clear"></div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
+              </>
+            );
+          }
+        )}
+      </div>
+    );
+
+  render() {
+    return (
+      <div className="px-4 mb-4 text-center">
+        {this.renderOrders(filterContent(this.props.orders))}
+
+        <div className="clear"></div>
       </div>
     );
   }
@@ -542,7 +583,11 @@ class Orders extends Component {
       let active = i === 0 ? "show active" : "";
       return (
         <TabBody active={active} name={`orders-${item}`} key={i}>
-          <OrdersTabBodyContainer time={item} />
+          <OrdersTabBodyContainer
+            user={this.props.user}
+            time={item}
+            orders={this.props.orders}
+          />
         </TabBody>
       );
     });
@@ -575,8 +620,56 @@ class Analytics extends Component {
       </TabBody>
     ));
 
+  averageProductPrice = products =>
+    products
+      .map(
+        ({ price, discountPercentage }) =>
+          price * (1 - discountPercentage / 100)
+      )
+      .reduce((total, num) => total + num, 0) / products.length;
+
+  ordersCount = orders => orders.length;
+
+  totalOrderRevenue = orders => {
+    orders = orders.filter(order => order.status === "paid");
+
+    return orders.length < 1
+      ? 0
+      : orders
+          .map(({ totalPrice }) => totalPrice)
+          .reduce((total, num) => total + num);
+  };
+
+  totalCustomers = orders => {
+    orders = orders.filter(order => order.status === "paid");
+
+    return orders.map(({ user }) => user._id).unique().length;
+  };
+
+  productRevenue = orders => {
+    orders = orders.filter(order => order.status === "paid");
+
+    let productArray = orders.products.map(({ name }) => name);
+    return orders.products.map(({ name, price, discountPercentage }) => ({
+      name,
+      revenue:
+        productArray.filter(item => item === name).length *
+        price *
+        (1 - discountPercentage / 100)
+    }));
+  };
+
+  timeRevenue = orders =>
+    orders
+      .filter(order => order.status === "paid")
+      .map(({ updatedAt, totalPrice }) => ({
+        updatedAt,
+        totalPrice
+      }));
+
   render() {
     let tablist = ["revenue", "customer"],
+      { user, orders, store } = this.props,
       data = [
         {
           name: "Bob",
@@ -873,104 +966,121 @@ class Analytics extends Component {
           ]
         }
       ],
+      orderRevenue = this.totalOrderRevenue(filterContent(orders)),
+      customers = this.totalCustomers(filterContent(orders)),
+      paidOrders = filterContent(orders).filter(
+        order => order.status === "paid"
+      ),
+      customerOrders = paidOrders.map(({ user, totalPrice }) => ({
+        name: user.name,
+        totalPrice
+      })),
+      uniqueCustomerNames = paidOrders.map(({ user }) => user.name).unique(),
       content = [
         <>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <p class="card-title text-uppercase">total revenue</p>
-              <h1 class="display-4 text-primary text-center">
-                &#x20A6; 1,000,000
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <p className="card-title text-uppercase">total revenue</p>
+              <h1 className="display-4 text-primary text-center">
+                &#x20A6; {orderRevenue}
               </h1>
             </div>
           </div>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <p class="card-title text-uppercase">total orders</p>
-              <h1 class="display-4 text-primary text-center">10</h1>
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <p className="card-title text-uppercase">total orders</p>
+              <h1 className="display-4 text-primary text-center">
+                {this.ordersCount(filterContent(orders))}
+              </h1>
             </div>
           </div>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <p class="card-title text-uppercase">average product price</p>
-              <h1 class="display-4 text-primary text-center">
-                &#x20A6; 10,000
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <p className="card-title text-uppercase">average product price</p>
+              <h1 className="display-4 text-primary text-center">
+                &#x20A6;{" "}
+                {this.averageProductPrice(filterContent(store.products))}
               </h1>
             </div>
           </div>
 
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <p class="card-title text-uppercase">average order value</p>
-              <h1 class="display-4 text-primary text-center">
-                &#x20A6; 10,000
-              </h1>
-            </div>
-          </div>
-          <div class="card shadow-sm">
-            <div class="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
-              <p class="card-title text-uppercase">revenue over time</p>
+          <div className="card shadow-sm">
+            <div className="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
+              <p className="card-title text-uppercase">revenue over time</p>
               <ContainerDimensions>
-                {({ height, width }) => (
-                  <LineChart
-                    data={data[0]}
-                    width={width * 0.95}
-                    height={height * 0.8}
-                  />
-                )}
+                {({ height, width }) =>
+                  filterContent(orders).length < 1 ? (
+                    <>No products purchased yet</>
+                  ) : (
+                    <LineChart
+                      data={this.timeRevenue(filterContent(orders))}
+                      width={width * 0.95}
+                      height={height * 0.8}
+                    />
+                  )
+                }
               </ContainerDimensions>
             </div>
           </div>
 
-          <div class="card shadow-sm">
-            <div class="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
-              <p class="card-title text-uppercase">revenue per product</p>
+          <div className="card shadow-sm">
+            <div className="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
+              <p className="card-title text-uppercase">revenue per product</p>
               <ContainerDimensions>
-                {({ height, width }) => (
-                  <BarChart
-                    data={data}
-                    width={width * 0.95}
-                    height={height * 0.8}
-                  />
-                )}
+                {({ height, width }) =>
+                  filterContent(orders).length < 1 ? (
+                    <>No products purchased yet</>
+                  ) : (
+                    <BarChart
+                      data={this.productRevenue(filterContent(orders))}
+                      width={width * 0.95}
+                      height={height * 0.8}
+                    />
+                  )
+                }
               </ContainerDimensions>
             </div>
           </div>
         </>,
         <>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <p class="card-title text-uppercase">total customers</p>
-              <h1 class="display-4 text-primary text-center">10000</h1>
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <p className="card-title text-uppercase">total customers</p>
+              <h1 className="display-4 text-primary text-center">{customers}</h1>
             </div>
           </div>
-          <div class="card shadow-sm">
-            <div class="card-body">
-              <p class="card-title text-uppercase">average customer spend</p>
-              <h1 class="display-4 text-primary text-center">
+          <div className="card shadow-sm">
+            <div className="card-body">
+              <p className="card-title text-uppercase">average customer spend</p>
+              <h1 className="display-4 text-primary text-center">
                 {" "}
-                &#x20A6; 5,000
+                &#x20A6; {customers === 0 ? 0 : orderRevenue / customers}
               </h1>
             </div>
           </div>
 
-          <div class="card shadow-sm">
-            <div class="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
-              <p class="card-title text-uppercase">revenue per customer</p>
+          <div className="card shadow-sm">
+            <div className="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
+              <p className="card-title text-uppercase">revenue per customer</p>
               <ContainerDimensions>
-                {({ height, width }) => (
-                  <PieChart
-                    data={data}
-                    width={width * 0.95}
-                    height={height * 0.8}
-                  />
-                )}
+                {({ height, width }) =>
+                  paidOrders.length < 1 ? (
+                    <>No products purcahsed yet</>
+                  ) : (
+                    <PieChart
+                      data={[customerOrders, uniqueCustomerNames]}
+                      width={width * 0.95}
+                      height={height * 0.8}
+                    />
+                  )
+                }
               </ContainerDimensions>
             </div>
           </div>
 
-          <div class="card shadow-sm">
-            <div class="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
-              <p class="card-title text-uppercase">
+          {/* <div className="card shadow-sm">
+            <div className="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
+              <p className="card-title text-uppercase">
                 new vs. returning customers
               </p>
               <ContainerDimensions>
@@ -983,9 +1093,10 @@ class Analytics extends Component {
                 )}
               </ContainerDimensions>
             </div>
-          </div>
+          </div> */}
         </>
       ];
+
     return (
       <div className="p-5 mt-5">
         <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
@@ -1115,7 +1226,8 @@ class Notifications extends Component {
 Profile = connect(null, {
   userUpdateProfile,
   storeUpdateInfo,
-  storeUpdateBank
+  storeUpdateBank,
+  orderCancel
 })(Profile);
 
 export { Profile, Products, Orders, Analytics, Messages };

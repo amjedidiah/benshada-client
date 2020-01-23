@@ -4,7 +4,7 @@ import _ from 'lodash';
 const draw = (props) => {
     let data = [];
     if (props.data !== null) {
-        data = _.cloneDeep(props.data.activities);
+        data = _.cloneDeep(props.data);
     }
     d3.select('.vis-linechart > *').remove();
     let margin = { top: 20, right: 20, bottom: 30, left: 40 }
@@ -19,13 +19,13 @@ const draw = (props) => {
             "translate(" + margin.left + "," + margin.top + ")");
 
     data.forEach(function (d) {
-        d.date = d3.timeParse("%Y-%m-%d")(d.date);
-        d.count = +d.count;
+        d.updatedAt = d3.timeParse("%Y-%m-%d")(d.updatedAt);
+        d.totalPrice = +d.totalPrice;
     });
     
-    // Add X axis --> it is a date format
+    // Add X axis --> it is a updatedAt format
     let x = d3.scaleTime()
-        .domain(d3.extent(data, function (d) { return d.date; }))
+        .domain(d3.extent(data, function (d) { return d.updatedAt; }))
         .range([0, width]);
     svg.append("g")
         .attr("transform", "translate(0," + height + ")")
@@ -33,7 +33,7 @@ const draw = (props) => {
 
     // Add Y axis
     var y = d3.scaleLinear()
-        .domain([0, d3.max(data, function (d) { return +d.count; })])
+        .domain([0, d3.max(data, function (d) { return +d.totalPrice; })])
         .range([height, 0]);
     svg.append("g")
         .call(d3.axisLeft(y));
@@ -45,8 +45,8 @@ const draw = (props) => {
         .attr("stroke", "#ef932e")
         .attr("stroke-width", 1.5)
         .attr("d", d3.line()
-            .x(function (d) { return x(d.date) })
-            .y(function (d) { return y(d.count) })
+            .x(function (d) { return x(d.updatedAt) })
+            .y(function (d) { return y(d.totalPrice) })
         )
 }
 

@@ -5,3 +5,5 @@ Changes To Be Made To API
 4. Store update to support: policies, categories, deliveryOptions and bank object(account name, number and bank name)
 5. User update to support: src, phone, street, country & bio
 6. Product to support: src,category, gender, quantity
+7. Products listed in orders to include: image src link, qty
+8. Email server for password reset

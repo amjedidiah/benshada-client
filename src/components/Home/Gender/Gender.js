@@ -9,7 +9,7 @@ export default class Gender extends Component {
   render() {
     return (
       <div className="bg-white">
-        <div className="container">
+        {/* <div className="container">
           <div className="card-columns gender text-center text-lg-left">
             <div className="card bg-white border-0">
               <div className="card-body pb-0 d-lg-flex">
@@ -86,7 +86,7 @@ export default class Gender extends Component {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     );
   }

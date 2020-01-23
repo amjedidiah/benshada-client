@@ -12,7 +12,43 @@ import Testimonies from "./Testimonies/Testimonies";
 import Footer from "../Footer/Footer";
 import VirtualAssistant from "../VirtualAssistant/VirtualAssistant";
 
+import { featuredStoreFetch } from "../../actions/user";
+import { fetchProducts, fetchStores } from "../../actions/misc";
+import { filterContent } from "../../actions/load";
+
 class Home extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      stores1: [],
+      stores2: [],
+      productsRecent: [],
+      productsTopRated: [],
+      productsDiscounted: []
+    };
+  }
+
+  componentDidMount = async () => {
+    const req = await fetchStores(),
+      stores = req.data.data,
+      storeNames = stores.map(({ name }) => name),
+      uniqueStoreNames = storeNames.unique(),
+      store = uniqueStoreNames.map(name => ({ name }));
+
+    const res = await fetchProducts(),
+      products = filterContent(res.data.data);
+
+    this.setState({
+      stores1: stores.slice(0, 4),
+      stores2: stores.slice(4, 8),
+      productsRecent: products.slice(0, 4),
+      productsTopRated: products.slice(4, 8),
+      productsDiscounted: products
+        .filter(({ discountPercentage }) => discountPercentage > 0)
+        .slice(0, 4)
+    });
+  };
+
   renderGallery = gallery =>
     gallery.map((image, i) => (
       <img
@@ -29,173 +65,31 @@ class Home extends React.Component {
         <Header />
         <Jumbo />
         <Gender />
-        {/* <Product
+        <Product
           title={"recently added"}
-          products={[
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 10
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 10
-            }
-          ]}
+          products={this.state.productsRecent}
+        />
+        {/* <Stores
+          title={"featured stores"}
+          stores={this.props.featuredStoreFetch(4)}
+          radius={0}
         /> */}
         <Stores
           title={"featured stores"}
-          stores={[
-            { name: "Ama", src: "" },
-            { name: "Bola", src: "" },
-            { name: "Pepp", src: "" },
-            { name: "Pepp", src: "" }
-          ]}
+          stores={this.state.stores1}
           radius={0}
         />
-        {/* <Product
-          title={"top rated"}
-          products={[
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 10
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 10
-            }
-          ]}
-        /> */}
+        <Product title={"top rated"} products={this.state.productsTopRated} />
+
         <Stores
           title={"featured stores"}
-          stores={[
-            { name: "Ama", src: "" },
-            { name: "Bola", src: "" },
-            { name: "Pepp", src: "" },
-            { name: "Pepp", src: "" }
-          ]}
+          stores={this.state.stores2}
           radius={1}
         />
-        {/* <Product
+        <Product
           title={"discounted"}
-          products={[
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 10
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 0
-            },
-            {
-              src: "",
-              name: "nike shoes",
-              price: "1500",
-              category: "shoe",
-              ratings: 10,
-              description: "Lovely product",
-              gender: "male",
-              inStock: true,
-              discount: 10
-            }
-          ]}
-        /> */}
+          products={this.state.productsDiscounted}
+        />
         <Testimonies
           title="customer testimonies"
           customers={[
@@ -281,4 +175,4 @@ const mapStateToProps = state => ({
   isSignedIn: state.auth.isSignedIn
 });
 
-export default connect(mapStateToProps, {})(Home);
+export default connect(mapStateToProps, { featuredStoreFetch })(Home);

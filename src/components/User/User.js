@@ -17,7 +17,7 @@ class User extends Component {
   componentDidMount = () => menu();
 
   renderPage() {
-    const { user, store } = this.props,
+    const { user, store, orders } = this.props,
       list = !ifSeller(user && user.type) ? userClist : userABlist;
 
     return (
@@ -29,7 +29,7 @@ class User extends Component {
               user={user}
               className="bg-light user-side-main"
             />
-            <DashBody list={list} user={user} store={store} />
+            <DashBody list={list} user={user} store={store} orders={orders} />
           </div>
         </div>
       </>
@@ -68,6 +68,7 @@ class User extends Component {
 const mapStateToProps = state => ({
   user: state.auth && state.auth.user,
   store: state.store,
+  orders: state.order,
   isSignedIn: state.auth.isSignedIn
 });
 

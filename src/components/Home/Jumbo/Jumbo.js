@@ -12,10 +12,10 @@ export default class Jumbo extends Component {
       <div className="jumbotron jumbotron-fluid px-0 pb-0 pt-5 mx-0 mb-0 mt-2 bg-white bg-md-light">
         <div className="container-fluid">
           <div className="row">
-            <div className="d-none col-lg-2 d-lg-flex flex-column bg-light">
+            {/* <div className="d-none col-lg-2 d-lg-flex flex-column bg-light">
               <div className="row text-center align-items-center flex-fill">
                 <div className="col">
-                  <Link to="/category/bags">
+                  <Link to="/products/category/bags">
                     <i className="fas fa-shopping-bag fa-3x text-primary"></i>
                     <p className="font-weight-bold text-uppercase text-secondary">
                       Bags
@@ -25,7 +25,7 @@ export default class Jumbo extends Component {
               </div>
               <div className="row text-center align-items-center flex-fill">
                 <div className="col">
-                  <Link to="/category/shoes">
+                  <Link to="/products/category/shoes">
                     <i className="fas fa-shoe-prints fa-3x text-primary"></i>
                     <p className="font-weight-bold text-uppercase text-secondary">
                       Shoes
@@ -35,7 +35,7 @@ export default class Jumbo extends Component {
               </div>
               <div className="row text-center align-items-center flex-fill">
                 <div className="col">
-                  <Link to="/category/clothes">
+                  <Link to="/products/category/clothes">
                     <i className="fas fa-tshirt fa-3x text-primary"></i>
                     <p className="font-weight-bold text-uppercase text-secondary">
                       Clothes
@@ -45,7 +45,7 @@ export default class Jumbo extends Component {
               </div>
               <div className="row text-center align-items-center flex-fill">
                 <div className="col">
-                  <Link to="/category/accessories">
+                  <Link to="/products/category/accessories">
                     <i className="fab fa-redhat fa-3x text-primary"></i>
                     <p className="font-weight-bold text-uppercase text-secondary">
                       Accessories
@@ -53,12 +53,12 @@ export default class Jumbo extends Component {
                   </Link>
                 </div>
               </div>
-            </div>
-            <div className="col-12 col-lg-10 mb-0">
+            </div> */}
+            <div className="col-12 col-lg mb-0">
               <div className="row">
                 <div
                   id="carouselExampleIndicators"
-                  className="carousel slide"
+                  className="carousel slide w-100"
                   data-ride="carousel"
                 >
                   <ol className="carousel-indicators">
@@ -82,23 +82,23 @@ export default class Jumbo extends Component {
                   </ol>
                   <div className="carousel-inner">
                     <div className="carousel-item active">
-                      <Link to="category/bags">
-                        <img alt="" src={banner1} className="img-fluid" />
+                      <Link to="/products">
+                        <img alt="" src={banner1} className="img-fluid w-100" />
                       </Link>
                     </div>
                     <div className="carousel-item">
-                      <Link to="category/shoes">
-                        <img alt="" src={banner2} className="img-fluid" />
+                      <Link to="/products">
+                        <img alt="" src={banner2} className="img-fluid w-100" />
                       </Link>
                     </div>
                     <div className="carousel-item">
-                      <Link to="category/clothes">
-                        <img alt="" src={banner3} className="img-fluid" />
+                      <Link to="/products">
+                        <img alt="" src={banner3} className="img-fluid w-100" />
                       </Link>
                     </div>
                     <div className="carousel-item">
-                      <Link to="category/accessories">
-                        <img alt="" src={banner4} className="img-fluid" />
+                      <Link to="/products">
+                        <img alt="" src={banner4} className="img-fluid w-100" />
                       </Link>
                     </div>
                   </div>

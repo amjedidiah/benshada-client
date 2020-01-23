@@ -4,6 +4,7 @@ import {
   USER_UPDATE_PROFILE,
   USER_FETCH,
   ORDERS_FETCH,
+  ORDER_CANCEL,
   STORE_FETCH,
   STORE_UPDATE_INFO,
   USER_STORE_SET,
@@ -22,7 +23,8 @@ import {
   actionNotify,
   errorReport,
   timeOut,
-  actionDone
+  actionDone,
+  filterContent
 } from "./load";
 import { ifSeller } from "./auth";
 
@@ -136,6 +138,28 @@ export const ordersFetch = () => (dispatch, getState) => {
     .catch(error => dispatch(errorReport(error)));
 };
 
+export const orderCancel = id => (dispatch, getState) => {
+  dispatch(
+    getState().load.loading === false
+      ? actionLoad()
+      : { type: ACTION_LOAD_AVOIDED }
+  );
+
+  let { token } = getState().auth;
+
+  const req = api.delete(`/orders/${id}`, {
+    headers: { Authorization: "Bearer " + token },
+    timeout: 30000
+  });
+
+  return req
+    .then(res =>
+      dispatch([{ type: ORDER_CANCEL }, actionNotify(res.data.message)])
+    )
+    .then(() => dispatch(ordersFetch()))
+    .catch(error => dispatch(errorReport(error)));
+};
+
 export const transactionsFetch = () => async (dispatch, getState) => {
   let { user } = getState().auth;
 
@@ -188,6 +212,14 @@ export const storeCreate = () => (dispatch, getState) => {
       )
       .catch(error => dispatch(errorReport(error)));
   }
+};
+
+export const featuredStoreFetch = num => dispatch => {
+  const req = api.get(`/shops/`, timeOut);
+
+  return req
+    .then(res => dispatch(res.data.data.slice(0, num)))
+    .catch(error => dispatch(errorReport(error)));
 };
 
 export const storeFetch = () => async (dispatch, getState) => {
