@@ -22,8 +22,7 @@ h6 {
   /* font-family: "Montserrat", sans-serif !important; */
 }
 
-a,
-link {
+a {
   text-decoration: none !important;
   color: #212529;
   box-shadow: none;
@@ -32,9 +31,8 @@ link {
 
 a:hover,
 a.active,
-link:hover,
-link.active {
-  color: #ef932e !important;
+a:visited {
+  color: #ef932e;
 }
 
 #pills-tabContent footer {
@@ -78,6 +76,11 @@ button:hover {
 .bg-primary,
 .btn-primary {
   background: #ef932e !important;
+}
+
+.btn-primary,
+.btn-primary:hover {
+  color: #fff !important;
 }
 
 .btn-outline-primary {
@@ -170,18 +173,27 @@ button:hover {
 }
 
 .img-holder {
+  overflow: hidden;
+}
+
+.img-holder.img-holder-user {
   width: 45px;
   height: 45px;
   border-radius: 50%;
   border: 1px solid #ccc;
-  overflow: hidden;
 }
 
 #questionMark {
   bottom: 30px;
   right: 30px;
   cursor: pointer;
-  z-index: 2147483645;
+  z-index: 2147483643;
+}
+
+.modal,
+.modal > div {
+  z-index: 2147483644 !important;
+  background: rgba(0, 0, 0, 0.2);
 }
 
 /* Loading screen style */

@@ -7,17 +7,21 @@ import {
   Profile,
   Products,
   Orders,
+  Saved,
   Analytics,
   // Notifications,
   Messages
 } from "./assets/bodyComponents";
 import { Link } from "react-router-dom";
 import { ifSeller } from "../../actions/auth";
+import { faPlus, faStream } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Components = {
   Profile,
   Products,
   Orders,
+  Saved,
   Analytics,
   // Notifications,
   Messages
@@ -54,7 +58,7 @@ class DashBody extends Component {
           options: [],
           row: 1,
           icon: 1,
-          help: "Price is in dollars"
+          help: "Enter Naira value of price"
         },
         {
           desc: "discountPercentage",
@@ -107,19 +111,19 @@ class DashBody extends Component {
                   className="form"
                   fields={productFields}
                   buttons={productButtons}
+                  initialValues={{}}
                 />
               </div>
             </div>
           </div>
         </div>
-
         <div
           className="btn btn-primary d-fixed rounded-circle shadow-sm "
           id="questionMark"
           data-toggle="modal"
           data-target="#productModal"
         >
-          <i className="fas fa-plus"></i>
+          <FontAwesomeIcon icon={faPlus} />
         </div>
       </>
     );
@@ -159,7 +163,7 @@ class DashBody extends Component {
           id="dashboardMenuToggle"
         >
           <span>
-            <i className="fas fa-stream"></i>
+            <FontAwesomeIcon icon={faStream} />
           </span>
         </button>
         <div className="flex-grow-1 d-md-none pt-2 text-center">
@@ -168,7 +172,7 @@ class DashBody extends Component {
           </Link>
         </div>
         <div className="user float-right">
-          <div className="img-holder float-left">
+          <div className="img-holder img-holder-user float-left">
             {/* <img
           src={""}
           alt=""

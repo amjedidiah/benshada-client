@@ -1,16 +1,15 @@
 import React from "react";
 
 // Custom components
-import Header from "../Header/Header";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Jumbo from "./Jumbo/Jumbo";
 import Gender from "./Gender/Gender";
-import Product from "../Product/Product";
-import Stores from "../Stores/Stores";
+import Product from "../Products/Product";
+import Store from "../Stores/Store";
 import Testimonies from "./Testimonies/Testimonies";
-import Footer from "../Footer/Footer";
 import VirtualAssistant from "../VirtualAssistant/VirtualAssistant";
+import HrFrComp from "../HrFrComp/HrFrComp";
 
 import { featuredStoreFetch } from "../../actions/user";
 import { fetchProducts, fetchStores } from "../../actions/misc";
@@ -20,20 +19,17 @@ class Home extends React.Component {
   constructor() {
     super();
     this.state = {
-      stores1: [],
-      stores2: [],
-      productsRecent: [],
-      productsTopRated: [],
-      productsDiscounted: []
+      stores1: null,
+      stores2: null,
+      productsRecent: null,
+      productsTopRated: null,
+      productsDiscounted: null
     };
   }
 
   componentDidMount = async () => {
     const req = await fetchStores(),
-      stores = req.data.data,
-      storeNames = stores.map(({ name }) => name),
-      uniqueStoreNames = storeNames.unique(),
-      store = uniqueStoreNames.map(name => ({ name }));
+      stores = req.data.data
 
     const res = await fetchProducts(),
       products = filterContent(res.data.data);
@@ -41,7 +37,9 @@ class Home extends React.Component {
     this.setState({
       stores1: stores.slice(0, 4),
       stores2: stores.slice(4, 8),
-      productsRecent: products.slice(0, 4),
+      productsRecent: products
+        .map((product, i) => products[products.length - i - 1])
+        .slice(0, 4),
       productsTopRated: products.slice(4, 8),
       productsDiscounted: products
         .filter(({ discountPercentage }) => discountPercentage > 0)
@@ -61,27 +59,26 @@ class Home extends React.Component {
 
   renderPage() {
     return (
-      <div className="bg-light">
-        <Header />
+      <HrFrComp>
         <Jumbo />
         <Gender />
         <Product
           title={"recently added"}
           products={this.state.productsRecent}
         />
-        {/* <Stores
+        {/* <Store
           title={"featured stores"}
           stores={this.props.featuredStoreFetch(4)}
           radius={0}
         /> */}
-        <Stores
+        <Store
           title={"featured stores"}
           stores={this.state.stores1}
           radius={0}
         />
         <Product title={"top rated"} products={this.state.productsTopRated} />
 
-        <Stores
+        <Store
           title={"featured stores"}
           stores={this.state.stores2}
           radius={1}
@@ -90,7 +87,7 @@ class Home extends React.Component {
           title={"discounted"}
           products={this.state.productsDiscounted}
         />
-        <Testimonies
+        {/* <Testimonies
           title="customer testimonies"
           customers={[
             {
@@ -114,8 +111,8 @@ class Home extends React.Component {
               src: ""
             }
           ]}
-        />
-        <div className="container my-5 text-center" id="how-it-works">
+        /> */}
+        {/* <div className="container my-5 text-center" id="how-it-works">
           <h4 className="text-center">How It Works</h4>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex,
@@ -123,8 +120,8 @@ class Home extends React.Component {
             blanditiis, porro ducimus nulla deserunt in vitae autem vel sit
             placeat consectetur veritatis distinctio repudiandae.
           </p>
-        </div>
-        <div className="container-fluid">
+        </div> */}
+        {/* <div className="container-fluid">
           <div className="row justify-content-center">
             {this.renderGallery([
               { src: "", alt: "Image" },
@@ -141,10 +138,9 @@ class Home extends React.Component {
               { src: "", alt: "Image" }
             ])}
           </div>
-        </div>
-        <Footer />
+        </div> */}
         <VirtualAssistant />
-      </div>
+      </HrFrComp>
     );
   }
 

@@ -16,15 +16,15 @@ import {
   PRODUCT_DELETE,
   PRODUCT_UPDATE,
   ACTION_LOAD_AVOIDED,
-  STORE_PRODUCT_FETCH
+  STORE_PRODUCT_FETCH,
+  CART_CLEAR
 } from "./types";
 import {
   actionLoad,
   actionNotify,
   errorReport,
   timeOut,
-  actionDone,
-  filterContent
+  actionDone
 } from "./load";
 import { ifSeller } from "./auth";
 
@@ -117,15 +117,111 @@ export const userShopsUpdate = shopId => async (dispatch, getState) => {
 };
 
 export const ordersFetch = () => (dispatch, getState) => {
-  let { user } = getState().auth;
+  let { auth, store } = getState(),
+    { user } = auth,
+    { products } = store;
 
   api
     .get(`/orders`)
     .then(res => {
-      let payload = [];
-      res.data.data.forEach(order =>
-        order.user._id === user._id ? payload.push(order) : ""
-      );
+      let payload = ifSeller(user.type)
+        ? [
+            {
+              products: [
+                {
+                  discountPercentage: 5,
+                  _id: "5e3be7aa8ce0d82b6097eeb1",
+                  name: "Apple iPhone XS Max",
+                  description: "This is a test product",
+                  price: 250000
+                },
+                {
+                  discountPercentage: 5,
+                  _id: "5e3bde768ce0d82b6097eeaf",
+                  name: "Apple iPhone X",
+                  description: "This is another test product",
+                  price: 200000
+                }
+              ],
+              status: "paid",
+              isDeleted: false,
+              _id: "5d0e7063166b3064b4ced301",
+              user: {
+                _id: "5d0e6d4fef3cbb60de8cfd3b",
+                name: "Anita Mabel"
+              },
+              totalPrice: 427500,
+              createdAt: "2019-06-22T18:16:03.375Z",
+              updatedAt: "2019-06-22T18:16:03.375Z",
+              __v: 0
+            },
+            {
+              products: [
+                {
+                  discountPercentage: 5,
+                  _id: "5e3bde4c8ce0d82b6097eeae",
+                  name: "Apple iPhone 8",
+                  description: "This is a test product",
+                  price: 100000
+                },
+                {
+                  discountPercentage: 5,
+                  _id: "5e3bde768ce0d82b6097eeaf",
+                  name: "Apple iPhone X",
+                  description: "This is another test product",
+                  price: 200000
+                }
+              ],
+              status: "paid",
+              isDeleted: false,
+              _id: "5d0e7063166b3064b4ced302",
+              user: {
+                _id: "5d0e6d4fef3cbb60de8cfd3d",
+                name: "Bovi Ahmed"
+              },
+              totalPrice: 285000,
+              createdAt: "2019-06-22T18:16:03.375Z",
+              updatedAt: "2019-06-22T18:16:03.375Z",
+              __v: 0
+            },
+            {
+              products: [
+                {
+                  discountPercentage: 5,
+                  _id: "5e3bde768ce0d82b6097eeaf",
+                  name: "Apple iPhone X",
+                  description: "This is another test product",
+                  price: 200000
+                },
+                {
+                  discountPercentage: 5,
+                  _id: "5e3bde4c8ce0d82b6097eeae",
+                  name: "Apple iPhone 8",
+                  description: "This is a test product",
+                  price: 100000
+                }
+              ],
+              status: "paid",
+              isDeleted: false,
+              _id: "5d0e7063166b3064b4ced303",
+              user: {
+                _id: "5d0e6d4fef3cbb60de8cfd3a",
+                name: "Chibuokem Onyekwelu"
+              },
+              totalPrice: 285000,
+              createdAt: "2019-09-22T18:16:03.375Z",
+              updatedAt: "2019-09-29T18:16:03.375Z",
+              __v: 0
+            }
+          ]
+        : res.data.data.filter(order => order.user._id === user._id);
+
+      let productIDs = products.map(({ _id }) => _id);
+
+      console.log(productIDs, "me");
+
+      // let paidOrders = payload.filter(({ status }) => status === "paid");
+      // paidOrders.map(order => order.products.filter());
 
       dispatch([
         {
@@ -253,13 +349,14 @@ export const storeFetch = () => async (dispatch, getState) => {
           ])
         )
       )
+      .then(() => dispatch({ type: CART_CLEAR }))
       .then(() =>
         setTimeout(() => history.push(history.location.pathname), 2000)
       )
       .then(() => dispatch(actionDone()))
       .catch(error => dispatch(errorReport(error)));
   } else {
-    await dispatch({ type: STORE_FETCH_FAILED });
+    await dispatch([{ type: STORE_FETCH_FAILED }, actionNotify("")]);
   }
 };
 
@@ -448,7 +545,34 @@ export const productDelete = id => (dispatch, getState) => {
       : { type: ACTION_LOAD_AVOIDED }
   );
 
-  let { token } = getState().auth;
+  let { order, auth, transaction } = getState(),
+    { token } = auth,
+    orders = order
+      .map(({ products, _id }) =>
+        products.filter(({ _id }) => _id === id).length > 0 ? _id : ""
+      )
+      .filter(item => item !== ""),
+    transactions = transaction
+      .filter(item => orders.indexOf(item.order) !== -1)
+      .map(({ _id }) => _id);
+
+  // Orders Delete
+  // orders.forEach(
+  //   async item =>
+  //     await api.delete(`/orders/${item}`, {
+  //       headers: { Authorization: "Bearer " + token },
+  //       timeout: 30000
+  //     })
+  // );
+
+  //Transactions Delete
+  // transactions.forEach(
+  //   async item =>
+  //     await api.delete(`/transactions/${item}`, {
+  //       headers: { Authorization: "Bearer " + token },
+  //       timeout: 30000
+  //     })
+  // );
 
   const req = api.delete(`/products/${id}`, {
     headers: { Authorization: "Bearer " + token },

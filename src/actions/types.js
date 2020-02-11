@@ -30,3 +30,9 @@ export const STORE_UPDATE_BANK = "STORE_UPDATE_BANK";
 export const PRODUCT_UPLOAD = "PRODUCT_UPLOAD";
 export const PRODUCT_DELETE = "PRODUCT_DELETE";
 export const PRODUCT_UPDATE = "PRODUCT_UPDATE";
+
+//CART Types
+export const CART_ADD = "CART_ADD";
+export const CART_REMOVE = "CART_REMOVE";
+export const CART_UPDATE = "CART_UPDATE";
+export const CART_CLEAR = "CART_CLEAR";

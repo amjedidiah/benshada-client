@@ -19,11 +19,7 @@ const draw = props => {
     y;
 
   if (props.datas !== null) {
-    console.log(props.datas);
-
     props.datas.forEach((data, i) => {
-      console.log(data);
-
       datas[i] = _.cloneDeep(data.activities);
 
       datas[i].forEach(function(d) {

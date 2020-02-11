@@ -4,6 +4,12 @@ import male from "./img/male.png";
 import female from "./img/female.png";
 import unisex from "./img/unisex.png";
 import "./Gender.css";
+import {
+  faMars,
+  faVenus,
+  faVenusMars
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Gender extends Component {
   render() {
@@ -26,7 +32,10 @@ export default class Gender extends Component {
                   </hgroup>
                 </div>
                 <div className="flex-grow-1 d-block d-lg-flex">
-                  <i className="fas fa-mars fa-3x text-primary d-lg-none"></i>
+                  <FontAwesomeIcon
+                    className=" fa-3x text-primary d-lg-none"
+                    icon={faMars}
+                  />
                   <img
                     src={male}
                     alt=""
@@ -51,7 +60,10 @@ export default class Gender extends Component {
                   </hgroup>
                 </div>
                 <div className="flex-grow-1 d-block d-lg-flex">
-                  <i className="fas fa-venus fa-3x text-primary d-lg-none"></i>
+                  <FontAwesomeIcon
+                    className=" fa-3x text-primary d-lg-none"
+                    icon={faVenus}
+                  />
                   <img
                     src={female}
                     alt=""
@@ -64,7 +76,10 @@ export default class Gender extends Component {
             <div className="card bg-white mb-0 border-0">
               <div className="card-body pb-0 d-lg-flex">
                 <div className="flex-grow-1 d-block d-lg-flex">
-                  <i className="fas fa-venus-mars fa-3x text-primary d-lg-none"></i>
+                  <FontAwesomeIcon
+                    className=" fa-3x text-primary d-lg-none"
+                    icon={faVenusMars}
+                  />
                   <img
                     src={unisex}
                     alt=""

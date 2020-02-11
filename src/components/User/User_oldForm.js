@@ -11,6 +11,8 @@ import DashNav from "./DashNav";
 
 import { userUpdateProfile } from "../../actions/auth";
 import { actionLoad, actionDone } from "../../actions/load";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStream } from "@fortawesome/free-solid-svg-icons";
 
 class User extends Component {
   constructor(props) {
@@ -90,7 +92,7 @@ class User extends Component {
                   id="dashboardMenuToggle"
                 >
                   <span>
-                    <i className="fas fa-stream"></i>
+                    <FontAwesomeIcon icon={faStream} />
                   </span>
                 </button>
                 <div className="flex-grow-1 d-md-none pt-2 text-center">

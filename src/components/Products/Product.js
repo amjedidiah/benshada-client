@@ -1,9 +1,27 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-import { productDelete, productUpdate } from "../../actions/user";
+import {
+  productDelete,
+  productUpdate,
+  userUpdateProfile
+} from "../../actions/user";
 import { filterContent } from "../../actions/load";
 import BenshadaForm from "../BenshadaForm/BenshadaForm";
+import { ifSeller } from "../../actions/auth";
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faInfo,
+  faTrash,
+  faHeart,
+  faStar
+} from "@fortawesome/free-solid-svg-icons";
+import { cartAdd, cartRemove } from "../../actions/cart";
+import CartButton from "../Cart/CartButton";
+import Loading from "../Misc/Loading/Loading";
+import NotFound from "../Misc/NotFound/NotFound";
+import Review from "./Review";
 
 class Product extends Component {
   renderDiscountedPrice = (price, discount) =>
@@ -24,31 +42,61 @@ class Product extends Component {
       </p>
     );
 
-  renderProductActions = (i, id) =>
-    window.location.pathname.includes("user") ? (
+  renderProductActions = (i, id, product) => {
+    let { isSignedIn, user, userUpdateProfile } = this.props,
+      saved = (user && user.saved) || [];
+
+    return window.location.pathname.includes("user") ? (
       <>
         <p
           className="float-left mr-3 rounded-0 text-left pointer"
           data-toggle="modal"
           data-target={`#infoModal${i}`}
         >
-          <i className="fas fa-info text-primary ml-2"></i>
+          <FontAwesomeIcon className="text-primary ml-2" icon={faInfo} />
         </p>
         <p
           className="float-left mr-3 rounded-0 text-left pointer"
           onClick={() => this.props.productDelete(id)}
         >
-          <i className="fas fa-trash ml-2 text-primary"></i>
+          <FontAwesomeIcon className="text-primary ml-2" icon={faTrash} />
         </p>
       </>
+    ) : !isSignedIn ? (
+      ""
+    ) : ifSeller(user.type) ? (
+      ""
     ) : (
-      <p className="float-left mr-3 rounded-0 text-left">
-        <i className="fas fa-heart text-primary"></i>
-      </p>
+      // <p className="float-left mr-3 rounded-0 text-left pointer">
+      //   {saved.filter(({ _id }) => _id === id).length > 0 ? (
+      //     <FontAwesomeIcon
+      //       className="text-primary"
+      //       onClick={() =>
+      //         userUpdateProfile({
+      //           saved: saved.filter(({ _id }) => _id !== id).unique()
+      //         })
+      //       }
+      //       icon={faHeart}
+      //     />
+      //   ) : (
+      //     <FontAwesomeIcon
+      //       className="text-primary"
+      //       onClick={() =>
+      //         userUpdateProfile({ saved: [...saved, product].unique() })
+      //       }
+      //       icon={faHeart}
+      //     />
+      //   )}
+      // </p>
+      ""
     );
+  };
 
-  renderProductButton = i =>
-    window.location.pathname.includes("user") ? (
+  renderProductButton = (product, i) => {
+    let { user } = this.props,
+      { _id } = product;
+
+    return window.location.pathname.includes("user") ? (
       <button
         className="btn btn-primary mx-3"
         data-toggle="modal"
@@ -56,76 +104,32 @@ class Product extends Component {
       >
         Edit
       </button>
+    ) : ifSeller(user && user.type) ? (
+      ""
     ) : (
-      <button className="btn btn-primary mx-3">Add to Cart</button>
-    );
-
-  renderProductReview = reviews =>
-    reviews.length < 1 ? (
-      <div>
-        No reviews for this product yet.
-        <span
-          className="pointer text-primary"
-          data-toggle="modal"
-          data-target="#writeReviewModal"
-        >
-          {window.location.href.includes("user") ? "" : " Write a review"}
-        </span>
-      </div>
-    ) : (
-      <div className="card-columns products my-2">
-        {reviews.map((review, i) => (
-          <div className="card shadow-sm text-left" key={`review${i}`}>
-            <div className="card-header bg-white d-flex">
-              <img
-                src="../"
-                alt="Review"
-                className="img-fluid rounded-circle border border-light"
-                width="40"
-                height="40"
-              />
-              <p className="flex-grow-1 mx-3 pt-3">{review && review.user}</p>
-              <p className="pt-3">
-                <i className="fas fa-star text-primary mr-2"></i>{" "}
-                <span>{review.rating}</span>
-              </p>
-            </div>
-            <div className="card-body">
-              <p>{review.description}</p>
-              <small className="float-right">
-                {review.createdAt.toDateString()}
-              </small>
-              <div className="clear"></div>
-            </div>
-          </div>
-        ))}
+      <div className="text-center">
+        <CartButton product={product} />
+        <Link to={`/products/?id=${_id}`}>
+          <button className="btn btn-white text-primary mx-2">View</button>
+        </Link>
       </div>
     );
+  };
 
   renderProducts = products =>
-    products === undefined ? (
-      ""
-    ) : products.length < 1 ? (
-      <>
-        No products found.
-        <span
-          className="pointer text-primary"
-          data-toggle="modal"
-          data-target="#productModal"
-        >
-          {window.location.href.includes("user") ? " Upload one" : ""}
-        </span>
-      </>
+    products === null ? (
+      <Loading />
+    ) : products === undefined || products.length < 1 ? (
+      <NotFound type="product" />
     ) : (
       <div className="card-columns products my-2">
-        {products.map((product, i) => {
+        {filterContent(products).map((product, i) => {
           let {
               _id,
               reviews,
               overallRating,
               inStock,
               discountPercentage,
-              isDeleted,
               name,
               description,
               price
@@ -166,7 +170,7 @@ class Product extends Component {
                 options: [],
                 row: 1,
                 icon: 1,
-                help: "Price is in dollars"
+                help: "Enter Naira value of price"
               },
               {
                 desc: "discountPercentage",
@@ -187,7 +191,7 @@ class Product extends Component {
             <>
               <div
                 className="card mb-4 pb-3 product rounded shadow-sm border-0"
-                key={`product${i}`}
+                key={`product${_id}`}
               >
                 <div className="card-body p-0">
                   {/* <img
@@ -196,18 +200,9 @@ class Product extends Component {
               alt="product"
             /> */}
                   <div className="px-3">
-                    <p
-                      className="float-left mr-3 rounded-0 text-left pointer"
-                      data-toggle="modal"
-                      data-target={`#reviewModal${i}`}
-                    >
-                      <i className="fas fa-star text-primary mr-1"></i>{" "}
-                      <span className="">{overallRating}</span>
-                    </p>
-                    {/* <p className="float-left mr-3 rounded-0 text-left">
-                  <i className="fas fa-shopping-cart text-secondary"></i>
-                </p> */}
-                    {this.renderProductActions(i, _id)}
+                    <Review i={i} product={product} className="float-left" />
+
+                    {this.renderProductActions(i, _id, product)}
                     <h4 className="flex-grow-1 font-weight-bold text-right">
                       {this.renderDiscountedPrice(price, discountPercentage)}
                     </h4>
@@ -232,42 +227,7 @@ class Product extends Component {
                       {inStock ? "In stock" : "Out of stock"}
                     </p>
                   </div>
-                  {this.renderProductButton(i)}
-                </div>
-              </div>
-              <div
-                className="modal fade"
-                id={`reviewModal${i}`}
-                tabIndex="-1"
-                role="dialog"
-                aria-labelledby="reviewModalLabel"
-                aria-hidden="true"
-                key={`reviewModal${i}`}
-              >
-                <div className="modal-dialog modal-xl" role="document">
-                  <div className="modal-content">
-                    <div className="modal-header">
-                      <h5
-                        className="modal-title font-weight-light"
-                        id="reviewModalLabel"
-                      >
-                        Reviews
-                      </h5>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                    </div>
-                    <div className="modal-body">
-                      <div className="card-columns">
-                        {this.renderProductReview(filterContent(reviews))}
-                      </div>
-                    </div>
-                  </div>
+                  {this.renderProductButton(product, i)}
                 </div>
               </div>
 
@@ -278,6 +238,7 @@ class Product extends Component {
                 role="dialog"
                 aria-labelledby={`productUpdateModalLabel${i}`}
                 aria-hidden="true"
+                key={`productModal${i}`}
               >
                 <div className="modal-dialog modal-xl" role="document">
                   <div className="modal-content">
@@ -351,13 +312,13 @@ class Product extends Component {
     );
 
   render() {
-    let { title, products } = this.props;
+    let { title, products, className } = this.props;
 
     return (
-      <div className="container my-5 text-center">
-        <h4 className="text-left text-uppercase font-weight-bold">{title}</h4>
+      <div className={`container my-3 text-center ${className}`}>
+        <h4 className="text-left text-capitalize">{title}</h4>
 
-        {this.renderProducts(filterContent(products))}
+        {this.renderProducts(products)}
 
         {/* <button className="btn btn-primary">View More</button> */}
       </div>
@@ -365,4 +326,17 @@ class Product extends Component {
   }
 }
 
-export default connect(null, { productDelete, productUpdate })(Product);
+const mapStateToProps = ({ auth, order, cart }) => ({
+  isSignedIn: auth.isSignedIn,
+  user: auth.user,
+  orders: order,
+  cart
+});
+
+export default connect(mapStateToProps, {
+  productDelete,
+  productUpdate,
+  userUpdateProfile,
+  cartAdd,
+  cartRemove
+})(Product);

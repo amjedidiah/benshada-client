@@ -22,7 +22,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const createStoreWithMiddleware = composeEnhancers(
   applyMiddleware(
-    save(["auth, store, order, transaction"]),
+    save(["auth, store, order, transaction, cart"]),
     reduxThunk,
     reduxMulti
   )

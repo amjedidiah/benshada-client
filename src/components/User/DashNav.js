@@ -1,12 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
 
 class DashNav extends React.Component {
   renderIcon(icon) {
     return this.props.className.includes("user-side-main") ? (
       <i className={`${icon} mr-3`}></i>
     ) : (
-      <div className="img-holder mr-md-3">
+      <div className="img-holder img-holder-user mr-md-3">
         <img
           src={
             "https://s.alicdn.com/@sc01/kf/ULB8TUAmr1vJXKJkSajhq6A7aFXaY/ON-Optimum-Nutrition-Gold-Standard-100-Whey.jpg"
@@ -67,7 +69,7 @@ class DashNav extends React.Component {
     return this.props.className.includes("user-side-main") ? (
       <li className="nav-item text-danger">
         <Link className="nav-link text-capitalize text-danger" to="/logout">
-          <i className="fas fa-sign-out-alt mr-3 text-danger"></i>
+          <FontAwesomeIcon icon={faSignOutAlt} className="mr-3 text-danger" />
           Logout
         </Link>
       </li>

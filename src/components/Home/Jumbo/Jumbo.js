@@ -5,55 +5,79 @@ import banner1 from "./img/benshadawebbanners01.jpg";
 import banner2 from "./img/benshadawebbanners02.jpg";
 import banner3 from "./img/benshadawebbanners03.jpg";
 import banner4 from "./img/benshadawebbanners04.jpg";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faShoppingBag,
+  faShoePrints,
+  faTshirt
+} from "@fortawesome/free-solid-svg-icons";
+import { faRedhat } from "@fortawesome/free-brands-svg-icons";
 
 export default class Jumbo extends Component {
   render() {
     return (
-      <div className="jumbotron jumbotron-fluid px-0 pb-0 pt-5 mx-0 mb-0 mt-2 bg-white bg-md-light">
+      <div className="jumbotron jumbotron-fluid p-0 m-0 bg-white bg-md-light">
         <div className="container-fluid">
           <div className="row">
-            {/* <div className="d-none col-lg-2 d-lg-flex flex-column bg-light">
-              <div className="row text-center align-items-center flex-fill">
-                <div className="col">
-                  <Link to="/products/category/bags">
-                    <i className="fas fa-shopping-bag fa-3x text-primary"></i>
-                    <p className="font-weight-bold text-uppercase text-secondary">
-                      Bags
-                    </p>
-                  </Link>
+            {1 < 2 ? (
+              ""
+            ) : (
+              <div className="d-none col-lg-2 d-lg-flex flex-column bg-light">
+                <div className="row text-center align-items-center flex-fill">
+                  <div className="col">
+                    <Link to="/products/category/bags">
+                      <FontAwesomeIcon
+                        className="fa-3x text-primary"
+                        icon={faShoppingBag}
+                      />
+                      <p className="font-weight-bold text-uppercase text-secondary">
+                        Bags
+                      </p>
+                    </Link>
+                  </div>
+                </div>
+                <div className="row text-center align-items-center flex-fill">
+                  <div className="col">
+                    <Link to="/products/category/shoes">
+                      <FontAwesomeIcon
+                        className="fa-3x text-primary"
+                        icon={faShoePrints}
+                      />
+                      <p className="font-weight-bold text-uppercase text-secondary">
+                        Shoes
+                      </p>
+                    </Link>
+                  </div>
+                </div>
+                <div className="row text-center align-items-center flex-fill">
+                  <div className="col">
+                    <Link to="/products/category/clothes">
+                      <FontAwesomeIcon
+                        className="fa-3x text-primary"
+                        icon={faTshirt}
+                      />
+                      <p className="font-weight-bold text-uppercase text-secondary">
+                        Clothes
+                      </p>
+                    </Link>
+                  </div>
+                </div>
+                <div className="row text-center align-items-center flex-fill">
+                  <div className="col">
+                    <Link to="/products/category/accessories">
+                      <FontAwesomeIcon
+                        className="fa-3x text-primary"
+                        icon={faRedhat}
+                      />
+                      <p className="font-weight-bold text-uppercase text-secondary">
+                        Accessories
+                      </p>
+                    </Link>
+                  </div>
                 </div>
               </div>
-              <div className="row text-center align-items-center flex-fill">
-                <div className="col">
-                  <Link to="/products/category/shoes">
-                    <i className="fas fa-shoe-prints fa-3x text-primary"></i>
-                    <p className="font-weight-bold text-uppercase text-secondary">
-                      Shoes
-                    </p>
-                  </Link>
-                </div>
-              </div>
-              <div className="row text-center align-items-center flex-fill">
-                <div className="col">
-                  <Link to="/products/category/clothes">
-                    <i className="fas fa-tshirt fa-3x text-primary"></i>
-                    <p className="font-weight-bold text-uppercase text-secondary">
-                      Clothes
-                    </p>
-                  </Link>
-                </div>
-              </div>
-              <div className="row text-center align-items-center flex-fill">
-                <div className="col">
-                  <Link to="/products/category/accessories">
-                    <i className="fab fa-redhat fa-3x text-primary"></i>
-                    <p className="font-weight-bold text-uppercase text-secondary">
-                      Accessories
-                    </p>
-                  </Link>
-                </div>
-              </div>
-            </div> */}
+            )}
+
             <div className="col-12 col-lg mb-0">
               <div className="row">
                 <div

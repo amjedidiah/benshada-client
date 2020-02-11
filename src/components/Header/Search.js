@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { fetchProducts, fetchStores } from "../../actions/misc";
 import { filterContent } from "../../actions/load";
 import $ from "jquery";
+import { faStoreAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default class Search extends Component {
   constructor() {
@@ -79,12 +81,15 @@ export default class Search extends Component {
                 this.state.relatedStores.map(({ name, _id }, i) => (
                   <li className="" key={`relatedStores${i}`}>
                     <Link
-                      to={`/stores/${_id}`}
+                      to={`/stores/?id=${_id}`}
                       className="d-block px-4 py-2 border border-white"
                     >
                       <div className="d-flex">
                         <div className="mr-4">
-                          <i className="fas fa-store text-secondary"></i>
+                          <FontAwesomeIcon
+                            className="text-secondary"
+                            icon={faStoreAlt}
+                          />
                         </div>
                         <div className="flex-grow-1 text-secondary">{name}</div>
                       </div>
@@ -93,7 +98,7 @@ export default class Search extends Component {
                 ))
               )}
 
-              <li class="dropdown-divider"></li>
+              <li className="dropdown-divider"></li>
 
               <li className="dropdown-header text-uppercase">
                 <small className="font-weight-bold">products</small>
@@ -106,7 +111,7 @@ export default class Search extends Component {
                   ({ name, _id, discountPercentage, price }, i) => (
                     <li className="" key={`relatedProducts${i}`}>
                       <Link
-                        to={`/products/${_id}`}
+                        to={`/products/?id=${_id}`}
                         className="d-block px-4 py-2 border border-white"
                       >
                         <div className="d-flex">
@@ -143,7 +148,7 @@ export default class Search extends Component {
 
               {this.state.totalResults > 0 ? (
                 <li className="text-center text-primary text-uppercase">
-                  <Link to="/" className="p-2">
+                  <Link to={`/catalog/?q=${this.state.value}`} className="p-2">
                     see all results ({this.state.totalResults})
                   </Link>
                 </li>
@@ -158,9 +163,11 @@ export default class Search extends Component {
               className="input-group-text bg-white border-0"
               id="basic-addon2"
             >
-              <i
-                className="fas fa-search text-primary pointer"
+              <FontAwesomeIcon
+                className="text-primary pointer"
                 id="showSearchBar"
+                title="Search"
+                icon={faSearch}
               />
             </span>
           </div>

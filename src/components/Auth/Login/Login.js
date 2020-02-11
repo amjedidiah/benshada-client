@@ -67,6 +67,7 @@ class Login extends React.Component {
               className="form px-4 px-md-5 mx-md-3"
               fields={loginFields}
               buttons={loginButtons}
+              initialValues={{}}
             />
 
             <p className="text-muted text-left px-4 px-md-5 mx-md-3 my-3">

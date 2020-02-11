@@ -1,16 +1,15 @@
 import React from "react";
 import { Field, reduxForm } from "redux-form";
-import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEye,
   faLock,
   faUser,
-  faEnvelope,
-  faDollarSign
+  faEnvelope
 } from "@fortawesome/free-solid-svg-icons";
 
 import "./BenshadaForm.css";
+import { stateSelect } from "../../assets/location";
 
 class BenshadaForm extends React.Component {
   onSubmit = formValues => this.props.onSubmitForm(formValues);
@@ -59,7 +58,11 @@ class BenshadaForm extends React.Component {
   }
 
   renderFieldIcon(name) {
-    let { user } = this.props;
+    let { initialValues } = this.props,
+      user = initialValues.email !== undefined ? initialValues : {};
+    // selectStateObject = stateSelect.filter(
+    //   selectState => selectState.state === state
+    // );
 
     switch (name) {
       case "name":
@@ -70,16 +73,17 @@ class BenshadaForm extends React.Component {
         return <FontAwesomeIcon icon={faLock} />;
       case "password":
         return <FontAwesomeIcon icon={faLock} />;
+      // default:
+      //   return (selectStateObject && selectStateObject.country) ===
+      //     "Nigeria" ? (
+      //     <span>&#8358;</span>
+      //   ) : (selectStateObject && selectStateObject.country) === "Ghana" ? (
+      //     <span>GHS</span>
+      //   ) : (
+      //     <FontAwesomeIcon icon={faDollarSign} />
+      //   );
       default:
-        return (user && user.country === undefined) ||
-          (user && user.country === null) ||
-          (user && user.country === "") ? (
-          <FontAwesomeIcon icon={faDollarSign} />
-        ) : user && user.country === "Nigeria" ? (
-          <span>&#8358;</span>
-        ) : (
-          <span>GHS</span>
-        );
+        return <span>&#8358;</span>;
     }
   }
 
@@ -318,13 +322,14 @@ const validate = ({ name, email, password, confirmpassword }) => {
   return errors;
 };
 
-const mapStateToProps = state => ({
-  user: state.auth.user
-});
+// export default connect(mapStateToProps)(
+//   reduxForm({
+//     form: "benshadaForm",
+//     validate
+//   })(BenshadaForm)
+// );
 
-export default connect(mapStateToProps)(
-  reduxForm({
-    form: "benshadaForm",
-    validate
-  })(BenshadaForm)
-);
+export default reduxForm({
+  form: "benshadaForm",
+  validate
+})(BenshadaForm);

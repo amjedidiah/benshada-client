@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import "./MultiSelect.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 export default class MultiSelect extends Component {
   cardSelect = () => {
@@ -34,7 +36,7 @@ export default class MultiSelect extends Component {
     ));
 
   renderSelectedOptionsDeleteBtn = () => (
-    <i className="fa fa-times text-danger float-right pt-4"></i>
+    <FontAwesomeIcon icon={faTimes} className="text-danger float-right pt-4" />
   );
 
   renderSelectedOptions = options =>

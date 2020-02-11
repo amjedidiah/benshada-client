@@ -1,4 +1,5 @@
 [
   { "icon": "far fa-user", "Title": "Profile" },
-  { "icon": "fas fa-shopping-bag", "Title": "Orders" }
+  { "icon": "fas fa-shopping-bag", "Title": "Orders" },
+  { "icon": "fas fa-heart", "Title": "Saved" }
 ]

@@ -76,6 +76,7 @@ class Register extends React.Component {
               className="form px-4 px-md-5 mx-md-3"
               fields={registerFields}
               buttons={registerButtons}
+              initialValues={{}}
             />
 
             {/* <BenshadaFormOld

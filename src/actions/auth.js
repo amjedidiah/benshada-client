@@ -117,6 +117,6 @@ export const roleSelect = type => (dispatch, getState) => {
       ])
     )
     .then(() => dispatch(userFetch()))
-    .then(() => setTimeout(() => dispatch(storeCreate()), 2000))
+    .then(() => setTimeout(() => dispatch(storeCreate()), 3000))
     .catch(error => dispatch(errorReport(error)));
 };

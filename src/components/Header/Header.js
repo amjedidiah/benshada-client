@@ -3,33 +3,54 @@ import { Link } from "react-router-dom";
 // Connect to redux for Authentication, to see if user is logged in
 import { connect } from "react-redux";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faShoppingCart, faStream } from "@fortawesome/free-solid-svg-icons";
+import { faUser } from "@fortawesome/free-regular-svg-icons";
+
 import searchAnimate from "./searchAnimate";
 import "./header.css";
 import Search from "./Search";
+import { ifSeller } from "../../actions/auth";
 
 class Header extends React.Component {
+  renderCartLink() {
+    return (
+      <li className="nav-item position-relative border border-left-0 border-top-0 border-bottom-0 border-right-light px-md-3">
+        <Link className="nav-link" to="/cart">
+          {this.props.cart.length < 1 ? (
+            ""
+          ) : (
+            <small id="cartCount">{this.props.cart.length}</small>
+          )}
+          <FontAwesomeIcon className="mr-2" icon={faShoppingCart} />
+          {/* Cart */}
+        </Link>
+      </li>
+    );
+  }
+
   authRender() {
     let { isSignedIn, user } = this.props;
 
     if (isSignedIn === false) {
       return (
-        <form className="form-inline px-md-3">
-          <Link to="/login" className="flex-grow-1">
-            <button className="btn btn-primary rounded-0 w-100" type="button">
-              Login
-            </button>
-          </Link>
-        </form>
+        <>
+          <ul className="navbar-nav ml-auto " id="loggedIn">
+            {this.renderCartLink()}
+          </ul>
+          <form className="form-inline px-md-3">
+            <Link to="/login" className="flex-grow-1">
+              <button className="btn btn-primary rounded-0 w-100" type="button">
+                Login
+              </button>
+            </Link>
+          </form>
+        </>
       );
     } else {
       return (
         <ul className="navbar-nav ml-auto " id="loggedIn">
-          <li className="nav-item border border-left-0 border-top-0 border-bottom-0 border-right-light px-md-3">
-            <Link className="nav-link" to="/cart">
-              <i className="fas fa-shopping-cart mr-2" />
-              Cart
-            </Link>
-          </li>
+          {ifSeller(user && user.type) ? "" : this.renderCartLink()}
           <li className="nav-item dropdown px-md-3">
             <Link
               className="nav-link dropdown-toggle"
@@ -40,7 +61,7 @@ class Header extends React.Component {
               aria-haspopup="true"
               aria-expanded="false"
             >
-              <i className="far fa-user mr-2" />
+              <FontAwesomeIcon className="mr-2" icon={faUser} />
               {user && user.name.split(" ")[0]}
             </Link>
             <div
@@ -50,12 +71,7 @@ class Header extends React.Component {
               <Link className="dropdown-item" to={`/user`}>
                 Account
               </Link>
-              {/* <Link className="dropdown-item" to="/orders">
-                My Orders
-              </Link> */}
-              <Link className="dropdown-item" to="/saved">
-                My Saved Items
-              </Link>
+
               <div className="dropdown-divider" />
               <Link className="dropdown-item" to="/logout">
                 Logout
@@ -89,7 +105,7 @@ class Header extends React.Component {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <i className="fas fa-stream" />
+            <FontAwesomeIcon icon={faStream} />
           </button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
             <Search />
@@ -101,8 +117,12 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { isSignedIn: state.auth.isSignedIn, user: state.auth.user };
+const mapStateToProps = ({ auth, cart }) => {
+  return {
+    isSignedIn: auth.isSignedIn,
+    user: auth.user,
+    cart
+  };
 };
 
 export default connect(mapStateToProps)(Header);

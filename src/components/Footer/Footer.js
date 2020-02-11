@@ -1,6 +1,16 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import {
+  faFacebookF,
+  faTwitter,
+  faPinterest,
+  faInstagram,
+  faWhatsapp
+} from "@fortawesome/free-brands-svg-icons";
+
 export default class Footer extends Component {
   render() {
     return (
@@ -8,7 +18,7 @@ export default class Footer extends Component {
         <footer className="bg-white pt-1 shadow-sm">
           <div className="container">
             <div className="row my-5">
-              <div className="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+              <div className="col-12 col-sm-4 mb-4 mb-md-0">
                 <h5 className="text-primary mb-3">Contact Info</h5>
                 <a href="tel:+2349072340517">
                   <p className="mb-1">(+234) 907 - 234 - 0517</p>
@@ -20,27 +30,27 @@ export default class Footer extends Component {
                   68 Sanya Street Aguda Surulere Lagos Nigeria
                 </p>
               </div>
-              <div className="col-12 col-sm-6 col-md-3 mb-4 mb-md-0">
+              <div className="col-12 col-sm-4 mb-4 mb-md-0">
                 <h5 className="text-primary mb-3">Quick Links</h5>
                 <Link to="/stores">
-                  <p className="mb-1">Shops</p>
+                  <p className="mb-1">Stores</p>
                 </Link>
               </div>
-              <div className="col-12 col-sm-6 col-md-3 mb-4 mb-sm-0">
+              <div className="col-12 col-sm-4 mb-4 mb-sm-0">
                 <h5 className="text-primary mb-3">Information</h5>
                 <Link to="/about">
                   <p className="mb-1">About Us</p>
                 </Link>
-                <Link
+                {/* <Link
                   to={{
                     pathname: "/",
                     hash: "#how-it-works"
                   }}
                 >
                   <p className="mb-1">How It Works</p>
-                </Link>
+                </Link> */}
               </div>
-              <div className="col-12 col-sm-6 col-md-3">
+              {/* <div className="col-12 col-sm-6 col-md-3">
                 <h5 className="text-primary mb-3">Newsletter Subscribe</h5>
                 <form action="" className="form-inline">
                   <div className="input-group flex-grow-1">
@@ -55,12 +65,15 @@ export default class Footer extends Component {
                         className="input-group-text bg-primary border-0"
                         id="basic-addon2"
                       >
-                        <i className="fas fa-search text-white pointer"></i>
+                        <FontAwesomeIcon
+                          className="text-white pointer"
+                          icon={faSearch}
+                        />
                       </span>
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -74,19 +87,22 @@ export default class Footer extends Component {
                         Connect with us
                       </span>
                       <a href="https://web.facebook.com/Benshadaplace">
-                        <i className="fab fa-facebook-f mx-2 ml-4"></i>
+                        <FontAwesomeIcon
+                          className="mx-2 ml-4"
+                          icon={faFacebookF}
+                        />
                       </a>
                       <a href="https://www.twitter.com/Benshadaplace">
-                        <i className="fab fa-twitter mx-2"></i>
+                        <FontAwesomeIcon className="mx-2" icon={faTwitter} />
                       </a>
                       <a href="https://www.pinterest.com/Benshada">
-                        <i className="fab fa-pinterest mx-2"></i>
+                        <FontAwesomeIcon className="mx-2" icon={faPinterest} />
                       </a>
                       <a href="https://www.instagram.com/Benshadaplace">
-                        <i className="fab fa-instagram mx-2"></i>
+                        <FontAwesomeIcon className="mx-2" icon={faInstagram} />
                       </a>
                       <a href="https://wa.me/2349072340517">
-                        <i className="fab fa-whatsapp mx-2"></i>
+                        <FontAwesomeIcon className="mx-2" icon={faWhatsapp} />
                       </a>
                     </p>
                   </div>

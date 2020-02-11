@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import $ from "jquery";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 
 export default class VirtualAssistant extends Component {
   toggleVirtualAssistant() {
@@ -73,10 +75,11 @@ export default class VirtualAssistant extends Component {
                         className="input-group-text bg-white border-0"
                         id="basic-addon2"
                       >
-                        <i
-                          className="fas fa-search text-primary pointer"
+                        <FontAwesomeIcon
+                          className="text-primary pointer"
                           id="showSearchBar"
-                        ></i>
+                          icon={faSearch}
+                        />
                       </span>
                     </div>
                   </div>
@@ -86,13 +89,13 @@ export default class VirtualAssistant extends Component {
           </div>
         </div>
 
-        <div
+        {/* <div
           onClick={this.toggleVirtualAssistant}
           className="btn btn-primary d-fixed rounded-circle"
           id="questionMark"
         >
           <i className="fas fa-question"></i>
-        </div>
+        </div> */}
       </>
     );
   }

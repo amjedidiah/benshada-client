@@ -60,7 +60,7 @@ small.message {
 }
 
 .img-holder img {
-  width: inherit;
+  /* width: inherit; */
 }
 
 #messageFooter {
