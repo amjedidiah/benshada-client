@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import HrFrComp from "../HrFrComp/HrFrComp";
 import All from "../All/All";
-import { fetchStores } from "../../actions/misc";
+import { fetchStores, fetchOrders, fetchOrder } from "../../actions/misc";
 import Loading from "../Misc/Loading/Loading";
 import NotFound from "../Misc/NotFound/NotFound";
 
@@ -13,7 +13,12 @@ import { Link } from "react-router-dom";
 class Stores extends Component {
   constructor(props) {
     super(props);
-    this.state = { store: null, queryString: null, nameQueryString: null };
+    this.state = {
+      store: null,
+      queryString: null,
+      nameQueryString: null,
+      orders: null
+    };
   }
 
   static getDerivedStateFromProps = (props, state) =>
@@ -138,9 +143,9 @@ class Stores extends Component {
                         <p className="card-title">Sales</p>
                         <h1 className="display-4 text-primary text-center">
                           {
-                            this.props.order
-                              .map(({ status }) => status === "paid")
-                              .map(({ products }) => products).length
+                            this.state.orders.filter(
+                              ({ status }) => status === "paid"
+                            ).length
                           }
                         </h1>
                       </div>
@@ -188,11 +193,18 @@ class Stores extends Component {
     let queryString = qs.parse(this.props.location.search).id,
       nameQueryString = qs.parse(this.props.location.search).name,
       req = await fetchStores(),
+      res = await fetchOrder(),
       store = req.data.data.filter(
         ({ _id, name }) => _id === queryString || name === nameQueryString
-      );
+      ),
+      productIDs = (store[0] && store[0].products).map(({ _id }) => _id),
+      orders = res.data.data
+        .map(order => order.products.map(product => ({ ...product, order })))
+        .reduce((a, item) => a.concat(item), [])
+        .map(({ _id, order }) => (productIDs.indexOf(_id) !== -1 ? order : ""))
+        .filter(item => item !== "");
 
-    this.setState({ store, queryString, nameQueryString });
+    this.setState({ store, queryString, nameQueryString, orders });
   };
 
   componentDidUpdate = () =>
@@ -205,96 +217,4 @@ class Stores extends Component {
   componentDidMount = () => this.helperFunc();
 }
 
-const mapStateToProps = ({ order }) => ({
-  order: [
-    {
-      products: [
-        {
-          discountPercentage: 37,
-          _id: "5d080381eecd7055617ae378",
-          name: "Test",
-          description: "This is a test product",
-          price: 1500
-        },
-        {
-          discountPercentage: 0,
-          _id: "5d080857531a9b594cb854f5",
-          name: "Test",
-          description: "This is another test product",
-          price: 1500
-        }
-      ],
-      status: "paid",
-      isDeleted: false,
-      _id: "5d0e7063166b3064b4ced309",
-      user: {
-        _id: "5d0e6d4fef3cbb60de8cfd3a",
-        name: "Chibuokem Onyekwelu"
-      },
-      totalPrice: 3000,
-      createdAt: "2019-06-22T18:16:03.375Z",
-      updatedAt: "2019-06-22T18:16:03.375Z",
-      __v: 0
-    },
-    {
-      products: [
-        {
-          discountPercentage: 37,
-          _id: "5d080381eecd7055617ae378",
-          name: "Test",
-          description: "This is a test product",
-          price: 1500
-        },
-        {
-          discountPercentage: 0,
-          _id: "5d080857531a9b594cb854f5",
-          name: "Test",
-          description: "This is another test product",
-          price: 1500
-        }
-      ],
-      status: "paid",
-      isDeleted: false,
-      _id: "5d0e7063166b3064b4ced309",
-      user: {
-        _id: "5d0e6d4fef3cbb60de8cfd3a",
-        name: "Chibuokem Onyekwelu"
-      },
-      totalPrice: 3000,
-      createdAt: "2019-06-22T18:16:03.375Z",
-      updatedAt: "2019-06-22T18:16:03.375Z",
-      __v: 0
-    },
-    {
-      products: [
-        {
-          discountPercentage: 37,
-          _id: "5d080381eecd7055617ae378",
-          name: "Test",
-          description: "This is a test product",
-          price: 1500
-        },
-        {
-          discountPercentage: 0,
-          _id: "5d080857531a9b594cb854f5",
-          name: "Test",
-          description: "This is another test product",
-          price: 1500
-        }
-      ],
-      status: "paid",
-      isDeleted: false,
-      _id: "5d0e7063166b3064b4ced309",
-      user: {
-        _id: "5d0e6d4fef3cbb60de8cfd3a",
-        name: "Chibuokem Onyekwelu"
-      },
-      totalPrice: 3000,
-      createdAt: "2019-06-22T18:16:03.375Z",
-      updatedAt: "2019-06-22T18:16:03.375Z",
-      __v: 0
-    }
-  ]
-});
-
-export default connect(mapStateToProps)(Stores);
+export default Stores;

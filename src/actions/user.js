@@ -65,8 +65,8 @@ export const userFetch = () => (dispatch, getState) => {
         actionNotify(res.data.message)
       ])
     )
-    .then(() => dispatch(ordersFetch()))
     .then(() => dispatch(storeFetch()))
+    .then(() => dispatch(ordersFetch()))
     .catch(error => dispatch(errorReport(error)));
 };
 
@@ -124,104 +124,18 @@ export const ordersFetch = () => (dispatch, getState) => {
   api
     .get(`/orders`)
     .then(res => {
-      let payload = ifSeller(user.type)
-        ? [
-            {
-              products: [
-                {
-                  discountPercentage: 5,
-                  _id: "5e3be7aa8ce0d82b6097eeb1",
-                  name: "Apple iPhone XS Max",
-                  description: "This is a test product",
-                  price: 250000
-                },
-                {
-                  discountPercentage: 5,
-                  _id: "5e3bde768ce0d82b6097eeaf",
-                  name: "Apple iPhone X",
-                  description: "This is another test product",
-                  price: 200000
-                }
-              ],
-              status: "paid",
-              isDeleted: false,
-              _id: "5d0e7063166b3064b4ced301",
-              user: {
-                _id: "5d0e6d4fef3cbb60de8cfd3b",
-                name: "Anita Mabel"
-              },
-              totalPrice: 427500,
-              createdAt: "2019-06-22T18:16:03.375Z",
-              updatedAt: "2019-06-22T18:16:03.375Z",
-              __v: 0
-            },
-            {
-              products: [
-                {
-                  discountPercentage: 5,
-                  _id: "5e3bde4c8ce0d82b6097eeae",
-                  name: "Apple iPhone 8",
-                  description: "This is a test product",
-                  price: 100000
-                },
-                {
-                  discountPercentage: 5,
-                  _id: "5e3bde768ce0d82b6097eeaf",
-                  name: "Apple iPhone X",
-                  description: "This is another test product",
-                  price: 200000
-                }
-              ],
-              status: "paid",
-              isDeleted: false,
-              _id: "5d0e7063166b3064b4ced302",
-              user: {
-                _id: "5d0e6d4fef3cbb60de8cfd3d",
-                name: "Bovi Ahmed"
-              },
-              totalPrice: 285000,
-              createdAt: "2019-06-22T18:16:03.375Z",
-              updatedAt: "2019-06-22T18:16:03.375Z",
-              __v: 0
-            },
-            {
-              products: [
-                {
-                  discountPercentage: 5,
-                  _id: "5e3bde768ce0d82b6097eeaf",
-                  name: "Apple iPhone X",
-                  description: "This is another test product",
-                  price: 200000
-                },
-                {
-                  discountPercentage: 5,
-                  _id: "5e3bde4c8ce0d82b6097eeae",
-                  name: "Apple iPhone 8",
-                  description: "This is a test product",
-                  price: 100000
-                }
-              ],
-              status: "paid",
-              isDeleted: false,
-              _id: "5d0e7063166b3064b4ced303",
-              user: {
-                _id: "5d0e6d4fef3cbb60de8cfd3a",
-                name: "Chibuokem Onyekwelu"
-              },
-              totalPrice: 285000,
-              createdAt: "2019-09-22T18:16:03.375Z",
-              updatedAt: "2019-09-29T18:16:03.375Z",
-              __v: 0
-            }
-          ]
-        : res.data.data.filter(order => order.user._id === user._id);
-
-      let productIDs = products.map(({ _id }) => _id);
-
-      console.log(productIDs, "me");
-
-      // let paidOrders = payload.filter(({ status }) => status === "paid");
-      // paidOrders.map(order => order.products.filter());
+      let productIDs = products.map(({ _id }) => _id),
+        payload = ifSeller(user.type)
+          ? res.data.data
+              .map(order =>
+                order.products.map(product => ({ ...product, order }))
+              )
+              .reduce((a, item) => a.concat(item), [])
+              .map(({ _id, order }) =>
+                productIDs.indexOf(_id) !== -1 ? order : ""
+              )
+              .filter(item => item !== "")
+          : res.data.data.filter(order => order.user._id === user._id);
 
       dispatch([
         {
@@ -231,7 +145,11 @@ export const ordersFetch = () => (dispatch, getState) => {
         actionNotify(res.data.message)
       ]);
     })
-    .catch(error => dispatch(errorReport(error)));
+    .catch(error => {
+      console.log(error);
+
+      dispatch(errorReport(error));
+    });
 };
 
 export const orderCancel = id => (dispatch, getState) => {
