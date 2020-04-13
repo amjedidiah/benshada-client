@@ -29,10 +29,19 @@ a {
   background: inherit !important;
 }
 
+a,
 a:hover,
-a.active,
-a:visited {
+a.active {
   color: #ef932e;
+}
+
+a:hover,
+a.active {
+  font-weight: 600 !important;
+}
+
+p {
+  margin: 0;
 }
 
 #pills-tabContent footer {
@@ -92,6 +101,14 @@ button:hover {
   background: #ef932e !important;
 }
 
+.btn-link {
+  box-shadow: none !important;
+  color: #ef932e !important;
+  font-weight: bold !important;
+  padding-left: 0 !important;
+  text-decoration: none !important;
+}
+
 .bg-transparent {
   background: rgba(239, 147, 46, 0.7) !important;
 }
@@ -104,6 +121,10 @@ button:hover {
 
 .text-primary {
   color: #ef932e !important;
+}
+
+.text-ash {
+  color: #ccc;
 }
 
 .btn {

@@ -19,7 +19,7 @@ export default class Footer extends Component {
           <div className="container">
             <div className="row my-5">
               <div className="col-12 col-sm-4 mb-4 mb-md-0">
-                <h5 className="text-primary mb-3">Contact Info</h5>
+                <h5 className="mb-3">Contact Info</h5>
                 <a href="tel:+2349072340517">
                   <p className="mb-1">(+234) 907 - 234 - 0517</p>
                 </a>
@@ -31,13 +31,13 @@ export default class Footer extends Component {
                 </p>
               </div>
               <div className="col-12 col-sm-4 mb-4 mb-md-0">
-                <h5 className="text-primary mb-3">Quick Links</h5>
+                <h5 className="mb-3">Quick Links</h5>
                 <Link to="/stores">
                   <p className="mb-1">Stores</p>
                 </Link>
               </div>
               <div className="col-12 col-sm-4 mb-4 mb-sm-0">
-                <h5 className="text-primary mb-3">Information</h5>
+                <h5 className="mb-3">Information</h5>
                 <Link to="/about">
                   <p className="mb-1">About Us</p>
                 </Link>
