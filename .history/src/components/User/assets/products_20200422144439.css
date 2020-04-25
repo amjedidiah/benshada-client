@@ -1,0 +1,27 @@
+/* CSS Document */
+
+.card-img-overlay {
+  background: rgba(239, 147, 46, 0.7);
+  height: fit-content;
+}
+
+/* Orders */
+.orders {
+  flex-wrap: wrap;
+}
+
+.card-img-holder {
+  height: 100px;
+  min-width: 50%;
+  max-width: 50%;
+}
+
+.card-img-holder img {
+  height: inherit;
+}
+
+@media (min-width: 992px) {
+  .card-columns.products {
+    column-count: 4 !important;
+  }
+}

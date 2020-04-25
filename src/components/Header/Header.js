@@ -38,7 +38,7 @@ class Header extends React.Component {
           <ul className="navbar-nav ml-auto " id="loggedIn">
             {this.renderCartLink()}
           </ul>
-          <form className="form-inline px-md-3">
+          <form className="form-inline pl-md-3">
             <Link to="/login" className="flex-grow-1">
               <button className="btn btn-primary rounded-0 w-100" type="button">
                 Login
@@ -51,7 +51,7 @@ class Header extends React.Component {
       return (
         <ul className="navbar-nav ml-auto " id="loggedIn">
           {ifSeller(user && user.type) ? "" : this.renderCartLink()}
-          <li className="nav-item dropdown px-md-3">
+          <li className="nav-item dropdown pl-md-3">
             <Link
               className="nav-link dropdown-toggle"
               to=""
@@ -92,7 +92,7 @@ class Header extends React.Component {
         className="navbar navbar-expand-md shadow-sm mb-1 bg-white fixed-top"
         id="header"
       >
-        <div className="container-fluid">
+        <div className="container px-0">
           <Link to="/" className="navbar-brand">
             <i className="text-primary font-weight-bold">benshada</i>
           </Link>

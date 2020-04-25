@@ -5,6 +5,7 @@ import "jquery/dist/jquery.min";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.min.js";
 import "popper.js/dist/popper.min.js";
+import "./prototypes.js";
 
 import "./master.css";
 import App from "./components/App";
@@ -28,7 +29,7 @@ const createStoreWithMiddleware = composeEnhancers(
   )
 )(createStore);
 
-const createStoreWithBatching = batchedSubscribe(fn => fn())(
+const createStoreWithBatching = batchedSubscribe((fn) => fn())(
   createStoreWithMiddleware
 );
 

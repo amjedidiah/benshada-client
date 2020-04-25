@@ -1,0 +1,27 @@
+.product-gallery-active-image {
+  display: table-cell;
+  vertical-align: middle;
+  text-align: center;
+  width: 500px;
+  height: 300px !important;
+  max-height: 300px !important;
+  overflow: hidden !important;
+}
+
+.product-gallery-active-image img {
+  height: 300px !important;
+  max-height: 300px !important;
+  overflow: hidden !important;
+}
+
+.product-preview {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.product-preview img {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  cursor: pointer;
+}

@@ -3,13 +3,13 @@
   font-family: "Montserrat", sans-serif;
   box-sizing: border-box;
   word-wrap: break-word;
-  transition: all 0.3s !important;
+  transition: all 0.05s !important;
 }
 
 body,
 html {
   height: 100%;
-  font-size: 14px !important;
+  /* font-size: 14px !important; */
 }
 
 h1,
@@ -119,6 +119,10 @@ button:hover {
   background: #fbf9f9 !important;
 }
 
+.bg-warning {
+  background: #ffdcb0 !important;
+}
+
 .text-primary {
   color: #ef932e !important;
 }
@@ -132,7 +136,11 @@ button:hover {
 }
 
 .card-columns {
-  column-count: 1;
+  column-count: 2;
+}
+
+.card-columns .card {
+  display: inline-block !important;
 }
 
 .card-columns.card-columns-double,
@@ -232,13 +240,24 @@ button:hover {
 
 @media (min-width: 768px) {
   .card-columns {
-    column-count: 2 !important;
+    column-count: 3 !important;
   }
 }
 
-@media (min-width: 1200px) {
-  .card-columns.no-restrict,
+@media (min-width: 992px) {
+  .card-columns {
+    column-count: 4 !important;
+  }
+}
+
+@media (min-width: 1198px) {
+  .card-columns,
   .card-columns.products {
+    column-count: 6 !important;
+  }
+
+  .category .card-columns,
+  .category .card-columns.products {
     column-count: 4 !important;
   }
 }
