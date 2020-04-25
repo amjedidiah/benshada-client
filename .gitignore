@@ -13,7 +13,7 @@ package-lock.json
 /build
 
 # history
-/.history 
+.history/
 
 # misc
 .DS_Store
