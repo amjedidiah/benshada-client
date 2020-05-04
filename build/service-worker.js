@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/benshada-client/precache-manifest.ba6fa735ba17abffda24c2e4d708e1fa.js"
+  "/benshada-client/precache-manifest.6469b84024c641bb2150805902f37e18.js"
 );
 
 self.addEventListener('message', (event) => {
