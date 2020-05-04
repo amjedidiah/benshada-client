@@ -36,6 +36,7 @@
     "redux-multi": "^0.1.12",
     "redux-persist": "^5.10.0",
     "redux-thunk": "^2.3.0",
+    "serve": "^11.3.0",
     "string-hash": "^1.1.3",
     "webpack": "^4.41.2"
   },
