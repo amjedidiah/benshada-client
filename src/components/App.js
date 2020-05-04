@@ -24,7 +24,7 @@ class App extends Component {
 
     return (
       <div className="h-100">
-        <Router history={history}>
+        <Router history={history} basename={window.location.pathname || ""}>
           <Route path="/" component={Home} exact />
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />
@@ -51,6 +51,6 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = state => ({ loader: state.load });
+const mapStateToProps = (state) => ({ loader: state.load });
 
 export default connect(mapStateToProps)(App);
