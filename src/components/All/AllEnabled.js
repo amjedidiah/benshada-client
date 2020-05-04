@@ -187,7 +187,7 @@ class AllEnabled extends Component {
       { min, max } = prices,
       initProds = props.products || [],
       specs = initProds
-        .map(({ specifications }) => Object.keys(specifications))
+        .map(({ specifications }) => Object.keys(specifications) || [])
         .flat(Infinity)
         .unique()
         .filter((spec) => spec !== "weight"),
