@@ -1,8 +1,8 @@
 import { CART_ADD, CART_REMOVE, CART_UPDATE } from "./types";
 
-export const cartAdd = product => ({
+export const cartAdd = (product, cartQty) => ({
   type: CART_ADD,
-  payload: { ...product, cartQty: 1 }
+  payload: { ...product, cartQty }
 });
 
 export const cartRemove = product => ({

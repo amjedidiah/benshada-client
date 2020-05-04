@@ -6,20 +6,20 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 class CartButton extends Component {
   render() {
-    const { cart, product, cartRemove, cartAdd } = this.props,
+    const { cart, product, cartRemove, cartAdd, qty } = this.props,
       { _id } = product;
 
-    return cart.filter(item => item._id === _id).length > 0 ? (
+    return cart.filter((item) => item._id === _id).length > 0 ? (
       <button
-        className="btn btn-danger mx-2 mb-2 mb-sm-0"
+        className="btn btn-danger mb-2 mb-sm-0"
         onClick={() => cartRemove(product)}
       >
         Remove <FontAwesomeIcon icon={faShoppingCart} />
       </button>
     ) : (
       <button
-        className="btn btn-primary mx-2 mb-2 mb-sm-0"
-        onClick={() => cartAdd(product)}
+        className="btn btn-primary mb-2 mb-sm-0"
+        onClick={() => cartAdd(product, qty)}
       >
         Add <FontAwesomeIcon icon={faShoppingCart} />
       </button>

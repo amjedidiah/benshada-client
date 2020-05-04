@@ -13,7 +13,7 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faTrash,
-  faBox,
+  // faBox,
   faPencilAlt,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
@@ -22,24 +22,9 @@ import CartButton from "../Cart/CartButton";
 import Loading from "../Misc/Loading/Loading";
 import NotFound from "../Misc/NotFound/NotFound";
 import Price from "./Price";
+import Src from "../Src/Src";
 
 class Product extends Component {
-  renderDiscountedPrice = (price, discount) => {
-    return discount > 0 ? (
-      <>
-        <span className="lead font-weight-bold">
-          &#x20A6; {price * (1 - discount / 100)}
-        </span>
-        <br />
-        <span className="font-weight-lighter">
-          <strike>&#x20A6; {price}</strike>
-        </span>
-      </>
-    ) : (
-      <span>&#x20A6; {price}</span>
-    );
-  };
-
   renderProductActions = (i, id, product) => {
     let { isSignedIn, user, userUpdateProfile } = this.props,
       saved = (user && user.saved) || [];
@@ -67,7 +52,7 @@ class Product extends Component {
             />
           )}
         </button>
-        <CartButton product={product} />
+        <CartButton product={product} qty={1} />
       </>
     ) : window.location.pathname.includes("user") ? (
       <>
@@ -82,7 +67,6 @@ class Product extends Component {
           className="btn btn-primary"
           data-toggle="modal"
           data-target={`#productUpdateModal${i}`}
-          key={`productEdit${i}`}
         >
           <FontAwesomeIcon icon={faPencilAlt} /> Edit
         </button>
@@ -92,13 +76,6 @@ class Product extends Component {
     );
   };
 
-  renderSrc = ({ src, name }) =>
-    src === undefined ? (
-      <FontAwesomeIcon icon={faBox} className="fa-6x text-light" />
-    ) : (
-      <img className="card-img" src={src} alt={name} />
-    );
-
   renderProducts = (products) =>
     products === null ? (
       <Loading />
@@ -107,7 +84,7 @@ class Product extends Component {
     ) : (
       <div className="card-columns products my-2">
         {filterContent(products).map((product, i) => {
-          let { _id, discountPercentage, name, price } = product,
+          let { _id, discountPercentage, name, price, image } = product,
             productFields = [
               {
                 desc: "_id",
@@ -162,22 +139,21 @@ class Product extends Component {
             ];
 
           return (
-            <>
+            <div key={`renderProducts${i}`}>
               <div
                 className="card mb-4 product rounded shadow-sm border-0"
                 key={`product${_id}`}
               >
-                <div className="card-body px-3">
-                  <div className="px-3 pb-4">{this.renderSrc(product)}</div>
+                <div className="card-body p-0">
+                  <Src name={name} image={image} type="product" size={6} xtraClass="p-3" />
 
-                  <div className="text-left">
+                  <div className="text-left p-3">
                     <p>
                       <Link to={`/products/?id=${_id}`}>{name}</Link>
                     </p>
                     <p className="lead font-weight-bold">
                       <Price price={price} discount={discountPercentage} />
                     </p>
-                    {this.renderProductActions(i, _id, product)}
                   </div>
                 </div>
               </div>
@@ -222,7 +198,7 @@ class Product extends Component {
                   </div>
                 </div>
               </div>
-            </>
+            </div>
           );
         })}
       </div>
@@ -232,7 +208,7 @@ class Product extends Component {
     let { title, products, className } = this.props;
 
     return (
-      <div className={`container my-3 text-center ${className}`}>
+      <div className={`container my-3 ${className}`}>
         <div className="row">
           <div className="col p-0">
             <h4 className="text-left text-uppercase">{title}</h4>

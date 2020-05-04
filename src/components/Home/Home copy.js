@@ -24,7 +24,7 @@ class Home extends React.Component {
       stores2: [],
       productsRecent: [],
       productsTopRated: [],
-      productsDiscounted: []
+      productsDiscounted: [],
     };
   }
 
@@ -33,7 +33,7 @@ class Home extends React.Component {
       stores = req.data.data,
       storeNames = stores.map(({ name }) => name),
       uniqueStoreNames = storeNames.unique(),
-      store = uniqueStoreNames.map(name => ({ name }));
+      store = uniqueStoreNames.map((name) => ({ name }));
 
     const res = await fetchProducts(),
       products = filterContent(res.data.data);
@@ -47,11 +47,11 @@ class Home extends React.Component {
       productsTopRated: products.slice(4, 8),
       productsDiscounted: products
         .filter(({ discountPercentage }) => discountPercentage > 0)
-        .slice(0, 4)
+        .slice(0, 4),
     });
   };
 
-  renderGallery = gallery =>
+  renderGallery = (gallery) =>
     gallery.map((image, i) => (
       <img
         className="col-4 col-sm-2 col-lg-1 d-none d-lg-block img-fluid px-0"
@@ -71,23 +71,10 @@ class Home extends React.Component {
           title={"recently added"}
           products={this.state.productsRecent}
         />
-        {/* <Store
-          title={"featured stores"}
-          stores={this.props.featuredStoreFetch(4)}
-          radius={0}
-        /> */}
-        <Store
-          title={"featured stores"}
-          stores={this.state.stores1}
-          radius={0}
-        />
+        <Store title={"featured stores"} stores={this.state.stores1} />
         <Product title={"top rated"} products={this.state.productsTopRated} />
 
-        <Store
-          title={"featured stores"}
-          stores={this.state.stores2}
-          radius={1}
-        />
+        <Store title={"featured stores"} stores={this.state.stores2} />
         <Product
           title={"discounted"}
           products={this.state.productsDiscounted}
@@ -160,10 +147,10 @@ class Home extends React.Component {
             <Redirect
               to={{
                 pathname: "/role",
-                state: { from: location }
+                state: { from: location },
               }}
             />
-          )
+          ),
         }[user && user.type] || this.renderPage();
   }
 
@@ -172,9 +159,9 @@ class Home extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth.user === null ? null : state.auth.user,
-  isSignedIn: state.auth.isSignedIn
+  isSignedIn: state.auth.isSignedIn,
 });
 
 export default connect(mapStateToProps, { featuredStoreFetch })(Home);

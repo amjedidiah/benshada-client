@@ -6,21 +6,10 @@ import banner2 from "./img/benshadawebbanners02.jpg";
 import banner3 from "./img/benshadawebbanners03.jpg";
 import banner4 from "./img/benshadawebbanners04.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faShoppingBag,
-  faShoePrints,
-  faTshirt,
-} from "@fortawesome/free-solid-svg-icons";
-import { faRedhat } from "@fortawesome/free-brands-svg-icons";
 
 export default class Jumbo extends Component {
   renderCats = () =>
-    [
-      { name: "bags", icon: faShoppingBag },
-      { name: "shoes", icon: faShoePrints },
-      { name: "clothes", icon: faTshirt },
-      { name: "accessories", icon: faRedhat },
-    ].map(({ name, icon }, i) => (
+    this.props.cats.map(({ name, icon }, i) => (
       <div
         className="row text-center align-items-center flex-fill py-2"
         key={i}

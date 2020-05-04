@@ -1,20 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faShoppingCart,
-  faTrash,
-  faMinus,
-  faPlus
-} from "@fortawesome/free-solid-svg-icons";
+import { faShoppingCart, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { Link, Redirect } from "react-router-dom";
 import { ifSeller } from "../../actions/auth";
 
-import login from "../Auth/Login/login.jpg";
+// import login from "../Auth/Login/login.jpg";
 
 import "./cart.css";
 import { cartRemove, cartUpdate } from "../../actions/cart";
 import HrFrComp from "../HrFrComp/HrFrComp";
+import ProductQty from "./ProductQty";
 
 class Cart extends Component {
   constructor(props) {
@@ -25,7 +21,7 @@ class Cart extends Component {
 
   quantities = {};
 
-  resetStateQty(product, qty) {
+  resetStateQty = (product, qty) => {
     let { _id, price, discountPercentage } = product;
 
     this.props.cartUpdate(product, qty);
@@ -35,32 +31,18 @@ class Cart extends Component {
         ...this.state.quantities,
         [_id]: {
           qty,
-          total: function() {
+          total: function () {
             return this.qty * price;
           },
-          discountedTotal: function() {
+          discountedTotal: function () {
             return this.qty * price * (1 - discountPercentage / 100);
-          }
-        }
-      }
+          },
+        },
+      },
     });
-  }
+  };
 
-  increaseQuantity(product) {
-    let { _id } = product,
-      qty = this.state.quantities[_id].qty + 1;
-
-    this.resetStateQty(product, qty);
-  }
-
-  decreaseQuantity(product) {
-    let { _id } = product,
-      qty = this.state.quantities[_id].qty - 1;
-
-    return qty === 0 ? "" : this.resetStateQty(product, qty);
-  }
-
-  renderCartProducts = products =>
+  renderCartProducts = (products) =>
     products.length < 1 ? (
       <div className="text-center p-5 my-5">
         <FontAwesomeIcon
@@ -79,26 +61,26 @@ class Cart extends Component {
         </div>
 
         {products.map((product, i) => {
-          let { name, price, discountPercentage, _id } = product;
+          let { name, price, discountPercentage, _id, image } = product;
           this.quantities = {
             ...this.quantities,
             [_id]: {
-              qty: this.props.cart.filter(product => product._id === _id)[0]
+              qty: this.props.cart.filter((product) => product._id === _id)[0]
                 .cartQty,
-              total: function() {
+              total: function () {
                 return this.qty * price;
               },
-              discountedTotal: function() {
+              discountedTotal: function () {
                 return this.qty * price * (1 - discountPercentage / 100);
-              }
-            }
+              },
+            },
           };
 
           return (
             <div className="container shadow-sm bg-white mb-4 p-0" key={i}>
               <div className="d-flex">
                 <div className="img-holder img-holder-cart">
-                  <img src={login} className="img-fluid" alt="" />
+                  <img src={image && image[0]} className="img-fluid" alt="" />
                 </div>
                 <div className="text-left flex-grow-1 p-3">
                   <p className="lead mb-0">
@@ -150,19 +132,13 @@ class Cart extends Component {
                   <span className="text-uppercase ml-2">remove</span>{" "}
                 </div>
                 <div className="text-primary float-right">
-                  <FontAwesomeIcon
-                    icon={faMinus}
-                    onClick={() => this.decreaseQuantity(product)}
-                    className="pointer"
-                  />{" "}
-                  <span className="text-uppercase mx-3 text-secondary">
-                    {this.state.quantities[_id] &&
-                      this.state.quantities[_id].qty}
-                  </span>{" "}
-                  <FontAwesomeIcon
-                    icon={faPlus}
-                    onClick={() => this.increaseQuantity(product)}
-                    className="pointer"
+                  <ProductQty
+                    quantity={
+                      this.state.quantities[_id] &&
+                      this.state.quantities[_id].qty
+                    }
+                    product={product}
+                    resetQty={this.resetStateQty}
                   />
                 </div>
                 <div className="clear"></div>
@@ -176,7 +152,7 @@ class Cart extends Component {
           <h2 className="float-right text-primary">
             &#x20A6;
             {Object.entries(this.state.quantities)
-              .map(item => item[1].discountedTotal())
+              .map((item) => item[1].discountedTotal())
               .reduce((a, i) => a + i, 0)}
           </h2>
           <div className="clear"></div>

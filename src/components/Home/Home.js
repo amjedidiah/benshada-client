@@ -85,16 +85,14 @@ class Home extends React.Component {
 
     return (
       <HrFrComp>
-        <Jumbo />
+        <Jumbo cats={cats} />
         <Gender />
         <Category
-          key={`category${rand1}`}
           shortDesc={cats[rand1].name}
           icon={cats[rand1].icon}
           reversed={false}
         />
         <Category
-          key={`category${rand3}`}
           shortDesc={cats[rand3].name}
           icon={cats[rand3].icon}
           reversed={true}
@@ -102,29 +100,14 @@ class Home extends React.Component {
         <Product
           title={"recently added"}
           products={this.state.productsRecent}
-          key={0}
         />
-        {/* <Store
-          title={"featured stores"}
-          stores={this.props.featuredStoreFetch(4)}
-          radius={0}
-        /> */}
         <Store
           title={"featured stores"}
           stores={this.state.stores1}
           radius={0}
         />
-        <Product
-          title={"top rated"}
-          products={this.state.productsTopRated}
-          key={1}
-        />
+        <Product title={"top rated"} products={this.state.productsTopRated} />
 
-        {/* <Store
-          title={"featured stores"}
-          stores={this.state.stores2}
-          radius={1}
-        /> */}
         {/* <Product
           title={"discounted"}
           products={this.state.productsDiscounted}

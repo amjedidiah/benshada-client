@@ -69,6 +69,7 @@ class Login extends React.Component {
               buttons={loginButtons}
               initialValues={{}}
             />
+            
 
             <p className="text-muted text-left px-4 px-md-5 mx-md-3 my-3">
               New to Benshada?

@@ -4,12 +4,10 @@ import { Link } from "react-router-dom";
 import { fetchProducts, fetchStores } from "../../actions/misc";
 import { filterContent } from "../../actions/load";
 import $ from "jquery";
-import {
-  faStoreAlt,
-  faSearch,
-  faSpinner,
-} from "@fortawesome/free-solid-svg-icons";
+import { faSearch, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Price from "../Products/Price";
+import Src from "../Src/Src";
 
 export default class Search extends Component {
   constructor() {
@@ -34,16 +32,16 @@ export default class Search extends Component {
         relatedProducts: null,
       });
 
-      const req = await fetchStores(),
-        stores = req.data.data,
+      const reqStores = await fetchStores(),
+        stores = reqStores.data.data,
         relatedStoresInit = stores.filter(
           ({ name }) =>
             name.toLowerCase().indexOf(this.state.value.toLowerCase()) >= 0
         ),
         relatedStores = relatedStoresInit.slice(0, 4);
 
-      const res = await fetchProducts(),
-        products = res.data.data,
+      const reqProducts = await fetchProducts(),
+        products = reqProducts.data.data,
         relatedProductsInit = filterContent(
           products.filter(
             ({ name }) =>
@@ -76,34 +74,49 @@ export default class Search extends Component {
     );
   }
 
+  renderResult = (related, type) =>
+    related < 1 ? (
+      <div className="px-4 py-2">No {type} found</div>
+    ) : (
+      related.map((item, i) => {
+        return (
+          <li className="" key={`related${type}${i}`}>
+            <Link
+              to={`/${type}s/?id=${item && item._id}`}
+              className="d-block px-4 py-2 border border-white"
+            >
+              <div className="row align-items-center h-100">
+                <div className="mr-2 p-0 text-center" style={{ width: "60px" }}>
+                  <Src
+                    name={item && item.name}
+                    image={item && item.image}
+                    type={type}
+                    size={2}
+                  />
+                </div>
+                <div className="flex-grow-1 text-secondary">
+                  <div>{item && item.name}</div>
+                  <div className="">
+                    <Price
+                      price={item && item.price}
+                      discount={item && item.discountPercentage}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </li>
+        );
+      })
+    );
+
   searchFound = () => {
     return (
       <>
         <li className="dropdown-header text-uppercase">
           <small className="font-weight-bold">stores</small>
         </li>
-        {this.state.relatedStores.length < 1 ? (
-          <div className="px-4 py-2">No store found</div>
-        ) : (
-          this.state.relatedStores.map(({ name, _id }, i) => (
-            <li className="" key={`relatedStores${i}`}>
-              <Link
-                to={`/stores/?id=${_id}`}
-                className="d-block px-4 py-2 border border-white"
-              >
-                <div className="d-flex">
-                  <div className="mr-4">
-                    <FontAwesomeIcon
-                      className="text-secondary"
-                      icon={faStoreAlt}
-                    />
-                  </div>
-                  <div className="flex-grow-1 text-secondary">{name}</div>
-                </div>
-              </Link>
-            </li>
-          ))
-        )}
+        {this.renderResult(this.state.relatedStores, "store")}
 
         <li className="dropdown-divider"></li>
 
@@ -111,50 +124,10 @@ export default class Search extends Component {
           <small className="font-weight-bold">products</small>
         </li>
 
-        {this.state.relatedProducts.length < 1 ? (
-          <div className="px-4 py-2">No products found</div>
-        ) : (
-          this.state.relatedProducts.map(
-            ({ name, _id, discountPercentage, price }, i) => (
-              <li className="" key={`relatedProducts${i}`}>
-                <Link
-                  to={`/products/?id=${_id}`}
-                  className="d-block px-4 py-2 border border-white"
-                >
-                  <div className="d-flex">
-                    <div className="flex-grow-1 text-secondary">
-                      <div>{name}</div>
-                      <div className="d-flex">
-                        {discountPercentage > 0 ? (
-                          <>
-                            <div>
-                              <strike>
-                                &#x20A6; <span>{price}</span>
-                              </strike>
-                            </div>
-                            <div className="font-weight-bold ml-3">
-                              &#x20A6;{" "}
-                              <span>
-                                {price * (1 - discountPercentage / 100)}
-                              </span>
-                            </div>
-                          </>
-                        ) : (
-                          <div className="font-weight-bold">
-                            &#x20A6; <span>{price}</span>
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                </Link>
-              </li>
-            )
-          )
-        )}
+        {this.renderResult(this.state.relatedProducts, "product")}
 
         {this.state.totalResults > 0 ? (
-          <li className="text-center text-primary text-uppercase">
+          <li className="text-center text-primary text-uppercase my-2">
             <Link to={`/catalog/?q=${this.state.value}`} className="p-2">
               see all results ({this.state.totalResults})
             </Link>

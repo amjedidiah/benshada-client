@@ -40,23 +40,28 @@ export default class All extends Component {
           // If fetch is based on search
           if (queryString !== undefined) {
             response = items.filter(({ name }) =>
-              name.toLowerCase().includes(queryString)
+              (name && name.toLowerCase()).includes(queryString.toLowerCase())
             );
           } else {
             if (store === undefined) {
               if (productCategory !== undefined) {
                 response = items.filter(
-                  ({ category }) => category === productCategory
+                  ({ category }) =>
+                    category &&
+                    category.toLowerCase() === productCategory.toLowerCase()
                 );
               } else if (productGender !== undefined) {
                 response = items.filter(
-                  ({ gender }) => gender === productGender
+                  ({ gender }) =>
+                    gender &&
+                    gender.toLowerCase() === productGender.toLowerCase()
                 );
               } else {
                 response = items.filter(
-                  ({ name, price, discountPercentage }) =>
+                  ({ name, price, discountPercentage, specifications }) =>
                     (price === productPrice ||
                       discountPercentage === productDiscount) &&
+                    name &&
                     name.toLowerCase() !== productName.toLowerCase()
                 );
               }
@@ -65,15 +70,22 @@ export default class All extends Component {
                 response = items.filter(({ shop, name }) =>
                   store === null || store === "null"
                     ? []
-                    : store === ((shop && shop.name) || "A").toLowerCase() &&
-                      name.toLowerCase() !== productName.toLowerCase()
+                    : store.toLowerCase() ===
+                        (
+                          ((shop && shop.name) || "A") &&
+                          ((shop && shop.name) || "A")
+                        ).toLowerCase() &&
+                      (name && name.toLowerCase()) !== productName.toLowerCase()
                 );
               } else {
                 response = items.filter(({ shop, discountPercentage }) =>
                   store === null || store === "null"
                     ? []
-                    : store === ((shop && shop.name) || "A").toLowerCase() &&
-                      discountPercentage > 0
+                    : store.toLowerCase() ===
+                        (
+                          ((shop && shop.name) || "A") &&
+                          ((shop && shop.name) || "A")
+                        ).toLowerCase() && discountPercentage > 0
                 );
               }
             }
