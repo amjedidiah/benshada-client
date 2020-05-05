@@ -2,6 +2,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Available Scripts
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/bb5d654bcad142a89960cc455c435286)](https://app.codacy.com/gh/AestArt/benshada-client?utm_source=github.com&utm_medium=referral&utm_content=AestArt/benshada-client&utm_campaign=Badge_Grade_Settings)
+
+
 In the project directory, you can run:
 
 ### `npm start`
