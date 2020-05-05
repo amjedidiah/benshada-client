@@ -10,10 +10,7 @@ package-lock.json
 /coverage
 
 # production
-/build
-
-# history
-.history/
+/build/
 
 # misc
 .DS_Store
