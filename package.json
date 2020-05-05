@@ -41,13 +41,11 @@
     "webpack": "^4.41.2"
   },
   "scripts": {
-    "dev": "react-scripts start",
+    "dev": "react-scripts build && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "serve -s build",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "start": "serve -s build"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -63,5 +61,4 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }, "homepage": "https://aestart.github.io/benshada-client/"
-}
+  }}
