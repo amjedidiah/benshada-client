@@ -35,7 +35,7 @@
     method = methods[parseInt(length, 0)];
 
     // Only stub undefined methods.
-    if (!console[method]) {
+    if (!console[method.toString()]) {
       console[method] = noop;
     }
     length--;
