@@ -5,7 +5,7 @@ import {
   REGISTER,
   LOGOUT,
   ROLE_SELECT,
-  ACTION_LOAD_AVOIDED
+  ACTION_LOAD_AVOIDED,
 } from "./types";
 
 import {
@@ -13,14 +13,14 @@ import {
   actionNotify,
   errorReport,
   timeOut,
-  enqueueDynamicArray
+  enqueueDynamicArray,
 } from "./load";
 import history from "../history";
 import { userFetch, storeCreate } from "./user";
 
-export const ifSeller = type => (type === "a" || type === "b" ? true : false);
+export const ifSeller = (type) => (type === "a" || type === "b" ? true : false);
 
-export const login = formValues => (dispatch, getState) => {
+export const login = (formValues) => (dispatch, getState) => {
   dispatch(
     getState().load.loading === false
       ? actionLoad()
@@ -30,30 +30,30 @@ export const login = formValues => (dispatch, getState) => {
   const req = api.post(`/users/login`, formValues, timeOut);
 
   return req
-    .then(res =>
+    .then((res) =>
       dispatch([
         {
           type: LOGIN,
-          payload: [res.data.data.email, res.data.data.token]
+          payload: [res.data.data.email, res.data.data.token],
         },
-        actionNotify(res.data.message)
+        actionNotify(res.data.message),
       ])
     )
     .then(() => dispatch(userFetch()))
-    .catch(error => dispatch(errorReport(error)));
+    .catch((error) => dispatch(errorReport(error)));
 };
 
-export const logout = () => dispatch =>
+export const logout = () => (dispatch) =>
   enqueueDynamicArray([
     dispatch(actionLoad()),
     dispatch({
-      type: LOGOUT
+      type: LOGOUT,
     }),
     dispatch(actionNotify("Logout successful")),
-    history.push("/")
+    history.push("/"),
   ]);
 
-export const register = formValues => async (dispatch, getState) => {
+export const register = (formValues) => async (dispatch, getState) => {
   dispatch(
     getState().load.loading === false
       ? actionLoad()
@@ -66,30 +66,34 @@ export const register = formValues => async (dispatch, getState) => {
     .then(() =>
       dispatch(actionNotify("A user already exists with this email."))
     )
-    .catch(error => {
+    .catch((error) => {
       if (error.response && error.response.status === 404) {
         let { email, password } = formValues;
 
         const req = api.post(`/users/signup`, formValues, timeOut);
 
+        console.log(formValues);
+
         return req
-          .then(res =>
+          .then((res) => {
+            console.log(res, "me");
+
             dispatch([
               {
-                type: REGISTER
+                type: REGISTER,
               },
-              actionNotify(res.data.message)
-            ])
-          )
+              actionNotify(res.data.message),
+            ]);
+          })
           .then(() => dispatch(login({ email, password })))
-          .catch(error => dispatch(errorReport(error)));
+          .catch((error, a, b) => dispatch(errorReport(error)));
       } else {
         dispatch(errorReport(error));
       }
     });
 };
 
-export const roleSelect = type => (dispatch, getState) => {
+export const roleSelect = (type) => (dispatch, getState) => {
   let { token, email } = getState().auth;
 
   dispatch(
@@ -103,20 +107,20 @@ export const roleSelect = type => (dispatch, getState) => {
     { isDeleted: false, type },
     {
       headers: { Authorization: "Bearer " + token },
-      timeout: 30000
+      timeout: 30000,
     }
   );
 
   return res
-    .then(res =>
+    .then((res) =>
       dispatch([
         {
-          type: ROLE_SELECT
+          type: ROLE_SELECT,
         },
-        actionNotify(res.data.message)
+        actionNotify(res.data.message),
       ])
     )
     .then(() => dispatch(userFetch()))
     .then(() => setTimeout(() => dispatch(storeCreate()), 3000))
-    .catch(error => dispatch(errorReport(error)));
+    .catch((error) => dispatch(errorReport(error)));
 };

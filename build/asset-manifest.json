@@ -1,30 +1,30 @@
 {
   "files": {
-    "main.css": "/static/css/main.07cfada6.chunk.css",
-    "main.js": "/static/js/main.3ff4416d.chunk.js",
-    "main.js.map": "/static/js/main.3ff4416d.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.e10276a6.js",
-    "runtime-main.js.map": "/static/js/runtime-main.e10276a6.js.map",
-    "static/css/2.b0b670da.chunk.css": "/static/css/2.b0b670da.chunk.css",
-    "static/js/2.f02afdeb.chunk.js": "/static/js/2.f02afdeb.chunk.js",
-    "static/js/2.f02afdeb.chunk.js.map": "/static/js/2.f02afdeb.chunk.js.map",
-    "index.html": "/index.html",
-    "precache-manifest.4b07549048bc74bbfe6e3f8e6cb326ee.js": "/precache-manifest.4b07549048bc74bbfe6e3f8e6cb326ee.js",
-    "service-worker.js": "/service-worker.js",
-    "static/css/2.b0b670da.chunk.css.map": "/static/css/2.b0b670da.chunk.css.map",
-    "static/css/main.07cfada6.chunk.css.map": "/static/css/main.07cfada6.chunk.css.map",
-    "static/js/2.f02afdeb.chunk.js.LICENSE": "/static/js/2.f02afdeb.chunk.js.LICENSE",
-    "static/media/benshadawebbanners01.jpg": "/static/media/benshadawebbanners01.b46d31f1.jpg",
-    "static/media/benshadawebbanners02.jpg": "/static/media/benshadawebbanners02.423cb066.jpg",
-    "static/media/benshadawebbanners03.jpg": "/static/media/benshadawebbanners03.24e7235e.jpg",
-    "static/media/benshadawebbanners04.jpg": "/static/media/benshadawebbanners04.0cd6ed53.jpg",
-    "static/media/login.css": "/static/media/login.5209e52c.jpg"
+    "main.css": "./static/css/main.50bcae01.chunk.css",
+    "main.js": "./static/js/main.33656020.chunk.js",
+    "main.js.map": "./static/js/main.33656020.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.b0c471d1.js",
+    "runtime-main.js.map": "./static/js/runtime-main.b0c471d1.js.map",
+    "static/css/2.b0b670da.chunk.css": "./static/css/2.b0b670da.chunk.css",
+    "static/js/2.869674b5.chunk.js": "./static/js/2.869674b5.chunk.js",
+    "static/js/2.869674b5.chunk.js.map": "./static/js/2.869674b5.chunk.js.map",
+    "index.html": "./index.html",
+    "precache-manifest.cd7c0948aae49c1bc9ba3ba3d334aaf1.js": "./precache-manifest.cd7c0948aae49c1bc9ba3ba3d334aaf1.js",
+    "service-worker.js": "./service-worker.js",
+    "static/css/2.b0b670da.chunk.css.map": "./static/css/2.b0b670da.chunk.css.map",
+    "static/css/main.50bcae01.chunk.css.map": "./static/css/main.50bcae01.chunk.css.map",
+    "static/js/2.869674b5.chunk.js.LICENSE": "./static/js/2.869674b5.chunk.js.LICENSE",
+    "static/media/benshadawebbanners01.jpg": "./static/media/benshadawebbanners01.b46d31f1.jpg",
+    "static/media/benshadawebbanners02.jpg": "./static/media/benshadawebbanners02.423cb066.jpg",
+    "static/media/benshadawebbanners03.jpg": "./static/media/benshadawebbanners03.24e7235e.jpg",
+    "static/media/benshadawebbanners04.jpg": "./static/media/benshadawebbanners04.0cd6ed53.jpg",
+    "static/media/login.css": "./static/media/login.5209e52c.jpg"
   },
   "entrypoints": [
-    "static/js/runtime-main.e10276a6.js",
+    "static/js/runtime-main.b0c471d1.js",
     "static/css/2.b0b670da.chunk.css",
-    "static/js/2.f02afdeb.chunk.js",
-    "static/css/main.07cfada6.chunk.css",
-    "static/js/main.3ff4416d.chunk.js"
+    "static/js/2.869674b5.chunk.js",
+    "static/css/main.50bcae01.chunk.css",
+    "static/js/main.33656020.chunk.js"
   ]
 }

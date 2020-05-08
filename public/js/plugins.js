@@ -32,7 +32,7 @@
   var console = (window.console = window.console || {});
 
   while (length > 0) {
-    method = methods[parseInt(length, 0)];
+    method = methods[parseInt(length, 0)] || "";
 
     // Only stub undefined methods.
     if (!console[method.toString()]) {
@@ -40,6 +40,6 @@
     }
     length--;
   }
-}());
+})();
 
 // Place any jQuery/helper plugins in here.

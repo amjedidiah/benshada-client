@@ -17,6 +17,7 @@ import {
   faPencilAlt,
   faHeart,
 } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartO } from "@fortawesome/free-regular-svg-icons";
 import { cartAdd, cartRemove } from "../../actions/cart";
 import CartButton from "../Cart/CartButton";
 import Loading from "../Misc/Loading/Loading";
@@ -31,27 +32,25 @@ class Product extends Component {
 
     return !isSignedIn || !ifSeller(user && user.type) ? (
       <>
-        <button className="btn mr-3">
-          {saved.filter(({ _id }) => _id === id).length > 0 ? (
-            <FontAwesomeIcon
-              className="text-primary"
-              onClick={() =>
-                userUpdateProfile({
-                  saved: saved.filter(({ _id }) => _id !== id).unique(),
-                })
-              }
-              icon={faHeart}
-            />
-          ) : (
-            <FontAwesomeIcon
-              className="text-primary"
-              onClick={() =>
-                userUpdateProfile({ saved: [...saved, product].unique() })
-              }
-              icon={faHeart}
-            />
-          )}
-        </button>
+        {saved.filter(({ _id }) => _id === id).length > 0 ? (
+          <FontAwesomeIcon
+            className="text-primary mr-3"
+            onClick={() =>
+              userUpdateProfile({
+                saved: saved.filter(({ _id }) => _id !== id).unique(),
+              })
+            }
+            icon={faHeart}
+          />
+        ) : (
+          <FontAwesomeIcon
+            className="text-primary mr-3"
+            onClick={() =>
+              userUpdateProfile({ saved: [...saved, product].unique() })
+            }
+            icon={faHeartO}
+          />
+        )}
         <CartButton product={product} qty={1} />
       </>
     ) : window.location.pathname.includes("user") ? (
@@ -145,9 +144,16 @@ class Product extends Component {
                 key={`product${_id}`}
               >
                 <div className="card-body p-0">
-                  <Src name={name} image={image} type="product" size={6} xtraClass="p-3" />
+                  <Src
+                    name={name}
+                    image={image}
+                    type="product"
+                    size={6}
+                    xtraClass="p-3"
+                  />
 
                   <div className="text-left p-3">
+                    {this.renderProductActions(i, _id, product)}
                     <p>
                       <Link to={`/products/?id=${_id}`}>{name}</Link>
                     </p>

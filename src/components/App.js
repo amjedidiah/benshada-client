@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Router, Route, BrowserRouter } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
 import { connect } from "react-redux";
 
 import Home from "./Home/Home";
@@ -24,7 +24,7 @@ class App extends Component {
 
     return (
       <div className="h-100">
-        <BrowserRouter history={history} basename={window.location.pathname || ""}>
+        <Router history={history} basename={window.location.pathname || ""}>
           <Route path="/" component={Home} exact />
           <Route path="/login" component={Login} exact />
           <Route path="/register" component={Register} exact />
@@ -36,7 +36,7 @@ class App extends Component {
           <Route path="/products" component={Products} />
           <Route path="/stores" component={Stores} />
           <Route path="/checkout" component={CheckOut} />
-        </BrowserRouter>
+        </Router>
         <LoadingScreen
           loading={loading}
           bgColor={bgColor}

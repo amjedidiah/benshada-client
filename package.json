@@ -10,12 +10,11 @@
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.8",
     "axios": "^0.19.1",
+    "babel-jest": "^26.0.1",
     "bootstrap": "^4.4.1",
     "d3": "4.13.0",
-    "gh-pages": "^2.2.0",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
-    "owl.carousel": "^2.3.4",
     "popper.js": "^1.15.0",
     "query-string": "^6.10.1",
     "react": "^16.12.0",
@@ -62,5 +61,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "."
 }
