@@ -1,0 +1,13 @@
+{
+  "short_name": "Benshada",
+  "name": "Benshada Place",
+  "icons": [{
+    "src": "icon.png",
+    "type": "image/png",
+    "sizes": "512x512"
+  }],
+  "display": "standalone",
+  "start_url": "/?utm_source=homescreen",
+  "background_color": "#ef932e",
+  "theme_color": "#ef932e"
+}
