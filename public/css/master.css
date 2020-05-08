@@ -2,15 +2,15 @@
 * {
   font-family: "Montserrat", sans-serif;
   box-sizing: border-box;
-  word-wrap: break-word !important;
-  transition: all 0.05s !important;
+  word-wrap: break-word;
+  transition: all 0.05s;
 }
 
 body,
 html {
   height: 100%;
 
-  /* font-size: 14px !important; */
+  /* font-size: 14px; */
 }
 
 h1,
@@ -19,7 +19,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Roboto", serif !important;
+  font-family: "Roboto", serif;
 
   /* font-family: "Montserrat", sans-serif !important; */
 }
@@ -28,7 +28,7 @@ a {
   text-decoration: none !important;
   color: #212529;
   box-shadow: none;
-  background: inherit !important;
+  background: inherit;
 }
 
 a,
@@ -39,7 +39,7 @@ a.active {
 
 a:hover,
 a.active {
-  font-weight: 600 !important;
+  font-weight: 600;
 }
 
 p {
@@ -74,17 +74,17 @@ button:hover {
 .form-control:-webkit-autofill:focus,
 .form-control:-webkit-autofill:active {
   box-shadow: none;
-  -webkit-box-shadow: 0 0 0 100 #fff inset !important;
-  font-family: "Montserrat", sans-serif !important;
+  -webkit-box-shadow: 0 0 0 100 #fff inset;
+  font-family: "Montserrat", sans-serif;
 }
 
 .border-primary {
-  border-color: #ef932e !important;
+  border-color: #ef932e;
 }
 
 .bg-primary,
 .btn-primary {
-  background: #ef932e !important;
+  background: #ef932e;
 }
 
 .btn-primary,
@@ -97,28 +97,28 @@ button:hover {
 }
 
 .btn-outline-primary:hover {
-  color: #fff !important;
+  color: #fff;
   background: #ef932e !important;
 }
 
 .btn-link {
-  box-shadow: none !important;
-  color: #ef932e !important;
-  font-weight: bold !important;
-  padding-left: 0 !important;
-  text-decoration: none !important;
+  box-shadow: none;
+  color: #ef932e;
+  font-weight: bold;
+  padding-left: 0;
+  text-decoration: none;
 }
 
 .bg-transparent {
-  background: rgba(239, 147, 46, 0.7) !important;
+  background: rgba(239, 147, 46, 0.7);
 }
 
 .bg-light {
-  background: #fbf9f9 !important;
+  background: #fbf9f9;
 }
 
 .bg-warning {
-  background: #ffdcb0 !important;
+  background: #ffdcb0;
 }
 
 .text-primary {
@@ -134,7 +134,7 @@ button:hover {
 }
 
 .card-columns .card {
-  display: inline-block !important;
+  display: inline-block;
 }
 
 .card-columns.card-columns-double,
@@ -147,7 +147,7 @@ button:hover {
 }
 
 .card-select {
-  cursor: pointer !important;
+  cursor: pointer;
 }
 
 .clear {
@@ -211,27 +211,27 @@ button:hover {
 
 .modal,
 .modal > div {
-  z-index: 2147483644 !important;
+  z-index: 2147483644;
   background: rgba(0, 0, 0, 0.2);
 }
 
 /* Loading screen style */
 .sc-htpNat {
-  position: fixed !important;
+  position: fixed;
 
   /* z-index: 2147483638 !important; */
-  height: 100% !important;
+  height: 100%;
 }
 
 @media (min-width: 576px) {
   .card-columns.card-columns-two {
-    column-count: 2 !important;
+    column-count: 2;
   }
 }
 
 @media (min-width: 768px) {
   .card-columns {
-    column-count: 3 !important;
+    column-count: 3;
   }
 }
 
@@ -244,11 +244,11 @@ button:hover {
 @media (min-width: 1198px) {
   .card-columns,
   .card-columns.products {
-    column-count: 6 !important;
+    column-count: 6;
   }
 
   .category .card-columns,
   .category .card-columns.products {
-    column-count: 4 !important;
+    column-count: 4;
   }
 }
