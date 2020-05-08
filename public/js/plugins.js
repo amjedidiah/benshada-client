@@ -31,13 +31,14 @@
   var length = methods.length;
   var console = (window.console = window.console || {});
 
-  while (length--) {
-    method = methods[parseInt(length)];
+  while (length > 0) {
+    method = methods[parseInt(length, 0)];
 
     // Only stub undefined methods.
-    if (!console[parseInt(method)]) {
-      console[parseInt(method)] = noop;
+    if (!console[method]) {
+      console[method] = noop;
     }
+    length--;
   }
 })();
 
