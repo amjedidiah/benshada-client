@@ -11,13 +11,11 @@ const filesToCache = [
 const vNum = 1;
 const staticCacheName = `benshada-cache-v${vNum}`;
 
-self.addEventListener("install", (event) => {
+self.addEventListener("install", (event) =>
   event.waitUntil(
-    caches.open(staticCacheName.toString()).then((cache) => {
-      return cache.addAll(filesToCache);
-    })
-  );
-});
+    caches.open(staticCacheName).then((cache) => cache.addAll(filesToCache))
+  )
+);
 
 self.addEventListener("fetch", (event) => {
   event.respondWith(
