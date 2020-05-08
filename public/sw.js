@@ -13,7 +13,7 @@ const staticCacheName = `benshada-cache-v${vNum}`;
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(staticCacheName).then((cache) => {
+    caches.open(`benshada-cache-v${vNum}`).then((cache) => {
       return cache.addAll(filesToCache);
     })
   );

@@ -36,10 +36,10 @@
 
     // Only stub undefined methods.
     if (!console[method.toString()]) {
-      console[method] = noop;
+      console[method.toString()] = noop;
     }
     length--;
   }
-})();
+}());
 
 // Place any jQuery/helper plugins in here.
