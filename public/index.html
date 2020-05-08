@@ -2,10 +2,8 @@
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
-
-    <title>Benshada Place | African Trade Without Borders</title>
-    <meta name="description" content="African Trade Without Borders" />
-    <meta name="robots" content="index,follow" />
+    <title>Benshada Place | African fashion trade without borders</title>
+    <meta name="description" content="African fashion trade without borders" />
     <meta name="author" content="Benshada Place" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta
@@ -15,14 +13,15 @@
     <!--
       Give name for pinning site to Taskbar on WIndows.
     -->
-    <meta name="application-name" content="Benshada" />
+    <meta name="application-name" content="Benshada Place" />
     <!--
       Give site tooltip for pinning
     -->
     <meta
       name="msapplication-tooltip"
-      content="African Trade Without Borders"
+      content="African fashion trade without borders"
     />
+
     <!-- Make it possible to pin app on mobile -->
     <meta name="mobile-web-app-capable" content="yes" />
     <!-- Get Site to look like app on iOS  -->
@@ -31,45 +30,39 @@
     <!--
       Add Title for when site is pinned to iOS screen
     -->
-    <meta name="apple-mobile-web-app-title" content="Benshada" />
+    <meta name="apple-mobile-web-app-title" content="Benshada Place" />
     <meta name="theme-color" content="#ef932e" />
 
     <!--
       Add icon for when pinned to iOS & any other mobile
      -->
-    <link rel="icon" sizes="192x192" href="%PUBLIC_URL%/favicon.ico" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="icon" sizes="192x192" href="%PUBLIC_URL%/tile.png" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/tile.png" />
     <!--
        Display certain image when site is loaded as app on iOS
       -->
     <link
       rel="apple-touch-startup-image"
       media="(max-width: 480px) and (-webkit-min-device-pixel-ratio: 2)"
-      href="%PUBLIC_URL%/favicon.ico"
+      href="%PUBLIC_URL%/tile.png"
     />
-    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
-    <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/tile.png" />
 
     <!--
-       DNS Prefetching: prefetches the site that is included in the href
-     -->
-    <!-- <link rel="dns-prefetch" href="https://www.google.com" /> -->
-
-    <!--
-      manifest.json provides metadata used when your web app is installed on a
-      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+      DNS Prefetching: prefetches the site that is included in the href
     -->
+    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+
+    <script src="%PUBLIC_URL%/js/prototypes.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <main class="h-100" id="root"></main>
 
-    <!-- FontAwesome -->
-    <script
-      src="https://kit.fontawesome.com/a2ea8d437a.js"
-      crossorigin="anonymous"
-      defer
-    ></script>
+    <!-- Modernizr. Plugins -->
+    <script src="%PUBLIC_URL%/js/modernizr.min.js" async></script>
+    <script src="%PUBLIC_URL%/js/plugins.js" async></script>
 
     <noscript id="deferred-styles">
       <!-- Google Fonts -->
@@ -77,6 +70,15 @@
         href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i|Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap"
         rel="stylesheet"
       />
+
+      <!-- Normalize CSS -->
+      <link rel="stylesheet" href="%PUBLIC_URL%/css/normalize.css" />
+
+      <!-- Main CSS -->
+      <link rel="stylesheet" href="%PUBLIC_URL%/css/main.css" />
+
+      <!-- Main CSS -->
+      <link rel="stylesheet" href="%PUBLIC_URL%/css/master.css" />
     </noscript>
     <script>
       var loadDeferredStyles = function () {
@@ -97,5 +99,19 @@
         });
       else window.addEventListener("load", loadDeferredStyles);
     </script>
+
+    <!-- Service Worker -->
+    <script>
+      // ServiceWorker is a progressive technology. Ignore unsupported browsers
+      if ("serviceWorker" in navigator) {
+        window.addEventListener("load", () =>
+          navigator.serviceWorker.register("sw.js")
+        );
+      }
+    </script>
   </body>
 </html>
+
+<!-- 
+  TODO: Finish Codacy local setup from https://github.com/codacy/codacy-analysis-cli#install
+ -->

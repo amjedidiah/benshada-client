@@ -1,13 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 
+// Import Necessary JS
 import "jquery/dist/jquery.min";
 import "bootstrap/dist/css/bootstrap.min.css";
-import "bootstrap/dist/js/bootstrap.min.js";
-import "popper.js/dist/popper.min.js";
-import "./prototypes.js";
+import "bootstrap/dist/js/bootstrap.min";
+import "popper.js/dist/popper.min";
 
-import "./master.css";
 import App from "./components/App";
 
 import { Provider } from "react-redux";

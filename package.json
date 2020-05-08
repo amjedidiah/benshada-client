@@ -41,11 +41,12 @@
     "webpack": "^4.41.2"
   },
   "scripts": {
-    "dev": "react-scripts build && npm start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "serve -s build"
+    "start": "serve -s build",
+    "dev": "react-scripts build && npm start",
+    "view": "react-scripts start"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -61,4 +62,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }}
+  }
+}
