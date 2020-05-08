@@ -25,7 +25,7 @@ h6 {
 }
 
 a {
-  text-decoration: none !important;
+  text-decoration: none;
   color: #212529;
   box-shadow: none;
   background: inherit;
@@ -93,7 +93,7 @@ button:hover {
 }
 
 .btn-outline-primary {
-  color: #ef932e !important;
+  color: #ef932e;
 }
 
 .btn-outline-primary:hover {
