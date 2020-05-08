@@ -1,6 +1,7 @@
 /*! HTML5 Boilerplate v7.3.0 | MIT License | https://html5boilerplate.com/ */
 
 /* main.css 2.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
+
 /*
  * What follows is the result of much research on cross-browser styling.
  * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
@@ -129,7 +130,6 @@ textarea {
   position: absolute;
   white-space: nowrap;
   width: 1px;
-  /* 1 */
 }
 
 /*
@@ -185,16 +185,16 @@ textarea {
    Modify as content requires.
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
-}
+/* Style adjustments for viewports that meet the condition */
+/* @media only screen and (min-width: 35em) {
+} */
 
-@media print,
+/* Style adjustments for high resolution devices */
+/* @media print,
   (-webkit-min-device-pixel-ratio: 1.25),
   (min-resolution: 1.25dppx),
   (min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
-}
+} */
 
 /* ==========================================================================
    Print styles.
@@ -216,45 +216,56 @@ textarea {
   a:visited {
     text-decoration: underline;
   }
+
   a[href]::after {
     content: " (" attr(href) ")";
   }
+
   abbr[title]::after {
     content: " (" attr(title) ")";
   }
+
   /*
      * Don't show links that are fragment identifiers,
      * or use the `javascript:` pseudo protocol
      */
+
   a[href^="#"]::after,
   a[href^="javascript:"]::after {
     content: "";
   }
+
   pre {
     white-space: pre-wrap;
   }
+
   pre,
   blockquote {
     border: 1px solid #999;
     page-break-inside: avoid;
   }
+
   /*
      * Printing Tables:
      * https://web.archive.org/web/20180815150934/http://css-discuss.incutio.com/wiki/Printing_Tables
      */
+
   thead {
     display: table-header-group;
   }
+
   tr,
   img {
     page-break-inside: avoid;
   }
+
   p,
   h2,
   h3 {
     orphans: 3;
     widows: 3;
   }
+
   h2,
   h3 {
     page-break-after: avoid;
