@@ -9,6 +9,7 @@
 body,
 html {
   height: 100%;
+
   /* font-size: 14px !important; */
 }
 
@@ -19,6 +20,7 @@ h4,
 h5,
 h6 {
   font-family: "Roboto", serif !important;
+
   /* font-family: "Montserrat", sans-serif !important; */
 }
 
@@ -52,6 +54,7 @@ p {
 
 .pointer {
   box-shadow: none;
+  cursor: pointer;
 }
 
 .btn,
@@ -62,6 +65,7 @@ button:focus,
 button:hover {
   font-weight: 500;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  border: none;
 }
 
 .navbar-brand {
@@ -74,7 +78,7 @@ button:hover {
 .form-control:-webkit-autofill:focus,
 .form-control:-webkit-autofill:active {
   box-shadow: none;
-  -webkit-box-shadow: 0 0 0px 1000px #fff inset !important;
+  -webkit-box-shadow: 0 0 0px 100px #fff inset !important;
   font-family: "Montserrat", sans-serif !important;
 }
 
@@ -114,8 +118,8 @@ button:hover {
 }
 
 .bg-light {
-  /*background: #fefbf6 !important;*/
-  /*background: #f3eded !important;*/
+  /* background: #fefbf6 !important;*/
+  /* background: #f3eded !important;*/
   background: #fbf9f9 !important;
 }
 
@@ -129,10 +133,6 @@ button:hover {
 
 .text-ash {
   color: #ccc;
-}
-
-.btn {
-  border: none;
 }
 
 .card-columns {
@@ -153,10 +153,6 @@ button:hover {
 }
 
 .card-select {
-  cursor: pointer !important;
-}
-
-.pointer {
   cursor: pointer !important;
 }
 
@@ -228,6 +224,7 @@ button:hover {
 /* Loading screen style */
 .sc-htpNat {
   position: fixed !important;
+
   /* z-index: 2147483638 !important; */
   height: 100% !important;
 }
