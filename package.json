@@ -1,7 +1,40 @@
 {
   "name": "benshada-client",
   "version": "0.1.0",
+  "description": "African fashion without borders",
+  "keywords": [
+    "Africa",
+    "fashion",
+    "benshada",
+    "benshada place"
+  ],
   "private": true,
+  "directories": {
+    "test": "__tests__"
+  },
+  "scripts": {
+    "test": "react-scripts test",
+    "test:watch": "react-scripts test --watch",
+    "test:cover": "react-scripts test --coverage",
+    "lint": "eslint \"src/**/*.js\"",
+    "build": "react-scripts build",
+    "start": "serve -s build",
+    "dev": "react-scripts start",
+    "preprod": "npm run build",
+    "prod": "serve -s build"
+  },
+  "author": {
+    "name": "Aestart",
+    "email": "aestartng@andela.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AestArt/benshada-client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AestArt/benshada-client/issues"
+  },
+  "license": "MIT",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.12.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.26",
@@ -9,18 +42,23 @@
     "@fortawesome/free-regular-svg-icons": "^5.12.0",
     "@fortawesome/free-solid-svg-icons": "^5.12.0",
     "@fortawesome/react-fontawesome": "^0.1.8",
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
     "axios": "^0.19.1",
+    "babel-polyfill": "^6.26.0",
     "bootstrap": "^4.4.1",
     "d3": "4.13.0",
-    "gh-pages": "^2.2.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "jest-enzyme": "^7.1.2",
     "jquery": "^3.4.1",
     "lodash": "^4.17.11",
-    "owl.carousel": "^2.3.4",
     "popper.js": "^1.15.0",
     "query-string": "^6.10.1",
     "react": "^16.12.0",
     "react-anchor-link-smooth-scroll": "^1.0.12",
-    "react-bootstrap": "^1.0.0-beta.16",
+    "react-bootstrap": "^1.0.1",
     "react-container-dimensions": "^1.4.1",
     "react-dev-utils": "^10.0.0",
     "react-dom": "^16.12.0",
@@ -38,18 +76,15 @@
     "redux-thunk": "^2.3.0",
     "serve": "^11.3.0",
     "string-hash": "^1.1.3",
-    "webpack": "^4.41.2"
+    "webpack": "4.42.0"
   },
-  "scripts": {
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "start": "serve -s build",
-    "dev": "react-scripts build && npm start",
-    "view": "react-scripts start"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.1.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-react": "^7.19.0"
   },
   "browserslist": {
     "production": [
