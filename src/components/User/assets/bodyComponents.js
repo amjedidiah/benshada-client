@@ -1,38 +1,31 @@
-import React, { Component } from "react";
-import BenshadaForm from "../../BenshadaForm/BenshadaForm";
-import { connect } from "react-redux";
-import {
-  userUpdateProfile,
-  storeUpdateInfo,
-  storeUpdateBank,
-  orderCancel,
-} from "../../../actions/user";
-import { filterContent } from "../../../actions/load";
-import { stateSelect } from "../../../assets/location";
-import { ifSeller } from "../../../actions/auth";
+import React, { Component } from 'react';
+import BenshadaForm from '../../BenshadaForm/BenshadaForm';
+import { connect } from 'react-redux';
+import { userUpdateProfile, storeUpdateInfo, storeUpdateBank, orderCancel } from '../../../actions/user';
+import { filterContent } from '../../../actions/load';
+import { stateSelect } from '../../../assets/location';
+import { ifSeller } from '../../../actions/auth';
 
 // import MultiSelect from "../MultiSelect/MultiSelect";
 // import fedex from "../assets/img/fedex_logo.png";
 // import dhl from "../assets/img/dhl_logo.png";
-import Product from "../../Products/Product";
+import Product from '../../Products/Product';
 // import DashNav from "../DashNav";
 // import DashBody from "../DashBody";
-import BarChart from "../../charts/BarChart";
+import BarChart from '../../charts/BarChart';
 // import MultiLineChart from "../../charts/MultiLineChart";
-import LineChart from "../../charts/LineChart";
-import PieChart from "../../charts/PieChart";
+import LineChart from '../../charts/LineChart';
+import PieChart from '../../charts/PieChart';
 
-import ContainerDimensions from "react-container-dimensions";
+import ContainerDimensions from 'react-container-dimensions';
 // import NotFound from "../../Misc/NotFound/NotFound";
-import Order from "../../Orders/Order";
+import Order from '../../Orders/Order';
 
 const renderTabList = (array, id) =>
   array.map((item, i) => (
     <li className="nav-item" key={i}>
       <a
-        className={`nav-link text-uppercase font-weight-bold ${
-          i === 0 ? "active" : ""
-        }`}
+        className={`nav-link text-uppercase font-weight-bold ${i === 0 ? 'active' : ''}`}
         id={`${id}-${item}-tab`}
         data-toggle="tab"
         href={`#${id}-${item}`}
@@ -65,49 +58,37 @@ class ProfileTabBodyContainer extends Component {
     !ifSeller(type) ? (
       <>
         <p className="mt-3">
-          <span className="text-primary">Following</span>:{" "}
-          <span className="mr-md-3"> 0</span>
+          <span className="text-primary">Following</span>: <span className="mr-md-3"> 0</span>
         </p>
       </>
-    ) : cat !== "store" ? (
+    ) : cat !== 'store' ? (
       <p className="mt-3">
-        <span className="text-primary">Following</span>:{" "}
-        <span className="mr-md-3"> 0</span>
+        <span className="text-primary">Following</span>: <span className="mr-md-3"> 0</span>
       </p>
     ) : (
       <p className="mt-3">
-        <span className="text-primary">Followers</span>:{" "}
-        <span className="mr-md-3"> 0</span>
+        <span className="text-primary">Followers</span>: <span className="mr-md-3"> 0</span>
       </p>
     );
 
   render() {
     let { user, type, store } = this.props,
-      name = type !== "store" ? user && user.name : store && store.name,
-      info = type !== "store" ? user && user.email : store && store.description;
+      name = type !== 'store' ? user && user.name : store && store.name,
+      info = type !== 'store' ? user && user.email : store && store.description;
 
     return (
       <div className="px-4 mb-4 text-center text-lg-left">
         <div
           className="float-lg-left text-left rounded-circle position-relative"
           style={{
-            width: "100px",
-            height: "100px",
-            overflow: "hidden",
-            margin: "0 auto",
+            width: '100px',
+            height: '100px',
+            overflow: 'hidden',
+            margin: '0 auto'
           }}
         >
-          <img
-            src={""}
-            alt=""
-            className="rounded-circle position-absolute"
-            width="100"
-            height="100"
-          />
-          <div
-            className="position-absolute w-100 text-center"
-            style={{ bottom: 0 }}
-          >
+          <img src={''} alt="" className="rounded-circle position-absolute" width="100" height="100" />
+          <div className="position-absolute w-100 text-center" style={{ bottom: 0 }}>
             <i className={`fas fa-${type} fa-6x text-primary`}></i>
           </div>
         </div>
@@ -129,13 +110,7 @@ class ProductsTabBodyContainer extends Component {
   render() {
     return (
       <div className="px-4 mb-4 text-center text-lg-left">
-        <Product
-          title={""}
-          products={
-            (this.props.store && this.props.store.products) ||
-            this.props.products
-          }
-        />
+        <Product title={''} products={(this.props.store && this.props.store.products) || this.props.products} />
 
         <div className=" clear"></div>
       </div>
@@ -208,24 +183,24 @@ class Profile extends Component {
       // ],
       profileStoreFields = [
         {
-          desc: "name",
-          label: "Store Name",
+          desc: 'name',
+          label: 'Store Name',
           placeholder: "e.g Paul Ahmed's Store",
-          varClass: "input",
-          type: "text",
+          varClass: 'input',
+          type: 'text',
           options: [],
           icon: 0,
-          value: name,
+          value: name
         },
         {
-          desc: "description",
-          label: "Store Description",
-          varClass: "textarea",
-          type: "text",
+          desc: 'description',
+          label: 'Store Description',
+          varClass: 'textarea',
+          type: 'text',
           options: [],
           icon: 0,
-          value: description,
-        },
+          value: description
+        }
         // {
         //   desc: "policies",
         //   label: "Store Policies",
@@ -236,9 +211,7 @@ class Profile extends Component {
         //   value: policies
         // }
       ],
-      profileStoreButtons = [
-        { value: "Update Store Profile", className: "btn-primary" },
-      ],
+      profileStoreButtons = [{ value: 'Update Store Profile', className: 'btn-primary' }],
       // profileBankFields = [
       //   {
       //     desc: "bankName",
@@ -325,7 +298,7 @@ class Profile extends Component {
         /> */}
       </TabBody>
     ) : (
-      ""
+      ''
     );
   }
 
@@ -333,14 +306,14 @@ class Profile extends Component {
     let { user, store, userUpdateProfile } = this.props,
       profileFields = [
         {
-          desc: "name",
-          label: "Full Name",
-          placeholder: "Paul Ahmed",
-          varClass: "input",
-          type: "text",
+          desc: 'name',
+          label: 'Full Name',
+          placeholder: 'Paul Ahmed',
+          varClass: 'input',
+          type: 'text',
           options: [],
           icon: 0,
-          value: user && user.name,
+          value: user && user.name
         },
         // {
         //   desc: "phone",
@@ -363,15 +336,15 @@ class Profile extends Component {
         //   value: user && user.street
         // },
         {
-          desc: "state",
-          label: "State",
-          varClass: "select",
-          type: "text",
+          desc: 'state',
+          label: 'State',
+          varClass: 'select',
+          type: 'text',
           options: stateSelect.map(({ state }) => state),
           row: 1,
           icon: 0,
-          value: user && user.state,
-        },
+          value: user && user.state
+        }
         // {
         //   desc: "country",
         //   label: "Country",
@@ -392,17 +365,13 @@ class Profile extends Component {
         //   value: user && user.bio
         // }
       ],
-      profileButtons = [
-        { value: "Update Personal Profile", className: "btn-primary" },
-      ],
-      tablist = !ifSeller(user && user.type)
-        ? ["personal"]
-        : ["personal", "store"];
+      profileButtons = [{ value: 'Update Personal Profile', className: 'btn-primary' }],
+      tablist = !ifSeller(user && user.type) ? ['personal'] : ['personal', 'store'];
 
     return (
       <div className="p-5 mt-5">
         <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
-          {renderTabList(tablist, "profile")}
+          {renderTabList(tablist, 'profile')}
         </ul>
         <div className="tab-content" id="profileTabContent">
           <TabBody active="show active" name="profile-personal">
@@ -426,21 +395,18 @@ class Profile extends Component {
 class Saved extends Component {
   renderTabBody(tablist) {
     return tablist.map((item, i) => {
-      let active = i === 0 ? "show active" : "";
+      let active = i === 0 ? 'show active' : '';
 
       return (
         <TabBody active={active} name={`orders-${item}`} key={i}>
-          <ProductsTabBodyContainer
-            time={item}
-            products={filterContent(this.props.user.saved)}
-          />
+          <ProductsTabBodyContainer time={item} products={filterContent(this.props.user.saved)} />
         </TabBody>
       );
     });
   }
 
   render() {
-    let tablist = ["today", "this_week", "this_month", "this_year", "all_time"];
+    let tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
     return (
       <div className="p-5">
         <div className="tab-content" id="ordersTabContent">
@@ -454,7 +420,7 @@ class Saved extends Component {
 class Products extends Component {
   renderTabBody(tablist, store) {
     return tablist.map((item, i) => {
-      let active = i === 0 ? "show active" : "";
+      let active = i === 0 ? 'show active' : '';
 
       return (
         <TabBody active={active} name={`products-${item}`} key={i}>
@@ -465,7 +431,7 @@ class Products extends Component {
   }
 
   render() {
-    let tablist = ["today", "this_week", "this_month", "this_year", "all_time"];
+    let tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
     return (
       <div className="p-5 mt-5">
         {/* <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
@@ -482,21 +448,17 @@ class Products extends Component {
 class Orders extends Component {
   renderTabBody(tablist) {
     return tablist.map((item, i) => {
-      let active = i === 0 ? "show active" : "";
+      let active = i === 0 ? 'show active' : '';
       return (
         <TabBody active={active} name={`orders-${item}`} key={i}>
-          <OrdersTabBodyContainer
-            user={this.props.user}
-            time={item}
-            orders={this.props.orders}
-          />
+          <OrdersTabBodyContainer user={this.props.user} time={item} orders={this.props.orders} />
         </TabBody>
       );
     });
   }
 
   render() {
-    let tablist = ["today", "this_week", "this_month", "this_year", "all_time"];
+    let tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
     return (
       <div className="p-5 mt-5">
         {/* <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
@@ -513,11 +475,7 @@ class Orders extends Component {
 class Analytics extends Component {
   renderTabListBody = (list, content) => {
     return list.map((item, i) => (
-      <TabBody
-        active={`show ${i === 0 ? "active" : ""}`}
-        name={`analytics-${item}`}
-        key={`analytics-${item}`}
-      >
+      <TabBody active={`show ${i === 0 ? 'active' : ''}`} name={`analytics-${item}`} key={`analytics-${item}`}>
         <div className="card-columns">{content[i]}</div>
       </TabBody>
     ));
@@ -525,47 +483,35 @@ class Analytics extends Component {
 
   averageProductPrice = (products) =>
     products
-      .map(
-        ({ price, discountPercentage }) =>
-          price * (1 - discountPercentage / 100)
-      )
+      .map(({ price, discountPercentage }) => price * (1 - discountPercentage / 100))
       .reduce((total, num) => total + num, 0) / products.length;
 
   ordersCount = (orders) => orders.length;
 
   totalOrderRevenue = (orders) => {
-    orders = orders.filter((order) => order.status === "paid");
+    orders = orders.filter((order) => order.status === 'paid');
 
-    return orders.length < 1
-      ? 0
-      : orders
-          .map(({ totalPrice }) => totalPrice)
-          .reduce((total, num) => total + num);
+    return orders.length < 1 ? 0 : orders.map(({ totalPrice }) => totalPrice).reduce((total, num) => total + num);
   };
 
   totalCustomers = (orders) => {
-    orders = orders.filter((order) => order.status === "paid");
+    orders = orders.filter((order) => order.status === 'paid');
 
-    return typeof orders === "object"
-      ? orders.map(({ user }) => user._id).unique().length
-      : "";
+    return typeof orders === 'object' ? orders.map(({ user }) => user._id).unique().length : '';
   };
 
   productRevenue = (orders) => {
-    orders = orders.filter((order) => order.status === "paid");
+    orders = orders.filter((order) => order.status === 'paid');
 
     let productArray = orders
       .map(({ products }) => products.map(({ name }) => name))
       .join()
-      .split(",");
+      .split(',');
 
     let data = orders.map(({ products }) =>
       products.map(({ name, price, discountPercentage }) => ({
         name,
-        revenue:
-          productArray.filter((item) => item === name).length *
-          price *
-          (1 - discountPercentage / 100),
+        revenue: productArray.filter((item) => item === name).length * price * (1 - discountPercentage / 100)
       }))
     )[0];
 
@@ -574,23 +520,21 @@ class Analytics extends Component {
 
   timeRevenue = (orders) =>
     orders
-      .filter((order) => order.status === "paid")
+      .filter((order) => order.status === 'paid')
       .map(({ updatedAt, totalPrice }) => ({
         updatedAt: updatedAt.toDashDate(),
-        totalPrice,
+        totalPrice
       }));
 
   render() {
-    let tablist = ["revenue", "customer"],
+    let tablist = ['revenue', 'customer'],
       { orders, store } = this.props,
       orderRevenue = this.totalOrderRevenue(filterContent(orders)),
       customers = this.totalCustomers(filterContent(orders)),
-      paidOrders = filterContent(orders).filter(
-        (order) => order.status === "paid"
-      ),
+      paidOrders = filterContent(orders).filter((order) => order.status === 'paid'),
       customerOrders = paidOrders.map(({ user, totalPrice }) => ({
         name: user.name,
-        totalPrice,
+        totalPrice
       })),
       uniqueCustomerNames = paidOrders.map(({ user }) => user.name).unique(),
       content = [
@@ -598,17 +542,13 @@ class Analytics extends Component {
           <div className="card shadow-sm">
             <div className="card-body">
               <p className="card-title text-uppercase">total revenue</p>
-              <h1 className="display-4 text-primary text-center">
-                &#x20A6; {orderRevenue}
-              </h1>
+              <h1 className="display-4 text-primary text-center">&#x20A6; {orderRevenue}</h1>
             </div>
           </div>
           <div className="card shadow-sm">
             <div className="card-body">
               <p className="card-title text-uppercase">total orders</p>
-              <h1 className="display-4 text-primary text-center">
-                {this.ordersCount(filterContent(orders))}
-              </h1>
+              <h1 className="display-4 text-primary text-center">{this.ordersCount(filterContent(orders))}</h1>
             </div>
           </div>
           <div className="card shadow-sm">
@@ -616,15 +556,13 @@ class Analytics extends Component {
               <p className="card-title text-uppercase">average product price</p>
               <h1 className="display-4 text-primary text-center">
                 &#x20A6;
-                {store && store.products === undefined
-                  ? 0
-                  : this.averageProductPrice(filterContent(store.products))}
+                {store && store.products === undefined ? 0 : this.averageProductPrice(filterContent(store.products))}
               </h1>
             </div>
           </div>
 
           <div className="card shadow-sm">
-            <div className="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
+            <div className="card-body w-100 p-3" style={{ maxHeight: '75vh' }}>
               <p className="card-title text-uppercase">revenue over time</p>
 
               <ContainerDimensions>
@@ -644,7 +582,7 @@ class Analytics extends Component {
           </div>
 
           <div className="card shadow-sm">
-            <div className="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
+            <div className="card-body w-100 p-3" style={{ maxHeight: '75vh' }}>
               <p className="card-title text-uppercase">revenue per product</p>
               <ContainerDimensions>
                 {({ height, width }) =>
@@ -666,36 +604,28 @@ class Analytics extends Component {
           <div className="card shadow-sm">
             <div className="card-body">
               <p className="card-title text-uppercase">total customers</p>
-              <h1 className="display-4 text-primary text-center">
-                {customers}
-              </h1>
+              <h1 className="display-4 text-primary text-center">{customers}</h1>
             </div>
           </div>
           <div className="card shadow-sm">
             <div className="card-body">
-              <p className="card-title text-uppercase">
-                average customer spend
-              </p>
+              <p className="card-title text-uppercase">average customer spend</p>
               <h1 className="display-4 text-primary text-center">
-                {" "}
+                {' '}
                 &#x20A6; {customers === 0 ? 0 : orderRevenue / customers}
               </h1>
             </div>
           </div>
 
           <div className="card shadow-sm">
-            <div className="card-body w-100 p-3" style={{ maxHeight: "75vh" }}>
+            <div className="card-body w-100 p-3" style={{ maxHeight: '75vh' }}>
               <p className="card-title text-uppercase">revenue per customer</p>
               <ContainerDimensions>
                 {({ height, width }) =>
                   paidOrders.length < 1 ? (
                     <>No products purcahsed yet</>
                   ) : (
-                    <PieChart
-                      data={[customerOrders, uniqueCustomerNames]}
-                      width={width * 0.95}
-                      height={height * 0.8}
-                    />
+                    <PieChart data={[customerOrders, uniqueCustomerNames]} width={width * 0.95} height={height * 0.8} />
                   )
                 }
               </ContainerDimensions>
@@ -718,13 +648,13 @@ class Analytics extends Component {
               </ContainerDimensions>
             </div>
           </div> */}
-        </>,
+        </>
       ];
 
     return (
       <div className="p-5 mt-5">
         <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
-          {renderTabList(tablist, "analytics")}
+          {renderTabList(tablist, 'analytics')}
         </ul>
         <div className="tab-content" id="analyticsTabContent">
           {this.renderTabListBody(tablist, content)}
@@ -738,14 +668,14 @@ class Messages extends Component {
   render() {
     let chatFields = [
         {
-          desc: "message",
-          placeholder: "Type a message",
-          varClass: "input",
-          className: "mx-4 py-4",
-          type: "text",
+          desc: 'message',
+          placeholder: 'Type a message',
+          varClass: 'input',
+          className: 'mx-4 py-4',
+          type: 'text',
           options: [],
-          icon: 0,
-        },
+          icon: 0
+        }
       ],
       chatButtons = [];
 
@@ -788,7 +718,7 @@ class Messages extends Component {
             <div className="position-relative">
               <BenshadaForm
                 form={`form-chat`}
-                onSubmitForm={() => console.log("form-chat")}
+                onSubmitForm={() => console.log('form-chat')}
                 className="form py-0"
                 fields={chatFields}
                 buttons={chatButtons}
@@ -798,8 +728,7 @@ class Messages extends Component {
                 <small>
                   Press enter to send your message.
                   <br />
-                  Hold down <em>Shift</em> and press Enter to go to the next
-                  line
+                  Hold down <em>Shift</em> and press Enter to go to the next line
                 </small>
               </p>
             </div>
@@ -852,7 +781,7 @@ Profile = connect(null, {
   userUpdateProfile,
   storeUpdateInfo,
   storeUpdateBank,
-  orderCancel,
+  orderCancel
 })(Profile);
 
 export { Profile, Products, Orders, Saved, Analytics, Messages };

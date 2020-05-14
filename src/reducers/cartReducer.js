@@ -1,10 +1,6 @@
 import {
-  LOGOUT,
-  CART_ADD,
-  CART_REMOVE,
-  CART_CLEAR,
-  CART_UPDATE
-} from "../actions/types";
+  LOGOUT, CART_ADD, CART_REMOVE, CART_CLEAR, CART_UPDATE
+} from '../actions/types';
 
 const INITIAL_STATE = [];
 

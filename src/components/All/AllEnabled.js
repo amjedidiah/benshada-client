@@ -1,17 +1,13 @@
-import React, { Component } from "react";
-import { Link, withRouter } from "react-router-dom";
-import { faRedhat } from "@fortawesome/free-brands-svg-icons";
-import {
-  faShoppingBag,
-  faTshirt,
-  faShoePrints,
-} from "@fortawesome/free-solid-svg-icons";
-import Product from "../Products/Product";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Stars from "../Products/Stars";
-import qs from "query-string";
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+import { faRedhat } from '@fortawesome/free-brands-svg-icons';
+import { faShoppingBag, faTshirt, faShoePrints } from '@fortawesome/free-solid-svg-icons';
+import Product from '../Products/Product';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Stars from '../Products/Stars';
+import qs from 'query-string';
 
-import "./slider.css";
+import './slider.css';
 
 class AllEnabled extends Component {
   constructor(props) {
@@ -27,19 +23,15 @@ class AllEnabled extends Component {
       discount: null,
       shops: [],
       genders: [],
-      prices: { min: 0, max: 0 },
+      prices: { min: 0, max: 0 }
     };
   }
 
   renderCats = (cats, products) =>
     cats.map(({ name, icon }, i) => (
-      <Link
-        className={`nav-link text-capitalize px-0`}
-        to={`/products/?category=${name}`}
-        key={`renderCats${i}`}
-      >
+      <Link className={`nav-link text-capitalize px-0`} to={`/products/?category=${name}`} key={`renderCats${i}`}>
         <FontAwesomeIcon icon={icon} className="mr-2" />
-        {name}{" "}
+        {name}{' '}
         <span className="badge badge-primary bg-warning float-right mt-1">
           {products.filter(({ category }) => category === name).length}
         </span>
@@ -51,8 +43,8 @@ class AllEnabled extends Component {
       <h5 className="text-capitalize">{title.toSplittedString()}</h5>
       <nav className="nav flex-column">
         {items.map((item, i) =>
-          type === "list" ? (
-            ""
+          type === 'list' ? (
+            ''
           ) : (
             <div key={`render${title}${i}`}>
               <div className="form-check">
@@ -64,10 +56,7 @@ class AllEnabled extends Component {
                   id={`prod${title}${i}`}
                   onClick={(e) => this.toggleProdCheckSpec(e, item, title)}
                 />
-                <label
-                  className="form-check-label text-capitalize text-truncate w-md-50"
-                  htmlFor={`prod${title}${i}`}
-                >
+                <label className="form-check-label text-capitalize text-truncate w-md-50" htmlFor={`prod${title}${i}`}>
                   {item}
                 </label>
               </div>
@@ -80,37 +69,28 @@ class AllEnabled extends Component {
 
   toggleProdCheckSpec(e, value, spec) {
     let { target } = e,
-      newSpec =
-        target.checked === true
-          ? [...this.state[spec], value]
-          : this.state[spec].filter((i) => i !== value);
+      newSpec = target.checked === true ? [...this.state[spec], value] : this.state[spec].filter((i) => i !== value);
 
     this.setState({ [spec]: newSpec });
   }
 
   renderProdSpecs = (prods, spec) => {
-    let items = [
-      ...new Set(
-        prods.map(
-          ({ specifications }) => specifications && specifications[spec]
-        )
-      ),
-    ].filter((item) => item !== undefined && item.length !== 0);
+    let items = [...new Set(prods.map(({ specifications }) => specifications && specifications[spec]))].filter(
+      (item) => item !== undefined && item.length !== 0
+    );
 
-    return items.length > 0
-      ? this.renderCheckFilters(spec, items, "form-check")
-      : "";
+    return items.length > 0 ? this.renderCheckFilters(spec, items, 'form-check') : '';
   };
 
   updateProductsByRatings = (count) => {
     let { rating } = this.state,
       newRating = rating === count ? null : count;
 
-    [...document.querySelectorAll(".nav-link.prod-rating")].forEach((li) => {
-      li.classList.remove("bg-warning");
+    [...document.querySelectorAll('.nav-link.prod-rating')].forEach((li) => {
+      li.classList.remove('bg-warning');
 
-      if (li.getAttribute("data-count") === "rating-" + newRating) {
-        li.classList.add("bg-warning");
+      if (li.getAttribute('data-count') === 'rating-' + newRating) {
+        li.classList.add('bg-warning');
       }
     });
 
@@ -121,11 +101,11 @@ class AllEnabled extends Component {
     let { discount } = this.state,
       newDiscount = discount === count ? null : count;
 
-    [...document.querySelectorAll(".nav-link.prod-discount")].forEach((li) => {
-      li.classList.remove("bg-warning");
+    [...document.querySelectorAll('.nav-link.prod-discount')].forEach((li) => {
+      li.classList.remove('bg-warning');
 
-      if (li.getAttribute("data-count") === "discount-" + newDiscount) {
-        li.classList.add("bg-warning");
+      if (li.getAttribute('data-count') === 'discount-' + newDiscount) {
+        li.classList.add('bg-warning');
       }
     });
 
@@ -135,49 +115,39 @@ class AllEnabled extends Component {
   range1 = (e) => {
     let { target } = e;
 
-    target.value = Math.min(
-      target.value,
-      target.parentNode.childNodes[2].value - 1
-    );
+    target.value = Math.min(target.value, target.parentNode.childNodes[2].value - 1);
 
     let value =
-        (100 / (parseInt(target.max) - parseInt(target.min))) *
-          parseInt(target.value) -
-        (100 / (parseInt(target.max) - parseInt(target.min))) *
-          parseInt(target.min),
+        (100 / (parseInt(target.max) - parseInt(target.min))) * parseInt(target.value) -
+        (100 / (parseInt(target.max) - parseInt(target.min))) * parseInt(target.min),
       children = target.parentNode.childNodes[0].childNodes;
-    children[0].style.width = value + "%";
-    children[2].style.left = value + "%";
-    children[3].style.left = value + "%";
-    children[5].style.left = value + "%";
+    children[0].style.width = value + '%';
+    children[2].style.left = value + '%';
+    children[3].style.left = value + '%';
+    children[5].style.left = value + '%';
     children[5].childNodes[0].innerHTML = target.value;
 
     this.setState({
-      prices: { min: Number(target.value), max: this.state.prices.max },
+      prices: { min: Number(target.value), max: this.state.prices.max }
     });
   };
 
   range2 = (e) => {
     let { target } = e;
 
-    target.value = Math.max(
-      target.value,
-      target.parentNode.childNodes[1].value - -1
-    );
+    target.value = Math.max(target.value, target.parentNode.childNodes[1].value - -1);
     let value =
-        (100 / (parseInt(target.max) - parseInt(target.min))) *
-          parseInt(target.value) -
-        (100 / (parseInt(target.max) - parseInt(target.min))) *
-          parseInt(target.min),
+        (100 / (parseInt(target.max) - parseInt(target.min))) * parseInt(target.value) -
+        (100 / (parseInt(target.max) - parseInt(target.min))) * parseInt(target.min),
       children = target.parentNode.childNodes[0].childNodes;
-    children[1].style.width = 100 - value + "%";
-    children[2].style.right = 100 - value + "%";
-    children[4].style.left = value + "%";
-    children[6].style.left = value + "%";
+    children[1].style.width = 100 - value + '%';
+    children[2].style.right = 100 - value + '%';
+    children[4].style.left = value + '%';
+    children[6].style.left = value + '%';
     children[6].childNodes[0].innerHTML = target.value;
 
     this.setState({
-      prices: { min: this.state.prices.min, max: Number(target.value) },
+      prices: { min: this.state.prices.min, max: Number(target.value) }
     });
   };
 
@@ -190,20 +160,16 @@ class AllEnabled extends Component {
         .map(({ specifications }) => Object.keys(specifications) || [])
         .flat(Infinity)
         .unique()
-        .filter((spec) => spec !== "weight"),
+        .filter((spec) => spec !== 'weight'),
       cats = [
-        { name: "accessories", icon: faRedhat },
-        { name: "bags", icon: faShoppingBag },
-        { name: "clothes", icon: faTshirt },
-        { name: "shoes", icon: faShoePrints },
+        { name: 'accessories', icon: faRedhat },
+        { name: 'bags', icon: faShoppingBag },
+        { name: 'clothes', icon: faTshirt },
+        { name: 'shoes', icon: faShoePrints }
       ],
-      ratings = initProds
-        .map(({ overallRating }) => Math.floor(overallRating))
-        .unique(),
+      ratings = initProds.map(({ overallRating }) => Math.floor(overallRating)).unique(),
       discounts = initProds
-        .map(
-          ({ discountPercentage }) => Math.floor(discountPercentage / 10) * 10
-        )
+        .map(({ discountPercentage }) => Math.floor(discountPercentage / 10) * 10)
         .unique()
         .sortNumAsc(),
       shop = initProds
@@ -230,9 +196,7 @@ class AllEnabled extends Component {
             <div className="row">
               <div className="col-12 p-3 mb-4">
                 <h5>Categories</h5>
-                <nav className="nav flex-column">
-                  {this.renderCats(cats, initProds)}
-                </nav>
+                <nav className="nav flex-column">{this.renderCats(cats, initProds)}</nav>
               </div>
 
               {specs.map((spec) => this.renderProdSpecs(initProds, spec))}
@@ -269,40 +233,37 @@ class AllEnabled extends Component {
                 </nav>
               </div>
 
-              {this.renderCheckFilters("shops", shop, "form-check")}
+              {this.renderCheckFilters('shops', shop, 'form-check')}
 
-              {qs.parse(this.props && this.props.location.search).gender ===
-              undefined
-                ? this.renderCheckFilters("genders", gender, "form-check")
-                : ""}
+              {qs.parse(this.props && this.props.location.search).gender === undefined
+                ? this.renderCheckFilters('genders', gender, 'form-check')
+                : ''}
 
               <div className="col-12 p-3 mb-4">
                 <h5>Price</h5>
                 <div className="body">
                   <div id="slider-distance">
                     <div>
-                      <div id="inverse-left" style={{ width: "70%" }}></div>
-                      <div id="inverse-right" style={{ width: "70%" }}></div>
+                      <div id="inverse-left" style={{ width: '70%' }}></div>
+                      <div id="inverse-right" style={{ width: '70%' }}></div>
                       <div
                         id="range"
                         style={{
                           left: `${Math.floor((initMin / initMax) * 100)}%`,
-                          right: `${Math.floor(
-                            (1 - initMin / initMax) * 100
-                          )}%`,
+                          right: `${Math.floor((1 - initMin / initMax) * 100)}%`
                         }}
                       ></div>
                       <span
                         className="thumb"
                         style={{
-                          left: `${Math.floor((initMin / initMax) * 100)}%`,
+                          left: `${Math.floor((initMin / initMax) * 100)}%`
                         }}
                       ></span>
                       <span className="thumb" style={{ left: `100%` }}></span>
                       <div
                         className="sign"
                         style={{
-                          left: `${Math.floor((initMin / initMax) * 100)}%`,
+                          left: `${Math.floor((initMin / initMax) * 100)}%`
                         }}
                       >
                         <span id="value">{Math.floor(initMin)}</span>
@@ -336,7 +297,7 @@ class AllEnabled extends Component {
                     <span className="float-left">₦{min.addComma()}</span>
                     <span className="float-right">₦{max.addComma()}</span>
                   </div>
-                </div>{" "}
+                </div>{' '}
               </div>
             </div>
           </div>
@@ -358,57 +319,44 @@ class AllEnabled extends Component {
         .map(({ specifications }) => Object.keys(specifications))
         .flat(Infinity)
         .unique()
-        .filter((spec) => spec !== "weight");
+        .filter((spec) => spec !== 'weight');
 
     // Filter for all specs, combine then make Unique
     displayProds = (specs || [])
       .map((spec) =>
         (state[spec] || []).length > 0
-          ? displayProds.filter(({ specifications }) =>
-              state[spec].includes(specifications & specifications[spec])
-            )
+          ? displayProds.filter(({ specifications }) => state[spec].includes(specifications & specifications[spec]))
           : displayProds
       )
       .flat(Infinity)
-      .uniqueObjectArray("_id");
+      .uniqueObjectArray('_id');
 
     // Filter if ratings is set
-    displayProds =
-      rating !== null
-        ? displayProds.filter(({ overallRating }) => overallRating >= rating)
-        : displayProds;
+    displayProds = rating !== null ? displayProds.filter(({ overallRating }) => overallRating >= rating) : displayProds;
 
     // Filter if discount is set
     displayProds =
       discount !== null
-        ? displayProds.filter(
-            ({ discountPercentage }) => discountPercentage >= discount
-          )
+        ? displayProds.filter(({ discountPercentage }) => discountPercentage >= discount)
         : displayProds;
 
     // Filter for shops
     displayProds =
       (shops || []).length > 0
-        ? displayProds.filter(({ shop }) =>
-            shops.includes(shop && shop.name && shop.name.toLowerCase())
-          )
+        ? displayProds.filter(({ shop }) => shops.includes(shop && shop.name && shop.name.toLowerCase()))
         : displayProds;
 
     // Filter for genders
     displayProds =
       (genders || []).length > 0
-        ? displayProds.filter(({ gender }) =>
-            genders.includes(gender && gender.toLowerCase())
-          )
+        ? displayProds.filter(({ gender }) => genders.includes(gender && gender.toLowerCase()))
         : displayProds;
 
     // Filter for prices
-    displayProds = displayProds.filter(
-      ({ price }) => price >= min && price <= max
-    );
+    displayProds = displayProds.filter(({ price }) => price >= min && price <= max);
 
     this.setState({
-      product: displayProds,
+      product: displayProds
     });
   };
 
@@ -423,7 +371,7 @@ class AllEnabled extends Component {
       discount,
       shops,
       genders,
-      prices,
+      prices
     } = this.state;
 
     return rating !== prevState.rating ||
@@ -438,7 +386,7 @@ class AllEnabled extends Component {
       shops.length !== prevState.shops.length ||
       genders.length !== prevState.genders.length
       ? this.helperFunc()
-      : "";
+      : '';
   };
 
   componentDidMount = () => {

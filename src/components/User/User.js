@@ -1,17 +1,17 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 // import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import "./assets/products.css";
-import "./assets/user.css";
-import menu from "./assets/menu";
+import './assets/products.css';
+import './assets/user.css';
+import menu from './assets/menu';
 
-import DashNav from "./DashNav";
-import DashBody from "./DashBody";
-import userABlist from "./data/userABNav";
-import userClist from "./data/userCNav";
-import { ifSeller } from "../../actions/auth";
+import DashNav from './DashNav';
+import DashBody from './DashBody';
+import userABlist from './data/userABNav';
+import userClist from './data/userCNav';
+import { ifSeller } from '../../actions/auth';
 
 class User extends Component {
   componentDidMount = () => menu();
@@ -24,11 +24,7 @@ class User extends Component {
       <>
         <div className="container-fluid h-100">
           <div className="row h-100">
-            <DashNav
-              list={list}
-              user={user}
-              className="bg-light user-side-main"
-            />
+            <DashNav list={list} user={user} className="bg-light user-side-main" />
             <DashBody list={list} user={user} store={store} orders={orders} />
           </div>
         </div>
@@ -42,7 +38,7 @@ class User extends Component {
     return isSignedIn === false ? (
       <Redirect
         to={{
-          pathname: "/login",
+          pathname: '/login',
           state: { from: location }
         }}
       />
@@ -51,7 +47,7 @@ class User extends Component {
         user: (
           <Redirect
             to={{
-              pathname: "/role",
+              pathname: '/role',
               state: { from: location }
             }}
           />
@@ -65,7 +61,7 @@ class User extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth && state.auth.user,
   store: state.store,
   orders: state.order,

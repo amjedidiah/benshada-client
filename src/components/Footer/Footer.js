@@ -1,15 +1,9 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import {
-  faFacebookF,
-  faTwitter,
-  faPinterest,
-  faInstagram,
-  faWhatsapp
-} from "@fortawesome/free-brands-svg-icons";
+import { faFacebookF, faTwitter, faPinterest, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
 
 export default class Footer extends Component {
   render() {
@@ -26,9 +20,7 @@ export default class Footer extends Component {
                 <a href="mailto:benshada@gmail.com">
                   <p className="mb-1">benshada@gmail.com</p>
                 </a>
-                <p className="mb-1">
-                  68 Sanya Street Aguda Surulere Lagos Nigeria
-                </p>
+                <p className="mb-1">68 Sanya Street Aguda Surulere Lagos Nigeria</p>
               </div>
               <div className="col-12 col-sm-4 mb-4 mb-md-0">
                 <h5 className="mb-3">Quick Links</h5>
@@ -83,14 +75,9 @@ export default class Footer extends Component {
                 <div className="row">
                   <div className="col-12 col-md-6 pl-0">
                     <p className="text-center text-md-left">
-                      <span className="font-weight-bolder d-none d-md-inline">
-                        Connect with us
-                      </span>
+                      <span className="font-weight-bolder d-none d-md-inline">Connect with us</span>
                       <a href="https://web.facebook.com/Benshadaplace">
-                        <FontAwesomeIcon
-                          className="mx-2 ml-4"
-                          icon={faFacebookF}
-                        />
+                        <FontAwesomeIcon className="mx-2 ml-4" icon={faFacebookF} />
                       </a>
                       <a href="https://www.twitter.com/Benshadaplace">
                         <FontAwesomeIcon className="mx-2" icon={faTwitter} />
@@ -108,8 +95,7 @@ export default class Footer extends Component {
                   </div>
                   <div className="col-12 col-md-6 pr-0">
                     <p className="text-center text-md-right">
-                      Copyright &copy; <Link to="/">Benshada Place</Link>. All
-                      rights reserved
+                      Copyright &copy; <Link to="/">Benshada Place</Link>. All rights reserved
                     </p>
                   </div>
                 </div>

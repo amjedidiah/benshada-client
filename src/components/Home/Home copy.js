@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react';
 
 // Custom components
-import Header from "../Header/Header";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import Jumbo from "./Jumbo/Jumbo";
-import Gender from "./Gender/Gender";
-import Product from "../Products/Product";
-import Store from "../Stores/Store";
-import Testimonies from "./Testimonies/Testimonies";
-import Footer from "../Footer/Footer";
-import VirtualAssistant from "../VirtualAssistant/VirtualAssistant";
+import Header from '../Header/Header';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Jumbo from './Jumbo/Jumbo';
+import Gender from './Gender/Gender';
+import Product from '../Products/Product';
+import Store from '../Stores/Store';
+import Testimonies from './Testimonies/Testimonies';
+import Footer from '../Footer/Footer';
+import VirtualAssistant from '../VirtualAssistant/VirtualAssistant';
 
-import { featuredStoreFetch } from "../../actions/user";
-import { fetchProducts, fetchStores } from "../../actions/misc";
-import { filterContent } from "../../actions/load";
+import { featuredStoreFetch } from '../../actions/user';
+import { fetchProducts, fetchStores } from '../../actions/misc';
+import { filterContent } from '../../actions/load';
 
 class Home extends React.Component {
   constructor() {
@@ -24,7 +24,7 @@ class Home extends React.Component {
       stores2: [],
       productsRecent: [],
       productsTopRated: [],
-      productsDiscounted: [],
+      productsDiscounted: []
     };
   }
 
@@ -41,13 +41,9 @@ class Home extends React.Component {
     this.setState({
       stores1: stores.slice(0, 4),
       stores2: stores.slice(4, 8),
-      productsRecent: products
-        .map((product, i) => products[products.length - i - 1])
-        .slice(0, 4),
+      productsRecent: products.map((product, i) => products[products.length - i - 1]).slice(0, 4),
       productsTopRated: products.slice(4, 8),
-      productsDiscounted: products
-        .filter(({ discountPercentage }) => discountPercentage > 0)
-        .slice(0, 4),
+      productsDiscounted: products.filter(({ discountPercentage }) => discountPercentage > 0).slice(0, 4)
     });
   };
 
@@ -67,18 +63,12 @@ class Home extends React.Component {
         <Header />
         <Jumbo />
         <Gender />
-        <Product
-          title={"recently added"}
-          products={this.state.productsRecent}
-        />
-        <Store title={"featured stores"} stores={this.state.stores1} />
-        <Product title={"top rated"} products={this.state.productsTopRated} />
+        <Product title={'recently added'} products={this.state.productsRecent} />
+        <Store title={'featured stores'} stores={this.state.stores1} />
+        <Product title={'top rated'} products={this.state.productsTopRated} />
 
-        <Store title={"featured stores"} stores={this.state.stores2} />
-        <Product
-          title={"discounted"}
-          products={this.state.productsDiscounted}
-        />
+        <Store title={'featured stores'} stores={this.state.stores2} />
+        <Product title={'discounted'} products={this.state.productsDiscounted} />
         {/* <Testimonies
           title="customer testimonies"
           customers={[
@@ -146,11 +136,11 @@ class Home extends React.Component {
           user: (
             <Redirect
               to={{
-                pathname: "/role",
-                state: { from: location },
+                pathname: '/role',
+                state: { from: location }
               }}
             />
-          ),
+          )
         }[user && user.type] || this.renderPage();
   }
 
@@ -161,7 +151,7 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user === null ? null : state.auth.user,
-  isSignedIn: state.auth.isSignedIn,
+  isSignedIn: state.auth.isSignedIn
 });
 
 export default connect(mapStateToProps, { featuredStoreFetch })(Home);

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import draw from "./vis";
+import React, { Component } from 'react';
+import draw from './vis';
 
 export default class MultiLineChart extends Component {
   componentDidMount() {

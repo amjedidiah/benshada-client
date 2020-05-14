@@ -1,4 +1,4 @@
-import { LOGOUT, ORDERS_FETCH } from "../actions/types";
+import { LOGOUT, ORDERS_FETCH } from '../actions/types';
 
 const INITIAL_STATE = [];
 

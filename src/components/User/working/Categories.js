@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import MultiSelect from "./MultiSelect/MultiSelect";
+import React, { Component } from 'react';
+import MultiSelect from '../MultiSelect/MultiSelect';
 
 export default class Categories extends Component {
   render() {
@@ -7,17 +7,8 @@ export default class Categories extends Component {
       <>
         <MultiSelect
           title="categories"
-          availableOptions={[
-            { name: "ankara" },
-            { name: "adire" },
-            { name: "agbada" },
-            { name: "bags" }
-          ]}
-          selectedOptions={[
-            { name: "ankara" },
-            { name: "adire" },
-            { name: "agbada" }
-          ]}
+          availableOptions={[{ name: 'ankara' }, { name: 'adire' }, { name: 'agbada' }, { name: 'bags' }]}
+          selectedOptions={[{ name: 'ankara' }, { name: 'adire' }, { name: 'agbada' }]}
         />
       </>
     );

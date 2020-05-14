@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-solid-svg-icons";
-import NotFound from "../Misc/NotFound/NotFound";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faStar } from '@fortawesome/free-solid-svg-icons';
+import NotFound from '../Misc/NotFound/NotFound';
 
 export default class Reviews extends Component {
   render() {
@@ -23,15 +23,12 @@ export default class Reviews extends Component {
               />
               <p className="flex-grow-1 mx-3 pt-3">{review && review.user}</p>
               <p className="pt-3">
-                <FontAwesomeIcon className="text-primary mr-2" icon={faStar} />{" "}
-                <span>{review.rating}</span>
+                <FontAwesomeIcon className="text-primary mr-2" icon={faStar} /> <span>{review.rating}</span>
               </p>
             </div>
             <div className="card-body">
               <p>{review.description}</p>
-              <small className="float-right">
-                {new Date(review.createdAt).toDateString()}
-              </small>
+              <small className="float-right">{new Date(review.createdAt).toDateString()}</small>
               <div className="clear"></div>
             </div>
           </div>

@@ -1,14 +1,12 @@
-import React from "react";
+import React from 'react';
 
 const Price = (props) => {
   const { price, discount } = props;
   return price === undefined ? (
-    ""
+    ''
   ) : discount > 0 ? (
     <>
-      <span className="lead font-weight-bold">
-        &#x20A6; {price * (1 - discount / 100)}
-      </span>
+      <span className="lead font-weight-bold">&#x20A6; {price * (1 - discount / 100)}</span>
       <br />
       <small className="font-weight-lighter">
         <strike>&#x20A6; {price}</strike>

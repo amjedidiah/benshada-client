@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import HrFrComp from "../HrFrComp/HrFrComp";
-import CartButton from "../Cart/CartButton";
-import { Link } from "react-router-dom";
-import All from "../All/All";
-import { fetchProducts } from "../../actions/misc";
-import Loading from "../Misc/Loading/Loading";
-import NotFound from "../Misc/NotFound/NotFound";
-import Review from "./Review";
-import "./Product.css";
+import React, { Component } from 'react';
+import HrFrComp from '../HrFrComp/HrFrComp';
+import CartButton from '../Cart/CartButton';
+import { Link } from 'react-router-dom';
+import All from '../All/All';
+import { fetchProducts } from '../../actions/misc';
+import Loading from '../Misc/Loading/Loading';
+import NotFound from '../Misc/NotFound/NotFound';
+import Review from './Review';
+import './Product.css';
 
-import qs from "query-string";
-import Reviews from "./Reviews";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faImage } from "@fortawesome/free-solid-svg-icons";
-import Price from "./Price";
+import qs from 'query-string';
+import Reviews from './Reviews';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faImage } from '@fortawesome/free-solid-svg-icons';
+import Price from './Price';
 // import { ifSeller } from "../../actions/auth";
 // import ProductQty from "../Cart/ProductQty";
-import ProductsBanner from "./ProductsBanner";
-import AllEnabled from "../All/AllEnabled";
+import ProductsBanner from './ProductsBanner';
+import AllEnabled from '../All/AllEnabled';
 
 export default class Products extends Component {
   DEFAULT = {
@@ -27,7 +27,7 @@ export default class Products extends Component {
     nameQueryString: null,
     categoryQueryString: null,
     genderQueryString: null,
-    activeImageURL: null,
+    activeImageURL: null
   };
 
   constructor(props) {
@@ -48,7 +48,7 @@ export default class Products extends Component {
 
   resetStateQty = (product, qty) =>
     this.setState({
-      productQty: qty,
+      productQty: qty
     });
 
   render() {
@@ -59,7 +59,7 @@ export default class Products extends Component {
       nameQueryString,
       categoryQueryString,
       genderQueryString,
-      activeImageURL,
+      activeImageURL
     } = this.state;
 
     return (
@@ -70,42 +70,26 @@ export default class Products extends Component {
           <NotFound type="product" />
         ) : categoryQueryString !== undefined ? (
           <>
-            <ProductsBanner
-              headers={[{ name: "category", value: categoryQueryString }]}
-            />
-            <AllEnabled
-              allProducts={allProducts}
-              products={product}
-              
-            />
+            <ProductsBanner headers={[{ name: 'category', value: categoryQueryString }]} />
+            <AllEnabled allProducts={allProducts} products={product} />
           </>
         ) : genderQueryString !== undefined ? (
           <>
-            <ProductsBanner
-              headers={[{ name: "gender", value: genderQueryString }]}
-            />
-            <AllEnabled
-              allProducts={allProducts}
-              products={product}
-              
-            />
+            <ProductsBanner headers={[{ name: 'gender', value: genderQueryString }]} />
+            <AllEnabled allProducts={allProducts} products={product} />
           </>
-        ) : (queryString === undefined || queryString === "") &&
-          (nameQueryString === undefined || nameQueryString === "") ? (
+        ) : (queryString === undefined || queryString === '') &&
+          (nameQueryString === undefined || nameQueryString === '') ? (
           <>
             <ProductsBanner />
-            <AllEnabled
-              allProducts={allProducts}
-              products={product}
-              
-            />
+            <AllEnabled allProducts={allProducts} products={product} />
           </>
         ) : (
           <div className="my-2">
             <ProductsBanner
               headers={[
-                { name: "category", value: product[0] && product[0].category },
-                { name: "name", value: product[0] && product[0].name },
+                { name: 'category', value: product[0] && product[0].category },
+                { name: 'name', value: product[0] && product[0].name }
               ]}
             />
 
@@ -116,21 +100,13 @@ export default class Products extends Component {
                     <div className="product-gallery-active-image">
                       {{
                         null: <Loading />,
-                        undefined: (
-                          <FontAwesomeIcon icon={faImage} className="fa-6x" />
-                        ),
-                      }[activeImageURL] || (
-                        <img
-                          alt=""
-                          src={activeImageURL}
-                          className="img-fluid"
-                        />
-                      )}
+                        undefined: <FontAwesomeIcon icon={faImage} className="fa-6x" />
+                      }[activeImageURL] || <img alt="" src={activeImageURL} className="img-fluid" />}
                     </div>
 
                     <div className="product-preview">
                       {product[0] && product[0].image === undefined
-                        ? ""
+                        ? ''
                         : (product[0] && product[0].image).map((img) => (
                             <img
                               alt=""
@@ -152,51 +128,36 @@ export default class Products extends Component {
                     <h4>{product[0] && product[0].name}</h4>
                     <Review i={0} product={product[0]} />
                     <h3>
-                      <Price
-                        price={product[0] && product[0].price}
-                        discount={product[0].discountPercentage}
-                      />
+                      <Price price={product[0] && product[0].price} discount={product[0].discountPercentage} />
                     </h3>
                     <p>{product[0] && product[0].shortDescription}</p>
 
                     <div className="row">
                       <div className="col-6 my-1">
-                        <strong>Shop</strong>{" "}
+                        <strong>Shop</strong>{' '}
                       </div>
                       <div className="col-6 my-1">
                         <Link
-                          to={`/stores?name=${
-                            product[0] &&
-                            product[0].shop &&
-                            product[0].shop.name
-                          }`}
+                          to={`/stores?name=${product[0] && product[0].shop && product[0].shop.name}`}
                           className="text-primary"
                         >
-                          {product[0] &&
-                            product[0].shop &&
-                            product[0].shop.name}
+                          {product[0] && product[0].shop && product[0].shop.name}
                         </Link>
                       </div>
                       <div className="col-6 my-1">
-                        <strong>Guarantee</strong>{" "}
+                        <strong>Guarantee</strong>{' '}
                       </div>
                       <div className="col-6 my-1">
-                        <strong>
-                          {(product[0] && product[0].guarantee) || 0}
-                        </strong>{" "}
-                        days
+                        <strong>{(product[0] && product[0].guarantee) || 0}</strong> days
                       </div>
                       <div className="col-6 my-1">
-                        <strong>Delivery time</strong>{" "}
+                        <strong>Delivery time</strong>{' '}
                       </div>
                       <div className="col-6 my-1">
-                        <strong>
-                          {(product[0] && product[0].deliveryTime) || 0}
-                        </strong>{" "}
-                        days
+                        <strong>{(product[0] && product[0].deliveryTime) || 0}</strong> days
                       </div>
                       <div className="col-6 my-1">
-                        <strong>Availability</strong>{" "}
+                        <strong>Availability</strong>{' '}
                       </div>
                       <div className="col-6 my-1">
                         {product[0] && product[0].inStock ? (
@@ -209,9 +170,7 @@ export default class Products extends Component {
                     <p className="mt-3">
                       <CartButton product={product[0]} qty={1} />
                       <br />
-                      <small>
-                        **Go to cart to increase number of products to purchase
-                      </small>
+                      <small>**Go to cart to increase number of products to purchase</small>
                       {/* <button className="btn btn-outline-primary mr-3">
                       <i className="fas fa-share"></i>
                     </button> */}
@@ -254,11 +213,7 @@ export default class Products extends Component {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>
-                              {product[0] &&
-                                product[0].specifications &&
-                                product[0].specifications.size}
-                            </td>
+                            <td>{product[0] && product[0].specifications && product[0].specifications.size}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -270,11 +225,7 @@ export default class Products extends Component {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>
-                              {product[0] &&
-                                product[0].specifications &&
-                                product[0].specifications.color}
-                            </td>
+                            <td>{product[0] && product[0].specifications && product[0].specifications.color}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -286,11 +237,7 @@ export default class Products extends Component {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>
-                              {product[0] &&
-                                product[0].specifications &&
-                                product[0].specifications.mainMaterial}
-                            </td>
+                            <td>{product[0] && product[0].specifications && product[0].specifications.mainMaterial}</td>
                           </tr>
                         </tbody>
                       </table>
@@ -302,12 +249,7 @@ export default class Products extends Component {
                         </thead>
                         <tbody>
                           <tr>
-                            <td>
-                              {product[0] &&
-                                product[0].specifications &&
-                                product[0].specifications.size}{" "}
-                              kg
-                            </td>
+                            <td>{product[0] && product[0].specifications && product[0].specifications.size} kg</td>
                           </tr>
                         </tbody>
                       </table>
@@ -320,9 +262,7 @@ export default class Products extends Component {
                         <tbody>
                           <tr>
                             <td>
-                              {product[0] &&
-                                product[0].specifications &&
-                                product[0].specifications.productionCountry}
+                              {product[0] && product[0].specifications && product[0].specifications.productionCountry}
                             </td>
                           </tr>
                         </tbody>
@@ -344,7 +284,7 @@ export default class Products extends Component {
               className="p-4"
               store={product[0] && product[0].shop && product[0].shop.name}
               productName={product[0] && product[0].name}
-              title={`Products By 
+              title={`Products By
                       ${product[0] && product[0].shop && product[0].shop.name}`}
             />
 
@@ -379,7 +319,7 @@ export default class Products extends Component {
   helperFunc = async (aIU, noFetch) => {
     if (noFetch === true) {
       this.setState({
-        activeImageURL: aIU,
+        activeImageURL: aIU
       });
     } else {
       let queryString = qs.parse(this.props.location.search).id,
@@ -393,14 +333,11 @@ export default class Products extends Component {
             : req.data.data.filter((item) => {
                 const { name, _id, category, gender } = item;
                 return categoryQueryString !== undefined
-                  ? category &&
-                      category.toLowerCase() ===
-                        categoryQueryString.toLowerCase()
+                  ? category && category.toLowerCase() === categoryQueryString.toLowerCase()
                   : genderQueryString !== undefined
-                  ? gender &&
-                    gender.toLowerCase() === genderQueryString.toLowerCase()
-                  : (queryString === undefined || queryString === "") &&
-                    (nameQueryString === undefined || nameQueryString === "")
+                  ? gender && gender.toLowerCase() === genderQueryString.toLowerCase()
+                  : (queryString === undefined || queryString === '') &&
+                    (nameQueryString === undefined || nameQueryString === '')
                   ? item
                   : nameQueryString !== undefined
                   ? name && name.toLowerCase() === nameQueryString.toLowerCase()
@@ -415,19 +352,13 @@ export default class Products extends Component {
         nameQueryString,
         categoryQueryString,
         genderQueryString,
-        activeImageURL: product[0] && product[0].image && product[0].image[0],
+        activeImageURL: product[0] && product[0].image && product[0].image[0]
       });
     }
   };
 
   componentDidUpdate = (prevProps, prevState, snapshot) => {
-    let {
-      queryString,
-      nameQueryString,
-      categoryQueryString,
-      genderQueryString,
-      activeImageURL,
-    } = this.state;
+    let { queryString, nameQueryString, categoryQueryString, genderQueryString, activeImageURL } = this.state;
 
     return qs.parse(this.props.location.search).id !== queryString ||
       qs.parse(this.props.location.search).name !== nameQueryString ||
@@ -436,7 +367,7 @@ export default class Products extends Component {
       ? this.helperFunc(activeImageURL)
       : activeImageURL !== prevState.activeImageURL
       ? this.helperFunc(activeImageURL, true)
-      : "";
+      : '';
   };
 
   componentDidMount = () => this.helperFunc(this.state.activeImageURL);

@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 export default class ProductsBanner extends Component {
   render() {
@@ -14,17 +14,10 @@ export default class ProductsBanner extends Component {
             <Link to="/products/"> All Products </Link>
           </li>
           {headers === undefined
-            ? ""
+            ? ''
             : headers.map(({ name, value }, i) => (
-                <li
-                  key={`ProductBanner${i}`}
-                  className="text-capitalize breadcrumb-item"
-                >
-                  <Link
-                    to={`/products/${name === "" ? "" : `?${name}`}${
-                      name === "" ? "" : `=${value}`
-                    }`}
-                  >
+                <li key={`ProductBanner${i}`} className="text-capitalize breadcrumb-item">
+                  <Link to={`/products/${name === '' ? '' : `?${name}`}${name === '' ? '' : `=${value}`}`}>
                     {value}
                   </Link>
                 </li>

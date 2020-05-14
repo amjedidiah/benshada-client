@@ -1,14 +1,14 @@
-import React, { Component } from "react";
-import HrFrComp from "../HrFrComp/HrFrComp";
-import All from "../All/All";
-import { fetchStores, fetchOrder } from "../../actions/misc";
-import Loading from "../Misc/Loading/Loading";
-import NotFound from "../Misc/NotFound/NotFound";
+import React, { Component } from 'react';
+import HrFrComp from '../HrFrComp/HrFrComp';
+import All from '../All/All';
+import { fetchStores, fetchOrder } from '../../actions/misc';
+import Loading from '../Misc/Loading/Loading';
+import NotFound from '../Misc/NotFound/NotFound';
 
-import qs from "query-string";
+import qs from 'query-string';
 // import Product from "../Products/Product";
 // import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 
 class Stores extends Component {
   constructor(props) {
@@ -33,8 +33,8 @@ class Stores extends Component {
 
     return (
       <HrFrComp>
-        {(queryString === undefined || queryString === "") &&
-        (nameQueryString === undefined || nameQueryString === "") ? (
+        {(queryString === undefined || queryString === '') &&
+        (nameQueryString === undefined || nameQueryString === '') ? (
           <All type="store" queryString="" title="All Stores" />
         ) : store === null ? (
           <Loading />
@@ -68,13 +68,8 @@ class Stores extends Component {
                       <a href="tel:+2348165972229"> +234 816 597 2229</a>
                     </div> */}
                     <div className="col">
-                      <i className="fas fa-calendar text-primary"></i> Date
-                      opened:{" "}
-                      <span>
-                        {new Date(
-                          store[0] && store[0].createdAt
-                        ).toDateString()}
-                      </span>
+                      <i className="fas fa-calendar text-primary"></i> Date opened:{' '}
+                      <span>{new Date(store[0] && store[0].createdAt).toDateString()}</span>
                     </div>
                   </div>
                   {/* <div className="row text-primary">
@@ -142,11 +137,7 @@ class Stores extends Component {
                       <div className="card-body">
                         <p className="card-title">Sales</p>
                         <h1 className="display-4 text-primary text-center">
-                          {
-                            this.state.orders.filter(
-                              ({ status }) => status === "paid"
-                            ).length
-                          }
+                          {this.state.orders.filter(({ status }) => status === 'paid').length}
                         </h1>
                       </div>
                     </div>
@@ -194,25 +185,23 @@ class Stores extends Component {
       nameQueryString = qs.parse(this.props.location.search).name,
       req = await fetchStores(),
       res = await fetchOrder(),
-      store = req.data.data.filter(
-        ({ _id, name }) => _id === queryString || name === nameQueryString
-      ),
+      store = req.data.data.filter(({ _id, name }) => _id === queryString || name === nameQueryString),
       productIDs = (store[0] && store[0].products).map(({ _id }) => _id),
       orders = res.data.data
-        .map(order => order.products.map(product => ({ ...product, order })))
+        .map((order) => order.products.map((product) => ({ ...product, order })))
         .reduce((a, item) => a.concat(item), [])
-        .map(({ _id, order }) => (productIDs.indexOf(_id) !== -1 ? order : ""))
-        .filter(item => item !== "");
+        .map(({ _id, order }) => (productIDs.indexOf(_id) !== -1 ? order : ''))
+        .filter((item) => item !== '');
 
     this.setState({ store, queryString, nameQueryString, orders });
   };
 
   componentDidUpdate = () =>
     qs.parse(this.props.location.search).id === this.state.queryString
-      ? ""
+      ? ''
       : qs.parse(this.props.location.search).name !== this.state.nameQueryString
       ? this.helperFunc()
-      : "";
+      : '';
 
   componentDidMount = () => this.helperFunc();
 }

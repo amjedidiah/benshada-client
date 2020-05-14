@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 // import { filterContent } from "../../actions/load";
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 // import NotFound from "../Misc/NotFound/NotFound";
-import Reviews from "./Reviews";
-import Stars from "./Stars";
+import Reviews from './Reviews';
+import Stars from './Stars';
 
 class Review extends Component {
   renderProductReview = (reviews, productId) => {
@@ -33,7 +33,7 @@ class Review extends Component {
 
 const mapStateToProps = ({ auth, order }) => ({
   isSignedIn: auth.isSignedIn,
-  orders: order,
+  orders: order
 });
 
 export default connect(mapStateToProps, {})(Review);

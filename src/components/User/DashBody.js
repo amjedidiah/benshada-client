@@ -1,8 +1,11 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import BenshadaForm from "../BenshadaForm/BenshadaForm";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { faPlus, faStream } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import BenshadaForm from '../BenshadaForm/BenshadaForm';
 
-import { productUpload } from "../../actions/user";
+import { productUpload } from '../../actions/user';
 import {
   Profile,
   Products,
@@ -11,11 +14,8 @@ import {
   Analytics,
   // Notifications,
   Messages
-} from "./assets/bodyComponents";
-import { Link } from "react-router-dom";
-import { ifSeller } from "../../actions/auth";
-import { faPlus, faStream } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+} from './assets/bodyComponents';
+import { ifSeller } from '../../actions/auth';
 
 const Components = {
   Profile,
@@ -29,53 +29,53 @@ const Components = {
 
 class DashBody extends Component {
   productUploadRenderer(user) {
-    let productFields = [
-        {
-          desc: "name",
-          label: "Name",
-          placeholder: "Product Name",
-          varClass: "input",
-          type: "text",
-          options: [],
-          row: 1,
-          icon: 0
-        },
-        {
-          desc: "description",
-          label: "Description",
-          placeholder: "Product Description",
-          varClass: "textarea",
-          type: "text",
-          options: [],
-          row: 2,
-          icon: 0
-        },
-        {
-          desc: "price",
-          label: "Price",
-          varClass: "input",
-          type: "number",
-          options: [],
-          row: 1,
-          icon: 1,
-          help: "Enter Naira value of price"
-        },
-        {
-          desc: "discountPercentage",
-          label: "Discount",
-          varClass: "input",
-          type: "number",
-          options: [],
-          row: 2,
-          icon: 0,
-          help: "Discount in percentage"
-        }
-      ],
-      productButtons = [{ value: "Upload Product", className: "btn-primary" }],
-      type = user && user.type;
+    const productFields = [
+      {
+        desc: 'name',
+        label: 'Name',
+        placeholder: 'Product Name',
+        varClass: 'input',
+        type: 'text',
+        options: [],
+        row: 1,
+        icon: 0
+      },
+      {
+        desc: 'description',
+        label: 'Description',
+        placeholder: 'Product Description',
+        varClass: 'textarea',
+        type: 'text',
+        options: [],
+        row: 2,
+        icon: 0
+      },
+      {
+        desc: 'price',
+        label: 'Price',
+        varClass: 'input',
+        type: 'number',
+        options: [],
+        row: 1,
+        icon: 1,
+        help: 'Enter Naira value of price'
+      },
+      {
+        desc: 'discountPercentage',
+        label: 'Discount',
+        varClass: 'input',
+        type: 'number',
+        options: [],
+        row: 2,
+        icon: 0,
+        help: 'Discount in percentage'
+      }
+    ];
+    let productButtons = [{ value: 'Upload Product', className: 'btn-primary' }];
+    let type = user && user.type;
 
     return !ifSeller(type) ? (
-      ""
+      ''
     ) : (
       <>
         <div
@@ -89,18 +89,10 @@ class DashBody extends Component {
           <div className="modal-dialog modal-xl" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5
-                  className="modal-title font-weight-light"
-                  id="productModalLabel"
-                >
+                <h5 className="modal-title font-weight-light" id="productModalLabel">
                   Upload Product
                 </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -136,17 +128,13 @@ class DashBody extends Component {
         { user, store, orders } = this.props;
       return (
         <div
-          className={`h-100 p-0 tab-pane fade ${i === 0 ? "show active" : ""}`}
+          className={`h-100 p-0 tab-pane fade ${i === 0 ? 'show active' : ''}`}
           id={`pills-${Title}`}
           role="tabpanel"
           aria-labelledby={`pills-${Title}-tab`}
           key={Title}
         >
-          {user !== undefined ? (
-            <TagName user={user} store={store} orders={orders} />
-          ) : (
-            <Messages />
-          )}
+          {user !== undefined ? <TagName user={user} store={store} orders={orders} /> : <Messages />}
         </div>
       );
     });
@@ -154,14 +142,8 @@ class DashBody extends Component {
 
   renderHeader(user, name) {
     return user !== undefined ? (
-      <div
-        className="p-3 position-fixed bg-white shadow-sm d-flex d-md-block"
-        id="dashboardHeader"
-      >
-        <button
-          className="btn btn-white float-left border-0 d-md-none"
-          id="dashboardMenuToggle"
-        >
+      <div className="p-3 position-fixed bg-white shadow-sm d-flex d-md-block" id="dashboardHeader">
+        <button className="btn btn-white float-left border-0 d-md-none" id="dashboardMenuToggle">
           <span>
             <FontAwesomeIcon icon={faStream} />
           </span>
@@ -181,27 +163,23 @@ class DashBody extends Component {
           height="50"
         /> */}
           </div>
-          <p
-            className="pt-5 ml-3 d-none d-md-inline position-relative"
-            style={{ top: "10px" }}
-          >
+          <p className="pt-5 ml-3 d-none d-md-inline position-relative" style={{ top: '10px' }}>
             Hello, {name}
           </p>
         </div>
         <div className="clear"></div>
       </div>
     ) : (
-      ""
+      ''
     );
   }
 
   render() {
     let { user, list } = this.props,
       name = user && user.name,
-      divClass =
-        user === undefined ? "col-9 offset-3 col-sm-10 offset-sm-2" : "col-12";
+      divClass = user === undefined ? 'col-9 offset-3 col-sm-10 offset-sm-2' : 'col-12';
 
-    name = name !== undefined ? name.split(" ")[0] : "";
+    name = name !== undefined ? name.split(' ')[0] : '';
 
     return (
       <>
@@ -218,6 +196,6 @@ class DashBody extends Component {
   }
 }
 
-const mapStateToProps = state => ({});
+const mapStateToProps = (state) => ({});
 
 export default connect(mapStateToProps, { productUpload })(DashBody);

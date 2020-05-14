@@ -1,4 +1,4 @@
-import { LOGIN, LOGOUT, USER_FETCH } from "../actions/types";
+import { LOGIN, LOGOUT, USER_FETCH } from '../actions/types';
 
 const INITIAL_STATE = {
   isSignedIn: false,

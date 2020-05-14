@@ -1,45 +1,34 @@
-import React, { Component } from "react";
-import "./MultiSelect.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import React, { Component } from 'react';
+import './MultiSelect.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
 export default class MultiSelect extends Component {
   cardSelect = () => {
-    let element = [...window.event.target.classList].includes("card-select")
+    let element = [...window.event.target.classList].includes('card-select')
       ? window.event.target
       : window.event.target.parentElement;
 
-    element.classList.toggle("active");
+    element.classList.toggle('active');
   };
 
   renderOptionsElement = ({ name, src }) =>
     src === undefined ? (
       <p className="text-capitalize flex-grow-1 mb-0">{this.spaceText(name)}</p>
     ) : (
-      <img
-        src={src}
-        width="100"
-        className="img-fluid flex-grow-1"
-        alt="delivery_option"
-      />
+      <img src={src} width="100" className="img-fluid flex-grow-1" alt="delivery_option" />
     );
 
-  renderAvailableOptions = options =>
+  renderAvailableOptions = (options) =>
     options.map((option, i) => (
-      <div
-        className="card card-select p-2 shadow-sm"
-        onClick={() => this.cardSelect()}
-        key={i}
-      >
+      <div className="card card-select p-2 shadow-sm" onClick={() => this.cardSelect()} key={i}>
         {this.renderOptionsElement(option)}
       </div>
     ));
 
-  renderSelectedOptionsDeleteBtn = () => (
-    <FontAwesomeIcon icon={faTimes} className="text-danger float-right pt-4" />
-  );
+  renderSelectedOptionsDeleteBtn = () => <FontAwesomeIcon icon={faTimes} className="text-danger float-right pt-4" />;
 
-  renderSelectedOptions = options =>
+  renderSelectedOptions = (options) =>
     options.map((option, i) => (
       <div className="card p-2 shadow-sm" key={i}>
         <div className="d-flex">
@@ -49,7 +38,7 @@ export default class MultiSelect extends Component {
       </div>
     ));
 
-  spaceText = text => text;
+  spaceText = (text) => text;
 
   render() {
     let { props, spaceText } = this,
@@ -59,14 +48,8 @@ export default class MultiSelect extends Component {
     return (
       <>
         <h4 className="mt-5 pt-5 text-capitalize">{spacedTitle}</h4>
-        <div className="card-columns card-columns-multiselect mt-4">
-          {this.renderSelectedOptions(selectedOptions)}
-        </div>
-        <span
-          className="pointer"
-          data-toggle="modal"
-          data-target={`#${title}Modal`}
-        >
+        <div className="card-columns card-columns-multiselect mt-4">{this.renderSelectedOptions(selectedOptions)}</div>
+        <span className="pointer" data-toggle="modal" data-target={`#${title}Modal`}>
           Edit options
         </span>
 
@@ -81,26 +64,16 @@ export default class MultiSelect extends Component {
           <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5
-                  className="modal-title font-weight-light text-capitalize"
-                  id={`${title}ModalLabel`}
-                >
+                <h5 className="modal-title font-weight-light text-capitalize" id={`${title}ModalLabel`}>
                   {spacedTitle}
                 </h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div className="modal-body">
                 <p>Select your {spacedTitle}</p>
-                <div className="card-columns">
-                  {this.renderAvailableOptions(availableOptions)}
-                </div>
+                <div className="card-columns">{this.renderAvailableOptions(availableOptions)}</div>
                 <button className="btn btn-primary float-right">Submit</button>
                 <div className="clear"></div>
               </div>

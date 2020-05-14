@@ -1,29 +1,29 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import { roleSelect, ifSeller } from "../../../actions/auth";
-import { actionLoad, actionNotify } from "../../../actions/load";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { roleSelect, ifSeller } from '../../../actions/auth';
+import { actionLoad, actionNotify } from '../../../actions/load';
 
-import "../Login/login.css";
+import '../Login/login.css';
 
 class Role extends React.Component {
   roleSelect() {
-    [...document.querySelectorAll(".role-benshada")].forEach(div => {
-      div.addEventListener("click", e => {
-        [...document.querySelectorAll(".role-benshada")].forEach(i => {
-          i.classList.remove("text-white");
-          i.classList.remove("bg-primary");
-          i.classList.add("bg-white");
-          i.classList.add("text-primary");
+    [...document.querySelectorAll('.role-benshada')].forEach((div) => {
+      div.addEventListener('click', (e) => {
+        [...document.querySelectorAll('.role-benshada')].forEach((i) => {
+          i.classList.remove('text-white');
+          i.classList.remove('bg-primary');
+          i.classList.add('bg-white');
+          i.classList.add('text-primary');
         });
 
-        div.classList.remove("bg-white");
-        div.classList.remove("text-primary");
-        div.classList.add("bg-primary");
-        div.classList.add("text-white");
+        div.classList.remove('bg-white');
+        div.classList.remove('text-primary');
+        div.classList.add('bg-primary');
+        div.classList.add('text-white');
 
-        this.props.roleSelect(div.getAttribute("id"));
+        this.props.roleSelect(div.getAttribute('id'));
       });
     });
   }
@@ -39,18 +39,18 @@ class Role extends React.Component {
       return (
         <Redirect
           to={{
-            pathname: "/login",
+            pathname: '/login',
             state: { from: location }
           }}
         />
       );
     }
 
-    if (ifSeller(role) || role === "c") {
+    if (ifSeller(role) || role === 'c') {
       return (
         <Redirect
           to={{
-            pathname: "/user",
+            pathname: '/user',
             state: { from: location }
           }}
         />
@@ -61,11 +61,9 @@ class Role extends React.Component {
         <div className="row align-items-center h-100">
           <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
           <div className="col col-md-9 col-lg-6 offset-lg-6 offset-md-3">
-            <h3 className="mb-2 text-center pt-5">
-              Choose your role on Benshada Place
-            </h3>
+            <h3 className="mb-2 text-center pt-5">Choose your role on Benshada Place</h3>
             <p className="lead mb-4 text-center">
-              Or{" "}
+              Or{' '}
               <Link className="text-primary" to="./logout">
                 logout
               </Link>
@@ -106,7 +104,7 @@ class Role extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     isSignedIn: state.auth.isSignedIn,
     role: state.auth.user && state.auth.user.type

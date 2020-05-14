@@ -1,26 +1,22 @@
-import React from "react";
+import React from 'react';
 
 // Custom components
-import { Redirect } from "react-router-dom";
-import { connect } from "react-redux";
-import Jumbo from "./Jumbo/Jumbo";
-import Gender from "./Gender/Gender";
-import Product from "../Products/Product";
-import Store from "../Stores/Store";
+import { Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+import Jumbo from './Jumbo/Jumbo';
+import Gender from './Gender/Gender';
+import Product from '../Products/Product';
+import Store from '../Stores/Store';
 // import Testimonies from "./Testimonies/Testimonies";
-import VirtualAssistant from "../VirtualAssistant/VirtualAssistant";
-import HrFrComp from "../HrFrComp/HrFrComp";
+import VirtualAssistant from '../VirtualAssistant/VirtualAssistant';
+import HrFrComp from '../HrFrComp/HrFrComp';
 
-import { featuredStoreFetch } from "../../actions/user";
-import { fetchProducts, fetchStores } from "../../actions/misc";
-import { filterContent } from "../../actions/load";
-import Category from "./Category/Category";
-import { faRedhat } from "@fortawesome/free-brands-svg-icons";
-import {
-  faShoppingBag,
-  faTshirt,
-  faShoePrints,
-} from "@fortawesome/free-solid-svg-icons";
+import { featuredStoreFetch } from '../../actions/user';
+import { fetchProducts, fetchStores } from '../../actions/misc';
+import { filterContent } from '../../actions/load';
+import Category from './Category/Category';
+import { faRedhat } from '@fortawesome/free-brands-svg-icons';
+import { faShoppingBag, faTshirt, faShoePrints } from '@fortawesome/free-solid-svg-icons';
 
 class Home extends React.Component {
   constructor() {
@@ -30,7 +26,7 @@ class Home extends React.Component {
       stores2: null,
       productsRecent: null,
       productsTopRated: null,
-      productsDiscounted: null,
+      productsDiscounted: null
     };
   }
 
@@ -44,13 +40,9 @@ class Home extends React.Component {
     this.setState({
       stores1: stores.slice(0, 12),
       stores2: stores.slice(12, 24),
-      productsRecent: products
-        .map((product, i) => products[products.length - i - 1])
-        .slice(0, 12),
+      productsRecent: products.map((product, i) => products[products.length - i - 1]).slice(0, 12),
       productsTopRated: products.slice(12, 24),
-      productsDiscounted: products
-        .filter(({ discountPercentage }) => discountPercentage > 0)
-        .slice(0, 12),
+      productsDiscounted: products.filter(({ discountPercentage }) => discountPercentage > 0).slice(0, 12)
     });
   };
 
@@ -66,10 +58,10 @@ class Home extends React.Component {
 
   renderPage() {
     const cats = [
-        { name: "accessories", icon: faRedhat },
-        { name: "bags", icon: faShoppingBag },
-        { name: "clothes", icon: faTshirt },
-        { name: "shoes", icon: faShoePrints },
+        { name: 'accessories', icon: faRedhat },
+        { name: 'bags', icon: faShoppingBag },
+        { name: 'clothes', icon: faTshirt },
+        { name: 'shoes', icon: faShoePrints }
       ],
       rand1 = (cats.length - 1).randNum(),
       rand2 = () => {
@@ -87,26 +79,11 @@ class Home extends React.Component {
       <HrFrComp>
         <Jumbo cats={cats} />
         <Gender />
-        <Category
-          shortDesc={cats[rand1].name}
-          icon={cats[rand1].icon}
-          reversed={false}
-        />
-        <Category
-          shortDesc={cats[rand3].name}
-          icon={cats[rand3].icon}
-          reversed={true}
-        />
-        <Product
-          title={"recently added"}
-          products={this.state.productsRecent}
-        />
-        <Store
-          title={"featured stores"}
-          stores={this.state.stores1}
-          radius={0}
-        />
-        <Product title={"top rated"} products={this.state.productsTopRated} />
+        <Category shortDesc={cats[rand1].name} icon={cats[rand1].icon} reversed={false} />
+        <Category shortDesc={cats[rand3].name} icon={cats[rand3].icon} reversed={true} />
+        <Product title={'recently added'} products={this.state.productsRecent} />
+        <Store title={'featured stores'} stores={this.state.stores1} radius={0} />
+        <Product title={'top rated'} products={this.state.productsTopRated} />
 
         {/* <Product
           title={"discounted"}
@@ -178,11 +155,11 @@ class Home extends React.Component {
           user: (
             <Redirect
               to={{
-                pathname: "/role",
-                state: { from: location },
+                pathname: '/role',
+                state: { from: location }
               }}
             />
-          ),
+          )
         }[user && user.type] || this.renderPage();
   }
 
@@ -193,7 +170,7 @@ class Home extends React.Component {
 
 const mapStateToProps = (state) => ({
   user: state.auth.user === null ? null : state.auth.user,
-  isSignedIn: state.auth.isSignedIn,
+  isSignedIn: state.auth.isSignedIn
 });
 
 export default connect(mapStateToProps, { featuredStoreFetch })(Home);

@@ -1,11 +1,12 @@
 // JS Document
-import $ from "jquery";
+import $ from 'jquery';
+
 const menu = () => {
-  $("#dashboardMenuToggle").click(function() {
-    $("#userSide").toggle();
+  $('#dashboardMenuToggle').click(function () {
+    $('#userSide').toggle();
   });
   $(window).resize(() => {
-    if ($(window).innerWidth() >= 768) $("#userSide").show();
+    if ($(window).innerWidth() >= 768) $('#userSide').show();
   });
 };
 

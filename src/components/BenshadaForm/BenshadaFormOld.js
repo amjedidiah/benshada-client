@@ -1,7 +1,7 @@
-import React from "react";
-import { Field, reduxForm, SubmissionError } from "redux-form";
-import { connect } from "react-redux";
-import { actionLoad, actionDone } from "../../actions/load";
+import React from 'react';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
+import { connect } from 'react-redux';
+import { actionLoad, actionDone } from '../../actions/load';
 
 class BenshadaFormOld extends React.Component {
   constructor(props) {
@@ -12,29 +12,24 @@ class BenshadaFormOld extends React.Component {
   renderError({ touched, error }) {
     if (touched && error) {
       return (
-        <div
-          className="alert text-danger alert-dismissible fade show p-0"
-          role="alert"
-        >
+        <div className="alert text-danger alert-dismissible fade show p-0" role="alert">
           <small>{error}</small>
         </div>
       );
     }
   }
 
-  onSubmit = formValues => {
+  onSubmit = (formValues) => {
     this.props.actionLoad();
     this.props
       .onSubmitForm(formValues)
-      .then(response => {
+      .then((response) => {
         this.props.actionDone();
         if (this.pRef.current) {
-          this.pRef.current.innerHTML = response.response
-            ? response.response.data.message
-            : response;
+          this.pRef.current.innerHTML = response.response ? response.response.data.message : response;
         }
       })
-      .catch(error => {
+      .catch((error) => {
         this.props.actionDone();
         if (this.pRef.current) {
           this.pRef.current.innerHTML = error;
@@ -45,19 +40,9 @@ class BenshadaFormOld extends React.Component {
       });
   };
 
-  renderInput = ({
-    input,
-    icon,
-    placeholder,
-    meta,
-    type,
-    required,
-    autoComplete
-  }) => {
+  renderInput = ({ input, icon, placeholder, meta, type, required, autoComplete }) => {
     //meta to help us display error
-    const className = `border border-${
-      meta.error && meta.touched ? "danger" : ""
-    }`;
+    const className = `border border-${meta.error && meta.touched ? 'danger' : ''}`;
     return (
       <>
         <div className="input-group my-3">
@@ -86,11 +71,8 @@ class BenshadaFormOld extends React.Component {
   render() {
     let { valid, pristine, submitting, handleSubmit } = this.props;
     return (
-      <form
-        onSubmit={handleSubmit(this.onSubmit)}
-        className={this.props.className}
-      >
-        {this.props.btn === "Register" ? (
+      <form onSubmit={handleSubmit(this.onSubmit)} className={this.props.className}>
+        {this.props.btn === 'Register' ? (
           <Field
             icon="fas fa-user"
             component={this.renderInput}
@@ -101,7 +83,7 @@ class BenshadaFormOld extends React.Component {
             autoComplete="off"
           />
         ) : (
-          ""
+          ''
         )}
         <Field
           icon="fas fa-envelope"
@@ -120,10 +102,7 @@ class BenshadaFormOld extends React.Component {
           required="required"
           autoComplete="off"
         />
-        <div
-          className="alert text-danger alert-dismissible fade show p-0"
-          role="alert"
-        >
+        <div className="alert text-danger alert-dismissible fade show p-0" role="alert">
           <small ref={this.pRef}></small>
         </div>
         <button
@@ -139,16 +118,16 @@ class BenshadaFormOld extends React.Component {
   }
 }
 
-const validate = formValues => {
+const validate = (formValues) => {
   let errors = { password: [] };
 
-  if ("name" in formValues) {
+  if ('name' in formValues) {
     if (/[A-Z]/.test(formValues.password) === false) {
       errors.password.push(`Password must contain an uppercase letter\r\n.`);
     }
 
     if (/\d/.test(formValues.password) === false) {
-      errors.password.push("Password must contain a number");
+      errors.password.push('Password must contain a number');
     }
   }
 
@@ -162,7 +141,7 @@ const validate = formValues => {
 
 export default connect(null, { actionLoad, actionDone })(
   reduxForm({
-    form: "benshadaForm",
+    form: 'benshadaForm',
     validate
   })(BenshadaFormOld)
 );

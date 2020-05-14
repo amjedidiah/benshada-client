@@ -1,4 +1,4 @@
-import { LOGOUT, TRANSACTIONS_FETCH } from "../actions/types";
+import { LOGOUT, TRANSACTIONS_FETCH } from '../actions/types.js';
 
 const INITIAL_STATE = [];
 

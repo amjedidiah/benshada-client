@@ -1,17 +1,11 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 
 export default class Testimonies extends Component {
-  renderTestimonies = customers =>
+  renderTestimonies = (customers) =>
     customers.map((customer, i) => (
       <div className="card shadow-sm my-3" key={i}>
         <div className="card-header text-left bg-white">
-          <img
-            src={customer.src}
-            alt="customer"
-            width="50"
-            height="50"
-            className="rounded-circle mr-2"
-          />
+          <img src={customer.src} alt="customer" width="50" height="50" className="rounded-circle mr-2" />
           <span className="text-capitalize">{customer.name}</span>
         </div>
         <div className="card-body">

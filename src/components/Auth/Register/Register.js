@@ -1,54 +1,54 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { register } from "../../../actions/auth";
+import React from 'react';
+import { Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { register } from '../../../actions/auth';
 
-import "../Login/login.css";
+import '../Login/login.css';
 
-import BenshadaForm from "../../BenshadaForm/BenshadaForm";
+import BenshadaForm from '../../BenshadaForm/BenshadaForm';
 
 class Register extends React.Component {
   render() {
     const registerFields = [
         {
-          desc: "name",
-          label: "Full Name",
-          placeholder: "e.g Paul Ahmed",
-          varClass: "input",
-          type: "text",
+          desc: 'name',
+          label: 'Full Name',
+          placeholder: 'e.g Paul Ahmed',
+          varClass: 'input',
+          type: 'text',
           options: []
         },
         {
-          desc: "email",
-          label: "Email Address",
-          placeholder: "example@gmail.com",
-          varClass: "input",
-          type: "email",
+          desc: 'email',
+          label: 'Email Address',
+          placeholder: 'example@gmail.com',
+          varClass: 'input',
+          type: 'email',
           options: []
         },
         {
-          desc: "password",
-          label: "Password",
-          varClass: "input",
-          type: "password",
+          desc: 'password',
+          label: 'Password',
+          varClass: 'input',
+          type: 'password',
           options: []
         },
         {
-          desc: "confirmpassword",
-          label: "Confirm Password",
-          varClass: "input",
-          type: "password",
+          desc: 'confirmpassword',
+          label: 'Confirm Password',
+          varClass: 'input',
+          type: 'password',
           options: []
         }
       ],
-      registerButtons = [{ value: "register", className: "btn-primary" }];
+      registerButtons = [{ value: 'register', className: 'btn-primary' }];
 
     if (this.props.isSignedIn === true) {
       return (
         <Redirect
           to={{
-            pathname: "/role",
+            pathname: '/role',
             state: { from: this.props.location }
           }}
         />
@@ -60,11 +60,9 @@ class Register extends React.Component {
         <div className="row align-items-center h-100">
           <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
           <div className="col col-md-9 col-lg-6 offset-lg-6 offset-md-3">
-            <h3 className="mb-2 text-center pt-5">
-              Register on Benshada Place
-            </h3>
+            <h3 className="mb-2 text-center pt-5">Register on Benshada Place</h3>
             <p className="lead mb-4 text-center">
-              Or return{" "}
+              Or return{' '}
               <Link className="text-primary" to="/">
                 home
               </Link>
@@ -102,7 +100,7 @@ class Register extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return { isSignedIn: state.auth.isSignedIn };
 };
 

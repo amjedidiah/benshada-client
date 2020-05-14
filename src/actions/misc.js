@@ -1,4 +1,4 @@
-import api from "../apis/api";
+import api from '../apis/api';
 
 export const fetchStores = () => api.get(`/shops/`);
 
