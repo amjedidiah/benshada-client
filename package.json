@@ -2,12 +2,7 @@
   "name": "benshada-client",
   "version": "0.1.0",
   "description": "African fashion without borders",
-  "keywords": [
-    "Africa",
-    "fashion",
-    "benshada",
-    "benshada place"
-  ],
+  "keywords": ["Africa", "fashion", "benshada", "benshada place"],
   "private": true,
   "directories": {
     "test": "__tests__"
@@ -94,15 +89,7 @@
     "pre-commit": "^1.2.2"
   },
   "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+    "production": [">0.2%", "not dead", "not op_mini all"],
+    "development": ["last 1 chrome version", "last 1 firefox version", "last 1 safari version"]
   }
 }
