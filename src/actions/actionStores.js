@@ -32,10 +32,9 @@ export const shopFilterByOwner = (owner) => (dispatch) => api
 export const shopCreate = (formValues, userToken) => (dispatch, getState) => dispatch(
   shopFilterByOwner(formValues.user)
 ).then(() => {
-  const { _id } = getState().shops.active;
   const owner = formValues.user;
 
-  return _id === owner
+  return getState().shops.active._id === owner
     ? dispatch(actionErrorAdd('You already have a shop'))
     : dispatch(shopAdd(formValues, userToken));
 }).catch((err) => dispatch(actionErrorAdd(err)));
