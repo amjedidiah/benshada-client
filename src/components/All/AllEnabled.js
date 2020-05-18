@@ -164,8 +164,7 @@ class AllEnabled extends Component {
   };
 
   render() {
-    const { product, prices } = this.state;
-    const { min, max } = prices;
+    const { min, max } = this.state.prices;
     const initProds = this.props.products || [];
     const specs = initProds
       .map(({ specifications }) => unique(Object.keys(specifications) || [])
@@ -304,7 +303,7 @@ class AllEnabled extends Component {
             </div>
           </div>
           <div className="col">
-            <Product products={product} />
+            <Product products={this.state.product} />
           </div>
         </div>
       </div>
@@ -312,10 +311,7 @@ class AllEnabled extends Component {
   }
 
   helperFunc = () => {
-    const {
-      rating, discount, shops, genders, prices
-    } = this.state;
-    const { min, max } = prices;
+    const { min, max } = this.state.prices;
     const initProds = this.props.products || [];
     let displayProds = initProds;
     const specs = unique(initProds
@@ -332,25 +328,27 @@ class AllEnabled extends Component {
       .flat(Infinity), '_id');
 
     // Filter if ratings is set
-    displayProds = rating !== null
-      ? displayProds.filter(({ overallRating }) => overallRating >= rating)
+    displayProds = this.state.rating !== null
+      ? displayProds.filter(({ overallRating }) => overallRating >= this.state.rating)
       : displayProds;
 
     // Filter if discount is set
-    displayProds = discount !== null
-      ? displayProds.filter(({ discountPercentage }) => discountPercentage >= discount)
+    displayProds = this.state.discount !== null
+      ? displayProds.filter(({ discountPercentage }) => discountPercentage >= this.state.discount)
       : displayProds;
 
     // Filter for shops
-    displayProds = (shops || []).length > 0
+    displayProds = (this.state.shops || []).length > 0
       ? displayProds.filter(
-        ({ shop }) => shops.includes(shop && shop.name && shop.name.toLowerCase())
+        ({ shop }) => this.state.shops.includes(shop && shop.name && shop.name.toLowerCase())
       )
       : displayProds;
 
     // Filter for genders
-    displayProds = (genders || []).length > 0
-      ? displayProds.filter(({ gender }) => genders.includes(gender && gender.toLowerCase()))
+    displayProds = (this.state.genders || []).length > 0
+      ? displayProds.filter(
+        ({ gender }) => this.state.genders.includes(gender && gender.toLowerCase())
+      )
       : displayProds;
 
     // Filter for prices
