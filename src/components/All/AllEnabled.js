@@ -311,7 +311,6 @@ class AllEnabled extends Component {
   }
 
   helperFunc = () => {
-    const { min, max } = this.state.prices;
     const initProds = this.props.products || [];
     let displayProds = initProds;
     const specs = unique(initProds
@@ -352,7 +351,10 @@ class AllEnabled extends Component {
       : displayProds;
 
     // Filter for prices
-    displayProds = displayProds.filter(({ price }) => price >= min && price <= max);
+    displayProds = displayProds
+      .filter(
+        ({ price }) => price >= this.state.prices.min && price <= this.state.prices.max
+      );
 
     this.setState({
       product: displayProds
