@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import 'babel-polyfill';
 import api from '../apis/api.js';
 import { SHOP } from './actionTypes.js';
@@ -22,10 +23,7 @@ export const shopFilterByOwner = (owner) => (dispatch) => api
   .get('/shops')
   .then(({ data }) => {
     const shops = data;
-    const active = shops.data.filter(({ user }) => {
-      const { _id } = user;
-      return _id === owner;
-    })[0];
+    const active = shops.data.filter(({ user }) => user._id === owner)[0];
 
     dispatch(shopActionSuccess(SHOP.SHOP_FILTER_BY_OWNER, active));
   })

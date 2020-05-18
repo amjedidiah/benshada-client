@@ -27,7 +27,6 @@ class DashNav extends React.Component {
   }
 
   renderList = ({ list }) => list.map((item, index) => {
-    const { icon, Title, message } = item;
     let active;
     let selected;
 
@@ -40,24 +39,24 @@ class DashNav extends React.Component {
         <li className="nav-item" key={index}>
           <a
             className={`nav-link text-capitalize ${active}`}
-            id={`pills-${Title}-tab`}
+            id={`pills-${item.Title}-tab`}
             data-toggle="pill"
-            href={`#pills-${Title}`}
+            href={`#pills-${item.Title}`}
             role="tab"
-            aria-controls={`pills-${Title}`}
+            aria-controls={`pills-${item.Title}`}
             aria-selected={selected}
           >
-            {this.renderIcon(icon)}
+            {this.renderIcon(item.icon)}
 
-            {message !== undefined ? (
+            {item.message !== undefined ? (
               <div>
-                <span className="font-weight-bold d-none d-md-inline">{Title}</span>
+                <span className="font-weight-bold d-none d-md-inline">{item.Title}</span>
                 <br />
-                <small className="message text-truncate d-none d-md-block">{message}</small>
+                <small className="message text-truncate d-none d-md-block">{item.message}</small>
               </div>
             ) : (
               <>
-                <span className="font-weight-bold">{Title}</span>
+                <span className="font-weight-bold">{item.Title}</span>
                 <br />
               </>
             )}

@@ -74,8 +74,7 @@ class AllEnabled extends Component {
   );
 
   toggleProdCheckSpec(e, value, spec) {
-    const { target } = e;
-    const newSpec = target.checked === true
+    const newSpec = e.target.checked === true
       ? [...this.state[spec], value]
       : this.state[spec].filter((i) => i !== value);
 
@@ -165,10 +164,9 @@ class AllEnabled extends Component {
   };
 
   render() {
-    const { props, state } = this;
-    const { product, prices } = state;
+    const { product, prices } = this.state;
     const { min, max } = prices;
-    const initProds = props.products || [];
+    const initProds = this.props.products || [];
     const specs = initProds
       .map(({ specifications }) => unique(Object.keys(specifications) || [])
         .flat(Infinity))
@@ -314,12 +312,11 @@ class AllEnabled extends Component {
   }
 
   helperFunc = () => {
-    const { state, props } = this;
     const {
       rating, discount, shops, genders, prices
-    } = state;
+    } = this.state;
     const { min, max } = prices;
-    const initProds = props.products || [];
+    const initProds = this.props.products || [];
     let displayProds = initProds;
     const specs = unique(initProds
       .map(({ specifications }) => Object.keys(specifications))
@@ -327,9 +324,9 @@ class AllEnabled extends Component {
 
     // Filter for all specs, combine then make Unique
     displayProds = uniqueObjectArray((specs || [])
-      .map((spec) => ((state[spec] || []).length > 0
+      .map((spec) => ((this.state[spec] || []).length > 0
         ? displayProds.filter(
-          ({ specifications }) => state[spec].includes(specifications && specifications[spec])
+          ({ specifications }) => this.state[spec].includes(specifications && specifications[spec])
         )
         : displayProds))
       .flat(Infinity), '_id');

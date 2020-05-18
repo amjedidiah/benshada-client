@@ -14,16 +14,12 @@ export default class Src extends Component {
   }
 
   render() {
-    const {
-      image, name, size, type, xtraClass
-    } = this.props;
-
-    return (image && image.length === 0) || image === undefined ? (
-      <div className={`text-center ${xtraClass}`}>
-        <FontAwesomeIcon icon={type === 'store' ? faStoreAlt : faBox} className={`fa-${size}x text-light`} />
+    return (this.props.image && this.props.image.length === 0) || this.props.image === undefined ? (
+      <div className={`text-center ${this.props.xtraClass}`}>
+        <FontAwesomeIcon icon={this.props.type === 'store' ? faStoreAlt : faBox} className={`fa-${this.props.size}x text-light`} />
       </div>
     ) : (
-      <img className="card-img img-responsive" src={image[0]} alt={name} />
+      <img className="card-img img-responsive" src={this.props.image[0]} alt={this.props.name} />
     );
   }
 }

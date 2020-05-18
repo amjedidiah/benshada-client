@@ -10,13 +10,11 @@ export default class Reviews extends Component {
   }
 
   render() {
-    const { reviews } = this.props;
-
-    return reviews.length < 1 ? (
+    return this.reviews.length < 1 ? (
       <NotFound type="review" />
     ) : (
       <div className="card-columns products my-2">
-        {reviews.map((review, i) => (
+        {this.reviews.map((review, i) => (
           <div className="card shadow-sm text-left" key={`review${i}`}>
             <div className="card-header bg-white d-flex">
               <img

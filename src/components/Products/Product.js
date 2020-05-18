@@ -35,10 +35,9 @@ class Product extends Component {
   }
 
   renderProductActions(i, id, product) {
-    const { isSignedIn, user } = this.props;
-    const saved = (user && user.saved) || [];
+    const saved = (this.props.user && this.props.user.saved) || [];
 
-    if (!isSignedIn || !ifSeller(user && user.type)) {
+    if (!this.props.isSignedIn || !ifSeller(this.props.user && this.props.user.type)) {
       return <>
       <button className="btn mr-3">
         {saved.filter(({ _id }) => _id === id).length > 0 ? (
@@ -191,14 +190,12 @@ class Product extends Component {
   }
 
   render() {
-    const { title, products, className } = this.props;
-
     return (
-      <div className={`container my-3 ${className}`}>
+      <div className={`container my-3 ${this.props.className}`}>
         <div className="row">
           <div className="col p-0">
-            <h4 className="text-left text-uppercase">{title}</h4>
-            {this.renderProducts(products)}
+            <h4 className="text-left text-uppercase">{this.props.title}</h4>
+            {this.renderProducts(this.props.products)}
           </div>
         </div>
       </div>

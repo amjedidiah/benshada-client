@@ -14,9 +14,7 @@ export default class NotFound extends React.Component {
     type: PropTypes.string
   }
 
-  render() {
-    const { type } = this.props;
-    return (
+  render = () => (
     <ContainerDimensions>
       {({ height, width }) => (
         <div className="text-center pt-4 pb-4 v-align" style={{ height: height * 0.8, width }}>
@@ -27,11 +25,11 @@ export default class NotFound extends React.Component {
                 store: faStoreAlt,
                 order: faShoppingBag,
                 review: faUserEdit
-              }[type]
+              }[this.props.type]
             }
             className="fa-6x my-2"
           />
-          <p className="mb-2 lead">No {type}s found</p>
+          <p className="mb-2 lead">No {this.props.type}s found</p>
           {
             {
               product: window.location.href.includes('user') ? (
@@ -39,20 +37,19 @@ export default class NotFound extends React.Component {
                   Upload one
                 </span>
               ) : (
-                <Link to={`/${type}s`} className="btn rounded-pill btn-primary text-white text-capitalize">
-                  Shop All {type}s
+                <Link to={`/${this.props.type}s`} className="btn rounded-pill btn-primary text-white text-capitalize">
+                  Shop All {this.props.type}s
                 </Link>
               ),
               store: (
-                <Link to={`/${type}s`} className="btn rounded-pill btn-primary text-white text-capitalize">
-                  Shop All {type}s
+                <Link to={`/${this.props.type}s`} className="btn rounded-pill btn-primary text-white text-capitalize">
+                  Shop All {this.props.type}s
                 </Link>
               )
-            }[type]
+            }[this.props.type]
           }
         </div>
       )}
     </ContainerDimensions>
-    );
-  }
+  )
 }
