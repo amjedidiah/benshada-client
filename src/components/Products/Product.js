@@ -1,149 +1,141 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 
-import {
-  productDelete,
-  productUpdate,
-  userUpdateProfile,
-} from "../../actions/user";
-import { filterContent } from "../../actions/load";
-import BenshadaForm from "../BenshadaForm/BenshadaForm";
-import { ifSeller } from "../../actions/auth";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faTrash,
   // faBox,
   faPencilAlt,
-  faHeart,
-} from "@fortawesome/free-solid-svg-icons";
-import { cartAdd, cartRemove } from "../../actions/cart";
-import CartButton from "../Cart/CartButton";
-import Loading from "../Misc/Loading/Loading";
-import NotFound from "../Misc/NotFound/NotFound";
-import Price from "./Price";
-import Src from "../Src/Src";
+  faHeart
+} from '@fortawesome/free-solid-svg-icons';
+import { productDelete, productUpdate, userUpdateProfile } from '../../actions/user.js';
+import { filterContent } from '../../actions/load.js';
+import BenshadaForm from '../BenshadaForm/BenshadaForm.js';
+import { ifSeller } from '../../actions/auth.js';
+import { cartAdd, cartRemove } from '../../actions/cart.js';
+import CartButton from '../Cart/CartButton.js';
+import Loading from '../Misc/Loading/Loading.js';
+import NotFound from '../Misc/NotFound/NotFound.js';
+import Price from './Price.js';
+import Src from '../Src/Src.js';
+import { unique } from '../../prototypes.js';
 
 class Product extends Component {
-  renderProductActions = (i, id, product) => {
-    let { isSignedIn, user, userUpdateProfile } = this.props,
-      saved = (user && user.saved) || [];
+  static propTypes = {
+    isSignedIn: PropTypes.bool,
+    user: PropTypes.object,
+    userUpdateProfile: PropTypes.func,
+    productDelete: PropTypes.func,
+    title: PropTypes.string,
+    products: PropTypes.array,
+    className: PropTypes.string,
+    productUpdate: PropTypes.func
+  }
 
-    return !isSignedIn || !ifSeller(user && user.type) ? (
-      <>
-        <button className="btn mr-3">
-          {saved.filter(({ _id }) => _id === id).length > 0 ? (
-            <FontAwesomeIcon
-              className="text-primary"
-              onClick={() =>
-                userUpdateProfile({
-                  saved: saved.filter(({ _id }) => _id !== id).unique(),
-                })
-              }
-              icon={faHeart}
-            />
-          ) : (
-            <FontAwesomeIcon
-              className="text-primary"
-              onClick={() =>
-                userUpdateProfile({ saved: [...saved, product].unique() })
-              }
-              icon={faHeart}
-            />
-          )}
-        </button>
-        <CartButton product={product} qty={1} />
-      </>
-    ) : window.location.pathname.includes("user") ? (
-      <>
-        <button
-          className="btn btn-danger mr-3"
-          onClick={() => this.props.productDelete(id)}
-        >
-          <FontAwesomeIcon className="text-primary ml-2" icon={faTrash} />{" "}
-          Delete
-        </button>
-        <button
-          className="btn btn-primary"
-          data-toggle="modal"
-          data-target={`#productUpdateModal${i}`}
-        >
-          <FontAwesomeIcon icon={faPencilAlt} /> Edit
-        </button>
-      </>
-    ) : (
-      ""
-    );
-  };
+  renderProductActions(i, id, product) {
+    const saved = (this.props.user && this.props.user.saved) || [];
 
-  renderProducts = (products) =>
-    products === null ? (
-      <Loading />
-    ) : products === undefined || products.length < 1 ? (
+    if (!this.props.isSignedIn || !ifSeller(this.props.user && this.props.user.type)) {
+      return <>
+      <button className="btn mr-3">
+        {saved.filter(({ _id }) => _id === id).length > 0 ? (
+          <FontAwesomeIcon
+            className="text-primary"
+            onClick={() => this.props.userUpdateProfile({
+              saved: unique(saved.filter(({ _id }) => _id !== id))
+            })
+            }
+            icon={faHeart}
+          />
+        ) : (
+          <FontAwesomeIcon
+            className="text-primary"
+            onClick={() => this.props.userUpdateProfile({ saved: unique([...saved, product]) })}
+            icon={faHeart}
+          />
+        )}
+      </button>
+      <CartButton product={product} qty={1} />
+    </>;
+    } if (window.location.pathname.includes('user')) {
+      return <>
+      <button className="btn btn-danger mr-3" onClick={() => this.props.productDelete(id)}>
+        <FontAwesomeIcon className="text-primary ml-2" icon={faTrash} /> Delete
+      </button>
+      <button className="btn btn-primary" data-toggle="modal" data-target={`#productUpdateModal${i}`}>
+        <FontAwesomeIcon icon={faPencilAlt} /> Edit
+      </button>
+    </>;
+    } return false;
+  }
+
+  renderProducts = (products) => {
+    if (products === null) return <Loading />;
+
+    return (products === undefined || products.length < 1 ? (
       <NotFound type="product" />
     ) : (
       <div className="card-columns products my-2">
         {filterContent(products).map((product, i) => {
-          let { _id, discountPercentage, name, price, image } = product,
-            productFields = [
-              {
-                desc: "_id",
-                varClass: "input",
-                type: "hidden",
-                options: [],
-                icon: 0,
-              },
-              {
-                desc: "name",
-                label: "Name",
-                placeholder: "Product Name",
-                varClass: "input",
-                type: "text",
-                options: [],
-                row: 1,
-                icon: 0,
-              },
-              {
-                desc: "description",
-                label: "Description",
-                placeholder: "Product Description",
-                varClass: "textarea",
-                type: "text",
-                options: [],
-                row: 2,
-                icon: 0,
-              },
-              {
-                desc: "price",
-                label: "Price",
-                varClass: "input",
-                type: "number",
-                options: [],
-                row: 1,
-                icon: 1,
-                help: "Enter Naira value of price",
-              },
-              {
-                desc: "discountPercentage",
-                label: "Discount",
-                varClass: "input",
-                type: "number",
-                options: [],
-                row: 2,
-                icon: 0,
-                help: "Discount in percentage",
-              },
-            ],
-            productButtons = [
-              { value: "Upload Changes", className: "btn-primary" },
-            ];
+          const {
+            _id, discountPercentage, name, price, image
+          } = product;
+          const productFields = [
+            {
+              desc: '_id',
+              varClass: 'input',
+              type: 'hidden',
+              options: [],
+              icon: 0
+            },
+            {
+              desc: 'name',
+              label: 'Name',
+              placeholder: 'Product Name',
+              varClass: 'input',
+              type: 'text',
+              options: [],
+              row: 1,
+              icon: 0
+            },
+            {
+              desc: 'description',
+              label: 'Description',
+              placeholder: 'Product Description',
+              varClass: 'textarea',
+              type: 'text',
+              options: [],
+              row: 2,
+              icon: 0
+            },
+            {
+              desc: 'price',
+              label: 'Price',
+              varClass: 'input',
+              type: 'number',
+              options: [],
+              row: 1,
+              icon: 1,
+              help: 'Enter Naira value of price'
+            },
+            {
+              desc: 'discountPercentage',
+              label: 'Discount',
+              varClass: 'input',
+              type: 'number',
+              options: [],
+              row: 2,
+              icon: 0,
+              help: 'Discount in percentage'
+            }
+          ];
+          const productButtons = [{ value: 'Upload Changes', className: 'btn-primary' }];
 
           return (
             <div key={`renderProducts${i}`}>
-              <div
-                className="card mb-4 product rounded shadow-sm border-0"
-                key={`product${_id}`}
-              >
+              <div className="card mb-4 product rounded shadow-sm border-0" key={`product${_id}`}>
                 <div className="card-body p-0">
                   <Src name={name} image={image} type="product" size={6} xtraClass="p-3" />
 
@@ -170,18 +162,10 @@ class Product extends Component {
                 <div className="modal-dialog modal-xl" role="document">
                   <div className="modal-content">
                     <div className="modal-header">
-                      <h5
-                        className="modal-title font-weight-light"
-                        id={`productUpdateModalLabel${i}`}
-                      >
+                      <h5 className="modal-title font-weight-light" id={`productUpdateModalLabel${i}`}>
                         Edit {name}
                       </h5>
-                      <button
-                        type="button"
-                        className="close"
-                        data-dismiss="modal"
-                        aria-label="Close"
-                      >
+                      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                       </button>
                     </div>
@@ -202,17 +186,16 @@ class Product extends Component {
           );
         })}
       </div>
-    );
+    ));
+  }
 
   render() {
-    let { title, products, className } = this.props;
-
     return (
-      <div className={`container my-3 ${className}`}>
+      <div className={`container my-3 ${this.props.className}`}>
         <div className="row">
           <div className="col p-0">
-            <h4 className="text-left text-uppercase">{title}</h4>
-            {this.renderProducts(products)}
+            <h4 className="text-left text-uppercase">{this.props.title}</h4>
+            {this.renderProducts(this.props.products)}
           </div>
         </div>
       </div>
@@ -224,7 +207,7 @@ const mapStateToProps = ({ auth, order, cart }) => ({
   isSignedIn: auth.isSignedIn,
   user: auth.user,
   orders: order,
-  cart,
+  cart
 });
 
 export default connect(mapStateToProps, {
@@ -232,5 +215,5 @@ export default connect(mapStateToProps, {
   productUpdate,
   userUpdateProfile,
   cartAdd,
-  cartRemove,
+  cartRemove
 })(Product);

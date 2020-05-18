@@ -1,16 +1,18 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { Link, Redirect } from "react-router-dom";
-import { ifSeller } from "../../actions/auth";
+/* eslint-disable no-underscore-dangle */
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { Link, Redirect } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import { ifSeller } from '../../actions/auth.js';
 
 // import login from "../Auth/Login/login.jpg";
 
-import "./cart.css";
-import { cartRemove, cartUpdate } from "../../actions/cart";
-import HrFrComp from "../HrFrComp/HrFrComp";
-import ProductQty from "./ProductQty";
+import './cart.css';
+import { cartRemove, cartUpdate } from '../../actions/cart.js';
+import HrFrComp from '../HrFrComp/HrFrComp.js';
+import ProductQty from './ProductQty.js';
 
 class Cart extends Component {
   constructor(props) {
@@ -19,10 +21,17 @@ class Cart extends Component {
     this.state = { quantities: {} };
   }
 
+  static propTypes = {
+    cartUpdate: PropTypes.func,
+    cart: PropTypes.array,
+    cartRemove: PropTypes.func,
+    user: PropTypes.object
+  }
+
   quantities = {};
 
   resetStateQty = (product, qty) => {
-    let { _id, price, discountPercentage } = product;
+    const { _id, price, discountPercentage } = product;
 
     this.props.cartUpdate(product, qty);
 
@@ -31,49 +40,47 @@ class Cart extends Component {
         ...this.state.quantities,
         [_id]: {
           qty,
-          total: function () {
+          total() {
             return this.qty * price;
           },
-          discountedTotal: function () {
+          discountedTotal() {
             return this.qty * price * (1 - discountPercentage / 100);
-          },
-        },
-      },
+          }
+        }
+      }
     });
   };
 
-  renderCartProducts = (products) =>
-    products.length < 1 ? (
+  renderCartProducts = (products) => (products.length < 1 ? (
       <div className="text-center p-5 my-5">
-        <FontAwesomeIcon
-          icon={faShoppingCart}
-          className="fa-10x text-primary mt-5 mb-4"
-        />
+        <FontAwesomeIcon icon={faShoppingCart} className="fa-10x text-primary mt-5 mb-4" />
         <h3 className="mb-2">Your Cart is Empty</h3>
         <Link to="/products" className="btn btn-primary text-white">
           Shop Products
         </Link>
       </div>
-    ) : (
+  ) : (
       <div className="my-5 py-5">
         <div className="container mt-2">
           <h4>My Cart {Object.keys(this.state.quantities).length} Items</h4>
         </div>
 
         {products.map((product, i) => {
-          let { name, price, discountPercentage, _id, image } = product;
+          const {
+            name, price, discountPercentage, _id, image
+          } = product;
           this.quantities = {
             ...this.quantities,
             [_id]: {
-              qty: this.props.cart.filter((product) => product._id === _id)[0]
-                .cartQty,
-              total: function () {
+              // eslint-disable-next-line no-underscore-dangle
+              qty: this.props.cart.filter((item) => item._id === _id)[0].cartQty,
+              total() {
                 return this.qty * price;
               },
-              discountedTotal: function () {
+              discountedTotal() {
                 return this.qty * price * (1 - discountPercentage / 100);
-              },
-            },
+              }
+            }
           };
 
           return (
@@ -92,21 +99,21 @@ class Cart extends Component {
                         <strike className="text-secondary mr-2">
                           <small>
                             &#x20A6;
-                            {this.state.quantities[_id] &&
-                              this.state.quantities[_id].total()}
+                            {this.state.quantities[_id] && this.state.quantities[_id].total()}
                           </small>
                         </strike>
                         <span>
                           &#x20A6;
-                          {this.state.quantities[_id] &&
-                            this.state.quantities[_id].discountedTotal()}
+                          {
+                            this.state.quantities[_id]
+                            && this.state.quantities[_id].discountedTotal()
+                          }
                         </span>
                       </>
                     ) : (
-                      <span>
-                        &#x20A6;{" "}
-                        {this.state.quantities[_id] &&
-                          this.state.quantities[_id].total()}
+                      <span>&#x20A6;
+                      {this.state.quantities[_id]
+                      && this.state.quantities[_id].total()}
                       </span>
                     )}
                   </p>
@@ -128,15 +135,11 @@ class Cart extends Component {
                     this.props.cartRemove(product);
                   }}
                 >
-                  <FontAwesomeIcon icon={faTrash} />{" "}
-                  <span className="text-uppercase ml-2">remove</span>{" "}
+                  <FontAwesomeIcon icon={faTrash} /> <span className="text-uppercase ml-2">remove</span>{' '}
                 </div>
                 <div className="text-primary float-right">
                   <ProductQty
-                    quantity={
-                      this.state.quantities[_id] &&
-                      this.state.quantities[_id].qty
-                    }
+                    quantity={this.state.quantities[_id] && this.state.quantities[_id].qty}
                     product={product}
                     resetQty={this.resetStateQty}
                   />
@@ -159,10 +162,7 @@ class Cart extends Component {
         </div>
 
         <div className="container text-uppercase text-right mt-5">
-          <Link
-            to="/products"
-            className="btn bg-white text-primary ml-3 btn-lg"
-          >
+          <Link to="/products" className="btn bg-white text-primary ml-3 btn-lg">
             Continue Shopping
           </Link>
           <Link to="/checkout" className="btn btn-primary ml-3 btn-lg">
@@ -170,18 +170,18 @@ class Cart extends Component {
           </Link>
         </div>
       </div>
-    );
+  ));
 
   componentDidMount() {
     this.setState({ quantities: this.quantities });
   }
 
   render() {
-    let { user, cart } = this.props,
-      type = user && user.type;
+    const { user, cart } = this.props;
+    const type = user && user.type;
 
     return ifSeller(type) ? (
-      <Redirect to={{ pathname: "/" }} />
+      <Redirect to={{ pathname: '/' }} />
     ) : (
       <HrFrComp>
         <div className="px-3">{this.renderCartProducts(cart)}</div>

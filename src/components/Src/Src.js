@@ -1,20 +1,25 @@
-import React, { Component } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faBox, faStoreAlt } from "@fortawesome/free-solid-svg-icons";
+import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBox, faStoreAlt } from '@fortawesome/free-solid-svg-icons';
+
+import PropTypes from 'prop-types';
 
 export default class Src extends Component {
-  render() {
-    const { image, name, size, type, xtraClass } = this.props;
+  static propTypes = {
+    image: PropTypes.array,
+    name: PropTypes.string,
+    size: PropTypes.number,
+    type: PropTypes.string,
+    xtraClass: PropTypes.string
+  }
 
-    return (image && image.length === 0) || image === undefined ? (
-      <div className={`text-center ${xtraClass}`}>
-        <FontAwesomeIcon
-          icon={type === "store" ? faStoreAlt : faBox}
-          className={`fa-${size}x text-light`}
-        />
+  render() {
+    return (this.props.image && this.props.image.length === 0) || this.props.image === undefined ? (
+      <div className={`text-center ${this.props.xtraClass}`}>
+        <FontAwesomeIcon icon={this.props.type === 'store' ? faStoreAlt : faBox} className={`fa-${this.props.size}x text-light`} />
       </div>
     ) : (
-      <img className="card-img img-responsive" src={image[0]} alt={name} />
+      <img className="card-img img-responsive" src={this.props.image[0]} alt={this.props.name} />
     );
   }
 }

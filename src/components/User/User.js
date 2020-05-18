@@ -1,34 +1,39 @@
-import React, { Component } from "react";
-import { Redirect } from "react-router-dom";
+import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
 // import { Link } from "react-router-dom";
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 
-import "./assets/products.css";
-import "./assets/user.css";
-import menu from "./assets/menu";
+import './assets/products.css';
+import './assets/user.css';
+import PropTypes from 'prop-types';
+import menu from './assets/menu.js';
 
-import DashNav from "./DashNav";
-import DashBody from "./DashBody";
-import userABlist from "./data/userABNav";
-import userClist from "./data/userCNav";
-import { ifSeller } from "../../actions/auth";
+import DashNav from './DashNav.js';
+import DashBody from './DashBody.js';
+import userABlist from './data/userABNav.json';
+import userClist from './data/userCNav.json';
+import { ifSeller } from '../../actions/auth.js';
 
 class User extends Component {
+  static propTypes = {
+    user: PropTypes.object,
+    store: PropTypes.object,
+    orders: PropTypes.array,
+    isSignedIn: PropTypes.bool,
+    location: PropTypes.object
+  }
+
   componentDidMount = () => menu();
 
   renderPage() {
-    const { user, store, orders } = this.props,
-      list = !ifSeller(user && user.type) ? userClist : userABlist;
+    const { user, store, orders } = this.props;
+    const list = !ifSeller(user && user.type) ? userClist : userABlist;
 
     return (
       <>
         <div className="container-fluid h-100">
           <div className="row h-100">
-            <DashNav
-              list={list}
-              user={user}
-              className="bg-light user-side-main"
-            />
+            <DashNav list={list} user={user} className="bg-light user-side-main" />
             <DashBody list={list} user={user} store={store} orders={orders} />
           </div>
         </div>
@@ -37,12 +42,12 @@ class User extends Component {
   }
 
   renderHelp() {
-    let { isSignedIn, user, location } = this.props;
+    const { isSignedIn, user, location } = this.props;
 
     return isSignedIn === false ? (
       <Redirect
         to={{
-          pathname: "/login",
+          pathname: '/login',
           state: { from: location }
         }}
       />
@@ -51,7 +56,7 @@ class User extends Component {
         user: (
           <Redirect
             to={{
-              pathname: "/role",
+              pathname: '/role',
               state: { from: location }
             }}
           />
@@ -65,7 +70,7 @@ class User extends Component {
   }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   user: state.auth && state.auth.user,
   store: state.store,
   orders: state.order,

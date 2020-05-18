@@ -6,10 +6,7 @@
     <meta name="description" content="African fashion trade without borders" />
     <meta name="author" content="Benshada Place" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!--
       Give name for pinning site to Taskbar on WIndows.
     -->
@@ -17,10 +14,7 @@
     <!--
       Give site tooltip for pinning
     -->
-    <meta
-      name="msapplication-tooltip"
-      content="African fashion trade without borders"
-    />
+    <meta name="msapplication-tooltip" content="African fashion trade without borders" />
 
     <!-- Make it possible to pin app on mobile -->
     <meta name="mobile-web-app-capable" content="yes" />
@@ -53,8 +47,6 @@
       DNS Prefetching: prefetches the site that is included in the href
     -->
     <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
-
-    <script src="%PUBLIC_URL%/js/prototypes.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
@@ -62,7 +54,6 @@
 
     <!-- Modernizr. Plugins -->
     <script src="%PUBLIC_URL%/js/modernizr.min.js" async></script>
-    <script src="%PUBLIC_URL%/js/plugins.js" async></script>
 
     <noscript id="deferred-styles">
       <!-- Google Fonts -->
@@ -71,7 +62,7 @@
         rel="stylesheet"
       />
 
-      <!-- Normalize CSS -->
+      <!-- Normalfprototypesize CSS -->
       <link rel="stylesheet" href="%PUBLIC_URL%/css/normalize.css" />
 
       <!-- Main CSS -->
@@ -82,8 +73,8 @@
     </noscript>
     <script>
       var loadDeferredStyles = function () {
-        var addStylesNode = document.getElementById("deferred-styles");
-        var replacement = document.createElement("div");
+        var addStylesNode = document.getElementById('deferred-styles');
+        var replacement = document.createElement('div');
         replacement.innerHTML = addStylesNode.textContent;
         document.body.appendChild(replacement);
         addStylesNode.parentElement.removeChild(addStylesNode);
@@ -97,21 +88,11 @@
         raf(function () {
           window.setTimeout(loadDeferredStyles, 0);
         });
-      else window.addEventListener("load", loadDeferredStyles);
-    </script>
-
-    <!-- Service Worker -->
-    <script>
-      // ServiceWorker is a progressive technology. Ignore unsupported browsers
-      if ("serviceWorker" in navigator) {
-        window.addEventListener("load", () =>
-          navigator.serviceWorker.register("sw.js")
-        );
-      }
+      else window.addEventListener('load', loadDeferredStyles);
     </script>
   </body>
 </html>
 
-<!-- 
+<!--
   TODO: Finish Codacy local setup from https://github.com/codacy/codacy-analysis-cli#install
  -->

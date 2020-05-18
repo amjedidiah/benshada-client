@@ -1,7 +1,7 @@
-import axios from "axios";
+import axios from 'axios';
 
 export default axios.create({
-  baseURL: "https://benshada-api.herokuapp.com/api",
-  headers: { "Content-Type": "application/json" },
-  timeout: 30000,
+  baseURL: 'https://benshada-api.herokuapp.com/api',
+  headers: { 'Content-Type': 'application/json' },
+  timeout: 30000
 });
