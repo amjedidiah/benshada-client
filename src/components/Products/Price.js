@@ -21,7 +21,7 @@ class Price extends React.Component {
       </small>
     </>
     ) : (
-    <span>&#x20A6; {productPrice}</span>
+    <span>{`&#x20A6; ${productPrice}`}</span>
     );
   }
 }
