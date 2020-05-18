@@ -29,16 +29,13 @@ export const shopFilterByOwner = (owner) => (dispatch) => api
   })
   .catch((err) => dispatch(actionErrorAdd(err)));
 
-export const shopCreate = (formValues, userToken) => async (dispatch, getState) => {
-  try {
-    await dispatch(shopFilterByOwner(formValues.user));
-    const { _id } = getState().shops.active;
-    const owner = formValues.user;
+export const shopCreate = (formValues, userToken) => (dispatch, getState) => dispatch(
+  shopFilterByOwner(formValues.user)
+).then(() => {
+  const { _id } = getState().shops.active;
+  const owner = formValues.user;
 
-    return _id === owner
-      ? dispatch(actionErrorAdd('You already have a shop'))
-      : dispatch(shopAdd(formValues, userToken));
-  } catch (err) {
-    return dispatch(actionErrorAdd(err));
-  }
-};
+  return _id === owner
+    ? dispatch(actionErrorAdd('You already have a shop'))
+    : dispatch(shopAdd(formValues, userToken));
+}).catch((err) => dispatch(actionErrorAdd(err)));

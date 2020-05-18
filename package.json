@@ -18,7 +18,7 @@
     "dev": "npm run check && react-scripts start",
     "prod": "npm run build && serve -s build"
   },
-  "precommit": "check",
+  "pre-commit": "check",
   "author": {
     "name": "Aestart",
     "email": "aestartng@andela.com"
