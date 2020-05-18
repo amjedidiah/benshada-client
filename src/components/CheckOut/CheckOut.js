@@ -1,18 +1,19 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import HrFrComp from "../HrFrComp/HrFrComp";
-import { Redirect, Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Redirect, Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
+import HrFrComp from '../HrFrComp/HrFrComp.js';
 
-const mapStateToProps = ({ cart, auth }) => ({
-  cart,
-  isSignedIn: auth.isSignedIn
-});
 
 class CheckOut extends Component {
-  renderDiscountedPrice = (price, discount) =>
-    discount > 0 ? (
+  static propTypes = {
+    cart: PropTypes.array,
+    isSignedIn: PropTypes.bool
+  }
+
+  renderDiscountedPrice = (price, discount) => (discount > 0 ? (
       <div className="text-primary">
         <small className="mb-0 font-weight-normal mr-3">
           <strike>
@@ -21,35 +22,35 @@ class CheckOut extends Component {
         </small>
         &#x20A6; <span>{price * (1 - discount / 100)}</span>
       </div>
-    ) : (
+  ) : (
       <div className="mb-0 text-primary">
         &#x20A6; <span>{price}</span>
       </div>
-    );
+  ));
 
-  renderOrderedProducts = () =>
-    this.props.cart.map(({ name, cartQty, price, discountPercentage }) => (
-      <div className="p-3 border border-secondary border-left-0 border-top-0 border-right-0">
+  renderOrderedProducts = () => this.props.cart.map(({
+    name, cartQty, price, discountPercentage
+  }, key) => (
+      <div className="p-3 border border-secondary border-left-0 border-top-0 border-right-0" key={key}>
         <div>{name}</div>
         {this.renderDiscountedPrice(price, discountPercentage)}
         <div>Qty: {cartQty}</div>
       </div>
-    ));
+  ));
 
   render() {
-    let { cart } = this.props,
-      cartTotal = cart
-        .map(
-          ({ price, discountPercentage, cartQty }) =>
-            price * (1 - discountPercentage / 100) * cartQty
-        )
-        .reduce((a, item) => a + item, 0),
-      cartTransport = 1000,
-      combinedTotal = cartTotal + cartTransport;
+    const { cart } = this.props;
+    const cartTotal = cart
+      .map(({
+        price, discountPercentage, cartQty
+      }) => price * (1 - discountPercentage / 100) * cartQty)
+      .reduce((a, item) => a + item, 0);
+    const cartTransport = 1000;
+    const combinedTotal = cartTotal + cartTransport;
 
-    return this.props.cart.length < 1 ? (
-      <Redirect to={{ pathname: "/cart" }} />
-    ) : this.props.isSignedIn ? (
+    if (this.props.cart.length < 1) return <Redirect to={{ pathname: '/cart' }} />;
+
+    return this.props.isSignedIn ? (
       <HrFrComp>
         <div className="container mt-5">
           <div className="row">
@@ -58,15 +59,10 @@ class CheckOut extends Component {
                 <div className="col-12 bg-white shadow p-0 mb-4">
                   <div className="d-flex text-uppercase font-weight-bold lead border border-secondary border-left-0 border-right-0 border-top-0 p-3">
                     <div className="flex-grow-1 text-left">
-                      <FontAwesomeIcon
-                        icon={faCheckCircle}
-                        className="text-ash mr-2 pointer"
-                      />
+                      <FontAwesomeIcon icon={faCheckCircle} className="text-ash mr-2 pointer" />
                       1. Address Details
                     </div>
-                    <div className="flex-grow-1 text-right text-primary">
-                      Change
-                    </div>
+                    <div className="flex-grow-1 text-right text-primary">Change</div>
                   </div>
                   <div className="py-4 px-5">
                     <p className="font-weight-bold">Jedidiah Amaraegbu</p>
@@ -76,10 +72,7 @@ class CheckOut extends Component {
                 </div>
                 <div className="col-12 bg-white shadow p-0 mb-4">
                   <div className="text-uppercase font-weight-bold lead border border-secondary border-left-0 border-right-0 border-top-0 p-3">
-                    <FontAwesomeIcon
-                      icon={faCheckCircle}
-                      className="text-ash mr-2 pointer"
-                    />
+                    <FontAwesomeIcon icon={faCheckCircle} className="text-ash mr-2 pointer" />
                     2. Delivery Method
                   </div>
                   <div className="py-4 px-5">
@@ -95,28 +88,23 @@ class CheckOut extends Component {
                           value="option1"
                           checked
                         />
-                        <label
-                          className="form-check-label"
-                          for="exampleRadios1"
-                        >
+                        <label className="form-check-label" htmlFor="exampleRadios1">
                           <div>
-                            <p className="lead font-weight-bold">
-                              Door Delivery
-                            </p>
+                            <p className="lead font-weight-bold">Door Delivery</p>
                             <p>
-                              Delivered between <strong>Friday 14 Feb</strong>{" "}
-                              and <strong>Tuesday 18 Feb</strong> for{" "}
+                              Delivered between <strong>Friday 14 Feb</strong> and <strong>Tuesday 18 Feb</strong> for{' '}
                               <span className="text-primary">&#x20A6;1200</span>
                             </p>
                             <div className="border border-secondary p-2 my-3">
                               <ul>
                                 <li>
-                                  Large items (e.g. Freezers) may arrive 2
-                                  business days later than other products.
+                                  Large items
+                                  (e.g. Freezers) may arrive 2 business
+                                  days later than other products.
                                 </li>
                                 <li>
-                                  Living in Lagos, Abuja or Ibadan, receive free
-                                  delivery with JUMIA PRIME!{" "}
+                                Living in Lagos, Abuja or Ibadan, receive
+                                free delivery with JUMIA PRIME!
                                 </li>
                               </ul>
                             </div>
@@ -131,22 +119,14 @@ class CheckOut extends Component {
                           id="exampleRadios2"
                           value="option2"
                         />
-                        <label
-                          className="form-check-label"
-                          for="exampleRadios2"
-                        >
+                        <label className="form-check-label" htmlFor="exampleRadios2">
                           <div>
-                            <p className="lead font-weight-bold">
-                              Pickup Station
-                            </p>
+                            <p className="lead font-weight-bold">Pickup Station</p>
                             <p>
-                              Ready for pickup between{" "}
-                              <strong>Friday 14 Feb</strong> and{" "}
+                              Ready for pickup between <strong>Friday 14 Feb</strong> and{' '}
                               <strong>Tuesday 18 Feb</strong>
                             </p>
-                            <button className="btn btn-link text-uppercase">
-                              Select Pickup Station
-                            </button>
+                            <button className="btn btn-link text-uppercase">Select Pickup Station</button>
                           </div>
                         </label>
                       </div>
@@ -164,24 +144,16 @@ class CheckOut extends Component {
                   {this.renderOrderedProducts()}
                   <div className="d-flex p-3 font-weight-bold border border-secondary border-top-0 border-right-0 border-left-0">
                     <div className="text-left flex-grow-1">Subtotal</div>
-                    <div className="text-right flex-grow-1">
-                      &#x20A6; {cartTotal}
-                    </div>
+                    <div className="text-right flex-grow-1">&#x20A6; {cartTotal}</div>
                   </div>
                   <div className="d-flex p-3 font-weight-bold border border-secondary border-top-0 border-right-0 border-left-0">
                     <div className="text-left flex-grow-1">Shipping Cost</div>
-                    <div className="text-right flex-grow-1">
-                      &#x20A6; {cartTransport}
-                    </div>
+                    <div className="text-right flex-grow-1">&#x20A6; {cartTransport}</div>
                   </div>
 
                   <div className="d-flex p-3 font-weight-bold lead">
-                    <div className="text-left flex-grow-1 text-uppercase">
-                      total
-                    </div>
-                    <div className="text-right flex-grow-1">
-                      &#x20A6; {combinedTotal}
-                    </div>
+                    <div className="text-left flex-grow-1 text-uppercase">total</div>
+                    <div className="text-right flex-grow-1">&#x20A6; {combinedTotal}</div>
                   </div>
                 </div>
 
@@ -196,9 +168,14 @@ class CheckOut extends Component {
         </div>
       </HrFrComp>
     ) : (
-      <Redirect to={{ pathname: "/login" }} />
+      <Redirect to={{ pathname: '/login' }} />
     );
   }
 }
+
+const mapStateToProps = ({ cart, auth }) => ({
+  cart,
+  isSignedIn: auth.isSignedIn
+});
 
 export default connect(mapStateToProps)(CheckOut);

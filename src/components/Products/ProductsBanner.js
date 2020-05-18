@@ -1,7 +1,13 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
+import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
+
+import PropTypes from 'prop-types';
 
 export default class ProductsBanner extends Component {
+  static propTypes = {
+    headers: PropTypes.array
+  }
+
   render() {
     const { headers } = this.props;
     return (
@@ -14,21 +20,14 @@ export default class ProductsBanner extends Component {
             <Link to="/products/"> All Products </Link>
           </li>
           {headers === undefined
-            ? ""
+            ? ''
             : headers.map(({ name, value }, i) => (
-                <li
-                  key={`ProductBanner${i}`}
-                  className="text-capitalize breadcrumb-item"
-                >
-                  <Link
-                    to={`/products/${name === "" ? "" : `?${name}`}${
-                      name === "" ? "" : `=${value}`
-                    }`}
-                  >
+                <li key={`ProductBanner${i}`} className="text-capitalize breadcrumb-item">
+                  <Link to={`/products/${name === '' ? '' : `?${name}`}${name === '' ? '' : `=${value}`}`}>
                     {value}
                   </Link>
                 </li>
-              ))}
+            ))}
         </ol>
       </nav>
     );

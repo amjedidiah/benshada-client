@@ -1,72 +1,72 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSignOutAlt } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+
+import PropTypes from 'prop-types';
 
 class DashNav extends React.Component {
+  static propTypes = {
+    className: PropTypes.string
+  }
+
   renderIcon(icon) {
-    return this.props.className.includes("user-side-main") ? (
+    return this.props.className.includes('user-side-main') ? (
       <i className={`${icon} mr-3`}></i>
     ) : (
       <div className="img-holder img-holder-user mr-md-3">
         <img
           src={
-            "https://s.alicdn.com/@sc01/kf/ULB8TUAmr1vJXKJkSajhq6A7aFXaY/ON-Optimum-Nutrition-Gold-Standard-100-Whey.jpg"
+            'https://s.alicdn.com/@sc01/kf/ULB8TUAmr1vJXKJkSajhq6A7aFXaY/ON-Optimum-Nutrition-Gold-Standard-100-Whey.jpg'
           }
-          alt={""}
+          alt={''}
           className="img-fluid"
         />
       </div>
     );
   }
 
-  renderList = ({ list }, isMain) =>
-    list.map((item, index) => {
-      let { icon, Title, message } = item,
-        active,
-        selected;
+  renderList = ({ list }) => list.map((item, index) => {
+    let active;
+    let selected;
 
-      if (index === 0) {
-        active = "active";
-        selected = "selected";
-      }
+    if (index === 0) {
+      active = 'active';
+      selected = 'selected';
+    }
 
-      return (
+    return (
         <li className="nav-item" key={index}>
           <a
             className={`nav-link text-capitalize ${active}`}
-            id={`pills-${Title}-tab`}
+            id={`pills-${item.Title}-tab`}
             data-toggle="pill"
-            href={`#pills-${Title}`}
+            href={`#pills-${item.Title}`}
             role="tab"
-            aria-controls={`pills-${Title}`}
+            aria-controls={`pills-${item.Title}`}
             aria-selected={selected}
           >
-            {this.renderIcon(icon)}
+            {this.renderIcon(item.icon)}
 
-            {message !== undefined ? (
+            {item.message !== undefined ? (
               <div>
-                <span className="font-weight-bold d-none d-md-inline">
-                  {Title}
-                </span>
+                <span className="font-weight-bold d-none d-md-inline">{item.Title}</span>
                 <br />
-                <small className="message text-truncate d-none d-md-block">
-                  {message}
-                </small>
+                <small className="message text-truncate d-none d-md-block">{item.message}</small>
               </div>
             ) : (
               <>
-                <span className="font-weight-bold">{Title}</span>
+                <span className="font-weight-bold">{item.Title}</span>
                 <br />
               </>
             )}
           </a>
         </li>
-      );
-    });
+    );
+  });
 
   renderLogout() {
-    return this.props.className.includes("user-side-main") ? (
+    return this.props.className.includes('user-side-main') ? (
       <li className="nav-item text-danger">
         <Link className="nav-link text-capitalize text-danger" to="/logout">
           <FontAwesomeIcon icon={faSignOutAlt} className="mr-3 text-danger" />
@@ -74,15 +74,15 @@ class DashNav extends React.Component {
         </Link>
       </li>
     ) : (
-      ""
+      ''
     );
   }
 
   render() {
-    let isMain = this.props.className.includes("user-side-main"),
-      divClass = isMain ? "col-6" : "col-3 col-sm-2",
-      logo = isMain ? "benshada" : "ben",
-      pLeft = isMain ? "pl-4" : "pl-md-4";
+    const isMain = this.props.className.includes('user-side-main');
+    const divClass = isMain ? 'col-6' : 'col-3 col-sm-2';
+    const logo = isMain ? 'benshada' : 'ben';
+    const pLeft = isMain ? 'pl-4' : 'pl-md-4';
 
     return (
       <>
@@ -91,18 +91,11 @@ class DashNav extends React.Component {
           id="userSide"
         >
           <p className="text-center p-4">
-            <Link
-              to="/"
-              className="no-link lead text-primary font-weight-bolder"
-            >
+            <Link to="/" className="no-link lead text-primary font-weight-bolder">
               {logo}
             </Link>
           </p>
-          <ul
-            className={`nav nav-pills flex-column my-3 ${pLeft}`}
-            id="userNav"
-            role="tablist"
-          >
+          <ul className={`nav nav-pills flex-column my-3 ${pLeft}`} id="userNav" role="tablist">
             {this.renderList(this.props, isMain)}
             {this.renderLogout()}
           </ul>

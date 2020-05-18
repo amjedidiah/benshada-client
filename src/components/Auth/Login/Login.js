@@ -1,34 +1,43 @@
-import React from "react";
-import { Redirect } from "react-router-dom";
-import { Link } from "react-router-dom";
-import { connect } from "react-redux";
-import { login } from "../../../actions/auth";
+import React from 'react';
+import { Redirect, Link } from 'react-router-dom';
 
-import "./login.css";
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import { login } from '../../../actions/auth.js';
 
-import BenshadaForm from "../../BenshadaForm/BenshadaForm";
+import './login.css';
+
+import BenshadaForm from '../../BenshadaForm/BenshadaForm.js';
 
 class Login extends React.Component {
+  static propTypes = {
+    type: PropTypes.string,
+    className: PropTypes.string,
+    location: PropTypes.string,
+    isSignedIn: PropTypes.bool,
+    login: PropTypes.func
+  };
+
   render() {
-    const { from } = this.props.location.state || { from: { pathname: "/" } },
-      loginFields = [
-        {
-          desc: "email",
-          label: "Email Address",
-          placeholder: "example@gmail.com",
-          varClass: "input",
-          type: "email",
-          options: []
-        },
-        {
-          desc: "password",
-          label: "Password",
-          varClass: "input",
-          type: "password",
-          options: []
-        }
-      ],
-      loginButtons = [{ value: "login", className: "btn-primary" }];
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
+    const loginFields = [
+      {
+        desc: 'email',
+        label: 'Email Address',
+        placeholder: 'example@gmail.com',
+        varClass: 'input',
+        type: 'email',
+        options: []
+      },
+      {
+        desc: 'password',
+        label: 'Password',
+        varClass: 'input',
+        type: 'password',
+        options: []
+      }
+    ];
+    const loginButtons = [{ value: 'login', className: 'btn-primary' }];
 
     if (this.props.isSignedIn === true) {
       return (
@@ -47,7 +56,7 @@ class Login extends React.Component {
           <div className="col col-md-9 col-lg-6 offset-lg-6 offset-md-3">
             <h3 className="mb-2 text-center pt-5">Login to Benshada Place</h3>
             <p className="lead mb-4 text-center">
-              Or return{" "}
+              Or return{' '}
               <Link className="text-primary" to="/">
                 home
               </Link>
@@ -62,14 +71,13 @@ class Login extends React.Component {
             /> */}
 
             <BenshadaForm
-              form={`form-login`}
+              form={'form-login'}
               onSubmitForm={this.props.login}
               className="form px-4 px-md-5 mx-md-3"
               fields={loginFields}
               buttons={loginButtons}
               initialValues={{}}
             />
-            
 
             <p className="text-muted text-left px-4 px-md-5 mx-md-3 my-3">
               New to Benshada?
@@ -86,8 +94,6 @@ class Login extends React.Component {
   }
 }
 
-const mapStateToProps = state => {
-  return { isSignedIn: state.auth.isSignedIn };
-};
+const mapStateToProps = (state) => ({ isSignedIn: state.auth.isSignedIn });
 
 export default connect(mapStateToProps, { login })(Login);

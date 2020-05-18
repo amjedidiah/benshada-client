@@ -1,4 +1,4 @@
-import { STORE_FETCH, LOGOUT, STORE_PRODUCT_FETCH } from "../actions/types";
+import { STORE_FETCH, LOGOUT, STORE_PRODUCT_FETCH } from '../actions/types.js';
 
 const INITIAL_STATE = {};
 

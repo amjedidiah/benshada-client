@@ -54,7 +54,7 @@ div#slider-distance > div > .thumb {
   outline: none;
 }
 
-div#slider-distance > input[type="range"] {
+div#slider-distance > input[type='range'] {
   position: absolute;
   pointer-events: none;
   -webkit-appearance: none;
@@ -62,35 +62,35 @@ div#slider-distance > input[type="range"] {
   height: 14px;
   top: -2px;
   width: 100%;
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=0)';
   filter: alpha(opacity=0);
   -moz-opacity: 0;
   -khtml-opacity: 0;
   opacity: 0;
 }
 
-div#slider-distance > input[type="range"]::-ms-track {
+div#slider-distance > input[type='range']::-ms-track {
   -webkit-appearance: none;
   background: transparent;
   color: transparent;
 }
 
-div#slider-distance > input[type="range"]::-moz-range-track {
+div#slider-distance > input[type='range']::-moz-range-track {
   -moz-appearance: none;
   background: transparent;
   color: transparent;
 }
 
-div#slider-distance > input[type="range"]:focus::-webkit-slider-runnable-track {
+div#slider-distance > input[type='range']:focus::-webkit-slider-runnable-track {
   background: transparent;
   border: transparent;
 }
 
-div#slider-distance > input[type="range"]:focus {
+div#slider-distance > input[type='range']:focus {
   outline: none;
 }
 
-div#slider-distance > input[type="range"]::-ms-thumb {
+div#slider-distance > input[type='range']::-ms-thumb {
   pointer-events: all;
   width: 28px;
   height: 28px;
@@ -98,7 +98,7 @@ div#slider-distance > input[type="range"]::-ms-thumb {
   border: 0 none;
 }
 
-div#slider-distance > input[type="range"]::-moz-range-thumb {
+div#slider-distance > input[type='range']::-moz-range-thumb {
   pointer-events: all;
   width: 28px;
   height: 28px;
@@ -106,7 +106,7 @@ div#slider-distance > input[type="range"]::-moz-range-thumb {
   border: 0 none;
 }
 
-div#slider-distance > input[type="range"]::-webkit-slider-thumb {
+div#slider-distance > input[type='range']::-webkit-slider-thumb {
   pointer-events: all;
   width: 28px;
   height: 28px;
@@ -115,17 +115,17 @@ div#slider-distance > input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
 }
 
-div#slider-distance > input[type="range"]::-ms-fill-lower {
+div#slider-distance > input[type='range']::-ms-fill-lower {
   background: transparent;
   border: 0 none;
 }
 
-div#slider-distance > input[type="range"]::-ms-fill-upper {
+div#slider-distance > input[type='range']::-ms-fill-upper {
   background: transparent;
   border: 0 none;
 }
 
-div#slider-distance > input[type="range"]::-ms-tooltip {
+div#slider-distance > input[type='range']::-ms-tooltip {
   display: none;
 }
 
@@ -149,7 +149,7 @@ div#slider-distance > div > .sign {
 
 div#slider-distance > div > .sign:after {
   position: absolute;
-  content: "";
+  content: '';
   left: 0;
   border-radius: 16px;
   top: 19px;
