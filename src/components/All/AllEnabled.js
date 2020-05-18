@@ -164,7 +164,6 @@ class AllEnabled extends Component {
   };
 
   render() {
-    const { min, max } = this.state.prices;
     const initProds = this.props.products || [];
     const specs = initProds
       .map(({ specifications }) => unique(Object.keys(specifications) || [])
@@ -277,7 +276,7 @@ class AllEnabled extends Component {
                       id="rangeMin"
                       type="range"
                       tabIndex="0"
-                      defaultValue={Math.floor(min)}
+                      defaultValue={Math.floor(this.state.prices.min)}
                       max={Math.floor(initMax)}
                       min={Math.floor(initMin)}
                       step="1"
@@ -287,7 +286,7 @@ class AllEnabled extends Component {
                     <input
                       type="range"
                       tabIndex="0"
-                      defaultValue={Math.floor(max)}
+                      defaultValue={Math.floor(this.state.prices.max)}
                       max={Math.floor(initMax)}
                       min={Math.floor(initMin)}
                       step="1"
@@ -295,8 +294,8 @@ class AllEnabled extends Component {
                     />
                   </div>
                   <div className="mt-3">
-                    <span className="float-left">₦{addComma(min)}</span>
-                    <span className="float-right">₦{addComma(max)}</span>
+                    <span className="float-left">₦{addComma(this.state.prices.min)}</span>
+                    <span className="float-right">₦{addComma(this.state.prices.max)}</span>
                   </div>
                 </div>{' '}
               </div>
