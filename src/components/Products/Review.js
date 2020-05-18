@@ -2,26 +2,31 @@ import React, { Component } from 'react';
 // import { filterContent } from "../../actions/load";
 import { connect } from 'react-redux';
 // import NotFound from "../Misc/NotFound/NotFound";
-import Reviews from './Reviews';
-import Stars from './Stars';
+import PropTypes from 'prop-types';
+import Reviews from './Reviews.js';
+import Stars from './Stars.js';
 
 class Review extends Component {
-  renderProductReview = (reviews, productId) => {
-    let { orders } = this.props,
-      orderedProductIds = [];
+  static propTypes = {
+    orders: PropTypes.array,
+    className: PropTypes.string,
+    product: PropTypes.object
+  }
 
-    orders.forEach(({ products }) =>
-      products.forEach(({ _id }) => {
-        orderedProductIds.push(_id);
-      })
-    );
+  renderProductReview = (reviews) => {
+    const { orders } = this.props;
+    const orderedProductIds = [];
+
+    orders.forEach(({ products }) => products.forEach(({ _id }) => {
+      orderedProductIds.push(_id);
+    }));
 
     return <Reviews reviews={reviews} />;
   };
 
   render() {
-    const { product, className } = this.props,
-      { overallRating } = product;
+    const { product, className } = this.props;
+    const { overallRating } = product;
 
     return (
       <p className={`${className}`}>

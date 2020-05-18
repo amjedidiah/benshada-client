@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import fedex from '../assets/img/fedex_logo.png';
 import dhl from '../assets/img/dhl_logo.png';
-import MultiSelect from '../MultiSelect/MultiSelect';
+import MultiSelect from '../MultiSelect/MultiSelect.js';
 
 export default class DeliveryOptions extends Component {
-  render() {
-    return (
+  render = () => (
       <>
         <MultiSelect
           title="delivery_options"
@@ -19,6 +18,5 @@ export default class DeliveryOptions extends Component {
           ]}
         />
       </>
-    );
-  }
+  )
 }

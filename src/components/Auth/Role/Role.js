@@ -1,16 +1,24 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { roleSelect, ifSeller } from '../../../actions/auth';
-import { actionLoad, actionNotify } from '../../../actions/load';
+
+import PropTypes from 'prop-types';
+import { roleSelect, ifSeller } from '../../../actions/auth.js';
+import { actionLoad, actionNotify } from '../../../actions/load.js';
 
 import '../Login/login.css';
 
 class Role extends React.Component {
+  static propTypes = {
+    roleSelect: PropTypes.func,
+    isSignedIn: PropTypes.bool,
+    role: PropTypes.string,
+    location: PropTypes.string
+  }
+
   roleSelect() {
     [...document.querySelectorAll('.role-benshada')].forEach((div) => {
-      div.addEventListener('click', (e) => {
+      div.addEventListener('click', () => {
         [...document.querySelectorAll('.role-benshada')].forEach((i) => {
           i.classList.remove('text-white');
           i.classList.remove('bg-primary');
@@ -33,7 +41,7 @@ class Role extends React.Component {
   }
 
   render() {
-    let { isSignedIn, role, location } = this.props;
+    const { isSignedIn, role, location } = this.props;
 
     if (isSignedIn === false) {
       return (
@@ -104,12 +112,10 @@ class Role extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isSignedIn: state.auth.isSignedIn,
-    role: state.auth.user && state.auth.user.type
-  };
-};
+const mapStateToProps = (state) => ({
+  isSignedIn: state.auth.isSignedIn,
+  role: state.auth.user && state.auth.user.type
+});
 
 export default connect(mapStateToProps, {
   roleSelect,

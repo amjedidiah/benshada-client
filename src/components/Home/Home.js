@@ -3,20 +3,22 @@ import React from 'react';
 // Custom components
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Jumbo from './Jumbo/Jumbo';
-import Gender from './Gender/Gender';
-import Product from '../Products/Product';
-import Store from '../Stores/Store';
-// import Testimonies from "./Testimonies/Testimonies";
-import VirtualAssistant from '../VirtualAssistant/VirtualAssistant';
-import HrFrComp from '../HrFrComp/HrFrComp';
-
-import { featuredStoreFetch } from '../../actions/user';
-import { fetchProducts, fetchStores } from '../../actions/misc';
-import { filterContent } from '../../actions/load';
-import Category from './Category/Category';
 import { faRedhat } from '@fortawesome/free-brands-svg-icons';
 import { faShoppingBag, faTshirt, faShoePrints } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
+import Jumbo from './Jumbo/Jumbo.js';
+import Gender from './Gender/Gender.js';
+import Product from '../Products/Product.js';
+import Store from '../Stores/Store.js';
+// import Testimonies from "./Testimonies/Testimonies";
+import VirtualAssistant from '../VirtualAssistant/VirtualAssistant.js';
+import HrFrComp from '../HrFrComp/HrFrComp.js';
+
+import { featuredStoreFetch } from '../../actions/user.js';
+import { fetchProducts, fetchStores } from '../../actions/misc.js';
+import { filterContent } from '../../actions/load.js';
+import Category from './Category/Category.js';
+import { randNum } from '../../prototypes.js';
 
 class Home extends React.Component {
   constructor() {
@@ -30,50 +32,57 @@ class Home extends React.Component {
     };
   }
 
-  componentDidMount = async () => {
-    const req = await fetchStores(),
-      stores = req.data.data;
+  static propTypes = {
+    location: PropTypes.object,
+    isSignedIn: PropTypes.bool,
+    user: PropTypes.object
+  }
 
-    const res = await fetchProducts(),
-      products = filterContent(res.data.data);
+  componentDidMount = async () => {
+    const req = await fetchStores();
+    const stores = req.data.data;
+
+    const res = await fetchProducts();
+    const products = filterContent(res.data.data);
 
     this.setState({
       stores1: stores.slice(0, 12),
       stores2: stores.slice(12, 24),
       productsRecent: products.map((product, i) => products[products.length - i - 1]).slice(0, 12),
       productsTopRated: products.slice(12, 24),
-      productsDiscounted: products.filter(({ discountPercentage }) => discountPercentage > 0).slice(0, 12)
+      productsDiscounted: products
+        .filter(({ discountPercentage }) => discountPercentage > 0)
+        .slice(0, 12)
     });
   };
 
-  renderGallery = (gallery) =>
-    gallery.map((image, i) => (
+  renderGallery = (gallery) => gallery.map((image, i) => (
       <img
         className="col-4 col-sm-2 col-lg-1 d-none d-lg-block img-fluid px-0"
         src={image.src}
         alt={image.alt}
         key={i}
       />
-    ));
+  ));
 
   renderPage() {
     const cats = [
-        { name: 'accessories', icon: faRedhat },
-        { name: 'bags', icon: faShoppingBag },
-        { name: 'clothes', icon: faTshirt },
-        { name: 'shoes', icon: faShoePrints }
-      ],
-      rand1 = (cats.length - 1).randNum(),
-      rand2 = () => {
-        let k;
+      { name: 'accessories', icon: faRedhat },
+      { name: 'bags', icon: faShoppingBag },
+      { name: 'clothes', icon: faTshirt },
+      { name: 'shoes', icon: faShoePrints }
+    ];
+    const rand1 = randNum((cats.length - 1));
+    const rand2 = () => {
+      let k;
 
-        do {
-          k = (cats.length - 1).randNum();
-        } while (k === rand1);
+      do {
+        k = randNum((cats.length - 1));
+      } while (k === rand1);
 
-        return k;
-      },
-      rand3 = rand2();
+      return k;
+    };
+    const rand3 = rand2();
 
     return (
       <HrFrComp>
@@ -147,20 +156,20 @@ class Home extends React.Component {
   }
 
   renderHelp() {
-    let { location, isSignedIn, user } = this.props;
+    const { location, isSignedIn, user } = this.props;
 
     return isSignedIn === false
       ? this.renderPage()
       : {
-          user: (
+        user: (
             <Redirect
               to={{
                 pathname: '/role',
                 state: { from: location }
               }}
             />
-          )
-        }[user && user.type] || this.renderPage();
+        )
+      }[user && user.type] || this.renderPage();
   }
 
   render() {

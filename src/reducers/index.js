@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
-import authReducer from './authReducer';
-import loadReducer from './loadReducer';
-import storeReducer from './storeReducer';
-import orderReducer from './orderReducer';
-import cartReducer from './cartReducer';
-import transactionReducer from './transactionReducer';
+import authReducer from './authReducer.js';
+import loadReducer from './loadReducer.js';
+import storeReducer from './storeReducer.js';
+import orderReducer from './orderReducer.js';
+import cartReducer from './cartReducer.js';
+import transactionReducer from './transactionReducer.js';
 
 export default combineReducers({
   auth: authReducer,

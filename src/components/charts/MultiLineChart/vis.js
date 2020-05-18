@@ -3,26 +3,28 @@ import _ from 'lodash';
 
 const draw = (props) => {
   d3.select('.vis-mlinechart > *').remove();
-  let margin = { top: 20, right: 20, bottom: 30, left: 40 };
+  const margin = {
+    top: 20, right: 20, bottom: 30, left: 40
+  };
   const width = props.width - margin.left - margin.right;
   const height = props.height - margin.top - margin.bottom;
-  let svg = d3
+  const svg = d3
     .select('.vis-mlinechart')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  let datas = [],
-    x,
-    y;
+  const datas = [];
+  let x;
+  let y;
 
   if (props.datas !== null) {
     props.datas.forEach((data, i) => {
       datas[i] = _.cloneDeep(data.activities);
 
-      datas[i].forEach(function (d) {
+      datas[i].forEach((d) => {
         d.date = d3.timeParse('%Y-%m-%d')(d.date);
         d.count = +d.count;
       });
@@ -31,9 +33,7 @@ const draw = (props) => {
       x = d3
         .scaleTime()
         .domain(
-          d3.extent(datas[i], function (d) {
-            return d.date;
-          })
+          d3.extent(datas[i], (d) => d.date)
         )
         .range([0, width]);
 
@@ -42,9 +42,7 @@ const draw = (props) => {
         .scaleLinear()
         .domain([
           0,
-          d3.max(datas[i], function (d) {
-            return +d.count;
-          })
+          d3.max(datas[i], (d) => +d.count)
         ])
         .range([height, 0]);
 
@@ -59,18 +57,14 @@ const draw = (props) => {
           'd',
           d3
             .line()
-            .x(function (d) {
-              return x(d.date);
-            })
-            .y(function (d) {
-              return y(d.count);
-            })
+            .x((d) => x(d.date))
+            .y((d) => y(d.count))
         );
     });
 
     svg
       .append('g')
-      .attr('transform', 'translate(0,' + height + ')')
+      .attr('transform', `translate(0,${height})`)
       .call(d3.axisBottom(x));
 
     svg.append('g').call(d3.axisLeft(y));

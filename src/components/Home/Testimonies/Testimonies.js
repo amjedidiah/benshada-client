@@ -1,8 +1,14 @@
 import React, { Component } from 'react';
 
+import PropTypes from 'prop-types';
+
 export default class Testimonies extends Component {
-  renderTestimonies = (customers) =>
-    customers.map((customer, i) => (
+  static propTypes = {
+    title: PropTypes.string,
+    customers: PropTypes.array
+  }
+
+  renderTestimonies = (customers) => customers.map((customer, i) => (
       <div className="card shadow-sm my-3" key={i}>
         <div className="card-header text-left bg-white">
           <img src={customer.src} alt="customer" width="50" height="50" className="rounded-circle mr-2" />
@@ -12,10 +18,10 @@ export default class Testimonies extends Component {
           <p>{customer.testimony}</p>
         </div>
       </div>
-    ));
+  ));
 
   render() {
-    let { title, customers } = this.props;
+    const { title, customers } = this.props;
 
     return (
       <div className="container my-5">

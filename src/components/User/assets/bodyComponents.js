@@ -1,28 +1,31 @@
+/* eslint-disable max-classes-per-file */
 import React, { Component } from 'react';
-import BenshadaForm from '../../BenshadaForm/BenshadaForm';
 import { connect } from 'react-redux';
-import { userUpdateProfile, storeUpdateInfo, storeUpdateBank, orderCancel } from '../../../actions/user';
-import { filterContent } from '../../../actions/load';
-import { stateSelect } from '../../../assets/location';
-import { ifSeller } from '../../../actions/auth';
-
+import ContainerDimensions from 'react-container-dimensions';
+import PropTypes from 'prop-types';
+import BenshadaForm from '../../BenshadaForm/BenshadaForm.js';
+import {
+  userUpdateProfile, storeUpdateInfo, storeUpdateBank, orderCancel
+} from '../../../actions/user.js';
+import { filterContent } from '../../../actions/load.js';
+import stateSelect from '../../../assets/location.js';
+import { ifSeller } from '../../../actions/auth.js';
 // import MultiSelect from "../MultiSelect/MultiSelect";
 // import fedex from "../assets/img/fedex_logo.png";
 // import dhl from "../assets/img/dhl_logo.png";
-import Product from '../../Products/Product';
+import Product from '../../Products/Product.js';
 // import DashNav from "../DashNav";
 // import DashBody from "../DashBody";
-import BarChart from '../../charts/BarChart';
+import BarChart from '../../charts/BarChart/index.js';
 // import MultiLineChart from "../../charts/MultiLineChart";
-import LineChart from '../../charts/LineChart';
-import PieChart from '../../charts/PieChart';
+import LineChart from '../../charts/LineChart/index.js';
+import PieChart from '../../charts/PieChart/index.js';
 
-import ContainerDimensions from 'react-container-dimensions';
 // import NotFound from "../../Misc/NotFound/NotFound";
-import Order from '../../Orders/Order';
+import Order from '../../Orders/Order.js';
+import { unique, split } from '../../../prototypes.js';
 
-const renderTabList = (array, id) =>
-  array.map((item, i) => (
+const renderTabList = (array, id) => array.map((item, i) => (
     <li className="nav-item" key={i}>
       <a
         className={`nav-link text-uppercase font-weight-bold ${i === 0 ? 'active' : ''}`}
@@ -36,9 +39,15 @@ const renderTabList = (array, id) =>
         {item}
       </a>
     </li>
-  ));
+));
 
 class TabBody extends Component {
+  static propTypes = {
+    active: PropTypes.string,
+    name: PropTypes.string,
+    children: PropTypes.element
+  }
+
   render() {
     return (
       <div
@@ -54,14 +63,20 @@ class TabBody extends Component {
 }
 
 class ProfileTabBodyContainer extends Component {
-  renderFollowers = (cat, type) =>
-    !ifSeller(type) ? (
-      <>
-        <p className="mt-3">
-          <span className="text-primary">Following</span>: <span className="mr-md-3"> 0</span>
-        </p>
-      </>
-    ) : cat !== 'store' ? (
+  static propTypes = {
+    user: PropTypes.object,
+    type: PropTypes.string,
+    store: PropTypes.object
+  }
+
+  renderFollowers = (cat, type) => {
+    if (!ifSeller(type)) {
+      return <p className="mt-3">
+            <span className="text-primary">Following</span>: <span className="mr-md-3"> 0</span>
+          </p>;
+    }
+
+    return cat !== 'store' ? (
       <p className="mt-3">
         <span className="text-primary">Following</span>: <span className="mr-md-3"> 0</span>
       </p>
@@ -70,11 +85,12 @@ class ProfileTabBodyContainer extends Component {
         <span className="text-primary">Followers</span>: <span className="mr-md-3"> 0</span>
       </p>
     );
+  }
 
   render() {
-    let { user, type, store } = this.props,
-      name = type !== 'store' ? user && user.name : store && store.name,
-      info = type !== 'store' ? user && user.email : store && store.description;
+    const { user, type, store } = this.props;
+    const name = type !== 'store' ? user && user.name : store && store.name;
+    const info = type !== 'store' ? user && user.email : store && store.description;
 
     return (
       <div className="px-4 mb-4 text-center text-lg-left">
@@ -107,6 +123,11 @@ class ProfileTabBodyContainer extends Component {
 }
 
 class ProductsTabBodyContainer extends Component {
+  static propTypes = {
+    store: PropTypes.object,
+    products: PropTypes.array
+  }
+
   render() {
     return (
       <div className="px-4 mb-4 text-center text-lg-left">
@@ -119,8 +140,11 @@ class ProductsTabBodyContainer extends Component {
 }
 
 class OrdersTabBodyContainer extends Component {
-  renderDiscountedPrice = (price, discount) =>
-    discount > 0 ? (
+  static propTypes = {
+    orders: PropTypes.array
+  }
+
+  renderDiscountedPrice = (price, discount) => (discount > 0 ? (
       <>
         <small className="mb-0 font-weight-normal">
           <strike>
@@ -131,11 +155,11 @@ class OrdersTabBodyContainer extends Component {
           &#x20A6; <span>{price * (1 - discount / 100)}</span>
         </p>
       </>
-    ) : (
+  ) : (
       <p className="mb-0">
         &#x20A6; <span>{price}</span>
       </p>
-    );
+  ));
 
   render() {
     return (
@@ -149,112 +173,118 @@ class OrdersTabBodyContainer extends Component {
 }
 
 class Profile extends Component {
+  static propTypes = {
+    storeUpdateInfo: PropTypes.func,
+    user: PropTypes.object,
+    store: PropTypes.object,
+    userUpdateProfile: PropTypes.func
+  }
+
   renderStoreInfoTab(user, store) {
-    let name = store && store.name,
-      description = store && store.description,
-      // policies = store && store.policies,
-      // bank = store && store.bank,
-      // bankName = bank && bank.name,
-      // bankNumber = bank && bank.number,
-      // bankType = bank && bank.type,
-      // bankSelect = [
-      //   "Access Bank",
-      //   "Fidelity Bank",
-      //   "First City Monument Bank",
-      //   "First Bank of Nigeria",
-      //   "Guaranty Trust Bank",
-      //   "Union Bank of Nigeria",
-      //   "United Bank for Africa",
-      //   "Zenith Bank",
-      //   "Citibank Nigeria",
-      //   "Ecobank Nigeria",
-      //   "Heritage Banking Company",
-      //   "Keystone Bank",
-      //   "Polaris Bank",
-      //   "Stanbic IBTC Bank",
-      //   "Standard Chartered",
-      //   "Sterling Bank",
-      //   "Titan Trust Bank",
-      //   "Unity Bank",
-      //   "Wema Bank",
-      //   "Globus Bank",
-      //   "SunTrust Bank Nigeria",
-      //   "Providus Bank"
-      // ],
-      profileStoreFields = [
-        {
-          desc: 'name',
-          label: 'Store Name',
-          placeholder: "e.g Paul Ahmed's Store",
-          varClass: 'input',
-          type: 'text',
-          options: [],
-          icon: 0,
-          value: name
-        },
-        {
-          desc: 'description',
-          label: 'Store Description',
-          varClass: 'textarea',
-          type: 'text',
-          options: [],
-          icon: 0,
-          value: description
-        }
-        // {
-        //   desc: "policies",
-        //   label: "Store Policies",
-        //   varClass: "textarea",
-        //   type: "text",
-        //   options: [],
-        //   icon: 0,
-        //   value: policies
-        // }
-      ],
-      profileStoreButtons = [{ value: 'Update Store Profile', className: 'btn-primary' }],
-      // profileBankFields = [
-      //   {
-      //     desc: "bankName",
-      //     label: "Account Name",
-      //     varClass: "input",
-      //     type: "text",
-      //     options: [],
-      //     row: 1,
-      //     icon: 0,
-      //     value: bankName
-      //   },
-      //   {
-      //     desc: "number",
-      //     label: "Account Number",
-      //     varClass: "input",
-      //     type: "number",
-      //     options: [],
-      //     row: 2,
-      //     icon: 0,
-      //     value: bankNumber
-      //   },
-      //   {
-      //     desc: "bankType",
-      //     label: "Bank Name",
-      //     varClass: "select",
-      //     type: "text",
-      //     options: bankSelect,
-      //     row: 1,
-      //     icon: 0,
-      //     value: bankType
-      //   }
-      // ],
-      // profileBankButtons = [
-      //   { value: "Update Bank Details", className: "btn-primary" }
-      // ],
-      { storeUpdateInfo } = this.props;
+    const name = store && store.name;
+    const description = store && store.description;
+    // policies = store && store.policies,
+    // bank = store && store.bank,
+    // bankName = bank && bank.name,
+    // bankNumber = bank && bank.number,
+    // bankType = bank && bank.type,
+    // bankSelect = [
+    //   "Access Bank",
+    //   "Fidelity Bank",
+    //   "First City Monument Bank",
+    //   "First Bank of Nigeria",
+    //   "Guaranty Trust Bank",
+    //   "Union Bank of Nigeria",
+    //   "United Bank for Africa",
+    //   "Zenith Bank",
+    //   "Citibank Nigeria",
+    //   "Ecobank Nigeria",
+    //   "Heritage Banking Company",
+    //   "Keystone Bank",
+    //   "Polaris Bank",
+    //   "Stanbic IBTC Bank",
+    //   "Standard Chartered",
+    //   "Sterling Bank",
+    //   "Titan Trust Bank",
+    //   "Unity Bank",
+    //   "Wema Bank",
+    //   "Globus Bank",
+    //   "SunTrust Bank Nigeria",
+    //   "Providus Bank"
+    // ],
+    const profileStoreFields = [
+      {
+        desc: 'name',
+        label: 'Store Name',
+        placeholder: "e.g Paul Ahmed's Store",
+        varClass: 'input',
+        type: 'text',
+        options: [],
+        icon: 0,
+        value: name
+      },
+      {
+        desc: 'description',
+        label: 'Store Description',
+        varClass: 'textarea',
+        type: 'text',
+        options: [],
+        icon: 0,
+        value: description
+      }
+      // {
+      //   desc: "policies",
+      //   label: "Store Policies",
+      //   varClass: "textarea",
+      //   type: "text",
+      //   options: [],
+      //   icon: 0,
+      //   value: policies
+      // }
+    ];
+    const profileStoreButtons = [{ value: 'Update Store Profile', className: 'btn-primary' }];
+    // profileBankFields = [
+    //   {
+    //     desc: "bankName",
+    //     label: "Account Name",
+    //     varClass: "input",
+    //     type: "text",
+    //     options: [],
+    //     row: 1,
+    //     icon: 0,
+    //     value: bankName
+    //   },
+    //   {
+    //     desc: "number",
+    //     label: "Account Number",
+    //     varClass: "input",
+    //     type: "number",
+    //     options: [],
+    //     row: 2,
+    //     icon: 0,
+    //     value: bankNumber
+    //   },
+    //   {
+    //     desc: "bankType",
+    //     label: "Bank Name",
+    //     varClass: "select",
+    //     type: "text",
+    //     options: bankSelect,
+    //     row: 1,
+    //     icon: 0,
+    //     value: bankType
+    //   }
+    // ],
+    // profileBankButtons = [
+    //   { value: "Update Bank Details", className: "btn-primary" }
+    // ],
 
     return ifSeller(user.type) ? (
       <TabBody active="" name="profile-store">
         <ProfileTabBodyContainer user={user} type="store" store={store} />
         <BenshadaForm
-          form={`form-profile-update-store`}
-          onSubmitForm={storeUpdateInfo}
+          form={'form-profile-update-store'}
+          onSubmitForm={this.props.storeUpdateInfo}
           className="form"
           fields={profileStoreFields}
           buttons={profileStoreButtons}
@@ -303,70 +333,70 @@ class Profile extends Component {
   }
 
   render() {
-    let { user, store, userUpdateProfile } = this.props,
-      profileFields = [
-        {
-          desc: 'name',
-          label: 'Full Name',
-          placeholder: 'Paul Ahmed',
-          varClass: 'input',
-          type: 'text',
-          options: [],
-          icon: 0,
-          value: user && user.name
-        },
-        // {
-        //   desc: "phone",
-        //   label: "Mobile Number",
-        //   placeholder: "+234 816 597 2229",
-        //   varClass: "input",
-        //   type: "tel",
-        //   options: [],
-        //   icon: 0,
-        //   value: user && user.phone
-        // },
-        // {
-        //   desc: "street",
-        //   label: "Street",
-        //   placeholder: "91 Ojuelegba Road Surulere",
-        //   varClass: "textarea",
-        //   type: "text",
-        //   options: [],
-        //   icon: 0,
-        //   value: user && user.street
-        // },
-        {
-          desc: 'state',
-          label: 'State',
-          varClass: 'select',
-          type: 'text',
-          options: stateSelect.map(({ state }) => state),
-          row: 1,
-          icon: 0,
-          value: user && user.state
-        }
-        // {
-        //   desc: "country",
-        //   label: "Country",
-        //   varClass: "select",
-        //   type: "text",
-        //   options: ["Nigeria", "Ghana"],
-        //   row: 2,
-        //   icon: 0,
-        //   value: user && user.country
-        // },
-        // {
-        //   desc: "bio",
-        //   label: "Bio",
-        //   varClass: "textarea",
-        //   type: "text",
-        //   options: [],
-        //   icon: 0,
-        //   value: user && user.bio
-        // }
-      ],
-      profileButtons = [{ value: 'Update Personal Profile', className: 'btn-primary' }],
-      tablist = !ifSeller(user && user.type) ? ['personal'] : ['personal', 'store'];
+    const { user, store } = this.props;
+    const profileFields = [
+      {
+        desc: 'name',
+        label: 'Full Name',
+        placeholder: 'Paul Ahmed',
+        varClass: 'input',
+        type: 'text',
+        options: [],
+        icon: 0,
+        value: user && user.name
+      },
+      // {
+      //   desc: "phone",
+      //   label: "Mobile Number",
+      //   placeholder: "+234 816 597 2229",
+      //   varClass: "input",
+      //   type: "tel",
+      //   options: [],
+      //   icon: 0,
+      //   value: user && user.phone
+      // },
+      // {
+      //   desc: "street",
+      //   label: "Street",
+      //   placeholder: "91 Ojuelegba Road Surulere",
+      //   varClass: "textarea",
+      //   type: "text",
+      //   options: [],
+      //   icon: 0,
+      //   value: user && user.street
+      // },
+      {
+        desc: 'state',
+        label: 'State',
+        varClass: 'select',
+        type: 'text',
+        options: stateSelect.map(({ state }) => state),
+        row: 1,
+        icon: 0,
+        value: user && user.state
+      }
+      // {
+      //   desc: "country",
+      //   label: "Country",
+      //   varClass: "select",
+      //   type: "text",
+      //   options: ["Nigeria", "Ghana"],
+      //   row: 2,
+      //   icon: 0,
+      //   value: user && user.country
+      // },
+      // {
+      //   desc: "bio",
+      //   label: "Bio",
+      //   varClass: "textarea",
+      //   type: "text",
+      //   options: [],
+      //   icon: 0,
+      //   value: user && user.bio
+      // }
+    ];
+    const profileButtons = [{ value: 'Update Personal Profile', className: 'btn-primary' }];
+    const tablist = !ifSeller(user && user.type) ? ['personal'] : ['personal', 'store'];
 
     return (
       <div className="p-5 mt-5">
@@ -377,8 +407,8 @@ class Profile extends Component {
           <TabBody active="show active" name="profile-personal">
             <ProfileTabBodyContainer user={user} store={store} type="user" />
             <BenshadaForm
-              form={`form-profile-update-personal`}
-              onSubmitForm={userUpdateProfile}
+              form={'form-profile-update-personal'}
+              onSubmitForm={this.props.userUpdateProfile}
               className="form"
               fields={profileFields}
               buttons={profileButtons}
@@ -393,45 +423,51 @@ class Profile extends Component {
 }
 
 class Saved extends Component {
-  renderTabBody(tablist) {
-    return tablist.map((item, i) => {
-      let active = i === 0 ? 'show active' : '';
+static propTypes = {
+  user: PropTypes.object
+}
 
-      return (
+renderTabBody(tablist) {
+  return tablist.map((item, i) => {
+    const active = i === 0 ? 'show active' : '';
+
+    return (
         <TabBody active={active} name={`orders-${item}`} key={i}>
           <ProductsTabBodyContainer time={item} products={filterContent(this.props.user.saved)} />
         </TabBody>
-      );
-    });
-  }
+    );
+  });
+}
 
-  render() {
-    let tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
-    return (
+render() {
+  const tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
+  return (
       <div className="p-5">
         <div className="tab-content" id="ordersTabContent">
           {this.renderTabBody(tablist)}
         </div>
       </div>
-    );
-  }
+  );
+}
 }
 
 class Products extends Component {
-  renderTabBody(tablist, store) {
-    return tablist.map((item, i) => {
-      let active = i === 0 ? 'show active' : '';
+  static propTypes = {
+    store: PropTypes.object
+  }
 
-      return (
+  renderTabBody = (tablist, store) => tablist.map((item, i) => {
+    const active = i === 0 ? 'show active' : '';
+
+    return (
         <TabBody active={active} name={`products-${item}`} key={i}>
           <ProductsTabBodyContainer time={item} store={store} />
         </TabBody>
-      );
-    });
-  }
+    );
+  })
 
   render() {
-    let tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
+    const tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
     return (
       <div className="p-5 mt-5">
         {/* <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
@@ -446,9 +482,14 @@ class Products extends Component {
 }
 
 class Orders extends Component {
+  static propTypes = {
+    orders: PropTypes.array,
+    user: PropTypes.object
+  }
+
   renderTabBody(tablist) {
     return tablist.map((item, i) => {
-      let active = i === 0 ? 'show active' : '';
+      const active = i === 0 ? 'show active' : '';
       return (
         <TabBody active={active} name={`orders-${item}`} key={i}>
           <OrdersTabBodyContainer user={this.props.user} time={item} orders={this.props.orders} />
@@ -458,7 +499,7 @@ class Orders extends Component {
   }
 
   render() {
-    let tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
+    const tablist = ['today', 'this_week', 'this_month', 'this_year', 'all_time'];
     return (
       <div className="p-5 mt-5">
         {/* <ul className="nav nav-test nav-tabs" id="myTab" role="tablist">
@@ -473,71 +514,74 @@ class Orders extends Component {
 }
 
 class Analytics extends Component {
-  renderTabListBody = (list, content) => {
-    return list.map((item, i) => (
+  static propTypes = { orders: PropTypes.array, store: PropTypes.object }
+
+  renderTabListBody = (list, content) => list.map((item, i) => (
       <TabBody active={`show ${i === 0 ? 'active' : ''}`} name={`analytics-${item}`} key={`analytics-${item}`}>
         <div className="card-columns">{content[i]}</div>
       </TabBody>
-    ));
-  };
+  ));
 
-  averageProductPrice = (products) =>
-    products
-      .map(({ price, discountPercentage }) => price * (1 - discountPercentage / 100))
-      .reduce((total, num) => total + num, 0) / products.length;
+  averageProductPrice = (products) => products
+    .map(({ price, discountPercentage }) => price * (1 - discountPercentage / 100))
+    .reduce((total, num) => total + num, 0) / products.length;
 
   ordersCount = (orders) => orders.length;
 
-  totalOrderRevenue = (orders) => {
-    orders = orders.filter((order) => order.status === 'paid');
+  totalOrderRevenue = (funcOrders) => {
+    const orders = funcOrders.filter((order) => order.status === 'paid');
 
-    return orders.length < 1 ? 0 : orders.map(({ totalPrice }) => totalPrice).reduce((total, num) => total + num);
+    return orders.length < 1
+      ? 0
+      : orders.map(({ totalPrice }) => totalPrice).reduce((total, num) => total + num);
   };
 
-  totalCustomers = (orders) => {
-    orders = orders.filter((order) => order.status === 'paid');
+  totalCustomers = (funcOrders) => {
+    const orders = funcOrders.filter((order) => order.status === 'paid');
 
-    return typeof orders === 'object' ? orders.map(({ user }) => user._id).unique().length : '';
+    return typeof orders === 'object' ? unique(orders.map(({ user }) => {
+      const { _id } = user;
+      return _id;
+    })).length : '';
   };
 
-  productRevenue = (orders) => {
-    orders = orders.filter((order) => order.status === 'paid');
+  productRevenue = (funcOrders) => {
+    const orders = funcOrders.filter((order) => order.status === 'paid');
 
-    let productArray = orders
+    const productArray = split(orders
       .map(({ products }) => products.map(({ name }) => name))
-      .join()
-      .split(',');
+      .join(), ',');
 
-    let data = orders.map(({ products }) =>
-      products.map(({ name, price, discountPercentage }) => ({
-        name,
-        revenue: productArray.filter((item) => item === name).length * price * (1 - discountPercentage / 100)
-      }))
-    )[0];
+    const data = orders.map(({ products }) => products.map((
+      { name, price, discountPercentage }
+    ) => ({
+      name,
+      revenue: productArray
+        .filter((item) => item === name).length * price * (1 - discountPercentage / 100)
+    })))[0];
 
     return data;
   };
 
-  timeRevenue = (orders) =>
-    orders
-      .filter((order) => order.status === 'paid')
-      .map(({ updatedAt, totalPrice }) => ({
-        updatedAt: updatedAt.toDashDate(),
-        totalPrice
-      }));
+  timeRevenue = (orders) => orders
+    .filter((order) => order.status === 'paid')
+    .map(({ updatedAt, totalPrice }) => ({
+      updatedAt: updatedAt.toDashDate(),
+      totalPrice
+    }));
 
   render() {
-    let tablist = ['revenue', 'customer'],
-      { orders, store } = this.props,
-      orderRevenue = this.totalOrderRevenue(filterContent(orders)),
-      customers = this.totalCustomers(filterContent(orders)),
-      paidOrders = filterContent(orders).filter((order) => order.status === 'paid'),
-      customerOrders = paidOrders.map(({ user, totalPrice }) => ({
-        name: user.name,
-        totalPrice
-      })),
-      uniqueCustomerNames = paidOrders.map(({ user }) => user.name).unique(),
-      content = [
+    const tablist = ['revenue', 'customer'];
+    const { orders, store } = this.props;
+    const orderRevenue = this.totalOrderRevenue(filterContent(orders));
+    const customers = this.totalCustomers(filterContent(orders));
+    const paidOrders = filterContent(orders).filter((order) => order.status === 'paid');
+    const customerOrders = paidOrders.map(({ user, totalPrice }) => ({
+      name: user.name,
+      totalPrice
+    }));
+    const uniqueCustomerNames = unique(paidOrders.map(({ user }) => user.name));
+    const content = [
         <>
           <div className="card shadow-sm">
             <div className="card-body">
@@ -556,7 +600,9 @@ class Analytics extends Component {
               <p className="card-title text-uppercase">average product price</p>
               <h1 className="display-4 text-primary text-center">
                 &#x20A6;
-                {store && store.products === undefined ? 0 : this.averageProductPrice(filterContent(store.products))}
+                {store && store.products === undefined
+                  ? 0
+                  : this.averageProductPrice(filterContent(store.products))}
               </h1>
             </div>
           </div>
@@ -566,16 +612,15 @@ class Analytics extends Component {
               <p className="card-title text-uppercase">revenue over time</p>
 
               <ContainerDimensions>
-                {({ height, width }) =>
-                  filterContent(orders).length < 1 ? (
+                {({ height, width }) => (filterContent(orders).length < 1 ? (
                     <>No products purchased yet</>
-                  ) : (
+                ) : (
                     <LineChart
                       data={this.timeRevenue(filterContent(orders))}
                       width={width * 0.95}
                       height={height * 0.8}
                     />
-                  )
+                ))
                 }
               </ContainerDimensions>
             </div>
@@ -585,16 +630,15 @@ class Analytics extends Component {
             <div className="card-body w-100 p-3" style={{ maxHeight: '75vh' }}>
               <p className="card-title text-uppercase">revenue per product</p>
               <ContainerDimensions>
-                {({ height, width }) =>
-                  filterContent(orders).length < 1 ? (
+                {({ height, width }) => (filterContent(orders).length < 1 ? (
                     <>No products purchased yet</>
-                  ) : (
+                ) : (
                     <BarChart
                       data={this.productRevenue(filterContent(orders))}
                       width={width * 0.95}
                       height={height * 0.8}
                     />
-                  )
+                ))
                 }
               </ContainerDimensions>
             </div>
@@ -621,12 +665,14 @@ class Analytics extends Component {
             <div className="card-body w-100 p-3" style={{ maxHeight: '75vh' }}>
               <p className="card-title text-uppercase">revenue per customer</p>
               <ContainerDimensions>
-                {({ height, width }) =>
-                  paidOrders.length < 1 ? (
+                {({ height, width }) => (paidOrders.length < 1 ? (
                     <>No products purcahsed yet</>
-                  ) : (
-                    <PieChart data={[customerOrders, uniqueCustomerNames]} width={width * 0.95} height={height * 0.8} />
-                  )
+                ) : (
+                    <PieChart
+                    data={[customerOrders, uniqueCustomerNames]}
+                    width={width * 0.95}
+                    height={height * 0.8} />
+                ))
                 }
               </ContainerDimensions>
             </div>
@@ -649,7 +695,7 @@ class Analytics extends Component {
             </div>
           </div> */}
         </>
-      ];
+    ];
 
     return (
       <div className="p-5 mt-5">
@@ -665,19 +711,19 @@ class Analytics extends Component {
 }
 
 class Messages extends Component {
-  render() {
-    let chatFields = [
-        {
-          desc: 'message',
-          placeholder: 'Type a message',
-          varClass: 'input',
-          className: 'mx-4 py-4',
-          type: 'text',
-          options: [],
-          icon: 0
-        }
-      ],
-      chatButtons = [];
+  render = () => {
+    const chatFields = [
+      {
+        desc: 'message',
+        placeholder: 'Type a message',
+        varClass: 'input',
+        className: 'mx-4 py-4',
+        type: 'text',
+        options: [],
+        icon: 0
+      }
+    ];
+    const chatButtons = [];
 
     return (
       <div className="py-5  mx-0 mt-5 h-100 message-div">
@@ -717,8 +763,8 @@ class Messages extends Component {
           <div className="position-absolute chat-form-holder bg-white shadow">
             <div className="position-relative">
               <BenshadaForm
-                form={`form-chat`}
-                onSubmitForm={() => console.log('form-chat')}
+                form={'form-chat'}
+                onSubmitForm={() => {}}
                 className="form py-0"
                 fields={chatFields}
                 buttons={chatButtons}
@@ -777,6 +823,7 @@ class Messages extends Component {
 //   }
 // }
 
+// eslint-disable-next-line no-class-assign
 Profile = connect(null, {
   userUpdateProfile,
   storeUpdateInfo,
@@ -784,4 +831,6 @@ Profile = connect(null, {
   orderCancel
 })(Profile);
 
-export { Profile, Products, Orders, Saved, Analytics, Messages };
+export {
+  Profile, Products, Orders, Saved, Analytics, Messages
+};

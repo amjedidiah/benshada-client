@@ -7,44 +7,42 @@ const draw = (props) => {
     data = _.cloneDeep(props.data);
   }
   d3.select('.vis-linechart > *').remove();
-  let margin = { top: 20, right: 20, bottom: 30, left: 40 };
+  const margin = {
+    top: 20, right: 20, bottom: 30, left: 40
+  };
   const width = props.width - margin.left - margin.right;
   const height = props.height - margin.top - margin.bottom;
-  let svg = d3
+  const svg = d3
     .select('.vis-linechart')
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
     .append('g')
-    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+    .attr('transform', `translate(${margin.left},${margin.top})`);
 
-  data.forEach(function (d) {
+  data.forEach((d) => {
     d.updatedAt = d3.timeParse('%Y-%m-%d')(d.updatedAt);
     d.totalPrice = +d.totalPrice;
   });
 
   // Add X axis --> it is a updatedAt format
-  let x = d3
+  const x = d3
     .scaleTime()
     .domain(
-      d3.extent(data, function (d) {
-        return d.updatedAt;
-      })
+      d3.extent(data, (d) => d.updatedAt)
     )
     .range([0, width]);
   svg
     .append('g')
-    .attr('transform', 'translate(0,' + height + ')')
+    .attr('transform', `translate(0,${height})`)
     .call(d3.axisBottom(x));
 
   // Add Y axis
-  var y = d3
+  const y = d3
     .scaleLinear()
     .domain([
       0,
-      d3.max(data, function (d) {
-        return +d.totalPrice;
-      })
+      d3.max(data, (d) => +d.totalPrice)
     ])
     .range([height, 0]);
   svg.append('g').call(d3.axisLeft(y));
@@ -60,12 +58,8 @@ const draw = (props) => {
       'd',
       d3
         .line()
-        .x(function (d) {
-          return x(d.updatedAt);
-        })
-        .y(function (d) {
-          return y(d.totalPrice);
-        })
+        .x((d) => x(d.updatedAt))
+        .y((d) => y(d.totalPrice))
     );
 };
 

@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import MultiSelect from '../MultiSelect/MultiSelect';
+import MultiSelect from '../MultiSelect/MultiSelect.js';
 
 export default class Categories extends Component {
-  render() {
-    return (
+  render = () => (
       <>
         <MultiSelect
           title="categories"
@@ -11,6 +10,5 @@ export default class Categories extends Component {
           selectedOptions={[{ name: 'ankara' }, { name: 'adire' }, { name: 'agbada' }]}
         />
       </>
-    );
-  }
+  )
 }

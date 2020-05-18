@@ -1,14 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { logout } from '../../../actions/auth';
+import PropTypes from 'prop-types';
+import { logout } from '../../../actions/auth.js';
 
 class Logout extends React.Component {
+  static propTypes = {
+    logout: PropTypes.func
+  }
+
   componentDidMount() {
     this.props.logout();
-  }
-  render() {
-    return <div>{''}</div>;
   }
 }
 

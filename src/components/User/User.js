@@ -5,20 +5,29 @@ import { connect } from 'react-redux';
 
 import './assets/products.css';
 import './assets/user.css';
-import menu from './assets/menu';
+import PropTypes from 'prop-types';
+import menu from './assets/menu.js';
 
-import DashNav from './DashNav';
-import DashBody from './DashBody';
-import userABlist from './data/userABNav';
-import userClist from './data/userCNav';
-import { ifSeller } from '../../actions/auth';
+import DashNav from './DashNav.js';
+import DashBody from './DashBody.js';
+import userABlist from './data/userABNav.json';
+import userClist from './data/userCNav.json';
+import { ifSeller } from '../../actions/auth.js';
 
 class User extends Component {
+  static propTypes = {
+    user: PropTypes.object,
+    store: PropTypes.object,
+    orders: PropTypes.array,
+    isSignedIn: PropTypes.bool,
+    location: PropTypes.object
+  }
+
   componentDidMount = () => menu();
 
   renderPage() {
-    const { user, store, orders } = this.props,
-      list = !ifSeller(user && user.type) ? userClist : userABlist;
+    const { user, store, orders } = this.props;
+    const list = !ifSeller(user && user.type) ? userClist : userABlist;
 
     return (
       <>
@@ -33,7 +42,7 @@ class User extends Component {
   }
 
   renderHelp() {
-    let { isSignedIn, user, location } = this.props;
+    const { isSignedIn, user, location } = this.props;
 
     return isSignedIn === false ? (
       <Redirect

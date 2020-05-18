@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import draw from './vis';
+import draw from './vis.js';
 
 export default class PieChart extends Component {
   componentDidMount() {
     draw(this.props);
   }
 
-  componentDidUpdate(preProps) {
+  componentDidUpdate() {
     draw(this.props);
   }
 
-  render() {
-    return <div className="vis-piechart" />;
-  }
+  render = () => <div className="vis-piechart" />
 }

@@ -3,9 +3,10 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { faPlus, faStream } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import BenshadaForm from '../BenshadaForm/BenshadaForm';
+import PropTypes from 'prop-types';
+import BenshadaForm from '../BenshadaForm/BenshadaForm.js';
 
-import { productUpload } from '../../actions/user';
+import { productUpload } from '../../actions/user.js';
 import {
   Profile,
   Products,
@@ -14,8 +15,9 @@ import {
   Analytics,
   // Notifications,
   Messages
-} from './assets/bodyComponents';
-import { ifSeller } from '../../actions/auth';
+} from './assets/bodyComponents.js';
+import { ifSeller } from '../../actions/auth.js';
+import { split } from '../../prototypes.js';
 
 const Components = {
   Profile,
@@ -28,6 +30,14 @@ const Components = {
 };
 
 class DashBody extends Component {
+  static propTypes = {
+    productUpload: PropTypes.func,
+    user: PropTypes.object,
+    store: PropTypes.object,
+    orders: PropTypes.array,
+    list: PropTypes.array
+  }
+
   productUploadRenderer(user) {
     const productFields = [
       {
@@ -71,8 +81,8 @@ class DashBody extends Component {
         help: 'Discount in percentage'
       }
     ];
-    let productButtons = [{ value: 'Upload Product', className: 'btn-primary' }];
-    let type = user && user.type;
+    const productButtons = [{ value: 'Upload Product', className: 'btn-primary' }];
+    const type = user && user.type;
 
     return !ifSeller(type) ? (
       ''
@@ -98,7 +108,7 @@ class DashBody extends Component {
               </div>
               <div className="modal-body">
                 <BenshadaForm
-                  form={`form-product-add`}
+                  form={'form-product-add'}
                   onSubmitForm={this.props.productUpload}
                   className="form"
                   fields={productFields}
@@ -123,9 +133,9 @@ class DashBody extends Component {
 
   renderBodyComponents(list) {
     return list.map((listItem, i) => {
-      let { Title } = listItem,
-        TagName = Components[Title],
-        { user, store, orders } = this.props;
+      const { Title } = listItem;
+      const TagName = Components[Title];
+      const { user, store, orders } = this.props;
       return (
         <div
           className={`h-100 p-0 tab-pane fade ${i === 0 ? 'show active' : ''}`}
@@ -134,14 +144,17 @@ class DashBody extends Component {
           aria-labelledby={`pills-${Title}-tab`}
           key={Title}
         >
-          {user !== undefined ? <TagName user={user} store={store} orders={orders} /> : <Messages />}
+          {
+            user !== undefined
+              ? <TagName user={user} store={store} orders={orders} />
+              : <Messages />
+              }
         </div>
       );
     });
   }
 
-  renderHeader(user, name) {
-    return user !== undefined ? (
+  renderHeader = (user, name) => (user !== undefined ? (
       <div className="p-3 position-fixed bg-white shadow-sm d-flex d-md-block" id="dashboardHeader">
         <button className="btn btn-white float-left border-0 d-md-none" id="dashboardMenuToggle">
           <span>
@@ -169,17 +182,16 @@ class DashBody extends Component {
         </div>
         <div className="clear"></div>
       </div>
-    ) : (
-      ''
-    );
-  }
+  ) : (
+    ''
+  ))
 
   render() {
-    let { user, list } = this.props,
-      name = user && user.name,
-      divClass = user === undefined ? 'col-9 offset-3 col-sm-10 offset-sm-2' : 'col-12';
+    const { user, list } = this.props;
+    let name = user && user.name;
+    const divClass = user === undefined ? 'col-9 offset-3 col-sm-10 offset-sm-2' : 'col-12';
 
-    name = name !== undefined ? name.split(' ')[0] : '';
+    name = name !== undefined ? split(name, ' ')[0] : '';
 
     return (
       <>
@@ -196,6 +208,6 @@ class DashBody extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({});
+const mapStateToProps = () => ({});
 
 export default connect(mapStateToProps, { productUpload })(DashBody);

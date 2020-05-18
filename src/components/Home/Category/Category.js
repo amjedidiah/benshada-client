@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import All from '../../All/All';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
+import All from '../../All/All.js';
 
 export default class Category extends Component {
+  static propTypes = {
+    reversed: PropTypes.bool,
+    shortDesc: PropTypes.string,
+    icon: PropTypes.object
+  }
+
   render() {
     const { reversed, shortDesc, icon } = this.props;
 

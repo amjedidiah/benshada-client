@@ -6,8 +6,7 @@ import '../Misc.css';
 import ContainerDimensions from 'react-container-dimensions';
 
 export default class Loading extends Component {
-  render() {
-    return (
+  render = () => (
       <ContainerDimensions>
         {({ height, width }) => (
           <div className="v-align" style={{ height: height * 0.8, width }}>
@@ -15,6 +14,5 @@ export default class Loading extends Component {
           </div>
         )}
       </ContainerDimensions>
-    );
-  }
+  )
 }

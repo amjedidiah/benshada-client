@@ -3,11 +3,12 @@ import { Link } from 'react-router-dom';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faSearch } from "@fortawesome/free-solid-svg-icons";
-import { faFacebookF, faTwitter, faPinterest, faInstagram, faWhatsapp } from '@fortawesome/free-brands-svg-icons';
+import {
+  faFacebookF, faTwitter, faPinterest, faInstagram, faWhatsapp
+} from '@fortawesome/free-brands-svg-icons';
 
 export default class Footer extends Component {
-  render() {
-    return (
+  render = () => (
       <>
         <footer className="bg-white pt-1 shadow-sm">
           <div className="container">
@@ -104,6 +105,5 @@ export default class Footer extends Component {
           </div>
         </footer>
       </>
-    );
-  }
+  )
 }

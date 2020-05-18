@@ -1,7 +1,13 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+
 export default class ProductsBanner extends Component {
+  static propTypes = {
+    headers: PropTypes.array
+  }
+
   render() {
     const { headers } = this.props;
     return (
@@ -21,7 +27,7 @@ export default class ProductsBanner extends Component {
                     {value}
                   </Link>
                 </li>
-              ))}
+            ))}
         </ol>
       </nav>
     );

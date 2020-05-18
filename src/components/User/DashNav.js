@@ -3,7 +3,13 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
+import PropTypes from 'prop-types';
+
 class DashNav extends React.Component {
+  static propTypes = {
+    className: PropTypes.string
+  }
+
   renderIcon(icon) {
     return this.props.className.includes('user-side-main') ? (
       <i className={`${icon} mr-3`}></i>
@@ -20,18 +26,17 @@ class DashNav extends React.Component {
     );
   }
 
-  renderList = ({ list }, isMain) =>
-    list.map((item, index) => {
-      let { icon, Title, message } = item,
-        active,
-        selected;
+  renderList = ({ list }) => list.map((item, index) => {
+    const { icon, Title, message } = item;
+    let active;
+    let selected;
 
-      if (index === 0) {
-        active = 'active';
-        selected = 'selected';
-      }
+    if (index === 0) {
+      active = 'active';
+      selected = 'selected';
+    }
 
-      return (
+    return (
         <li className="nav-item" key={index}>
           <a
             className={`nav-link text-capitalize ${active}`}
@@ -58,8 +63,8 @@ class DashNav extends React.Component {
             )}
           </a>
         </li>
-      );
-    });
+    );
+  });
 
   renderLogout() {
     return this.props.className.includes('user-side-main') ? (
@@ -75,10 +80,10 @@ class DashNav extends React.Component {
   }
 
   render() {
-    let isMain = this.props.className.includes('user-side-main'),
-      divClass = isMain ? 'col-6' : 'col-3 col-sm-2',
-      logo = isMain ? 'benshada' : 'ben',
-      pLeft = isMain ? 'pl-4' : 'pl-md-4';
+    const isMain = this.props.className.includes('user-side-main');
+    const divClass = isMain ? 'col-6' : 'col-3 col-sm-2';
+    const logo = isMain ? 'benshada' : 'ben';
+    const pLeft = isMain ? 'pl-4' : 'pl-md-4';
 
     return (
       <>

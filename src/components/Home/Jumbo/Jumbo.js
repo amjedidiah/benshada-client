@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import PropTypes from 'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import banner1 from './img/benshadawebbanners01.jpg';
 import banner2 from './img/benshadawebbanners02.jpg';
 import banner3 from './img/benshadawebbanners03.jpg';
 import banner4 from './img/benshadawebbanners04.jpg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 export default class Jumbo extends Component {
-  renderCats = () =>
-    this.props.cats.map(({ name, icon }, i) => (
+  static propTypes = {
+    cats: PropTypes.array
+  }
+
+  renderCats = () => this.props.cats.map(({ name, icon }, i) => (
       <div className="row text-center align-items-center flex-fill py-2" key={i}>
         <div className="col">
           <Link to={`/products/?category=${name}`}>
@@ -18,21 +22,20 @@ export default class Jumbo extends Component {
           </Link>
         </div>
       </div>
-    ));
+  ));
 
-  renderBanners = () =>
-    [
-      { src: banner1, to: 'bags' },
-      { src: banner2, to: 'shoes' },
-      { src: banner3, to: 'clothes' },
-      { src: banner4, to: 'accessories' }
-    ].map(({ src, to }, i) => (
+  renderBanners = () => [
+    { src: banner1, to: 'bags' },
+    { src: banner2, to: 'shoes' },
+    { src: banner3, to: 'clothes' },
+    { src: banner4, to: 'accessories' }
+  ].map(({ src, to }, i) => (
       <div className={`carousel-item ${i === 0 ? 'active' : ''}`} key={i}>
         <Link to={`/products/?category=${to}`}>
           <img alt="" src={src} className="img-fluid w-100" />
         </Link>
       </div>
-    ));
+  ));
 
   render() {
     return (

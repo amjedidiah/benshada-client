@@ -1,4 +1,4 @@
-import { ACTION_LOAD, ACTION_NOTIFY, ACTION_DONE } from '../actions/types';
+import { ACTION_LOAD, ACTION_NOTIFY, ACTION_DONE } from '../actions/types.js';
 
 const INITIAL_STATE = {
   loading: false,

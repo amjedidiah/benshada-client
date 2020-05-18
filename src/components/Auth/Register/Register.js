@@ -1,48 +1,55 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { register } from '../../../actions/auth';
+import { register } from '../../../actions/auth.js';
 
 import '../Login/login.css';
 
-import BenshadaForm from '../../BenshadaForm/BenshadaForm';
+import BenshadaForm from '../../BenshadaForm/BenshadaForm.js';
 
 class Register extends React.Component {
+  static propTypes = {
+    isSignedIn: PropTypes.bool,
+    location: PropTypes.string,
+    register: PropTypes.func
+  }
+
   render() {
     const registerFields = [
-        {
-          desc: 'name',
-          label: 'Full Name',
-          placeholder: 'e.g Paul Ahmed',
-          varClass: 'input',
-          type: 'text',
-          options: []
-        },
-        {
-          desc: 'email',
-          label: 'Email Address',
-          placeholder: 'example@gmail.com',
-          varClass: 'input',
-          type: 'email',
-          options: []
-        },
-        {
-          desc: 'password',
-          label: 'Password',
-          varClass: 'input',
-          type: 'password',
-          options: []
-        },
-        {
-          desc: 'confirmpassword',
-          label: 'Confirm Password',
-          varClass: 'input',
-          type: 'password',
-          options: []
-        }
-      ],
-      registerButtons = [{ value: 'register', className: 'btn-primary' }];
+      {
+        desc: 'name',
+        label: 'Full Name',
+        placeholder: 'e.g Paul Ahmed',
+        varClass: 'input',
+        type: 'text',
+        options: []
+      },
+      {
+        desc: 'email',
+        label: 'Email Address',
+        placeholder: 'example@gmail.com',
+        varClass: 'input',
+        type: 'email',
+        options: []
+      },
+      {
+        desc: 'password',
+        label: 'Password',
+        varClass: 'input',
+        type: 'password',
+        options: []
+      },
+      {
+        desc: 'confirmpassword',
+        label: 'Confirm Password',
+        varClass: 'input',
+        type: 'password',
+        options: []
+      }
+    ];
+    const registerButtons = [{ value: 'register', className: 'btn-primary' }];
 
     if (this.props.isSignedIn === true) {
       return (
@@ -69,7 +76,7 @@ class Register extends React.Component {
             </p>
 
             <BenshadaForm
-              form={`form-register`}
+              form={'form-register'}
               onSubmitForm={this.props.register}
               className="form px-4 px-md-5 mx-md-3"
               fields={registerFields}
@@ -100,8 +107,6 @@ class Register extends React.Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return { isSignedIn: state.auth.isSignedIn };
-};
+const mapStateToProps = (state) => ({ isSignedIn: state.auth.isSignedIn });
 
 export default connect(mapStateToProps, { register })(Register);

@@ -1,16 +1,18 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link, Redirect } from 'react-router-dom';
-import { ifSeller } from '../../actions/auth';
+import PropTypes from 'prop-types';
+import { ifSeller } from '../../actions/auth.js';
 
 // import login from "../Auth/Login/login.jpg";
 
 import './cart.css';
-import { cartRemove, cartUpdate } from '../../actions/cart';
-import HrFrComp from '../HrFrComp/HrFrComp';
-import ProductQty from './ProductQty';
+import { cartRemove, cartUpdate } from '../../actions/cart.js';
+import HrFrComp from '../HrFrComp/HrFrComp.js';
+import ProductQty from './ProductQty.js';
 
 class Cart extends Component {
   constructor(props) {
@@ -19,10 +21,17 @@ class Cart extends Component {
     this.state = { quantities: {} };
   }
 
+  static propTypes = {
+    cartUpdate: PropTypes.func,
+    cart: PropTypes.array,
+    cartRemove: PropTypes.func,
+    user: PropTypes.object
+  }
+
   quantities = {};
 
   resetStateQty = (product, qty) => {
-    let { _id, price, discountPercentage } = product;
+    const { _id, price, discountPercentage } = product;
 
     this.props.cartUpdate(product, qty);
 
@@ -31,10 +40,10 @@ class Cart extends Component {
         ...this.state.quantities,
         [_id]: {
           qty,
-          total: function () {
+          total() {
             return this.qty * price;
           },
-          discountedTotal: function () {
+          discountedTotal() {
             return this.qty * price * (1 - discountPercentage / 100);
           }
         }
@@ -42,8 +51,7 @@ class Cart extends Component {
     });
   };
 
-  renderCartProducts = (products) =>
-    products.length < 1 ? (
+  renderCartProducts = (products) => (products.length < 1 ? (
       <div className="text-center p-5 my-5">
         <FontAwesomeIcon icon={faShoppingCart} className="fa-10x text-primary mt-5 mb-4" />
         <h3 className="mb-2">Your Cart is Empty</h3>
@@ -51,22 +59,25 @@ class Cart extends Component {
           Shop Products
         </Link>
       </div>
-    ) : (
+  ) : (
       <div className="my-5 py-5">
         <div className="container mt-2">
           <h4>My Cart {Object.keys(this.state.quantities).length} Items</h4>
         </div>
 
         {products.map((product, i) => {
-          let { name, price, discountPercentage, _id, image } = product;
+          const {
+            name, price, discountPercentage, _id, image
+          } = product;
           this.quantities = {
             ...this.quantities,
             [_id]: {
-              qty: this.props.cart.filter((product) => product._id === _id)[0].cartQty,
-              total: function () {
+              // eslint-disable-next-line no-underscore-dangle
+              qty: this.props.cart.filter((item) => item._id === _id)[0].cartQty,
+              total() {
                 return this.qty * price;
               },
-              discountedTotal: function () {
+              discountedTotal() {
                 return this.qty * price * (1 - discountPercentage / 100);
               }
             }
@@ -93,11 +104,17 @@ class Cart extends Component {
                         </strike>
                         <span>
                           &#x20A6;
-                          {this.state.quantities[_id] && this.state.quantities[_id].discountedTotal()}
+                          {
+                            this.state.quantities[_id]
+                            && this.state.quantities[_id].discountedTotal()
+                          }
                         </span>
                       </>
                     ) : (
-                      <span>&#x20A6; {this.state.quantities[_id] && this.state.quantities[_id].total()}</span>
+                      <span>&#x20A6;
+                      {this.state.quantities[_id]
+                      && this.state.quantities[_id].total()}
+                      </span>
                     )}
                   </p>
                   <div className="my-4">
@@ -153,15 +170,15 @@ class Cart extends Component {
           </Link>
         </div>
       </div>
-    );
+  ));
 
   componentDidMount() {
     this.setState({ quantities: this.quantities });
   }
 
   render() {
-    let { user, cart } = this.props,
-      type = user && user.type;
+    const { user, cart } = this.props;
+    const type = user && user.type;
 
     return ifSeller(type) ? (
       <Redirect to={{ pathname: '/' }} />

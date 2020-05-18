@@ -1,4 +1,4 @@
-//LOAD Types
+// LOAD Types
 export const ACTION_LOAD = 'ACTION_LOAD';
 export const ACTION_LOAD_AVOIDED = 'ACTION_LOAD_AVOIDED';
 export const ACTION_NOTIFY = 'ACTION_NOTIFY';
@@ -26,12 +26,12 @@ export const STORE_FETCH_FAILED = 'STORE_FETCH_FAILED';
 export const STORE_CREATE = 'STORE_CREATE';
 export const STORE_UPDATE_BANK = 'STORE_UPDATE_BANK';
 
-//PRODUCTS Types
+// PRODUCTS Types
 export const PRODUCT_UPLOAD = 'PRODUCT_UPLOAD';
 export const PRODUCT_DELETE = 'PRODUCT_DELETE';
 export const PRODUCT_UPDATE = 'PRODUCT_UPDATE';
 
-//CART Types
+// CART Types
 export const CART_ADD = 'CART_ADD';
 export const CART_REMOVE = 'CART_REMOVE';
 export const CART_UPDATE = 'CART_UPDATE';

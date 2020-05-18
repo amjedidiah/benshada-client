@@ -1,22 +1,28 @@
 import React, { Component } from 'react';
-import NotFound from '../Misc/NotFound/NotFound';
-import { ifSeller } from '../../actions/auth';
 import { connect } from 'react-redux';
-import { orderCancel } from '../../actions/user';
+import PropTypes from 'prop-types';
+import NotFound from '../Misc/NotFound/NotFound.js';
+import { ifSeller } from '../../actions/auth.js';
+import { orderCancel } from '../../actions/user.js';
 
 class Order extends Component {
-  makeid(length) {
-    let result = '',
-      characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789',
-      charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
+  static propTypes = {
+    orders: PropTypes.array,
+    user: PropTypes.object,
+    orderCancel: PropTypes.func
+  }
+
+  makeid = (length) => {
+    let result = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    const charactersLength = characters.length;
+    for (let i = 0; i < length; i += 1) {
       result += characters.charAt(Math.floor(Math.random() * charactersLength));
     }
     return result;
   }
 
-  renderDiscountedPrice = (price, discount) =>
-    discount > 0 ? (
+  renderDiscountedPrice = (price, discount) => (discount > 0 ? (
       <>
         <small className="mb-0 font-weight-normal">
           <strike>
@@ -27,26 +33,28 @@ class Order extends Component {
           &#x20A6; <span>{price * (1 - discount / 100)}</span>
         </p>
       </>
-    ) : (
+  ) : (
       <p className="mb-0">
         &#x20A6; <span>{price}</span>
       </p>
-    );
+  ));
 
   render() {
-    let { orders } = this.props;
+    const { orders } = this.props;
 
     return orders.length < 1 ? (
       <NotFound type="order" />
     ) : (
       <div className="card-columns products">
-        {orders.map(({ isDeleted, products, status, _id, user, totalPrice, createdAt }, i) => (
+        {orders.map(({
+          products, status, _id, user, totalPrice, createdAt
+        }, i) => (
           <>
             <div className="card mb-4 pb-3 product rounded shadow-sm border-0" key={`orderCard${i}`}>
               <div className="card-body p-0">
                 <div className="d-flex orders">
-                  {products.map(({ name, src }, i) => (
-                    <div className="card-img-holder border border-light shadow-sm" key={i}>
+                  {products.map(({ name, src }, j) => (
+                    <div className="card-img-holder border border-light shadow-sm" key={j}>
                       <img src={src} className="img-fluid" alt={name} />
                     </div>
                   ))}
@@ -103,8 +111,8 @@ class Order extends Component {
                     </button>
                   </div>
                   <div className="modal-body">
-                    {products.map(({ name, price, discountPercentage }, i) => (
-                      <div className="container bg-white p-4 mb-4 text-center d-md-flex shadow-sm" key={i}>
+                    {products.map(({ name, price, discountPercentage }, j) => (
+                      <div className="container bg-white p-4 mb-4 text-center d-md-flex shadow-sm" key={j}>
                         {/* <img
                     src={src}
                     className="float-sm-left rounded mr-4 cart-img mb-3"

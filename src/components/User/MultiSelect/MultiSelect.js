@@ -3,47 +3,52 @@ import './MultiSelect.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTimes } from '@fortawesome/free-solid-svg-icons';
 
+import PropTypes from 'prop-types';
+
 export default class MultiSelect extends Component {
+  static propTypes = {
+    title: PropTypes.string,
+    selectedOptions: PropTypes.array,
+    availableOptions: PropTypes.array
+  }
+
   cardSelect = () => {
-    let element = [...window.event.target.classList].includes('card-select')
+    const element = [...window.event.target.classList].includes('card-select')
       ? window.event.target
       : window.event.target.parentElement;
 
     element.classList.toggle('active');
   };
 
-  renderOptionsElement = ({ name, src }) =>
-    src === undefined ? (
+  renderOptionsElement = ({ name, src }) => (src === undefined ? (
       <p className="text-capitalize flex-grow-1 mb-0">{this.spaceText(name)}</p>
-    ) : (
+  ) : (
       <img src={src} width="100" className="img-fluid flex-grow-1" alt="delivery_option" />
-    );
+  ));
 
-  renderAvailableOptions = (options) =>
-    options.map((option, i) => (
+  renderAvailableOptions = (options) => options.map((option, i) => (
       <div className="card card-select p-2 shadow-sm" onClick={() => this.cardSelect()} key={i}>
         {this.renderOptionsElement(option)}
       </div>
-    ));
+  ));
 
   renderSelectedOptionsDeleteBtn = () => <FontAwesomeIcon icon={faTimes} className="text-danger float-right pt-4" />;
 
-  renderSelectedOptions = (options) =>
-    options.map((option, i) => (
+  renderSelectedOptions = (options) => options.map((option, i) => (
       <div className="card p-2 shadow-sm" key={i}>
         <div className="d-flex">
           {this.renderOptionsElement(option)}
           {this.renderSelectedOptionsDeleteBtn()}
         </div>
       </div>
-    ));
+  ));
 
   spaceText = (text) => text;
 
   render() {
-    let { props, spaceText } = this,
-      { title, selectedOptions, availableOptions } = props,
-      spacedTitle = spaceText(title);
+    const { props, spaceText } = this;
+    const { title, selectedOptions, availableOptions } = props;
+    const spacedTitle = spaceText(title);
 
     return (
       <>

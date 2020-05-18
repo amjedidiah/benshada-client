@@ -6,8 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
 
 export default class Gender extends Component {
-  render() {
-    return (
+  render =() => (
       <div className="container">
         <div className="row justify-content-between text-center bg-white bg-lg-light">
           <Link to="/products/?gender=male" className="col p-3">
@@ -25,6 +24,5 @@ export default class Gender extends Component {
           </Link>
         </div>
       </div>
-    );
-  }
+  )
 }

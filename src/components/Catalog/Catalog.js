@@ -1,12 +1,22 @@
 import React, { Component } from 'react';
-import HrFrComp from '../HrFrComp/HrFrComp';
-
-import './Catalog.css';
 import { Redirect } from 'react-router-dom';
-import All from '../All/All';
+import PropTypes from 'prop-types';
+
+import HrFrComp from '../HrFrComp/HrFrComp.js';
+import './Catalog.css';
+import All from '../All/All.js';
+import { split } from '../../prototypes.js';
 
 export default class Catalog extends Component {
-  queryString = decodeURI(this.props.location.search.split('=')[1]);
+  static propTypes = {
+    location: PropTypes.string
+  }
+
+  queryString = decodeURI(
+    split(
+      this.props.location.search, '='
+    )[1]
+  );
 
   render() {
     const { queryString } = this;

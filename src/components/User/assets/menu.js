@@ -2,7 +2,7 @@
 import $ from 'jquery';
 
 const menu = () => {
-  $('#dashboardMenuToggle').click(function () {
+  $('#dashboardMenuToggle').click(() => {
     $('#userSide').toggle();
   });
   $(window).resize(() => {

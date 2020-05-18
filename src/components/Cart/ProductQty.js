@@ -2,9 +2,16 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
 
+import PropTypes from 'prop-types';
+
 export default class ProductQty extends Component {
-  decreaseQuantity = (product) =>
-    this.props.quantity - 1 === 0 ? '' : this.props.resetQty(product, this.props.quantity - 1);
+  static propTypes = {
+    quantity: PropTypes.number,
+    resetQty: PropTypes.func,
+    product: PropTypes.object
+  }
+
+  decreaseQuantity = (product) => (this.props.quantity - 1 === 0 ? '' : this.props.resetQty(product, this.props.quantity - 1));
 
   increaseQuantity = (product) => this.props.resetQty(product, this.props.quantity + 1);
 

@@ -19,10 +19,14 @@ import Products from './Products/Products.js';
 import Stores from './Stores/Stores.js';
 import CheckOut from './CheckOut/CheckOut.js';
 
-export class App extends Component {
+class App extends Component {
   static propTypes = { loader: PropTypes.object }
 
   render() {
+    const {
+      loading, bgColor, spinnerColor, show, message
+    } = this.props.loader;
+
     return (
       <div className="h-100">
         <Router history={history}>
@@ -38,16 +42,11 @@ export class App extends Component {
           <Route path="/stores" component={Stores} />
           <Route path="/checkout" component={CheckOut} />
         </Router>
-        <LoadingScreen
-        loading={(this.props.loader && this.props.loader.loading) || false}
-        bgColor={(this.props.loader && this.props.loader.bgColor) || 'white'}
-        spinnerColor={this.props.loader && this.props.loader.spinnerColor}>
+        <LoadingScreen loading={loading} bgColor={bgColor} spinnerColor={spinnerColor}>
           {''}
         </LoadingScreen>
 
-        <FormToast
-        message={this.props.loader && this.props.loader.message}
-        show={this.props.loader && this.props.loader.show} />
+        <FormToast message={message} show={show} />
       </div>
     );
   }

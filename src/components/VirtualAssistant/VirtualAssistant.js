@@ -4,15 +4,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 export default class VirtualAssistant extends Component {
-  // toggleVirtualAssistant = () => {
-  //   let e = window.event.target;
-  //   e = [...e.classList].includes('fas') ? e : e.querySelector('i');
+  toggleVirtualAssistant = () => {
+    let e = window.event && window.event.target;
+    if (e !== undefined) {
+      e = [...e.classList].includes('fas') ? e : e.querySelector('i');
 
-  //   $('#vAssistAlert').toggle();
-
-  //   e.classList.toggle('fa-question');
-  //   e.classList.toggle('fa-times');
-  // }
+      $('#vAssistAlert').toggle();
+      e.classList.toggle('fa-question fa-times');
+    }
+  }
 
   render() {
     return (
@@ -70,13 +70,13 @@ export default class VirtualAssistant extends Component {
           </div>
         </div>
 
-        {/* <div
+        <div
           onClick={this.toggleVirtualAssistant}
           className="btn btn-primary d-fixed rounded-circle"
           id="questionMark"
         >
           <i className="fas fa-question"></i>
-        </div> */}
+        </div>
       </>
     );
   }

@@ -1,11 +1,16 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
-import NotFound from '../Misc/NotFound/NotFound';
+import PropTypes from 'prop-types';
+import NotFound from '../Misc/NotFound/NotFound.js';
 
 export default class Reviews extends Component {
+  static propTypes = {
+    reviews: PropTypes.array
+  }
+
   render() {
-    let { reviews } = this.props;
+    const { reviews } = this.props;
 
     return reviews.length < 1 ? (
       <NotFound type="review" />

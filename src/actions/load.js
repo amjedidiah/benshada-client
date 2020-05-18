@@ -8,11 +8,15 @@ export const enqueueDynamicArray = (functionArray) => {
   return p;
 };
 
+export const actionNotify = (payload) => ({
+  type: ACTION_NOTIFY,
+  payload
+});
+
 export const errorReport = (error) => {
-  let message =
-    (error.response && error.response.data.message && error.response.data.message.name) ||
-    (error.response && error.response.data && error.response.data.message) ||
-    error.message;
+  let message = (error.response && error.response.data.message && error.response.data.message.name)
+    || (error.response && error.response.data && error.response.data.message)
+    || error.message;
 
   message = message === 'MongoError' ? 'Unable to connect to database' : message;
 
@@ -21,11 +25,6 @@ export const errorReport = (error) => {
 
 export const actionLoad = () => ({
   type: ACTION_LOAD
-});
-
-export const actionNotify = (payload) => ({
-  type: ACTION_NOTIFY,
-  payload
 });
 
 export const actionDone = () => ({

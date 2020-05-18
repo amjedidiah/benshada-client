@@ -1,4 +1,4 @@
-export const stateSelect = [
+const stateSelect = [
   { state: 'Abia', country: 'Nigeria' },
   { state: 'Adamawa', country: 'Nigeria' },
   { state: 'Anambra', country: 'Nigeria' },
@@ -53,3 +53,5 @@ export const stateSelect = [
   { state: 'Sekondi-Takoradi', country: 'Ghana' },
   { state: 'Wiawso', country: 'Ghana' }
 ];
+
+export default stateSelect;
