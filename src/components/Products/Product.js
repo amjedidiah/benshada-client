@@ -29,7 +29,7 @@ class Product extends Component {
     userUpdateProfile: PropTypes.func,
     productDelete: PropTypes.func,
     title: PropTypes.string,
-    products: PropTypes.array,
+    products: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     className: PropTypes.string,
     productUpdate: PropTypes.func
   }

@@ -59,7 +59,7 @@ export default class All extends Component {
             .filter(({ name }) => (name && name.toLowerCase()).includes(queryString.toLowerCase()));
         } else if (store === undefined) {
           if (productCategory !== undefined) {
-            response = items === undefined ? [] : items.filter(
+            response = typeof items !== 'object' ? [] : items.filter(
               ({ category }) => category && category.toLowerCase() === productCategory.toLowerCase()
             );
           } else if (productGender !== undefined) {

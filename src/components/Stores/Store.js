@@ -7,7 +7,7 @@ import Src from '../Src/Src.js';
 
 export default class Store extends Component {
   static propTypes = {
-    stores: PropTypes.array,
+    stores: PropTypes.oneOfType([PropTypes.array, PropTypes.string]),
     title: PropTypes.string
   }
 

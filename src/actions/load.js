@@ -35,4 +35,4 @@ export const timeOut = { timeout: 30000 };
 
 export const isDeleted = (item) => item.isDeleted === false;
 
-export const filterContent = (array) => (array === undefined ? array : array.filter(isDeleted));
+export const filterContent = (array) => (array === undefined || typeof array !== 'object' ? [] : array.filter(isDeleted));
