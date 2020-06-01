@@ -1,0 +1,17 @@
+.card-columns.gender .fas,
+.card-columns.gender .fab,
+.card-columns.gender .far {
+  font-size: 2em;
+}
+
+.card-columns.gender .fas,
+.card-columns.gender .fab,
+.card-columns.gender .far {
+  font-size: 2em;
+}
+
+@media (min-width: 576px) {
+  .card-columns.gender {
+    column-count: 3 !important;
+  }
+}
