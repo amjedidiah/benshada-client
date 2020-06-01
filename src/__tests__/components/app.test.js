@@ -1,8 +1,8 @@
 import React from 'react';
 import { mount, shallow } from 'enzyme';
 import { Provider } from 'react-redux';
-import App from '../../app';
-import store from '../../redux/store';
+import App from '../../app.js';
+import store from '../../redux/store.js';
 
 
 it('renders app component without crashing', () => {

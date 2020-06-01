@@ -8,12 +8,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.min';
 import 'popper.js/dist/popper.min';
 
-import * as serviceWorker from './serviceWorker';
+import * as serviceWorker from './serviceWorker.js';
 
 // Import redux store
-import store from './redux/store';
+import store from './redux/store.js';
 
-import App from './app';
+import App from './app.js';
 
 
 // localStorage.clear();

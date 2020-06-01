@@ -3,7 +3,7 @@ import { Toast } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { fulfilledAction } from '../../redux/actions/loader';
+import { fulfilledAction } from '../../redux/actions/loader.js';
 
 import '../../assets/css/formToast.css';
 

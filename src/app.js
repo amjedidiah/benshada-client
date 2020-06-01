@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import LoadingScreen from 'react-loading-screen';
 
-import Home from './components/home/home';
-import FormToast from './components/formToast/formToast';
+import Home from './components/home/home.js';
+import FormToast from './components/formToast/formToast.js';
 
 class App extends Component {
   static propTypes = { loader: PropTypes.object }
