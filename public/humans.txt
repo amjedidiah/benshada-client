@@ -4,10 +4,12 @@
 # TEAM
 
     Jedidiah Amaraegbu -- Technical Design Lead  -- @am_jedidiah
+ <!-- TODO:Add your name here where necessary -->
 
 # THANKS
 
     Jedidiah Amaraegbu
+ <!-- TODO:Add your name here where necessary -->
 
 # TECHNOLOGY COLOPHON
 

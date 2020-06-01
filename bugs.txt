@@ -1,4 +1,0 @@
-1. Replace <a> anchor tags with React anchor tags</a>
-2. Fix actionLoad on register and roleSelect actions
-3. ActionNotify should call once even when multiple actions are loaded
-4. Fix logic to display Top-rated products

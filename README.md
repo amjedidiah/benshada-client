@@ -13,36 +13,37 @@ Makes it easier to acquire African fashion items faster & with less hassle
 
 ## Usage
 
-This app is hosted on [http://benshada-client.herokuapp.com](http://benshada-client.herokuapp.com) to view it in the browser.
+URL to deployed staging-app is below:
 
-### Available Scripts
+[https://benshada-client-staging-app.herokuapp.com/](https://benshada-client-staging-app.herokuapp.com/).
+Visit the above link to view it in your browser.
 
-In the project directory, you can run:
+## Setup
 
-#### `npm start`
+1. Clone repo `git clone https://github.com/AestArt/benshada-client.git benshada`
+2. Verify npm global installation by running `npm install npm -g`
+3. Install dependencies by running `npm install` from the **benshada** directory/folder
+4. Start app locally by running `npm run dev` from the **benshada** directory/folder
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+#### Hints
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+1. Get Started: `npm install`
+2. Install additional dependencies: `npm install <dependency-name>`
+3. Run tests: `npm run test`
+4. Run tests in watch mode: `npm run test:watch`
+5. Run tests with test coverage info: `npm run test:cover`
+6. Check the codebase for proper syntax and formatting compliance: `npm run lint`
+7. Check the codebase for lint and test errors: `npm run check`
+8. Build app for deployment: `npm run build`
+9. Run app from build: `npm start`
+10. Run app in local dev mode: `npm run dev`.
 
-#### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-
-#### `npm run build`
-
-Builds the app for production to the `build` folder.
+- This first runs `npm run check` to check codebase for lint and test errors. If any are found, an npm error is thrown and the app exits with an error code
 
 ## Authors
 
-Amaraegbu Jedidiah | Front-end Developer | imunacode@gmail.com
-
-## Contributing
-
-If this project sounds interesting to you and you'd like to contribute, thank you!
-First, you can send a mail to aestartng@gmail.com to indicate your interest, why you'd like to support and what forms of support you can bring to the table
+    Jedidiah Amaraegbu -- Technical Team Lead -- @amjedidiah
+    <!-- TODO:Add your name here where necessary -->
 
 ## LICENSE
 
