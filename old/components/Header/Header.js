@@ -11,7 +11,7 @@ import { faUser } from '@fortawesome/free-regular-svg-icons';
 import searchAnimate from './searchAnimate.js';
 import './header.css';
 import Search from './Search.js';
-import { ifSeller } from '../../redux/old/actions/auth.js.js';
+import { ifSeller } from '../../actions/auth.js';
 import { split } from '../../prototypes.js';
 
 class Header extends React.Component {

@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import React, { Component } from './node_modules/react';
+import { FontAwesomeIcon } from './node_modules/@fortawesome/react-fontawesome';
+import { Link } from './node_modules/react-router-dom';
+import PropTypes from './node_modules/prop-types';
 import All from '../../All/All.js';
 
 export default class Category extends Component {

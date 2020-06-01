@@ -3,7 +3,7 @@ import { Redirect, Link } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { login } from '../../../redux/old/actions/auth.js.js';
+import { login } from '../../../actions/auth.js';
 
 import './login.css';
 

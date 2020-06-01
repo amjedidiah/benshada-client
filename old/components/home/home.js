@@ -1,23 +1,24 @@
-import React from 'react';
-import { Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { faRedhat } from '@fortawesome/free-brands-svg-icons';
-import { faShoppingBag, faTshirt, faShoePrints } from '@fortawesome/free-solid-svg-icons';
-import PropTypes from 'prop-types';
+import React from './node_modules/react';
 
-import Jumbo from './jumbo';
-import Gender from './gender';
-import Product from '../Products/product';
-import Store from '../Stores/Store';
+// Custom components
+import { Redirect } from './node_modules/react-router-dom';
+import { connect } from './node_modules/react-redux';
+import { faRedhat } from './node_modules/@fortawesome/free-brands-svg-icons';
+import { faShoppingBag, faTshirt, faShoePrints } from './node_modules/@fortawesome/free-solid-svg-icons';
+import PropTypes from './node_modules/prop-types';
+import Jumbo from './Jumbo/Jumbo.js';
+import Gender from './Gender/Gender.js';
+import Product from '../Products/Product.js';
+import Store from '../Stores/Store.js';
 // import Testimonies from "./Testimonies/Testimonies";
-import VirtualAssistant from '../VirtualAssistant/VirtualAssistant';
-import HrFrComp from '../HrFrComp/HrFrComp';
+import VirtualAssistant from '../VirtualAssistant/VirtualAssistant.js';
+import HrFrComp from '../HrFrComp/HrFrComp.js';
 
-import { featuredStoreFetch } from '../../redux/old/actions/user';
-import { fetchProducts, fetchStores } from '../../redux/old/actions/misc';
-import { filterContent } from '../../redux/old/actions/load';
-import Category from './Category/Category';
-import { randNum } from '../../prototypes';
+import { featuredStoreFetch } from '../../actions/user.js';
+import { fetchProducts, fetchStores } from '../../actions/misc.js';
+import { filterContent } from '../../actions/load.js';
+import Category from './Category/Category.js';
+import { randNum } from '../../prototypes.js';
 
 class Home extends React.Component {
   constructor() {

@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import BenshadaForm from '../BenshadaForm/BenshadaForm.js';
 
-import { productUpload } from '../../redux/old/actions/user.js.js';
+import { productUpload } from '../../actions/user.js';
 import {
   Profile,
   Products,
@@ -16,7 +16,7 @@ import {
   // Notifications,
   Messages
 } from './assets/bodyComponents.js';
-import { ifSeller } from '../../redux/old/actions/auth.js.js';
+import { ifSeller } from '../../actions/auth.js';
 import { split } from '../../prototypes.js';
 
 const Components = {

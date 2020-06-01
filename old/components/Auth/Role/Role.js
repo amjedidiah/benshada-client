@@ -3,8 +3,8 @@ import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import PropTypes from 'prop-types';
-import { roleSelect, ifSeller } from '../../../redux/old/actions/auth.js.js';
-import { actionLoad, actionNotify } from '../../../redux/old/actions/load.js.js';
+import { roleSelect, ifSeller } from '../../../actions/auth.js';
+import { actionLoad, actionNotify } from '../../../actions/load.js';
 
 import '../Login/login.css';
 

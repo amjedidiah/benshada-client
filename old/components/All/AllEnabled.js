@@ -5,7 +5,7 @@ import { faShoppingBag, faTshirt, faShoePrints } from '@fortawesome/free-solid-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import qs from 'query-string';
 import PropTypes from 'prop-types';
-import Product from '../Products/product.js';
+import Product from '../Products/Product.js';
 import Stars from '../Products/Stars.js';
 
 import './slider.css';

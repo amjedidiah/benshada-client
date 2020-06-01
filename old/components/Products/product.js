@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -9,11 +10,11 @@ import {
   faPencilAlt,
   faHeart
 } from '@fortawesome/free-solid-svg-icons';
-import { productDelete, productUpdate, userUpdateProfile } from '../../redux/old/actions/user.js.js';
-import { filterContent } from '../../redux/old/actions/load.js.js';
+import { productDelete, productUpdate, userUpdateProfile } from '../../actions/user.js';
+import { filterContent } from '../../actions/load.js';
 import BenshadaForm from '../BenshadaForm/BenshadaForm.js';
-import { ifSeller } from '../../redux/old/actions/auth.js.js';
-import { cartAdd, cartRemove } from '../../redux/old/actions/cart.js.js';
+import { ifSeller } from '../../actions/auth.js';
+import { cartAdd, cartRemove } from '../../actions/cart.js';
 import CartButton from '../Cart/CartButton.js';
 import Loading from '../Misc/Loading/Loading.js';
 import NotFound from '../Misc/NotFound/NotFound.js';
