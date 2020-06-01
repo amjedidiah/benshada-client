@@ -1,17 +1,16 @@
-import React from 'react';
-import { Toast } from 'react-bootstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React from './node_modules/react';
+import { Toast } from './node_modules/react-bootstrap';
+import { connect } from './node_modules/react-redux';
+import PropTypes from './node_modules/prop-types';
+import { actionDone } from '../../actions/load.js';
 
-import { fulfilledAction } from '../../redux/actions/loader';
-
-import '../../assets/css/formToast.css';
+import './FormToast.css';
 
 class FormToast extends React.Component {
   static propTypes = {
     message: PropTypes.string,
     show: PropTypes.bool,
-    fulfilledAction: PropTypes.func
+    actionDone: PropTypes.func
   }
 
   render() {
@@ -19,7 +18,7 @@ class FormToast extends React.Component {
 
     return (
     <div aria-live="polite" aria-atomic="true" className="toast-holder">
-      <Toast onClose={() => this.props.fulfilledAction()} show={show} delay={2000} className="hello" autohide>
+      <Toast onClose={() => this.props.actionDone()} show={show} delay={2000} className="hello" autohide>
         <Toast.Header>
           <small className="text-uppercase font-weight-bold mr-auto">alert</small>
           {/* <small>just now</small> */}
@@ -31,4 +30,4 @@ class FormToast extends React.Component {
   }
 }
 
-export default connect(null, { fulfilledAction })(FormToast);
+export default connect(null, { actionDone })(FormToast);

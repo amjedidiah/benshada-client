@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import HrFrComp from '../HrFrComp/HrFrComp.js';
 import CartButton from '../Cart/CartButton.js';
 import All from '../All/All.js';
-import { fetchProducts } from '../../redux/old/actions/misc.js.js';
+import { fetchProducts } from '../../actions/misc.js';
 import Loading from '../Misc/Loading/Loading.js';
 import NotFound from '../Misc/NotFound/NotFound.js';
 import Review from './Review.js';

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Product from '../Products/product.js';
+import Product from '../Products/Product.js';
 import Store from '../Stores/Store.js';
-import { fetchProducts, fetchStores } from '../../redux/old/actions/misc.js.js';
-import { filterContent } from '../../redux/old/actions/load.js.js';
+import { fetchProducts, fetchStores } from '../../actions/misc.js';
+import { filterContent } from '../../actions/load.js';
 import { splice } from '../../prototypes.js';
 
 export default class All extends Component {

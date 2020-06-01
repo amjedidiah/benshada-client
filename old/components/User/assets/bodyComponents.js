@@ -6,14 +6,14 @@ import PropTypes from 'prop-types';
 import BenshadaForm from '../../BenshadaForm/BenshadaForm.js';
 import {
   userUpdateProfile, storeUpdateInfo, storeUpdateBank, orderCancel
-} from '../../../redux/old/actions/user.js.js';
-import { filterContent } from '../../../redux/old/actions/load.js.js';
+} from '../../../actions/user.js';
+import { filterContent } from '../../../actions/load.js';
 import stateSelect from '../../../assets/location.js';
-import { ifSeller } from '../../../redux/old/actions/auth.js.js';
+import { ifSeller } from '../../../actions/auth.js';
 // import MultiSelect from "../MultiSelect/MultiSelect";
 // import fedex from "../assets/img/fedex_logo.png";
 // import dhl from "../assets/img/dhl_logo.png";
-import Product from '../../Products/product.js';
+import Product from '../../Products/Product.js';
 // import DashNav from "../DashNav";
 // import DashBody from "../DashBody";
 import BarChart from '../../charts/BarChart/index.js';

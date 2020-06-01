@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import HrFrComp from '../HrFrComp/HrFrComp.js';
 import All from '../All/All.js';
-import { fetchStores, fetchOrder } from '../../redux/old/actions/misc.js.js';
+import { fetchStores, fetchOrder } from '../../actions/misc.js';
 import Loading from '../Misc/Loading/Loading.js';
 import NotFound from '../Misc/NotFound/NotFound.js';
 

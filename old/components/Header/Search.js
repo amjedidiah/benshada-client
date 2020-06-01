@@ -5,8 +5,8 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { filterContent } from '../../redux/old/actions/load.js.js';
-import { fetchProducts, fetchStores } from '../../redux/old/actions/misc.js.js';
+import { filterContent } from '../../actions/load.js';
+import { fetchProducts, fetchStores } from '../../actions/misc.js';
 import Price from '../Products/Price.js';
 import Src from '../Src/Src.js';
 

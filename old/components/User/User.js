@@ -12,7 +12,7 @@ import DashNav from './DashNav.js';
 import DashBody from './DashBody.js';
 import userABlist from './data/userABNav.json';
 import userClist from './data/userCNav.json';
-import { ifSeller } from '../../redux/old/actions/auth.js.js';
+import { ifSeller } from '../../actions/auth.js';
 
 class User extends Component {
   static propTypes = {

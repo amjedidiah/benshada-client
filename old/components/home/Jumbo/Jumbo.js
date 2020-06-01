@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from './node_modules/react';
+import { Link } from './node_modules/react-router-dom';
 
-import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import banner1 from '../../assets/img/jumbo/benshadawebbanners01.jpg';
-import banner2 from '../../assets/img/jumbo/benshadawebbanners02.jpg';
-import banner3 from '../../assets/img/jumbo/benshadawebbanners03.jpg';
-import banner4 from '../../assets/img/jumbo/benshadawebbanners04.jpg';
+import PropTypes from './node_modules/prop-types';
+import { FontAwesomeIcon } from './node_modules/@fortawesome/react-fontawesome';
+import banner1 from './img/benshadawebbanners01.jpg';
+import banner2 from './img/benshadawebbanners02.jpg';
+import banner3 from './img/benshadawebbanners03.jpg';
+import banner4 from './img/benshadawebbanners04.jpg';
 
 export default class Jumbo extends Component {
   static propTypes = {

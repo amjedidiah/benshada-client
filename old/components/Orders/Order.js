@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import NotFound from '../Misc/NotFound/NotFound.js';
-import { ifSeller } from '../../redux/old/actions/auth.js.js';
-import { orderCancel } from '../../redux/old/actions/user.js.js';
+import { ifSeller } from '../../actions/auth.js';
+import { orderCancel } from '../../actions/user.js';
 
 class Order extends Component {
   static propTypes = {

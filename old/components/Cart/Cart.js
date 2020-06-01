@@ -5,12 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { Link, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { ifSeller } from '../../redux/old/actions/auth.js.js';
+import { ifSeller } from '../../actions/auth.js';
 
 // import login from "../Auth/Login/login.jpg";
 
 import './cart.css';
-import { cartRemove, cartUpdate } from '../../redux/old/actions/cart.js.js';
+import { cartRemove, cartUpdate } from '../../actions/cart.js';
 import HrFrComp from '../HrFrComp/HrFrComp.js';
 import ProductQty from './ProductQty.js';
 

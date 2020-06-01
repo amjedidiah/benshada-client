@@ -1,4 +1,4 @@
-import { ACTION_FULFILLED, ACTION_PENDING } from './types/loaderTypes';
+import { ACTION_FULFILLED, ACTION_PENDING } from './types/loaderTypes.js';
 
 export const fulfilledAction = () => ({
   type: ACTION_FULFILLED

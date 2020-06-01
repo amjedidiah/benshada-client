@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
-import { cartRemove, cartAdd } from '../../redux/old/actions/cart.js.js';
+import { cartRemove, cartAdd } from '../../actions/cart.js';
 
 class CartButton extends Component {
   static propTypes = {
