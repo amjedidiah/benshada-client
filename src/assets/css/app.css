@@ -110,7 +110,8 @@ body#body main #app .bg-transparent {
   background: rgba(239, 147, 46, 0.7);
 }
 
-body#body main #app .bg-light {
+body#body main #app .bg-light,
+body#body main #app .bg-lg-light {
   background: #fbf9f9;
 }
 
