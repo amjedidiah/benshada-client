@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import Header from '../Header/Header.js';
 
 
 class Home extends React.Component {
@@ -15,7 +16,7 @@ class Home extends React.Component {
   }
 
 
-  render = () => <>home</>
+  render = () => <><Header /></>
 }
 
 
