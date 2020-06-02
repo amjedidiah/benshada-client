@@ -12,6 +12,10 @@
 
 @media (min-width: 576px) {
   .card-columns.gender {
+<<<<<<< HEAD
     column-count: 3;
+=======
+    column-count: 3 !important;
+>>>>>>> 920c8e366205380c50b7757ecb064b5023c40304
   }
 }
