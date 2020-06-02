@@ -1,37 +1,23 @@
-import React, { Component } from 'react';
+// Module Imports
+import React from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import LoadingScreen from 'react-loading-screen';
 
+// Component Imports
 import Home from './components/Home/Home.js';
-import FormToast from './components/FormToast/FormToast.js';
 
-class App extends Component {
-  static propTypes = { loader: PropTypes.object }
+// Asset imports
+import './assets/css/app.css';
 
-  render() {
-    const { loader } = this.props;
-    return (
-      <div className="h-100">
+// Start Vomponent
+const App = () => (
+      <div id="app" className="h-100">
         <Router>
           <Route path="/" component={Home} exact />
         </Router>
-        <LoadingScreen
-        loading={(loader && loader.loading) || false}
-        bgColor={(loader && loader.bgColor) || 'white'}
-        spinnerColor={loader && loader.spinnerColor}>
-          {''}
-        </LoadingScreen>
-
-        <FormToast
-        message={loader && loader.message}
-        show={loader && loader.show} />
       </div>
-    );
-  }
-}
+);
+// End Component
 
-const mapStateToProps = ({ loader }) => ({ loader });
 
-export default connect(mapStateToProps)(App);
+// Export component as React-functional-Component
+export default App;

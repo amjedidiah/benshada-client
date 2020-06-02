@@ -1,4 +1,4 @@
-.toast-holder {
+body#body main #app .toast-holder {
   position: fixed;
   top: 2.5%;
   right: 1.5%;

@@ -5,7 +5,7 @@
 
 #userSide {
   overflow-y: auto;
-  overflow-x: hidden !important;
+  overflow-x: hidden;
   z-index: 2;
 }
 
@@ -22,9 +22,9 @@
 #userNav li a:hover,
 #userNav li a.active {
   padding: 15px 15px 15px 25px;
-  background: #fff !important;
-  color: #ef932e !important;
-  border-radius: 22px 0 0 22px !important;
+  background: #fff;
+  color: #ef932e;
+  border-radius: 22px 0 0 22px;
 }
 
 .user-side-main #userNav li a:hover,
@@ -87,13 +87,13 @@ small.message {
 
   #userNav li a:hover,
   #userNav li a.active {
-    background: #fbf9f9 !important;
+    background: #fbf9f9;
     padding: 12px 45px;
   }
 
   .user-side-main #userNav li a:hover,
   .user-side-main #userNav li a.active {
-    background: #fff !important;
+    background: #fff;
   }
 
   #userSide .img-holder {

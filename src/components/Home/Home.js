@@ -1,22 +1,13 @@
+// Module imports
 import React from 'react';
-import { connect } from 'react-redux';
+
+// Component imports
+import Header from '../Header/Header.js';
+
+// Start Component
+const Home = () => <><Header /></>;
+// End Component
 
 
-class Home extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      stores1: null,
-      stores2: null,
-      productsRecent: null,
-      productsTopRated: null,
-      productsDiscounted: null
-    };
-  }
-
-
-  render = () => <>home</>
-}
-
-
-export default connect()(Home);
+// Export component as React-functional-Component
+export default Home;
