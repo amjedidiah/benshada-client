@@ -1,17 +1,17 @@
-body#body main #app .card-columns.gender .fas,
-body#body main #app .card-columns.gender .fab,
-body#body main #app .card-columns.gender .far {
+.card-columns.gender .fas,
+.card-columns.gender .fab,
+.card-columns.gender .far {
   font-size: 2em;
 }
 
-body#body main #app .card-columns.gender .fas,
-body#body main #app .card-columns.gender .fab,
-body#body main #app .card-columns.gender .far {
+.card-columns.gender .fas,
+.card-columns.gender .fab,
+.card-columns.gender .far {
   font-size: 2em;
 }
 
 @media (min-width: 576px) {
-  body#body main #app .card-columns.gender {
+  .card-columns.gender {
     column-count: 3;
   }
 }
