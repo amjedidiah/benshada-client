@@ -3,9 +3,10 @@ import React from 'react';
 
 // Component imports
 import Header from '../Header/Header.js';
+import Jumbotron from './Jumbotron/Jumbotron.js';
 
 // Start Component
-const Home = () => <><Header /></>;
+const Home = () => <><Header /><Jumbotron /> </>;
 // End Component
 
 
