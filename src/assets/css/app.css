@@ -112,7 +112,7 @@ body#body main #app .bg-transparent {
 
 body#body main #app .bg-light,
 body#body main #app .bg-lg-light {
-  background: #fbf9f9 !important;
+  background: #fbf9f9;
 }
 
 body#body main #app .bg-warning {
