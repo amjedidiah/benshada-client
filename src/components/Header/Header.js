@@ -1,90 +1,34 @@
+// Module imports
 import React from 'react';
 import { Link } from 'react-router-dom';
-// Connect to redux for Authentication, to see if user is logged in
 import { connect } from 'react-redux';
-
 import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart, faStream } from '@fortawesome/free-solid-svg-icons';
-import { faUser } from '@fortawesome/free-regular-svg-icons';
+import { faStream } from '@fortawesome/free-solid-svg-icons';
 
-import searchAnimate from '../../assets/js/searchAnimate.js';
-import './header.css';
+// Component imports
 import Search from './Search.js';
-import ifSeller from '../../assets/js/ifSeller.js';
-import { split } from '../../assets/js/prototypes.js';
+import UnAuthHeader from './UnAuthHeader.js';
+import AuthHeader from './AuthHeader.js';
 
+// Assets imports
+import '../../assets/css/header.css';
+
+// Start Component
 class Header extends React.Component {
+  // Declare propTypes
   static propTypes = {
     cart: PropTypes.array,
     isSignedIn: PropTypes.bool,
     user: PropTypes.object
-  }
+  };
 
-  renderCartLink() {
-    const cart = this.props.cart || [];
-    return (
-      <li className="nav-item position-relative border border-left-0 border-top-0 border-bottom-0 border-right-light px-md-3">
-        <Link className="nav-link" to="/cart">
-          {cart.length < 1 ? '' : <small id="cartCount">{cart.length}</small>}
-          <FontAwesomeIcon className="mr-2" icon={faShoppingCart} />
-          {/* Cart */}
-        </Link>
-      </li>
-    );
-  }
-
-  authRender() {
-    const { isSignedIn, user } = this.props;
-
-    if (isSignedIn === false) {
-      return (
-        <>
-          <ul className="navbar-nav ml-auto " id="loggedIn">
-            {this.renderCartLink()}
-          </ul>
-          <form className="form-inline pl-md-3">
-            <Link to="/login" className="flex-grow-1">
-              <button className="btn btn-primary rounded-0 w-100" type="button">
-                Login
-              </button>
-            </Link>
-          </form>
-        </>
-      );
-    }
-    return (
-        <ul className="navbar-nav ml-auto " id="loggedIn">
-          {ifSeller(user && user.type) ? '' : this.renderCartLink()}
-          <li className="nav-item dropdown pl-md-3">
-            <Link
-              className="nav-link dropdown-toggle"
-              to=""
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              <FontAwesomeIcon className="mr-2" icon={faUser} />
-              {split(user && user.name, ' ') === null ? '' : split(user && user.name, ' ')[0]}
-            </Link>
-            <div className="dropdown-menu border-0 shadow-md-sm" aria-labelledby="navbarDropdown">
-              <Link className="dropdown-item" to={'/user'}>
-                Account
-              </Link>
-
-              <div className="dropdown-divider" />
-              <Link className="dropdown-item" to="/logout">
-                Logout
-              </Link>
-            </div>
-          </li>
-        </ul>
-    );
-  }
-
-  componentDidMount = () => searchAnimate();
+  // Render based on if user isSignedIn
+  authRender = () => (
+    this.props.isSignedIn
+      ? <AuthHeader user={this.props.user} cart={this.props.cart} />
+      : <UnAuthHeader />
+  );
 
 
   render() {

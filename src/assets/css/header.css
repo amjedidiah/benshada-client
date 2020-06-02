@@ -1,22 +1,22 @@
 /*Header CSS*/
-#header {
+body#body main #app #header {
   z-index: 2147483642;
 }
 
-#header ul li a,
-#header ul li a:hover,
-#header ul a li,
-#header ul a li:hover {
+body#body main #app #header ul li a,
+body#body main #app #header ul li a:hover,
+body#body main #app #header ul a li,
+body#body main #app #header ul a li:hover {
   color: #ef932e;
 }
 
-#searchDropDown li:hover a,
-#searchDropDown li:hover link {
+body#body main #app #searchDropDown li:hover a,
+body#body main #app #searchDropDown li:hover link {
   background: #fefbf6;
   text-decoration: none;
 }
 
-#cartCount {
+body#body main #app #cartCount {
   border-radius: 50%;
   width: 20px;
   height: 20px;
@@ -32,7 +32,7 @@
 }
 
 @media (max-width: 768px) {
-  .search-bar {
+  body#body main #app .search-bar {
     visibility: visible;
   }
 }

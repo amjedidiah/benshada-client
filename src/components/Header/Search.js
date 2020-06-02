@@ -1,17 +1,22 @@
 /* eslint-disable no-underscore-dangle */
+// Module imports
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-
 import $ from 'jquery';
 import { faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import filterContent from '../../assets/js/filterContent.js';
 
-import { productsAll } from '../../redux/actions/products.js';
-import { shopsAll } from '../../redux/actions/stores.js';
-
+// Component imports
 import Price from '../Products/Price.js';
 import Image from '../Image/Image.js';
+
+// Asset imports
+import filterContent from '../../assets/js/filterContent.js';
+import searchAnimate from '../../assets/js/searchAnimate.js';
+
+// ActionCreator imports
+import { productsAll } from '../../redux/actions/products.js';
+import { shopsAll } from '../../redux/actions/stores.js';
 
 export default class Search extends Component {
   constructor() {
@@ -42,7 +47,7 @@ export default class Search extends Component {
       const relatedStoresInit = stores.filter(
         ({ name }) => name.toLowerCase().indexOf(this.state.value.toLowerCase()) >= 0
       );
-      const relatedStores = relatedStoresInit.slice(0, 4);
+      const relatedStores = relatedStoresInit.slice(0, 3);
 
       const reqProducts = await productsAll();
       const products = reqProducts.data.data;
@@ -51,7 +56,7 @@ export default class Search extends Component {
           ({ name }) => name.toLowerCase().indexOf(this.state.value.toLowerCase()) >= 0
         )
       );
-      const relatedProducts = relatedProductsInit.slice(0, 4);
+      const relatedProducts = relatedProductsInit.slice(0, 3);
 
       this.setState({
         relatedProducts,
@@ -66,7 +71,6 @@ export default class Search extends Component {
   searchLoading() {
     return (
       <div className="text-center">
-        {' '}
         <h2>
           <FontAwesomeIcon icon={faSpinner} className="fa-pulse" />
         </h2>
@@ -131,6 +135,9 @@ export default class Search extends Component {
       ? this.searchLoading()
       : this.searchFound();
   }
+
+  // Animation for search component
+  componentDidMount = () => searchAnimate();
 
   render() {
     return (

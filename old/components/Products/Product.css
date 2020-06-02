@@ -3,13 +3,13 @@
   vertical-align: middle;
   text-align: center;
   width: 500px;
-  height: 300px !important;
-  overflow: hidden !important;
+  height: 300px;
+  overflow: hidden;
 }
 
 .product-gallery-active-image img {
-  height: 300px !important;
-  max-height: 300px !important;
+  height: 300px;
+  max-height: 300px;
 }
 
 .product-preview {
