@@ -53,7 +53,7 @@ class ProductSpec extends Component {
             </div>
           </div>
           <div className="col flex-grow-1 bg-white py-4 product-spec">
-            <ProductList products={products || []} type={type} />
+            <ProductList products={products || []} type={type} count={6} />
           </div>
         </div>
       </div>

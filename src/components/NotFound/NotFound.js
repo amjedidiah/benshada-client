@@ -33,7 +33,7 @@ export default class NotFound extends React.Component {
           {
             {
               product: window.location.href.includes('user') ? (
-                <span className="pointer text-primary" data-toggle="modal" data-target="#productModal">
+                <span className="pointer text-primary-benshada" data-toggle="modal" data-target="#productModal">
                   Upload one
                 </span>
               ) : (

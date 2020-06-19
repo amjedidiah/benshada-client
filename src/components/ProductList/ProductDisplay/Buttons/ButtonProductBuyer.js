@@ -38,7 +38,7 @@ const ButtonProductBuyer = (props) => {
   return (
     <>
       <span
-        className={`pointer ${ifWishlisted(_id, saved) ? 'text-primary' : ''}`}
+        className={`pointer ${ifWishlisted(_id, saved) ? 'text-primary-benshada' : ''}`}
         onClick={() => (!isSignedIn
           ? history.push('/login')
           : shouldWishlist(_id, product, saved, email))
@@ -48,7 +48,7 @@ const ButtonProductBuyer = (props) => {
       </span>
 
       <span
-        className={`pointer ml-2 ${ifInCart(_id, cart) ? 'text-primary' : ''}`}
+        className={`pointer ml-2 ${ifInCart(_id, cart) ? 'text-primary-benshada' : ''}`}
         onClick={() => (!isSignedIn
           ? history.push('/login')
           : shouldAddToCart(_id, product, cart, email))

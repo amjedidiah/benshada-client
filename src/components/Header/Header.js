@@ -35,7 +35,7 @@ class Header extends React.Component {
       <nav className="navbar navbar-expand-md shadow-sm mb-1 bg-white fixed-top" id="header">
         <div className="container px-0">
           <Link to="/" className="navbar-brand">
-            <i className="text-primary font-weight-bold">benshada</i>
+            <i className="text-primary-benshada font-weight-bold">benshada</i>
           </Link>
           <button
             className="navbar-toggler"

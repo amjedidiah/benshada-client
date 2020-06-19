@@ -10,10 +10,13 @@ import NotFound from '../NotFound/NotFound.js';
 export default class ProductList extends Component {
   static propTypes = {
     products: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-    type: PropTypes.object
+    type: PropTypes.object,
+    count: PropTypes.number,
+    title: PropTypes.string
   };
 
   filterProductList = (product, filterType, filterValue) => {
+    if (!filterType) return product;
     if (typeof product[filterType] === 'number') {
       return Number(product[filterType]) <= filterValue;
     }
@@ -26,13 +29,19 @@ export default class ProductList extends Component {
   };
 
   renderProductList = (products, filterType, filterValue) => {
-    const filteredProducts = products
-      .filter((product) => this.filterProductList(product, filterType, filterValue));
+    const filteredProducts = products.filter(
+      (product) => this.filterProductList(product, filterType, filterValue)
+    );
 
     return filteredProducts.length > 0 ? (
-      <div className="card-columns">
-        {filteredProducts.map((product, key) => <ProductDisplay key={`productList${key}`} product={product} />)}
-      </div>
+      <>
+        <h4 className="text-capitalize">{this.props.title}</h4>
+        <div className="card-columns">
+          {filteredProducts.slice(0, this.props.count).map((product, key) => (
+            <ProductDisplay key={`productList${key}`} product={product} />
+          ))}
+        </div>
+      </>
     ) : (
       <NotFound type="product" />
     );

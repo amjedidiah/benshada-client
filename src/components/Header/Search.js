@@ -131,7 +131,7 @@ class Search extends Component {
       {this.renderResult(this.state.relatedProducts, 'product')}
 
       {this.state.totalResults > 0 ? (
-        <li className="text-center text-primary text-uppercase my-2">
+        <li className="text-center text-primary-benshada text-uppercase my-2">
           <Link to={`/catalog/?q=${this.state.value}`} className="p-2">
             see all results ({this.state.totalResults})
           </Link>
@@ -174,7 +174,7 @@ class Search extends Component {
 
           <div className="input-group-append">
             <span className="input-group-text bg-white border-0" id="basic-addon2">
-              <FontAwesomeIcon className="text-primary pointer" id="showSearchBar" title="Search" icon={faSearch} />
+              <FontAwesomeIcon className="text-primary-benshada pointer" id="showSearchBar" title="Search" icon={faSearch} />
             </span>
           </div>
         </div>

@@ -120,8 +120,8 @@ body#body main #app .bg-warning {
   background: #ffdcb0;
 }
 
-body#body main #app .text-primary {
-  color: #ef932e !important;
+body#body main #app .text-primary-benshada {
+  color: #ef932e;
 }
 
 body#body main #app .text-ash {
@@ -208,7 +208,7 @@ body#body main #app .sc-htpNat {
 }
 
 @media (min-width: 576px) {
-  body#body main #app .card-columns.card-columns {
+  body#body main #app .card-columns {
     column-count: 2;
   }
 }
@@ -227,7 +227,7 @@ body#body main #app .sc-htpNat {
 
 @media (min-width: 1198px) {
   body#body main #app .card-columns {
-    column-count: 5;
+    column-count: 6;
   }
 
   body#body main #app .product-spec .card-columns {

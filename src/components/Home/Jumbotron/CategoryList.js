@@ -14,7 +14,7 @@ export default class CategoryList extends Component {
       <div className="row text-center align-items-center flex-fill py-2" key={i}>
         <div className="col">
           <Link to={`/products/?category=${name}`}>
-            <FontAwesomeIcon className="fa-3x text-primary" icon={icon} />
+            <FontAwesomeIcon className="fa-3x text-primary-benshada" icon={icon} />
             <p className="font-weight-bold text-uppercase text-secondary">{name}</p>
           </Link>
         </div>
