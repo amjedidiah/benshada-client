@@ -1,17 +1,13 @@
 // Module imports
 import React, { Component } from 'react';
-import { faMars, faVenus, faVenusMars } from '@fortawesome/free-solid-svg-icons';
 
 // Asset imports
 import '../../../assets/css/gender.css';
 import GenderDisplay from './GenderDisplay.js';
+import genders from '../../../assets/js/genders.js';
 
 export default class GenderList extends Component {
-  renderGenderList = () => [
-    { name: 'male', icon: faMars },
-    { name: 'female', icon: faVenus },
-    { name: 'unisex', icon: faVenusMars }
-  ].map(({ name, icon }, i) => <GenderDisplay key={`GenderDisplay${i}`} icon={icon} name={name} />);
+  renderGenderList = () => genders.map(({ name, icon }, i) => <GenderDisplay key={`GenderDisplay${i}`} icon={icon} name={name} />);
 
   render = () => (
     <div className="container">

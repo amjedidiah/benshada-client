@@ -3,23 +3,29 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBox, faStoreAlt } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export default class Src extends Component {
+export default class Image extends Component {
   static propTypes = {
+    id: PropTypes.string,
     image: PropTypes.array,
     name: PropTypes.string,
     size: PropTypes.number,
     type: PropTypes.string,
     xtraClass: PropTypes.string
-  }
+  };
 
   render() {
-    return (this.props.image && this.props.image.length === 0) || this.props.image === undefined ? (
-      <div className={`text-center ${this.props.xtraClass}`}>
-        <FontAwesomeIcon icon={this.props.type === 'store' ? faStoreAlt : faBox} className={`fa-${this.props.size}x text-light`} />
+    const {
+      image, name, size, type, xtraClass, id
+    } = this.props;
+
+    return (image && image.length === 0) || image === undefined ? (
+      <div className={`text-center ${xtraClass}`}>
+        <FontAwesomeIcon icon={type === 'store' ? faStoreAlt : faBox} className={`fa-${size}x text-light`} />
       </div>
     ) : (
-      <img className="card-img img-responsive" src={this.props.image[0]} alt={this.props.name} />
+      <Link to={`/${type}s/?id=${id}`}><img className="card-img img-responsive" src={image[0]} alt={name} /></Link>
     );
   }
 }

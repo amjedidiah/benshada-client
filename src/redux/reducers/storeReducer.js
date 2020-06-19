@@ -5,9 +5,10 @@ const INIT = { all: [], selected: {} };
 export default (state = INIT, action) => {
   const responseData = isDeleted(action);
 
+
   return ({
-    USERS_ALL_FULFILLED: { ...state, all: responseData },
-    USER_ONE_FULFILLED: { ...state, selected: responseData },
+    STORES_ALL_FULFILLED: { ...state, all: responseData },
+    STORES_ONE_FULFILLED: { ...state, selected: responseData },
     LOGOUT: INIT
   }[action.type] || state);
 };

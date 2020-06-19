@@ -4,7 +4,6 @@
   box-sizing: border-box;
   word-wrap: break-word;
   transition: all 0.05s;
-  font-size: 97.5%;
 }
 
 body#body,
@@ -111,7 +110,9 @@ body#body main #app .bg-transparent {
 }
 
 body#body main #app .bg-light,
-body#body main #app .bg-lg-light {
+body#body main #app .bg-lg-light,
+body#body main #app .bg-light-benshada,
+body#body main #app .bg-lg-light-benshada {
   background: #fbf9f9;
 }
 
@@ -128,20 +129,11 @@ body#body main #app .text-ash {
 }
 
 body#body main #app .card-columns {
-  column-count: 2;
+  column-count: 1;
 }
 
 body#body main #app .card-columns .card {
   display: inline-block;
-}
-
-body#body main #app .card-columns.card-columns-double,
-body#body main #app .card-group.card-group-double {
-  column-count: 2;
-}
-
-body#body main #app .card-columns.card-columns-3 {
-  column-count: 3;
 }
 
 body#body main #app .card-select {
@@ -204,13 +196,7 @@ body#body main #app #questionMark {
   bottom: 30;
   right: 30;
   cursor: pointer;
-  z-index: 2147483643;
-}
-
-body#body main #app .modal,
-body#body main #app .modal > div {
-  z-index: 2147483644;
-  background: rgba(0, 0, 0, 0.2);
+  z-index: 2;
 }
 
 /* Loading screen style */
@@ -222,7 +208,7 @@ body#body main #app .sc-htpNat {
 }
 
 @media (min-width: 576px) {
-  body#body main #app .card-columns.card-columns-two {
+  body#body main #app .card-columns.card-columns {
     column-count: 2;
   }
 }
@@ -240,13 +226,11 @@ body#body main #app .sc-htpNat {
 }
 
 @media (min-width: 1198px) {
-  body#body main #app .card-columns,
-  body#body main #app .card-columns.products {
-    column-count: 6;
+  body#body main #app .card-columns {
+    column-count: 5;
   }
 
-  body#body main #app .category .card-columns,
-  body#body main #app .category .card-columns.products {
+  body#body main #app .product-spec .card-columns {
     column-count: 4;
   }
 }
