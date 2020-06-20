@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Price from './Price.js';
 import Image from '../../Image/Image.js';
-import Rating from './Rating.js';
-import Returns from './Returns.js';
+import Rating from '../../Rating/Rating.js';
+import Returns from '../../Returns/Returns.js';
 import ButtonProductBuyer from './Buttons/ButtonProductBuyer.js';
 import ButtonProductOwner from './Buttons/ButtonProductOwner.js';
 

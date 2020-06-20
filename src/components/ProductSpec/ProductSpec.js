@@ -8,8 +8,6 @@ import { connect } from 'react-redux';
 // Component imports
 import ProductList from '../ProductList/ProductList.js';
 
-// Action imports
-import { productsAll } from '../../redux/actions/products.js';
 
 // Asset imports
 import { randNum } from '../../assets/js/prototypes.js';
@@ -20,11 +18,8 @@ class ProductSpec extends Component {
     title: PropTypes.string,
     icon: PropTypes.any,
     type: PropTypes.object,
-    products: PropTypes.array,
-    productsAll: PropTypes.func
+    products: PropTypes.array
   };
-
-  componentDidMount = () => this.props.productsAll();
 
   render = () => {
     const reversed = randNum(1);
@@ -63,4 +58,4 @@ class ProductSpec extends Component {
 
 const mapStateToProps = ({ product }) => ({ products: product.all });
 
-export default connect(mapStateToProps, { productsAll })(ProductSpec);
+export default connect(mapStateToProps)(ProductSpec);

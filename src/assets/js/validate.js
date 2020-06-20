@@ -146,3 +146,39 @@ export const userValidate = ({
 
   return errors;
 };
+
+export const storeValidate = ({
+  name,
+  description,
+  address,
+  state,
+  phone
+}) => {
+  const errors = {};
+
+  if (!name) {
+    errors.name = 'What is the name of your store?';
+  }
+
+  if (!description) {
+    errors.description = 'Give your store a catchy description';
+  }
+
+  if (!address) {
+    errors.address = 'What is your store located?';
+  }
+
+  if (!state) {
+    errors.state = 'In what state is your store located residence?';
+  } else if (!states.map((store) => store.name).includes(state)) {
+    errors.state = 'Please select a Nigerian state';
+  }
+
+  if (!phone) {
+    errors.phone = 'What is the contact number for your store?';
+  } else if (!/^[234]\d{12}$/i.test(phone)) {
+    errors.phone = 'A valid Nigerian contact number starting with 234 is required';
+  }
+
+  return errors;
+};

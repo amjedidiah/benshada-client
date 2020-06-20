@@ -1,0 +1,112 @@
+import React from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
+import {
+  shopDelete,
+  shopUpdate,
+  shopsOneSelected
+} from '../../../../redux/actions/stores.js';
+import StoreForm from '../StoreForm.js';
+
+class ButtonStoreOwner extends React.Component {
+  INIT = {
+    buttonValue: 'Update Store'
+  };
+
+  constructor(props) {
+    super(props);
+    this.state = this.INIT;
+  }
+
+  static propTypes = {
+    store: PropTypes.object,
+    user: PropTypes.object,
+    shopDelete: PropTypes.func,
+    shopsOneSelected: PropTypes.func,
+    shopUpdate: PropTypes.func
+  };
+
+  submit = ({
+    _id,
+    name, description, address, state, CACNumber, phone
+  }) => {
+    this.setState({
+      buttonValue: (
+        <div className="spinner-border text-white" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      )
+    });
+
+    const store = {
+      _id,
+      name,
+      description,
+      address,
+      state,
+      CACNumber,
+      phone
+    };
+
+    if (CACNumber) {
+      store.isRegisteredBusiness = true;
+    }
+
+    Object.keys(store).forEach((key) => {
+      if (store[key] === undefined) {
+        delete store[key];
+      }
+    });
+
+    this.props.shopUpdate(_id, store).catch((err) => {
+      this.setState(this.INIT);
+      toast.error(
+        (err
+          && err.response
+          && err.response.data
+          && err.response.data.message
+          && err.response.data.message.name)
+          || (err && err.response && err.response.statusText)
+          || 'Network error'
+      );
+    });
+  };
+
+  render = () => (
+      <>
+        <span className="pointer ml-2" data-toggle="modal" data-target="#storeEdit">
+          <FontAwesomeIcon
+            icon={faPencilAlt}
+            onClick={() => this.props.shopsOneSelected(this.props.store)}
+          />
+        </span>
+
+        {/* Modal */}
+        <div
+          className="modal fade"
+          id="storeEdit"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="modelTitleId"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content" id="formContainer">
+              <div className="modal-body form-container-holder">
+                <StoreForm
+                  buttonValue={this.state.buttonValue}
+                  onSubmit={this.submit}
+                />
+              </div>
+            </div>
+          </div>
+        </div></>
+  );
+}
+
+export default connect(null, { shopDelete, shopUpdate, shopsOneSelected })(
+  ButtonStoreOwner
+);

@@ -13,7 +13,7 @@ import Price from '../ProductList/ProductDisplay/Price.js';
 import Image from '../Image/Image.js';
 
 // Asset imports
-import filterContent from '../../assets/js/filterContent.js';
+import { filterContent } from '../../assets/js/filter.js';
 import searchAnimate from '../../assets/js/searchAnimate.js';
 
 // ActionCreator imports

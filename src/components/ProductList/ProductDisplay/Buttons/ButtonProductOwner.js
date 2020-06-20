@@ -121,10 +121,7 @@ class ButtonProductOwner extends React.Component {
           <div className="modal-dialog modal-lg" role="document">
             <div className="modal-content" id="formContainer">
               <div className="modal-body form-container-holder">
-                <ProductForm
-                  buttonValue={this.state.buttonValue}
-                  onSubmit={this.submit}
-                />
+                <ProductForm buttonValue={this.state.buttonValue} onSubmit={this.submit} />
               </div>
             </div>
           </div>
@@ -142,12 +139,7 @@ class ButtonProductOwner extends React.Component {
             <div className="modal-content">
               <div className="modal-header">
                 <h5 className="modal-title">Delete Product</h5>
-                <button
-                  type="button"
-                  className="close"
-                  data-dismiss="modal"
-                  aria-label="Close"
-                >
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
@@ -161,7 +153,18 @@ class ButtonProductOwner extends React.Component {
                 <button
                   type="button"
                   className="btn btn-danger"
-                  onClick={() => this.props.productDelete(_id)}
+                  onClick={() => this.props
+                    .productDelete(_id)
+                    .catch((err) => toast.error(
+                      (err
+                            && err.response
+                            && err.response.data
+                            && err.response.data.message
+                            && err.response.data.message.name)
+                            || (err && err.response && err.response.statusText)
+                            || 'Network error'
+                    ))
+                  }
                 >
                   Delete
                 </button>
