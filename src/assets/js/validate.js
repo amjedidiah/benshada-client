@@ -71,8 +71,40 @@ export const productValidate = ({
   return errors;
 };
 
+export const loginValidate = ({ email, password }) => {
+  const errors = {};
+
+  if (!email) {
+    errors.email = 'What is your email address?';
+  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
+    errors.email = 'The email provided is not valid';
+  }
+
+  if (!password) {
+    errors.password = 'Create a new password';
+  } else if (!/\d/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain a number';
+  } else if (!/[A-Z]/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain an upperCase letter';
+  } else if (password.length < 6) {
+    errors.password = 'To be secure enough, your new password must be at least 6 characters long';
+  }
+
+  return errors;
+};
+
 export const userValidate = ({
-  firstName, familyName, email, phone, password, confirmPassword, type, address, state, age, gender
+  firstName,
+  familyName,
+  email,
+  phone,
+  password,
+  confirmPassword,
+  type,
+  address,
+  state,
+  age,
+  gender
 }) => {
   const errors = {};
 
@@ -86,11 +118,7 @@ export const userValidate = ({
 
   if (!email) {
     errors.email = 'What is your email address?';
-  } else if (
-    !/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(
-      email
-    )
-  ) {
+  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
     errors.email = 'The email provided is not valid';
   }
 
@@ -148,11 +176,7 @@ export const userValidate = ({
 };
 
 export const storeValidate = ({
-  name,
-  description,
-  address,
-  state,
-  phone
+  name, description, address, state, phone
 }) => {
   const errors = {};
 

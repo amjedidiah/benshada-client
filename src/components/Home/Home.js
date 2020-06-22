@@ -57,16 +57,25 @@ class Home extends React.Component {
 
     if (isSignedIn) {
       category = {
-        title: user && user.categories[0],
-        icon: categories.filter(
-          ({ name }) => name.toLowerCase() === category.title.toLowerCase()
-        )[0].icon
+        title: user && user.categories && user.categories[0],
+        icon:
+          categories.filter(
+            ({ name }) => name.toLowerCase() === category && category.title.toLowerCase()
+          )[0]
+          && categories.filter(
+            ({ name }) => name.toLowerCase() === category && category.title.toLowerCase()
+          )[0].icon
       };
 
       gender = {
         title: user && user.gender,
-        icon: genders.filter(({ name }) => name.toLowerCase() === gender.title.toLowerCase())[0]
-          .icon
+        icon:
+          genders.filter(
+            ({ name }) => name.toLowerCase() === gender && gender.title.toLowerCase()
+          )[0]
+          && genders.filter(
+            ({ name }) => name.toLowerCase() === gender && gender.title.toLowerCase()
+          )[0].icon
       };
     }
 
@@ -156,5 +165,8 @@ const mapStateToProps = ({
 
 // Export component as React-functional-Component
 export default connect(mapStateToProps, {
-  productsAll, shopsAll, testimonialsAll, subscriptionsAll
+  productsAll,
+  shopsAll,
+  testimonialsAll,
+  subscriptionsAll
 })(Home);

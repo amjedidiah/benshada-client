@@ -1,9 +1,9 @@
 body#body div#formContainer {
-  background: #fbf9f9;
+  background: #ef932e;
 }
 
 body#body div#formContainer .form-container-holder {
-  background: #fbf9f9;
+  background: #ef932e;
   padding: 0;
 }
 
@@ -61,7 +61,13 @@ body#body div#formContainer .form-container-holder form .form-row .form-holder .
 
 body#body div#formContainer .form-container-holder form .form-row .form-holder .form-control,
 body#body div#formContainer .form-container-holder form .form-row .form-holder .form-control:focus,
-body#body div#formContainer .form-container-holder form .form-row .form-holder .form-control:-webkit-autofill {
+body#body
+  div#formContainer
+  .form-container-holder
+  form
+  .form-row
+  .form-holder
+  .form-control:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 100px #ef932e inset;
   box-shadow: 0 0 0 100px #ef932e inset;
   border: none;
@@ -71,8 +77,20 @@ body#body div#formContainer .form-container-holder form .form-row .form-holder .
 }
 
 body#body div#formContainer .form-container-holder form .form-row .form-holder:hover .form-control,
-body#body div#formContainer .form-container-holder form .form-row .form-holder:hover .form-control:focus,
-body#body div#formContainer .form-container-holder form .form-row .form-holder:hover .form-control:-webkit-autofill {
+body#body
+  div#formContainer
+  .form-container-holder
+  form
+  .form-row
+  .form-holder:hover
+  .form-control:focus,
+body#body
+  div#formContainer
+  .form-container-holder
+  form
+  .form-row
+  .form-holder:hover
+  .form-control:-webkit-autofill {
   -webkit-box-shadow: 0 0 0 100px #fff inset;
   box-shadow: 0 0 0 100px #fff inset;
   background: #fff;
@@ -90,20 +108,41 @@ body#body div#formContainer .form-container-holder form .form-row .form-holder.f
   text-align: center;
 }
 
-body#body div#formContainer .form-container-holder form .form-row .form-holder.form-holder-select label .icon {
+body#body
+  div#formContainer
+  .form-container-holder
+  form
+  .form-row
+  .form-holder.form-holder-select
+  label
+  .icon {
   display: block;
   font-size: 300%;
   width: 100%;
   margin-bottom: 5px;
 }
 
-body#body div#formContainer .form-container-holder form .form-row .form-holder input[type='radio'] + label {
+body#body
+  div#formContainer
+  .form-container-holder
+  form
+  .form-row
+  .form-holder
+  input[type='radio']
+  + label {
   background: #ef932e;
   color: #333333;
   box-shadow: none;
 }
 
-body#body div#formContainer .form-container-holder form .form-row .form-holder input[type='radio']:checked + label {
+body#body
+  div#formContainer
+  .form-container-holder
+  form
+  .form-row
+  .form-holder
+  input[type='radio']:checked
+  + label {
   color: #ef932e;
   background: #fff;
   box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
@@ -122,23 +161,28 @@ body#body div#formContainer .form-container-holder form .button-group .btn {
   margin: 0.5rem;
 }
 
-@media (min-width: 576px) {
-  body#body div#formContainer .form-container-holder {
-    background: #ef932e;
-  }
+body#body div#formContainer .form-container-holder form .button-group .btn[type="submit"] {
+  background: #fbf9f9;
+  color: #ef932e;
+}
+
+body#body div#formContainer .form-container-holder form .button-group .btn[type="button"] {
+  color: #fbf9f9;
+  background: #ef932e;
 }
 
 @media (min-width: 992px) {
+  body#body div#formContainer,
+  body#body div#formContainer .form-container-holder,
+  body#body div#formContainer .form-container-holder form {
+    background: #fbf9f9;
+  }
+
   body#body div#formContainer {
     padding: 25px 40px;
   }
 
-  body#body div#formContainer .form-container-holder {
-    background: #fbf9f9;
-  }
-
   body#body div#formContainer .form-container-holder form {
-    background: #fbf9f9;
     padding: 0;
     color: #333333;
   }
@@ -158,8 +202,20 @@ body#body div#formContainer .form-container-holder form .button-group .btn {
   }
 
   body#body div#formContainer .form-container-holder form .form-row .form-holder .form-control,
-  body#body div#formContainer .form-container-holder form .form-row .form-holder .form-control:focus,
-  body#body div#formContainer .form-container-holder form .form-row .form-holder .form-control:-webkit-autofill {
+  body#body
+    div#formContainer
+    .form-container-holder
+    form
+    .form-row
+    .form-holder
+    .form-control:focus,
+  body#body
+    div#formContainer
+    .form-container-holder
+    form
+    .form-row
+    .form-holder
+    .form-control:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 100px #fbf9f9 inset;
     box-shadow: 0 0 0 100px #fbf9f9 inset;
     border: none;
@@ -168,9 +224,27 @@ body#body div#formContainer .form-container-holder form .button-group .btn {
     background: #fbf9f9;
   }
 
-  body#body div#formContainer .form-container-holder form .form-row .form-holder:hover .form-control,
-  body#body div#formContainer .form-container-holder form .form-row .form-holder:hover .form-control:focus,
-  body#body div#formContainer .form-container-holder form .form-row .form-holder:hover .form-control:-webkit-autofill {
+  body#body
+    div#formContainer
+    .form-container-holder
+    form
+    .form-row
+    .form-holder:hover
+    .form-control,
+  body#body
+    div#formContainer
+    .form-container-holder
+    form
+    .form-row
+    .form-holder:hover
+    .form-control:focus,
+  body#body
+    div#formContainer
+    .form-container-holder
+    form
+    .form-row
+    .form-holder:hover
+    .form-control:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 100px #fff inset;
     box-shadow: 0 0 0 100px #fff inset;
     background: #fff;
@@ -178,12 +252,36 @@ body#body div#formContainer .form-container-holder form .button-group .btn {
     -webkit-text-fill-color: #ef932e;
   }
 
-  body#body div#formContainer .form-container-holder form .form-row .form-holder input[type='radio'] + label {
+  body#body
+    div#formContainer
+    .form-container-holder
+    form
+    .form-row
+    .form-holder
+    input[type='radio']
+    + label {
     background: #fbf9f9;
   }
 
-  body#body div#formContainer .form-container-holder form .form-row .form-holder input[type='radio']:checked + label {
+  body#body
+    div#formContainer
+    .form-container-holder
+    form
+    .form-row
+    .form-holder
+    input[type='radio']:checked
+    + label {
     background: #ef932e;
     color: #fff;
+  }
+
+  body#body div#formContainer .form-container-holder form .button-group .btn[type="submit"] {
+    color: #fbf9f9;
+    background: #ef932e;
+  }
+
+  body#body div#formContainer .form-container-holder form .button-group .btn[type="button"] {
+    background: #fbf9f9;
+    color: #ef932e;
   }
 }
