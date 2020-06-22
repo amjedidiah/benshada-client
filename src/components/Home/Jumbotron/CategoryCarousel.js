@@ -17,9 +17,19 @@ export default class CategoryCarousel extends Component {
     { src: banner3, to: 'clothes' },
     { src: banner4, to: 'accessories' }
   ].map(({ src, to }, i) => (
-      <div className={`carousel-item ${i === 0 ? 'active' : ''}`} key={i}>
-        <Link to={`/products/?category=${to}`}>
-          <img alt="" src={src} className="img-fluid w-100" />
+      <div
+        className={`carousel-item ${i === 0 ? 'active' : ''}`}
+        key={i}
+        style={{ height: '60vh' }}
+      >
+        <Link
+          to={`/products/?category=${to}`} className="h-100 d-block"
+        >
+          <img
+            alt=""
+            src={src}
+            className="img-fluid w-100 h-100"
+          />
         </Link>
       </div>
   ));
@@ -27,36 +37,40 @@ export default class CategoryCarousel extends Component {
   render() {
     return (
       <div className="col-12 col-lg mb-0">
-              <div className="row">
-                <div id="carouselExampleIndicators" className="carousel slide w-100" data-ride="carousel">
-                  <ol className="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-                    <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-                  </ol>
-                  <div className="carousel-inner">{this.renderBanners()}</div>
-                  <a
-                    className="carousel-control-prev"
-                    href="#carouselExampleIndicators"
-                    role="button"
-                    data-slide="prev"
-                  >
-                    <span className="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Previous</span>
-                  </a>
-                  <a
-                    className="carousel-control-next"
-                    href="#carouselExampleIndicators"
-                    role="button"
-                    data-slide="next"
-                  >
-                    <span className="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span className="sr-only">Next</span>
-                  </a>
-                </div>
-              </div>
-            </div>
+        <div className="row">
+          <div id="carouselExampleIndicators" className="carousel slide w-100" data-ride="carousel">
+            <ol className="carousel-indicators">
+              <li
+                data-target="#carouselExampleIndicators"
+                data-slide-to="0"
+                className="active"
+              ></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+              <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+            </ol>
+            <div className="carousel-inner">{this.renderBanners()}</div>
+            <a
+              className="carousel-control-prev"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="prev"
+            >
+              <span className="carousel-control-prev-icon" aria-hidden="true"></span>
+              <span className="sr-only">Previous</span>
+            </a>
+            <a
+              className="carousel-control-next"
+              href="#carouselExampleIndicators"
+              role="button"
+              data-slide="next"
+            >
+              <span className="carousel-control-next-icon" aria-hidden="true"></span>
+              <span className="sr-only">Next</span>
+            </a>
+          </div>
+        </div>
+      </div>
     );
   }
 }

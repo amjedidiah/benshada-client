@@ -8,14 +8,16 @@ import authReducer from './authReducer.js';
 import userReducer from './userReducer.js';
 import productReducer from './productReducer.js';
 import storeReducer from './storeReducer.js';
-import testimonialsReducer from './testimonialsReducer.js';
+import testimonialReducer from './testimonialReducer.js';
+import subscriptionReducer from './subscriptionReducer.js';
 
 export default combineReducers({
+  auth: authReducer,
   form: formReducer,
   loader: loaderReducer,
-  auth: authReducer,
-  user: userReducer,
   product: productReducer,
   store: storeReducer,
-  testimonial: testimonialsReducer
+  subscription: subscriptionReducer,
+  testimonial: testimonialReducer,
+  user: userReducer
 });

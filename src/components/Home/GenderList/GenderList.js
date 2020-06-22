@@ -10,7 +10,7 @@ export default class GenderList extends Component {
   renderGenderList = () => genders.map(({ name, icon }, i) => <GenderDisplay key={`GenderDisplay${i}`} icon={icon} name={name} />);
 
   render = () => (
-    <div className="container">
+    <div className="container" id="genderList">
       <div className="row justify-content-between text-center bg-white bg-lg-light">{this.renderGenderList()}</div>
     </div>
   );

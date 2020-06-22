@@ -22,7 +22,7 @@ export default class TestimonialList extends Component {
     return (
       <div className="container my-4">
         <h4 className="text-center text-capitalize">{title}</h4>
-        <div className="card-columns testimonials">{this.renderTestimonies(testimonials)}</div>
+        <div className="cards testimonials">{this.renderTestimonies(testimonials)}</div>
       </div>
     );
   }

@@ -23,7 +23,7 @@ export default class ProductList extends Component {
 
     return filteredProducts.length > 0 ? (
       <>
-        <div className="card-columns">
+        <div className="cards">
           {filteredProducts.slice(0, this.props.count).map((product, key) => (
             <ProductDisplay key={`productList${key}`} product={product} />
           ))}

@@ -4,7 +4,6 @@ import React from 'react';
 // Component imports
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import Header from '../Header/Header.js';
 import Jumbotron from './Jumbotron/Jumbotron.js';
 import GenderList from './GenderList/GenderList.js';
 import ProductSpec from '../ProductSpec/ProductSpec.js';
@@ -19,27 +18,31 @@ import ProductList from '../ProductList/ProductList.js';
 import { productsAll } from '../../redux/actions/products.js';
 import { shopsAll } from '../../redux/actions/stores.js';
 import { testimonialsAll } from '../../redux/actions/testimonials.js';
+import { subscriptionsAll } from '../../redux/actions/subscriptions.js';
 import StoreList from '../StoreList/StoreList.js';
 import TestimonialList from './TestimonialList/TestimonialList.js';
 import HowItWorks from './HowItWorks/HowItWorks.js';
 import ImageGallery from './ImageGallery/ImageGallery.js';
+import HrFr from '../HrFr/HrFr.js';
 
 // Start Component
 class Home extends React.Component {
   static propTypes = {
-    user: PropTypes.object,
     isSignedIn: PropTypes.bool,
     products: PropTypes.array,
-    stores: PropTypes.array,
-    testimonials: PropTypes.array,
     productsAll: PropTypes.func,
     shopsAll: PropTypes.func,
-    testimonialsAll: PropTypes.func
+    stores: PropTypes.array,
+    subscriptionsAll: PropTypes.func,
+    testimonials: PropTypes.array,
+    testimonialsAll: PropTypes.func,
+    user: PropTypes.object
   };
 
   componentDidMount = () => {
     this.props.productsAll();
     this.props.shopsAll();
+    this.props.subscriptionsAll();
     this.props.testimonialsAll();
   };
 
@@ -78,8 +81,7 @@ class Home extends React.Component {
     };
 
     return (
-      <>
-        <Header />
+      <HrFr>
         <Jumbotron />
         <GenderList />
         <ProductSpec
@@ -100,10 +102,10 @@ class Home extends React.Component {
         />
         <div className="container my-4">
           <div className="row">
-            <div className="col-12 bg-white py-4">
+            <div className="col-12 bg-white my-4 py-3">
               <ProductList products={products || []} count={12} title="Recently Added" />
             </div>
-            <div className="col-12 flex-grow-1 bg-white py-4">
+            <div className="col-12 flex-grow-1 bg-white my-4 py-3">
               {!isSignedIn ? (
                 ''
               ) : (
@@ -115,7 +117,7 @@ class Home extends React.Component {
                 />
               )}
             </div>
-            <div className="col-12 flex-grow-1 bg-white py-4">
+            <div className="col-12 flex-grow-1 bg-white my-4 py-3">
               <ProductList
                 products={products || []}
                 count={12}
@@ -123,7 +125,7 @@ class Home extends React.Component {
                 title="Discounted"
               />
             </div>
-            <div className="col-12 flex-grow-1 bg-white py-4">
+            <div className="col-12 flex-grow-1 bg-white my-4 py-3">
               <StoreList
                 stores={stores || []}
                 type={{ name: 'isRegisteredBusiness', value: true }}
@@ -136,7 +138,7 @@ class Home extends React.Component {
         <TestimonialList title="Customer Testimonies" count={3} testimonials={testimonials} />
         <HowItWorks />
         <ImageGallery />
-      </>
+      </HrFr>
     );
   };
 }
@@ -153,4 +155,6 @@ const mapStateToProps = ({
 });
 
 // Export component as React-functional-Component
-export default connect(mapStateToProps, { productsAll, shopsAll, testimonialsAll })(Home);
+export default connect(mapStateToProps, {
+  productsAll, shopsAll, testimonialsAll, subscriptionsAll
+})(Home);
