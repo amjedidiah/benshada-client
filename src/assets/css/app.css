@@ -129,11 +129,11 @@ body#body main #app .text-ash {
 }
 
 body#body main #app .card-columns {
-  column-count: 1;
+  column-count: 2;
 }
 
 body#body main #app .card-columns.testimonials {
-  column-count: 3;
+  column-count: 1;
 }
 
 body#body main #app .card-columns .card {
@@ -219,6 +219,10 @@ body#body main #app .sc-htpNat {
 
 @media (min-width: 768px) {
   body#body main #app .card-columns {
+    column-count: 3;
+  }
+
+  body#body main #app .card-columns.testimonials {
     column-count: 3;
   }
 }

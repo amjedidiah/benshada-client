@@ -42,9 +42,11 @@ export default class Image extends Component {
         />
       </div>
     ) : (
-      <Link to={`/${type}s/?id=${id}`}>
-        <img className="card-img img-responsive" src={image[0]} alt={name} />
-      </Link>
+      <div className={`text-center ${xtraClass}`}>
+        <Link to={`/${type}s/?id=${id}`}>
+          <img className="card-img img-responsive" src={image[0]} alt={name} />
+        </Link>
+      </div>
     );
   }
 }
