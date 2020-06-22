@@ -20,7 +20,7 @@ export default class TestimonialList extends Component {
     const { testimonials, title } = this.props;
 
     return (
-      <div className="container my-5">
+      <div className="container my-4">
         <h4 className="text-center text-capitalize">{title}</h4>
         <div className="card-columns testimonials">{this.renderTestimonies(testimonials)}</div>
       </div>

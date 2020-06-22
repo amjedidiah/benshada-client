@@ -21,6 +21,7 @@ import { shopsAll } from '../../redux/actions/stores.js';
 import { testimonialsAll } from '../../redux/actions/testimonials.js';
 import StoreList from '../StoreList/StoreList.js';
 import TestimonialList from './TestimonialList/TestimonialList.js';
+import HowItWorks from './HowItWorks/HowItWorks.js';
 
 // Start Component
 class Home extends React.Component {
@@ -98,10 +99,10 @@ class Home extends React.Component {
         />
         <div className="container">
           <div className="row">
-            <div className="col-12 flex-grow-1 bg-white py-4 px-0">
+            <div className="col-12 flex-grow-1 bg-white my-4 px-0">
               <ProductList products={products || []} count={12} title="Recently Added" />
             </div>
-            <div className="col-12 flex-grow-1 bg-white py-4 px-0">
+            <div className="col-12 flex-grow-1 bg-white my-4 px-0">
               {!isSignedIn ? (
                 ''
               ) : (
@@ -113,7 +114,7 @@ class Home extends React.Component {
                 />
               )}
             </div>
-            <div className="col-12 flex-grow-1 bg-white py-4 px-0">
+            <div className="col-12 flex-grow-1 bg-white my-4 px-0">
               <ProductList
                 products={products || []}
                 count={12}
@@ -121,7 +122,7 @@ class Home extends React.Component {
                 title="Discounted"
               />
             </div>
-            <div className="col-12 flex-grow-1 bg-white py-4 px-0">
+            <div className="col-12 flex-grow-1 bg-white my-4 px-0">
               <StoreList
                 stores={stores || []}
                 type={{ name: 'isRegisteredBusiness', value: true }}
@@ -132,6 +133,7 @@ class Home extends React.Component {
           </div>
         </div>
         <TestimonialList title="Customer Testimonies" count={3} testimonials={testimonials} />
+        <HowItWorks />
       </>
     );
   };
