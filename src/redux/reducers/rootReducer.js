@@ -8,6 +8,7 @@ import authReducer from './authReducer.js';
 import userReducer from './userReducer.js';
 import productReducer from './productReducer.js';
 import storeReducer from './storeReducer.js';
+import testimonialsReducer from './testimonialsReducer.js';
 
 export default combineReducers({
   form: formReducer,
@@ -15,5 +16,6 @@ export default combineReducers({
   auth: authReducer,
   user: userReducer,
   product: productReducer,
-  store: storeReducer
+  store: storeReducer,
+  testimonial: testimonialsReducer
 });

@@ -132,6 +132,10 @@ body#body main #app .card-columns {
   column-count: 1;
 }
 
+body#body main #app .card-columns.testimonials {
+  column-count: 3;
+}
+
 body#body main #app .card-columns .card {
   display: inline-block;
 }

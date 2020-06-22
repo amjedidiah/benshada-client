@@ -182,3 +182,13 @@ export const storeValidate = ({
 
   return errors;
 };
+
+export const testimonialValidate = ({ testimony }) => {
+  const errors = {};
+
+  if (!testimony) {
+    errors.testimony = 'What do you have to say abnout Benshada?';
+  }
+
+  return errors;
+};

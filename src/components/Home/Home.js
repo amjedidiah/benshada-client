@@ -18,7 +18,9 @@ import ProductList from '../ProductList/ProductList.js';
 // Action imports
 import { productsAll } from '../../redux/actions/products.js';
 import { shopsAll } from '../../redux/actions/stores.js';
+import { testimonialsAll } from '../../redux/actions/testimonials.js';
 import StoreList from '../StoreList/StoreList.js';
+import TestimonialList from './TestimonialList/TestimonialList.js';
 
 // Start Component
 class Home extends React.Component {
@@ -27,18 +29,21 @@ class Home extends React.Component {
     isSignedIn: PropTypes.bool,
     products: PropTypes.array,
     stores: PropTypes.array,
+    testimonials: PropTypes.array,
     productsAll: PropTypes.func,
-    shopsAll: PropTypes.func
+    shopsAll: PropTypes.func,
+    testimonialsAll: PropTypes.func
   };
 
   componentDidMount = () => {
     this.props.productsAll();
     this.props.shopsAll();
+    this.props.testimonialsAll();
   };
 
   render = () => {
     const {
-      isSignedIn, user, products, stores
+      isSignedIn, user, products, stores, testimonials
     } = this.props;
     const categoriesRandomNumber = randNum(3);
     const genderRandomNumber = randNum(2);
@@ -126,6 +131,7 @@ class Home extends React.Component {
             </div>
           </div>
         </div>
+        <TestimonialList title="Customer Testimonies" count={3} testimonials={testimonials} />
       </>
     );
   };
@@ -133,13 +139,14 @@ class Home extends React.Component {
 // End Component
 
 const mapStateToProps = ({
-  auth, user, product, store
+  auth, user, product, store, testimonial
 }) => ({
   isSignedIn: auth.isSignedIn,
   user: user.selected,
   products: product.all,
-  stores: store.all
+  stores: store.all,
+  testimonials: testimonial.all
 });
 
 // Export component as React-functional-Component
-export default connect(mapStateToProps, { productsAll, shopsAll })(Home);
+export default connect(mapStateToProps, { productsAll, shopsAll, testimonialsAll })(Home);
