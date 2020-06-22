@@ -15,8 +15,8 @@ export default class GenderDisplay extends Component {
     const { name, icon } = this.props;
 
     return (
-      <Link to={`/products/?gender=${name}`} className="col p-3">
-        <FontAwesomeIcon className=" fa-3x text-primary" icon={icon} />
+      <Link to={`/products/?gender=${name}`} className="col p-2">
+        <FontAwesomeIcon className="icon text-primary-benshada" icon={icon} />
         <p>{name}</p>
       </Link>
     );

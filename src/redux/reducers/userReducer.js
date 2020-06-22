@@ -1,5 +1,13 @@
-const INIT = {};
+import isDeleted from '../helper/isDeleted.js';
 
-export default (state = INIT, action) => ({
-  USER_ONE_FULFILLED: action.payload && action.payload.data
-}[action.type] || state);
+const INIT = { all: [], selected: {} };
+
+export default (state = INIT, action) => {
+  const responseData = isDeleted(action);
+
+  return ({
+    USERS_ALL_FULFILLED: { ...state, all: responseData },
+    USER_ONE_FULFILLED: { ...state, selected: responseData },
+    LOGOUT: INIT
+  }[action.type] || state);
+};

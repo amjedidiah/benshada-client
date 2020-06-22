@@ -1,25 +1,50 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBox, faStoreAlt } from '@fortawesome/free-solid-svg-icons';
+import {
+  faBox,
+  faStoreAlt,
+  faUser,
+  faShoppingBag,
+  faUserEdit
+} from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-export default class Src extends Component {
-  static propTypes = {
-    image: PropTypes.array,
-    name: PropTypes.string,
-    size: PropTypes.number,
-    type: PropTypes.string,
-    xtraClass: PropTypes.string
-  }
-
-  render() {
-    return (this.props.image && this.props.image.length === 0) || this.props.image === undefined ? (
-      <div className={`text-center ${this.props.xtraClass}`}>
-        <FontAwesomeIcon icon={this.props.type === 'store' ? faStoreAlt : faBox} className={`fa-${this.props.size}x text-light`} />
+function Image({
+  image, name, size, type, xtraClass, id
+}) {
+  return (image && image.length === 0) || image === undefined ? (
+      <div className={`text-center ${xtraClass}`}>
+        <FontAwesomeIcon
+          icon={
+            {
+              store: faStoreAlt,
+              product: faBox,
+              user: faUser,
+              order: faShoppingBag,
+              review: faUserEdit
+            }[type]
+          }
+          className={`fa-${size}x text-secondary`}
+        />
       </div>
-    ) : (
-      <img className="card-img img-responsive" src={this.props.image[0]} alt={this.props.name} />
-    );
-  }
+  ) : (
+      <div className={`text-center ${xtraClass}`}>
+        <Link to={`/${type}s/?id=${id}`}>
+          <img className="card-img img-responsive" src={image[0]} alt={name} />
+        </Link>
+      </div>
+  );
 }
+
+Image.propTypes = {
+  id: PropTypes.string,
+  image: PropTypes.array,
+  name: PropTypes.string,
+  size: PropTypes.number,
+  type: PropTypes.string,
+  xtraClass: PropTypes.string
+};
+
+export default Image;

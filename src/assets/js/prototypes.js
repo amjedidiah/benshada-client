@@ -7,3 +7,5 @@ export const split = (input, len) => input.match(
 
 export const unique = (array) => array
   .filter((value, index, self) => self.indexOf(value) === index);
+
+export const randNum = (n) => Math.round(Math.random() * n);

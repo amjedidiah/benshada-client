@@ -5,20 +5,22 @@ import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { faSearch, faSpinner } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import PropTypes from 'prop-types';
 
 // Component imports
-import Price from '../Products/Price.js';
+import { connect } from 'react-redux';
+import Price from '../ProductList/ProductDisplay/Price.js';
 import Image from '../Image/Image.js';
 
 // Asset imports
-import filterContent from '../../assets/js/filterContent.js';
+import { filterContent } from '../../assets/js/filter.js';
 import searchAnimate from '../../assets/js/searchAnimate.js';
 
 // ActionCreator imports
 import { productsAll } from '../../redux/actions/products.js';
 import { shopsAll } from '../../redux/actions/stores.js';
 
-export default class Search extends Component {
+class Search extends Component {
   constructor() {
     super();
     this.state = {
@@ -29,10 +31,16 @@ export default class Search extends Component {
     };
   }
 
+  static propTypes = {
+    products: PropTypes.array,
+    stores: PropTypes.array,
+    productsAll: PropTypes.func,
+    shopsAll: PropTypes.func
+  };
+
   search = async (e) => {
     const { value } = e.target;
     this.setState({ value });
-
 
     if (value !== '') {
       $('#searchDropDown').show();
@@ -42,15 +50,14 @@ export default class Search extends Component {
         relatedProducts: null
       });
 
-      const reqStores = await shopsAll();
-      const stores = reqStores.data.data;
+      await this.props.productsAll();
+      await this.props.shopsAll();
+
+      const { stores, products } = this.props;
       const relatedStoresInit = stores.filter(
         ({ name }) => name.toLowerCase().indexOf(this.state.value.toLowerCase()) >= 0
       );
       const relatedStores = relatedStoresInit.slice(0, 3);
-
-      const reqProducts = await productsAll();
-      const products = reqProducts.data.data;
       const relatedProductsInit = filterContent(
         products.filter(
           ({ name }) => name.toLowerCase().indexOf(this.state.value.toLowerCase()) >= 0
@@ -85,49 +92,54 @@ export default class Search extends Component {
       <div className="px-4 py-2">No {type} found</div>
   ) : (
     related.map((item, i) => (
-          <li className="" key={`related${type}${i}`}>
-            <Link to={`/${type}s/?id=${item && item._id}`} className="d-block px-4 py-2 border border-white">
-              <div className="row align-items-center h-100">
-                <div className="mr-2 p-0 text-center" style={{ width: '60px' }}>
-                  <Image name={item && item.name} image={item && item.image} type={type} size={2} />
-                </div>
-                <div className="flex-grow-1 text-secondary">
-                  <div>{item && item.name}</div>
-                  <div className="">
-                    <Price price={item && item.price} discount={item && item.discountPercentage} />
-                  </div>
+        <li className="" key={`related${type}${i}`}>
+          <Link to={`/${type}s/?id=${item && item._id}`} className="d-block px-4 py-2 border border-white">
+            <div className="row align-items-center h-100">
+              <div className="mr-2 p-0 text-center" style={{ width: '60px' }}>
+                <Image
+                  name={item && item.name}
+                  image={item && item.image}
+                  id={item && item._id}
+                  type={type}
+                  size={2} />
+              </div>
+              <div className="flex-grow-1 text-secondary">
+                <div>{item && item.name}</div>
+                <div className="">
+                  <Price price={item && item.price} discount={item && item.discountPercentage} />
                 </div>
               </div>
-            </Link>
-          </li>
+            </div>
+          </Link>
+        </li>
     ))
   ));
 
   searchFound = () => (
-      <>
-        <li className="dropdown-header text-uppercase">
-          <small className="font-weight-bold">stores</small>
+    <>
+      <li className="dropdown-header text-uppercase">
+        <small className="font-weight-bold">stores</small>
+      </li>
+      {this.renderResult(this.state.relatedStores, 'store')}
+
+      <li className="dropdown-divider"></li>
+
+      <li className="dropdown-header text-uppercase">
+        <small className="font-weight-bold">products</small>
+      </li>
+
+      {this.renderResult(this.state.relatedProducts, 'product')}
+
+      {this.state.totalResults > 0 ? (
+        <li className="text-center text-primary-benshada text-uppercase my-2">
+          <Link to={`/catalog/?q=${this.state.value}`} className="p-2">
+            see all results ({this.state.totalResults})
+          </Link>
         </li>
-        {this.renderResult(this.state.relatedStores, 'store')}
-
-        <li className="dropdown-divider"></li>
-
-        <li className="dropdown-header text-uppercase">
-          <small className="font-weight-bold">products</small>
-        </li>
-
-        {this.renderResult(this.state.relatedProducts, 'product')}
-
-        {this.state.totalResults > 0 ? (
-          <li className="text-center text-primary text-uppercase my-2">
-            <Link to={`/catalog/?q=${this.state.value}`} className="p-2">
-              see all results ({this.state.totalResults})
-            </Link>
-          </li>
-        ) : (
-          ''
-        )}
-      </>
+      ) : (
+        ''
+      )}
+    </>
   );
 
   searchRenderHelper() {
@@ -162,7 +174,7 @@ export default class Search extends Component {
 
           <div className="input-group-append">
             <span className="input-group-text bg-white border-0" id="basic-addon2">
-              <FontAwesomeIcon className="text-primary pointer" id="showSearchBar" title="Search" icon={faSearch} />
+              <FontAwesomeIcon className="text-primary-benshada pointer" id="showSearchBar" title="Search" icon={faSearch} />
             </span>
           </div>
         </div>
@@ -170,3 +182,10 @@ export default class Search extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ product, store }) => ({
+  products: (product && product.all) || [],
+  stores: (store && store.all) || []
+});
+
+export default connect(mapStateToProps, { shopsAll, productsAll })(Search);

@@ -4,7 +4,6 @@
   box-sizing: border-box;
   word-wrap: break-word;
   transition: all 0.05s;
-  font-size: 97.5%;
 }
 
 body#body,
@@ -80,7 +79,9 @@ body#body main #app .border-primary {
 }
 
 body#body main #app .bg-primary,
-body#body main #app .btn-primary {
+body#body main #app .btn-primary,
+body#body main #app .bg-primary-benshada,
+body#body main #app .btn-primary-benshada {
   background: #ef932e;
 }
 
@@ -111,7 +112,9 @@ body#body main #app .bg-transparent {
 }
 
 body#body main #app .bg-light,
-body#body main #app .bg-lg-light {
+body#body main #app .bg-lg-light,
+body#body main #app .bg-light-benshada,
+body#body main #app .bg-lg-light-benshada {
   background: #fbf9f9;
 }
 
@@ -119,8 +122,8 @@ body#body main #app .bg-warning {
   background: #ffdcb0;
 }
 
-body#body main #app .text-primary {
-  color: #ef932e !important;
+body#body main #app .text-primary-benshada {
+  color: #ef932e;
 }
 
 body#body main #app .text-ash {
@@ -131,17 +134,18 @@ body#body main #app .card-columns {
   column-count: 2;
 }
 
-body#body main #app .card-columns .card {
-  display: inline-block;
+body#body main #app .card-columns.testimonials {
+  column-count: 1;
 }
 
-body#body main #app .card-columns.card-columns-double,
-body#body main #app .card-group.card-group-double {
-  column-count: 2;
+body#body main #app .cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
 }
 
-body#body main #app .card-columns.card-columns-3 {
-  column-count: 3;
+body#body main #app .cards .card {
+  flex: 1 180px;
 }
 
 body#body main #app .card-select {
@@ -204,25 +208,15 @@ body#body main #app #questionMark {
   bottom: 30;
   right: 30;
   cursor: pointer;
-  z-index: 2147483643;
+  z-index: 2;
 }
 
-body#body main #app .modal,
-body#body main #app .modal > div {
-  z-index: 2147483644;
-  background: rgba(0, 0, 0, 0.2);
-}
-
-/* Loading screen style */
-body#body main #app .sc-htpNat {
-  position: fixed;
-
-  /* z-index: 2147483638 ; */
-  height: 100%;
+body#body main #app #genderList .icon {
+  font-size: 2em;
 }
 
 @media (min-width: 576px) {
-  body#body main #app .card-columns.card-columns-two {
+  body#body main #app .card-columns {
     column-count: 2;
   }
 }
@@ -231,22 +225,33 @@ body#body main #app .sc-htpNat {
   body#body main #app .card-columns {
     column-count: 3;
   }
+
+  body#body main #app .cards {
+    justify-content: space-around;
+  }
+
+  body#body main #app .cards .card {
+    flex: 0 1 222px;
+  }
+
+  body#body main #app .card-columns.testimonials {
+    column-count: 3;
+  }
 }
 
 @media (min-width: 992px) {
   body#body main #app .card-columns {
     column-count: 4;
   }
+  
+  body#body main #app #genderList .icon {
+    font-size: 3em;
+  }
 }
 
 @media (min-width: 1198px) {
-  body#body main #app .card-columns,
-  body#body main #app .card-columns.products {
+  body#body main #app .card-columns {
     column-count: 6;
   }
 
-  body#body main #app .category .card-columns,
-  body#body main #app .category .card-columns.products {
-    column-count: 4;
-  }
 }

@@ -4,14 +4,17 @@ const INIT = {
   email: null
 };
 
-export default (state = INIT, action) => ({
-  SIGNUP_FULFILLED: INIT,
-  LOGIN_FULFILLED: (
-    {
+export default (state = INIT, action) => {
+  const responseData = action.payload && action.payload.data && action.payload.data.data;
+
+  return ({
+    SIGNUP_FULFILLED: INIT,
+    LOGIN_FULFILLED: {
       ...state,
       isSignedIn: true,
-      token: action.payload && action.payload.data && action.payload.data.token,
-      email: action.payload && action.payload.data && action.payload.data.email
-    }),
-  LOGOUT: INIT
-}[action.type] || state);
+      token: responseData && responseData.token,
+      email: responseData && responseData.email
+    },
+    LOGOUT: INIT
+  }[action.type] || state);
+};

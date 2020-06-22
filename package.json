@@ -13,10 +13,10 @@
     "test": "__tests__"
   },
   "scripts": {
-    "test": "cross-env CI=true react-scripts test",
+    "test": "cross-env CI=true react-scripts test --detectOpenHandles",
     "test:watch": "react-scripts test --watch",
     "test:cover": "react-scripts test --coverage",
-    "lint": "eslint \"src/**/*.js\" || false",
+    "lint": "eslint \"src/**/*.js\" --fix || false",
     "check": "npm run lint && npm test",
     "build": "npm run check && react-scripts build",
     "start": "serve -s build",
@@ -67,6 +67,8 @@
     "react-redux": "^7.2.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "^3.4.1",
+    "react-select": "^3.1.0",
+    "react-toastify": "^6.0.5",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.3.6",

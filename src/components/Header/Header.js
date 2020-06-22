@@ -18,7 +18,6 @@ import '../../assets/css/header.css';
 class Header extends React.Component {
   // Declare propTypes
   static propTypes = {
-    cart: PropTypes.array,
     isSignedIn: PropTypes.bool,
     user: PropTypes.object
   };
@@ -26,7 +25,7 @@ class Header extends React.Component {
   // Render based on if user isSignedIn
   authRender = () => (
     this.props.isSignedIn
-      ? <AuthHeader user={this.props.user} cart={this.props.cart} />
+      ? <AuthHeader user={this.props.user} cart={this.props.user && this.props.user.cart} />
       : <UnAuthHeader />
   );
 
@@ -36,7 +35,7 @@ class Header extends React.Component {
       <nav className="navbar navbar-expand-md shadow-sm mb-1 bg-white fixed-top" id="header">
         <div className="container px-0">
           <Link to="/" className="navbar-brand">
-            <i className="text-primary font-weight-bold">benshada</i>
+            <i className="text-primary-benshada font-weight-bold">benshada</i>
           </Link>
           <button
             className="navbar-toggler"
@@ -59,10 +58,9 @@ class Header extends React.Component {
   }
 }
 
-const mapStateToProps = ({ auth, cart, user }) => ({
+const mapStateToProps = ({ auth, user }) => ({
   isSignedIn: auth.isSignedIn,
-  user,
-  cart
+  user: user.selected
 });
 
 export default connect(mapStateToProps)(Header);
