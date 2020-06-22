@@ -3,7 +3,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  faLock, faUsers, faMobileAlt, faUserLock, faCartArrowDown, faStoreAlt, faShoppingBasket
+  faLock,
+  faUsers,
+  faMobileAlt,
+  faUserLock,
+  faCartArrowDown,
+  faStoreAlt,
+  faShoppingBasket
 } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope, faRegistered, faUser } from '@fortawesome/free-regular-svg-icons';
 import { Field, reduxForm } from 'redux-form';
@@ -32,12 +38,10 @@ class RegisterForm extends Component {
   }
 
   render() {
-    const { animationClass } = this.state;
-
     return (
       <form
         onSubmit={this.props.handleSubmit}
-        className={`animate__animated ${animationClass} m-0 px-lg-5`}
+        className={`animate__animated ${this.state.animationClass} m-0 px-lg-5`}
         autoComplete="off"
       >
         <h2 className="mb-2 text-center pt-5">
@@ -148,7 +152,6 @@ class RegisterForm extends Component {
             value="UC"
           />
         </div>
-
 
         <div className="button-group">
           <button className="btn btn-primary" type="submit">
