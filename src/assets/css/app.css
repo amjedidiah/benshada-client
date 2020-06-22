@@ -243,6 +243,7 @@ body#body main #app #genderList .icon {
   body#body main #app .card-columns {
     column-count: 4;
   }
+  
   body#body main #app #genderList .icon {
     font-size: 3em;
   }

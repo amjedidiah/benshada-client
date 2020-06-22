@@ -54,16 +54,15 @@ class StoreForm extends Component {
   }
 
   render() {
-    const { handleSubmit, store } = this.props;
     const { animationClass } = this.state;
 
     return (
       <form
-        onSubmit={handleSubmit}
+        onSubmit={this.props.handleSubmit}
         className={`animate__animated ${animationClass} m-0`}
         autoComplete="off"
       >
-        <h2 className="mb-0">Edit {store && store.name}</h2>
+        <h2 className="mb-0">Edit {this.props.store && this.props.store.name}</h2>
         <p>
           Make changes to your store
           <FontAwesomeIcon icon={faStoreAlt} className="ml-2" />

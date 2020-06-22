@@ -6,7 +6,6 @@ import Input from './input.js';
 import TextArea from './textArea.js';
 import Multi from './multi.js';
 
-
 const FormField = ({
   input, label, type, placeholder, icon, action, className,
   options, meta: { touched, error, warning }, disabled

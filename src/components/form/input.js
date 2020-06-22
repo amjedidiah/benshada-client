@@ -30,7 +30,6 @@ export default class Input extends Component {
     return false;
   };
 
-
   render = () => {
     const {
       icon, action, input, label, type, placeholder, touched, error, disabled

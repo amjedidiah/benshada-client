@@ -56,16 +56,15 @@ class ProductForm extends Component {
   }
 
   render() {
-    const { handleSubmit, product } = this.props;
     const { animationClass } = this.state;
 
     return (
       <form
-        onSubmit={handleSubmit}
+        onSubmit={this.props.handleSubmit}
         className={`animate__animated ${animationClass} m-0`}
         autoComplete="off"
       >
-        <h2 className="mb-0">Edit {product && product.name}</h2>
+        <h2 className="mb-0">Edit {this.props.product && this.props.product.name}</h2>
         <p>
           Make changes to your product
           <FontAwesomeIcon icon={faBox} className="ml-2" />

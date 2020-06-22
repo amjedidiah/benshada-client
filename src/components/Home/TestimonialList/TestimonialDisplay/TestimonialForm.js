@@ -2,9 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  faUserEdit
-} from '@fortawesome/free-solid-svg-icons';
+import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import { Field, reduxForm } from 'redux-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
@@ -49,12 +47,11 @@ class TestimonialForm extends Component {
   }
 
   render() {
-    const { handleSubmit } = this.props;
     const { animationClass } = this.state;
 
     return (
       <form
-        onSubmit={handleSubmit}
+        onSubmit={this.props.handleSubmit}
         className={`animate__animated ${animationClass} m-0`}
         autoComplete="off"
       >
@@ -75,7 +72,6 @@ class TestimonialForm extends Component {
             placeholder="e.g Benshada's place meets all my fashion needs"
           />
         </div>
-
 
         <div className="button-group">
           <button className="btn btn-primary" type="submit">

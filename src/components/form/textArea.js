@@ -28,7 +28,6 @@ export default class TextArea extends Component {
     return false;
   };
 
-
   render = () => {
     const {
       icon, action, input, label, placeholder, touched, error

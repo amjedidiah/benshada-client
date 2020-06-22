@@ -23,7 +23,7 @@ class Price extends React.Component {
         </small>
       </>
     ) : (
-      <span className="font-weight-bold lead">&#x20A6; {productPrice}</span>
+      <span className="font-weight-bold lead">&#x20A6; {`${productPrice}`}</span>
     );
   };
 }

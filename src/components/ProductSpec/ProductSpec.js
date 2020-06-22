@@ -8,7 +8,6 @@ import { connect } from 'react-redux';
 // Component imports
 import ProductList from '../ProductList/ProductList.js';
 
-
 // Asset imports
 import { randNum } from '../../assets/js/prototypes.js';
 
