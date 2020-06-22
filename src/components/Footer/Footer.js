@@ -57,7 +57,14 @@ class Footer extends Component {
 
     this.props
       .subscriptionAdd({ email: subEmail })
-      .then(() => toast.success('Subscription successful'))
+      .then((response) => toast.success(
+        (response
+              && response.data
+              && response.data.message
+              && response.data.message.name)
+              || (response && response.statusText)
+              || 'Success'
+      ))
       .catch((err) => toast.error(
         (err
             && err.response
@@ -66,7 +73,8 @@ class Footer extends Component {
             && err.response.data.message.name)
             || (err && err.response && err.response.statusText)
             || 'Network error'
-      ));
+      ))
+      .finally(() => this.setState(this.INIT));
 
     return this.setState({
       buttonValue: <FontAwesomeIcon className="text-white pointer" icon={faPaperPlane} />

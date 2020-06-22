@@ -19,6 +19,7 @@ import { productsAll } from '../../redux/actions/products.js';
 import { shopsAll } from '../../redux/actions/stores.js';
 import { testimonialsAll } from '../../redux/actions/testimonials.js';
 import { subscriptionsAll } from '../../redux/actions/subscriptions.js';
+import { usersAll } from '../../redux/actions/users.js';
 import StoreList from '../StoreList/StoreList.js';
 import TestimonialList from './TestimonialList/TestimonialList.js';
 import HowItWorks from './HowItWorks/HowItWorks.js';
@@ -36,7 +37,8 @@ class Home extends React.Component {
     subscriptionsAll: PropTypes.func,
     testimonials: PropTypes.array,
     testimonialsAll: PropTypes.func,
-    user: PropTypes.object
+    user: PropTypes.object,
+    usersAll: PropTypes.func
   };
 
   componentDidMount = () => {
@@ -44,6 +46,7 @@ class Home extends React.Component {
     this.props.shopsAll();
     this.props.subscriptionsAll();
     this.props.testimonialsAll();
+    this.props.usersAll();
   };
 
   render = () => {
@@ -167,6 +170,7 @@ const mapStateToProps = ({
 export default connect(mapStateToProps, {
   productsAll,
   shopsAll,
+  subscriptionsAll,
   testimonialsAll,
-  subscriptionsAll
+  usersAll
 })(Home);

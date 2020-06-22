@@ -8,10 +8,24 @@ export const userOne = (email) => ({
   payload: api.get(`/users/${email}`)
 });
 
-export const usersAll = () => ({
-  type: USERS_ALL,
-  payload: api.get('/users')
-});
+export const usersAll = () => (dispatch, getState) => {
+  const { token } = getState().auth;
+  let headers = {};
+
+  if (!token) {
+    headers = {
+      Authorization:
+        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhdmlkdGVlQGdtYWlsLmNvbSIsImlkIjoiNWVjM2FjOTAwYWJlMTVjMmI2MmNiYzI4IiwiZXhwIjoxNTk3MzUxNzQyLCJpYXQiOjE1OTIxNjc3NDJ9.Y-Fg4HKIZWa6dZVVqMn0nxavyjnNfjvYxIQ2SDCTjbs'
+    };
+  }
+
+  dispatch({
+    type: USERS_ALL,
+    payload: api.get('/users', {
+      headers
+    })
+  });
+};
 
 export const userUpdate = (email, userData) => (dispatch) => {
   const response = dispatch({

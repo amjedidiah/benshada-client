@@ -38,9 +38,7 @@ class ButtonTestimonialAdmin extends React.Component {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">
-                Are you sure you want to delete this testimonial?
-              </div>
+              <div className="modal-body">Are you sure you want to delete this testimonial?</div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">
                   Cancel
@@ -50,6 +48,14 @@ class ButtonTestimonialAdmin extends React.Component {
                   className="btn btn-danger"
                   onClick={() => this.props
                     .testimonialDelete(_id)
+                    .then((response) => toast.success(
+                      (response
+                            && response.data
+                            && response.data.message
+                            && response.data.message.name)
+                            || (response && response.statusText)
+                            || 'Success'
+                    ))
                     .catch((err) => toast.error(
                       (err
                             && err.response

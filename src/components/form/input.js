@@ -31,9 +31,7 @@ export default class Input extends Component {
   };
 
   render = () => {
-    const {
-      icon, action, input, label, type, placeholder, touched, error, disabled
-    } = this.props;
+    const { icon, action, input, label, type, placeholder, touched, error, disabled } = this.props;
 
     return (
       <div className="d-flex align-items-center">
@@ -54,5 +52,5 @@ export default class Input extends Component {
         <div className="form-validation-response">{this.renderValidateIcon(touched, error)}</div>
       </div>
     );
-  }
+  };
 }

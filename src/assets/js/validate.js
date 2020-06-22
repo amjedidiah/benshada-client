@@ -93,18 +93,14 @@ export const loginValidate = ({ email, password }) => {
   return errors;
 };
 
-export const userValidate = ({
+export const registerValidate = ({
   firstName,
   familyName,
   email,
   phone,
   password,
   confirmPassword,
-  type,
-  address,
-  state,
-  age,
-  gender
+  type
 }) => {
   const errors = {};
 
@@ -148,28 +144,6 @@ export const userValidate = ({
     errors.type = 'What is your user type?';
   } else if (!types.includes(type)) {
     errors.type = 'Do select one of our user types';
-  }
-
-  if (!address) {
-    errors.address = 'What is your address of residence?';
-  }
-
-  if (!state) {
-    errors.state = 'What is your state of residence?';
-  } else if (!states.map(({ name }) => name).includes(state)) {
-    errors.state = 'Please select a Nigerian state';
-  }
-
-  if (!age) {
-    errors.age = 'What is your age?';
-  } else if (age < 18 || age > 65) {
-    errors.age = 'This service is not for your age group';
-  }
-
-  if (!gender) {
-    errors.gender = 'What is your gender';
-  } else if (!['unisex', 'female', 'male'].includes(gender)) {
-    errors.gender = 'Do select one of our genders';
   }
 
   return errors;

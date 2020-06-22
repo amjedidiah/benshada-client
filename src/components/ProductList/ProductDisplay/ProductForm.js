@@ -12,7 +12,7 @@ import { Field, reduxForm } from 'redux-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlag } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
-import { productValidate } from '../../../assets/js/validate.js';
+import { productValidate as validate } from '../../../assets/js/validate.js';
 
 import '../../../assets/css/form.css';
 import FormField from '../../form/formField.js';
@@ -265,6 +265,6 @@ const mapStateToProps = ({ product }) => ({
 
 export default reduxForm({
   form: 'productForm',
-  productValidate,
+  validate,
   warn
 })(connect(mapStateToProps)(ProductForm));

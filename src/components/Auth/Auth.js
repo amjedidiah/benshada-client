@@ -5,7 +5,7 @@ import AuthRedirect from './AuthRedirect.js';
 
 export default class Auth extends Component {
   static propTypes = {
-    children: PropTypes.array
+    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
   }
 
   render = () => (

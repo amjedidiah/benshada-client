@@ -4,11 +4,7 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-import {
-  shopDelete,
-  shopUpdate,
-  shopsOneSelected
-} from '../../../../redux/actions/stores.js';
+import { shopDelete, shopUpdate, shopsOneSelected } from '../../../../redux/actions/stores.js';
 import StoreForm from '../StoreForm.js';
 
 class ButtonStoreOwner extends React.Component {
@@ -30,8 +26,7 @@ class ButtonStoreOwner extends React.Component {
   };
 
   submit = ({
-    _id,
-    name, description, address, state, CACNumber, phone
+    _id, name, description, address, state, CACNumber, phone
   }) => {
     this.setState({
       buttonValue: (
@@ -61,52 +56,53 @@ class ButtonStoreOwner extends React.Component {
       }
     });
 
-    this.props.shopUpdate(_id, store).catch((err) => {
-      this.setState(this.INIT);
-      toast.error(
+    this.props
+      .shopUpdate(_id, store)
+      .then((response) => toast.success(
+        (response && response.data && response.data.message && response.data.message.name)
+            || (response && response.statusText)
+            || 'Success'
+      ))
+      .catch((err) => toast.error(
         (err
-          && err.response
-          && err.response.data
-          && err.response.data.message
-          && err.response.data.message.name)
-          || (err && err.response && err.response.statusText)
-          || 'Network error'
-      );
-    });
+            && err.response
+            && err.response.data
+            && err.response.data.message
+            && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
+      ))
+      .finally(() => this.setState(this.INIT));
   };
 
   render = () => (
-      <>
-        <span className="pointer ml-2" data-toggle="modal" data-target="#storeEdit">
-          <FontAwesomeIcon
-            icon={faPencilAlt}
-            onClick={() => this.props.shopsOneSelected(this.props.store)}
-          />
-        </span>
+    <>
+      <span className="pointer ml-2" data-toggle="modal" data-target="#storeEdit">
+        <FontAwesomeIcon
+          icon={faPencilAlt}
+          onClick={() => this.props.shopsOneSelected(this.props.store)}
+        />
+      </span>
 
-        {/* Modal */}
-        <div
-          className="modal fade"
-          id="storeEdit"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="modelTitleId"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content" id="formContainer">
-              <div className="modal-body form-container-holder">
-                <StoreForm
-                  buttonValue={this.state.buttonValue}
-                  onSubmit={this.submit}
-                />
-              </div>
+      {/* Modal */}
+      <div
+        className="modal fade"
+        id="storeEdit"
+        tabIndex="-1"
+        role="dialog"
+        aria-labelledby="modelTitleId"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-lg" role="document">
+          <div className="modal-content" id="formContainer">
+            <div className="modal-body form-container-holder">
+              <StoreForm buttonValue={this.state.buttonValue} onSubmit={this.submit} />
             </div>
           </div>
-        </div></>
+        </div>
+      </div>
+    </>
   );
 }
 
-export default connect(null, { shopDelete, shopUpdate, shopsOneSelected })(
-  ButtonStoreOwner
-);
+export default connect(null, { shopDelete, shopUpdate, shopsOneSelected })(ButtonStoreOwner);

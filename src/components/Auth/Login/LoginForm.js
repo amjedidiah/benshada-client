@@ -9,7 +9,7 @@ import {
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Field, reduxForm } from 'redux-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { loginValidate } from '../../../assets/js/validate.js';
+import { loginValidate as validate } from '../../../assets/js/validate.js';
 
 import '../../../assets/css/form.css';
 import FormField from '../../form/formField.js';
@@ -92,6 +92,6 @@ const warn = () => ({});
 
 export default reduxForm({
   form: 'loginForm',
-  loginValidate,
+  validate,
   warn
 })(LoginForm);

@@ -6,7 +6,7 @@ import { faUserEdit } from '@fortawesome/free-solid-svg-icons';
 import { Field, reduxForm } from 'redux-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { connect } from 'react-redux';
-import { testimonialValidate } from '../../../../assets/js/validate.js';
+import { testimonialValidate as validate } from '../../../../assets/js/validate.js';
 
 import '../../../../assets/css/form.css';
 import FormField from '../../../form/formField.js';
@@ -94,6 +94,6 @@ const mapStateToProps = ({ testimonial }) => ({
 
 export default reduxForm({
   form: 'testimonialForm',
-  testimonialValidate,
+  validate,
   warn
 })(connect(mapStateToProps)(TestimonialForm));

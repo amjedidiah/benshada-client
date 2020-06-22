@@ -4,7 +4,7 @@ import { faSave, faShoppingBag } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { userUpdate } from '../../../../redux/actions/user.js';
+import { userUpdate } from '../../../../redux/actions/users.js';
 
 const ButtonProductBuyer = (props) => {
   const ifWishlisted = (productID, saved) => saved.map(({ _id }) => _id).includes(productID);
