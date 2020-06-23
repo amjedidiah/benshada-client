@@ -38,26 +38,14 @@ class ButtonTestimonialOwner extends React.Component {
       )
     });
 
-    const testimonial = {
-      _id,
-      testimony
-    };
-
-    Object.keys(testimonial).forEach((key) => {
-      if (testimonial[key] === undefined) {
-        delete testimonial[key];
-      }
-    });
-
     this.props
-      .testimonialUpdate(_id, testimonial)
+      .testimonialUpdate(_id, {
+        testimony
+      })
       .then((response) => toast.success(
-        (response
-              && response.data
-              && response.data.message
-              && response.data.message.name)
-              || (response && response.statusText)
-              || 'Success'
+        (response && response.data && response.data.message && response.data.message.name)
+            || (response && response.statusText)
+            || 'Success'
       ))
       .catch((err) => toast.error(
         (err

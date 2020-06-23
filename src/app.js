@@ -13,6 +13,8 @@ import './assets/css/app.css';
 import Login from './components/Auth/Login/Login.js';
 import Logout from './components/Auth/Logout/Logout.js';
 import Register from './components/Auth/Register/Register.js';
+import User from './components/User/User.js';
+import Onboarding from './components/Onboarding/Onboarding.js';
 
 // Start Vomponent
 const App = () => (
@@ -23,6 +25,8 @@ const App = () => (
         <Route path="/login" component={Login} exact />
         <Route path="/logout" component={Logout} exact />
         <Route path="/register" component={Register} exact />
+        <Route path="/onboarding" component={Onboarding} exact />
+        <Route path="/user" component={User} exact />
       </Router>
     </div>
     <ToastContainer

@@ -32,7 +32,6 @@ class ProductForm extends Component {
   static propTypes = {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
-    onBlur: PropTypes.func,
     product: PropTypes.object,
     initialValues: PropTypes.object,
     initialize: PropTypes.func

@@ -35,21 +35,18 @@ class Register extends Component {
       : this.props
         .authSignup(registerData)
         .then((response) => toast.success(
-          (response
-                && response.data
-                && response.data.message
-                && response.data.message.name)
+          (response && response.data && response.data.message && response.data.message.name)
                 || (response && response.statusText)
                 || 'Success'
         ))
         .catch((err) => toast.error(
           (err
-              && err.response
-              && err.response.data
-              && err.response.data.message
-              && err.response.data.message.name)
-              || (err && err.response && err.response.statusText)
-              || 'Network error'
+                && err.response
+                && err.response.data
+                && err.response.data.message
+                && err.response.data.message.name)
+                || (err && err.response && err.response.statusText)
+                || 'Network error'
         ))
         .finally(() => this.setState(this.INIT));
   };

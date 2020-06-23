@@ -17,9 +17,8 @@ export const authSignup = (payload) => (dispatch) => {
     payload: api.post('/users/login', payload)
   });
 
-  return response.then(
-    () => dispatch(authLogin({ email: payload.email, password: payload.password }))
-  );
+  return response
+    .then(() => dispatch(authLogin({ email: payload.email, password: payload.password })));
 };
 
 export const authLogout = () => ({

@@ -23,7 +23,6 @@ class TestimonialForm extends Component {
   static propTypes = {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
-    onBlur: PropTypes.func,
     testimonial: PropTypes.object,
     initialValues: PropTypes.object,
     initialize: PropTypes.func

@@ -37,7 +37,6 @@ class ButtonStoreOwner extends React.Component {
     });
 
     const store = {
-      _id,
       name,
       description,
       address,

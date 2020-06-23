@@ -5,11 +5,13 @@ import AuthRedirect from './AuthRedirect.js';
 
 export default class Auth extends Component {
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.array, PropTypes.object])
-  }
+    children: PropTypes.any,
+    type: PropTypes.string
+  };
 
   render = () => (
-    <><AuthRedirect />
+    <>
+      <AuthRedirect type={this.props.type} />
       <div className="container-fluid h-100">
         <div className="row align-items-center h-100 p-0" id="formContainer">
           <div className="col col-md-3 col-lg-6 d-none d-md-block position-fixed h-100 login-left" />
@@ -17,6 +19,7 @@ export default class Auth extends Component {
             {this.props.children}
           </div>
         </div>
-      </div></>
-  )
+      </div>
+    </>
+  );
 }

@@ -149,6 +149,18 @@ export const registerValidate = ({
   return errors;
 };
 
+export const typeValidate = ({ type }) => {
+  const errors = {};
+
+  if (!type) {
+    errors.type = 'What is your user type?';
+  } else if (!types.includes(type)) {
+    errors.type = 'Do select one of our user types';
+  }
+
+  return errors;
+};
+
 export const storeValidate = ({
   name, description, address, state, phone
 }) => {
@@ -176,6 +188,67 @@ export const storeValidate = ({
     errors.phone = 'What is the contact number for your store?';
   } else if (!/^[234]\d{12}$/i.test(phone)) {
     errors.phone = 'A valid Nigerian contact number starting with 234 is required';
+  }
+
+  return errors;
+};
+
+export const userValidate = (userData) => {
+  const errors = {};
+  const {
+    firstName, familyName, email, phone, password, confirmPassword, type
+  } = userData;
+
+  if (!firstName) {
+    errors.firstName = 'What is your first name?';
+  }
+
+  if (!familyName) {
+    errors.familyName = 'What is your family name?';
+  }
+
+  if (!email) {
+    errors.email = 'What is your email address?';
+  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
+    errors.email = 'The email provided is not valid';
+  }
+
+  if (!phone) {
+    errors.phone = 'What is your phone number?';
+  } else if (!/^[234]\d{12}$/i.test(phone)) {
+    errors.phone = 'A valid Nigerian phone number starting with 234 is required';
+  }
+
+  if (!password) {
+    errors.password = 'Create a new password';
+  } else if (!/\d/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain a number';
+  } else if (!/[A-Z]/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain an upperCase letter';
+  } else if (password.length < 6) {
+    errors.password = 'To be secure enough, your new password must be at least 6 characters long';
+  }
+
+  if (!confirmPassword) {
+    errors.confirmPassword = 'Do confirm your new password to make it easier to remember';
+  } else if (confirmPassword !== password) {
+    errors.confirmPassword = 'Your confirmation did not match the password';
+  }
+
+  if (!type) {
+    errors.type = 'What is your user type?';
+  } else if (!types.includes(type)) {
+    errors.type = 'Do select one of our user types';
+  }
+
+  if (!userData.categories) {
+    errors.categories = 'What categories are you interested in?';
+  } else if (
+    !userData.categories
+      .map(({ value }) => value)
+      .every((val) => categories.map(({ name }) => name).includes(val))
+  ) {
+    errors.categories = 'Do select at least one of our categories';
   }
 
   return errors;

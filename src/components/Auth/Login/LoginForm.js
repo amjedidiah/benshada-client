@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import {
-  faSignInAlt,
-  faLock
+  faLock,
+  faHome
 } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import { Field, reduxForm } from 'redux-form';
@@ -25,8 +25,7 @@ class LoginForm extends Component {
 
   static propTypes = {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    handleSubmit: PropTypes.func,
-    onBlur: PropTypes.func
+    handleSubmit: PropTypes.func
   };
 
   componentWillUnmount() {
@@ -42,11 +41,12 @@ class LoginForm extends Component {
         className={`animate__animated ${animationClass} m-0 px-lg-5`}
         autoComplete="off"
       >
-        <h2 className="mb-2 text-center pt-5">Login to Benshada Place <FontAwesomeIcon icon={faSignInAlt} className="ml-2" /></h2>
+        <h2 className="mb-2 text-center">Login to Benshada Place</h2>
       <p className="lead mb-4 text-center">
         Or return{' '}
         <Link to="/">
-          home
+          <span className="d-none d-lg-inline">home</span>
+          <span className="d-lg-none text-white"><FontAwesomeIcon icon={faHome} /></span>
         </Link>
       </p>
         <div className="form-row">

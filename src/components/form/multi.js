@@ -42,6 +42,7 @@ export default class Multi extends Component {
 
     const id = `${action}${input.name}`;
 
+
     return (
       <div className="d-flex align-items-center">
         <FormIcon icon={icon} />
