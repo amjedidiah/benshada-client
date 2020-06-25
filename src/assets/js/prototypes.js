@@ -1,4 +1,4 @@
-export const split = (input, len) => input.match(
+export const splitByLength = (input, len) => input.match(
   new RegExp(
     `.{1,${len}}(?=(.{${len}})+(?!.))|.{1,${len}}$`,
     'g'

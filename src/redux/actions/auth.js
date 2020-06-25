@@ -14,7 +14,7 @@ export const authLogin = (payload) => (dispatch) => {
 export const authSignup = (payload) => (dispatch) => {
   const response = dispatch({
     type: SIGNUP,
-    payload: api.post('/users/login', payload)
+    payload: api.post('/users/signup', payload)
   });
 
   return response

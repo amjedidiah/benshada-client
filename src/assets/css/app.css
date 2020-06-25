@@ -115,7 +115,7 @@ body#body main #app .bg-light,
 body#body main #app .bg-lg-light,
 body#body main #app .bg-light-benshada,
 body#body main #app .bg-lg-light-benshada {
-  background: #fbf9f9;
+  background: #fdf4ea;
 }
 
 body#body main #app .bg-warning {
@@ -204,11 +204,11 @@ body#body main #app .img-holder.img-holder-user {
   border: 1px solid #ccc;
 }
 
-body#body main #app #questionMark {
-  bottom: 30;
-  right: 30;
+#addProductButton {
+  bottom: 30px;
+  right: 30px;
   cursor: pointer;
-  z-index: 2;
+  position: fixed;
 }
 
 body#body main #app #genderList .icon {
@@ -243,7 +243,7 @@ body#body main #app #genderList .icon {
   body#body main #app .card-columns {
     column-count: 4;
   }
-  
+
   body#body main #app #genderList .icon {
     font-size: 3em;
   }
@@ -253,5 +253,4 @@ body#body main #app #genderList .icon {
   body#body main #app .card-columns {
     column-count: 6;
   }
-
 }

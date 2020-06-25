@@ -30,10 +30,18 @@ class Register extends Component {
       )
     });
 
+    const user = {
+      ...registerData,
+      name: `${registerData.firstName} ${registerData.familyName}`
+    };
+    delete user.firstName;
+    delete user.familyName;
+    delete user.confirmPassword;
+
     return this.props.users.filter(({ email }) => email === registerData.email).length > 0
       ? (this.setState(this.INIT), toast.warn('You have already registered'))
       : this.props
-        .authSignup(registerData)
+        .authSignup(user)
         .then((response) => toast.success(
           (response && response.data && response.data.message && response.data.message.name)
                 || (response && response.statusText)

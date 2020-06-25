@@ -10,7 +10,7 @@ body#body div#formContainer .form-container-holder {
 body#body div#formContainer .form-container-holder form {
   background: #ef932e;
   padding: 90px 20px 10px 20px;
-  color: #fbf9f9;
+  color: #fdf4ea;
 }
 
 body#body div#formContainer .form-container-holder form .form-row {
@@ -72,7 +72,7 @@ body#body
   box-shadow: 0 0 0 100px #ef932e inset;
   border: none;
   outline: none;
-  -webkit-text-fill-color: #fbf9f9;
+  -webkit-text-fill-color: #fdf4ea;
   background: #ef932e;
 }
 
@@ -161,13 +161,13 @@ body#body div#formContainer .form-container-holder form .button-group .btn {
   margin: 0.5rem;
 }
 
-body#body div#formContainer .form-container-holder form .button-group .btn[type="submit"] {
-  background: #fbf9f9;
+body#body div#formContainer .form-container-holder form .button-group .btn[type='submit'] {
+  background: #fdf4ea;
   color: #ef932e;
 }
 
-body#body div#formContainer .form-container-holder form .button-group .btn[type="button"] {
-  color: #fbf9f9;
+body#body div#formContainer .form-container-holder form .button-group .btn[type='button'] {
+  color: #fdf4ea;
   background: #ef932e;
 }
 
@@ -175,7 +175,7 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
   body#body div#formContainer,
   body#body div#formContainer .form-container-holder,
   body#body div#formContainer .form-container-holder form {
-    background: #fbf9f9;
+    background: #fdf4ea;
   }
 
   body#body div#formContainer {
@@ -194,7 +194,7 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
   }
 
   body#body div#formContainer .form-container-holder form .form-row .form-holder {
-    background: #fbf9f9;
+    background: #fdf4ea;
   }
 
   body#body div#formContainer .form-container-holder form .form-row .form-holder:hover {
@@ -216,12 +216,12 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
     .form-row
     .form-holder
     .form-control:-webkit-autofill {
-    -webkit-box-shadow: 0 0 0 100px #fbf9f9 inset;
-    box-shadow: 0 0 0 100px #fbf9f9 inset;
+    -webkit-box-shadow: 0 0 0 100px #fdf4ea inset;
+    box-shadow: 0 0 0 100px #fdf4ea inset;
     border: none;
     outline: none;
     -webkit-text-fill-color: #ef932e;
-    background: #fbf9f9;
+    background: #fdf4ea;
   }
 
   body#body
@@ -260,7 +260,7 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
     .form-holder
     input[type='radio']
     + label {
-    background: #fbf9f9;
+    background: #fdf4ea;
   }
 
   body#body
@@ -275,13 +275,13 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
     color: #fff;
   }
 
-  body#body div#formContainer .form-container-holder form .button-group .btn[type="submit"] {
-    color: #fbf9f9;
+  body#body div#formContainer .form-container-holder form .button-group .btn[type='submit'] {
+    color: #fdf4ea;
     background: #ef932e;
   }
 
-  body#body div#formContainer .form-container-holder form .button-group .btn[type="button"] {
-    background: #fbf9f9;
+  body#body div#formContainer .form-container-holder form .button-group .btn[type='button'] {
+    background: #fdf4ea;
     color: #ef932e;
   }
 }

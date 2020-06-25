@@ -8,7 +8,6 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 // Asset imports
 import ifSeller from '../../assets/js/ifSeller.js';
-import { split } from '../../assets/js/prototypes.js';
 
 class AuthHeader extends React.Component {
   static propTypes = {
@@ -32,9 +31,8 @@ class AuthHeader extends React.Component {
 
   render() {
     const { user } = this.props;
-    const name = (user && user.name) || '';
-    const userNames = split(name, ' ');
-    const fName = userNames && userNames[0];
+    const name = user && user.name;
+    const firstName = name.includes(' ') ? name.split(' ')[0] : name;
 
     return (
       <ul className="navbar-nav ml-auto " id="loggedIn">
@@ -50,7 +48,7 @@ class AuthHeader extends React.Component {
             aria-expanded="false"
           >
             <FontAwesomeIcon className="mr-2" icon={faUser} />
-            {fName}
+            {firstName}
           </Link>
           <div className="dropdown-menu border-0 shadow-md-sm" aria-labelledby="navbarDropdown">
             <Link className="dropdown-item" to={'/cart'}>

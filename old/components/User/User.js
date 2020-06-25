@@ -40,7 +40,7 @@ class User extends Component {
       </>
     );
   }
-
+  
   renderHelp() {
     const { isSignedIn, user, location } = this.props;
 
