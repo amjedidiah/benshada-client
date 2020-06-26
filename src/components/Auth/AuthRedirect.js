@@ -21,11 +21,23 @@ class AuthRedirect extends Component {
       }
 
       if ((user && user.type === 'UA') || (user && user.type === 'UB')) {
-        return (user && user.shops).length > 0 ? '' : <Redirect to="/onboarding" />;
+        return ((user && user.shops) || []).filter(
+          (shop) => shop !== null && shop !== undefined && shop !== ''
+        ).length > 0 ? (
+            ''
+          ) : (
+          <Redirect to="/onboarding" />
+          );
       }
 
       if (user && user.type === 'UC') {
-        return (user && user.categories).length > 0 ? '' : <Redirect to="/onboarding" />;
+        return ((user && user.categories) || []).filter(
+          (cat) => cat !== null && cat !== undefined && cat !== ''
+        ).length > 0 ? (
+            ''
+          ) : (
+          <Redirect to="/onboarding" />
+          );
       }
 
       return <Redirect to="/onboarding" />;
@@ -42,11 +54,23 @@ class AuthRedirect extends Component {
       }
 
       if ((user && user.type === 'UA') || (user && user.type === 'UB')) {
-        return (user && user.shops).length > 0 ? <Redirect to="/user" /> : '';
+        return ((user && user.shops) || []).filter(
+          (shop) => shop !== null && shop !== undefined && shop !== ''
+        ).length > 0 ? (
+          <Redirect to="/user" />
+          ) : (
+            ''
+          );
       }
 
       if (user && user.type === 'UC') {
-        return (user && user.categories).length > 0 ? <Redirect to="/user" /> : '';
+        return ((user && user.categories) || []).filter(
+          (cat) => cat !== null && cat !== undefined && cat !== ''
+        ).length > 0 ? (
+          <Redirect to="/user" />
+          ) : (
+            ''
+          );
       }
 
       return <Redirect to="/user" />;

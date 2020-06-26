@@ -3,14 +3,15 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import ProfileForm from './ProfileForm.js';
-import { userUpdate, userChangePassword } from '../../redux/actions/users.js';
+import { userUpdate, userChangePassword } from '../../../redux/actions/users.js';
 import PasswordForm from './PasswordForm.js';
-import ImageUpload from '../Image/ImageUpload.js';
+import ImageUpload from '../../Image/ImageUpload.js';
 
 class Profile extends Component {
   INIT = {
     profileButtonValue: 'Update Profile',
-    passwordButtonValue: 'Change Password'
+    passwordButtonValue: 'Change Password',
+    changeButtonValue: 'Change'
   };
 
   constructor(props) {
@@ -19,7 +20,6 @@ class Profile extends Component {
   }
 
   static propTypes = {
-    storeUpdateInfo: PropTypes.func,
     user: PropTypes.object,
     store: PropTypes.object,
     userUpdate: PropTypes.func,
@@ -109,6 +109,39 @@ class Profile extends Component {
         .finally(() => this.setState(this.INIT));
   };
 
+  handleImageChange = (fd) => {
+    this.setState({
+      changeButtonValue: (
+        <div className="spinner-border text-white" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      )
+    });
+
+    this.props
+      .userUpdate(this.props.user.email, fd)
+      .then((response) => toast.success(
+        (response && response.value && response.value.data && response.value.data.message)
+            || (response && response.statusText)
+            || 'Success'
+      ))
+      .catch((err) => {
+        this.setState(this.INIT);
+
+        toast.error(
+          (err && err.response && err.response.data && err.response.data.message)
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
+        );
+      })
+      .finally(() => this.setState(this.INIT));
+  };
+
   render = () => {
     const { name, email } = this.props.user;
 
@@ -124,10 +157,17 @@ class Profile extends Component {
               margin: '0 auto'
             }}
           >
-            <div className="position-absolute w-100 text-center" style={{
-              bottom: '0'
-            }}>
-              <ImageUpload user={this.props.user} />
+            <div
+              className="position-absolute w-100 text-center"
+              style={{
+                bottom: '0'
+              }}
+            >
+              <ImageUpload
+                buttonValue={this.state.changeButtonValue}
+                user={this.props.user}
+                onImageChange={this.handleImageChange}
+              />
             </div>
           </div>
           <div className="pt-lg-4 mt-1 ml-3 float-lg-left">
