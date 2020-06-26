@@ -3,10 +3,10 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { faLock, faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { Field, reduxForm } from 'redux-form';
-import { passwordValidate as validate } from '../../assets/js/validate.js';
+import { passwordValidate as validate } from '../../../assets/js/validate.js';
 
-import '../../assets/css/form.css';
-import FormField from '../form/formField.js';
+import '../../../assets/css/form.css';
+import FormField from '../../form/formField.js';
 
 class PasswordForm extends Component {
   constructor(props) {

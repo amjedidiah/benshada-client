@@ -151,14 +151,18 @@ class Onboarding extends Component {
 
     if (
       ((user && user.type === 'UA') || (user && user.type === 'UB'))
-      && (user && user.shops).length < 1
+      && ((user && user.shops) || []).filter(
+        (shop) => shop !== null && shop !== undefined && shop !== ''
+      ).length < 1
     ) {
       return (
         <StoreForm type="create" buttonValue={this.state.storeButton} onSubmit={this.storeSubmit} />
       );
     }
 
-    if (user && user.type === 'UC' && (user && user.categories).length < 1) {
+    if (((user && user.categories) || []).filter(
+      (cat) => cat !== null && cat !== undefined && cat !== ''
+    ).length < 1) {
       return <UserForm buttonValue={this.state.userButton} onSubmit={this.userSubmit} />;
     }
 

@@ -10,32 +10,54 @@ import {
 
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import ContainerDimensions from 'react-container-dimensions';
 
 function Image({
   image, name, size, type, xtraClass, id
 }) {
   return (image && image.length === 0) || image === undefined || image === null ? (
-      <div className={`text-center ${xtraClass}`}>
-        <FontAwesomeIcon
-          icon={
-            {
-              store: faStoreAlt,
-              product: faBox,
-              user: faUser,
-              order: faShoppingBag,
-              review: faUserEdit
-            }[type]
-          }
-          className={`fa-${size}x text-secondary`}
-        />
-      </div>
+    <div className={`text-center ${xtraClass}`}>
+      <FontAwesomeIcon
+        icon={
+          {
+            store: faStoreAlt,
+            product: faBox,
+            user: faUser,
+            order: faShoppingBag,
+            review: faUserEdit
+          }[type]
+        }
+        className={`fa-${size}x text-secondary`}
+      />
+    </div>
   ) : (
-      <div className={`text-center ${xtraClass}`}>
-        {type === 'user' ? <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '100px' }} alt={name} />
-          : <Link to={`/${type}s/?id=${id}`}>
-          <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '100px' }} alt={name} />
-        </Link>}
-      </div>
+    <div className={`text-center ${xtraClass}`}>
+      {type === 'user' ? (
+
+        <ContainerDimensions>
+        {({ height, width }) => (
+          <img
+          className="card-img img-responsive"
+          src={image || (image && image[0])}
+          style={{
+            minHeight: `${height * 1.15}px`, minWidth: `${width}px`
+          }}
+          alt={name}
+        />
+        )}
+      </ContainerDimensions>
+
+      ) : (
+        <Link to={`/${type}s/?id=${id}`}>
+          <img
+            className="card-img img-responsive"
+            src={image || (image && image[0])}
+            style={{ minHeight: '100px' }}
+            alt={name}
+          />
+        </Link>
+      )}
+    </div>
   );
 }
 

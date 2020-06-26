@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 import { faUsers, faMobileAlt, faMapPin } from '@fortawesome/free-solid-svg-icons';
 import { faUser, faFlag } from '@fortawesome/free-regular-svg-icons';
 import { Field, reduxForm } from 'redux-form';
-import { profileValidate as validate } from '../../assets/js/validate.js';
+import { profileValidate as validate } from '../../../assets/js/validate.js';
 
-import '../../assets/css/form.css';
-import FormField from '../form/formField.js';
-import categories from '../../assets/js/categories.js';
-import states from '../../assets/data/states.json';
+import '../../../assets/css/form.css';
+import FormField from '../../form/formField.js';
+import categories from '../../../assets/js/categories.js';
+import states from '../../../assets/data/states.json';
 
 class ProfileForm extends Component {
   constructor(props) {

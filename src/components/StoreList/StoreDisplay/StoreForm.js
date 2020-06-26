@@ -29,6 +29,7 @@ class StoreForm extends Component {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
     store: PropTypes.object,
+    userStore: PropTypes.object,
     initialValues: PropTypes.object,
     initialize: PropTypes.func,
     type: PropTypes.string
@@ -44,10 +45,15 @@ class StoreForm extends Component {
   });
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize && this.props.type !== 'create') {
+    if ((snapshot.shouldInitialize && this.props.type !== 'create') && this.props.type !== 'user') {
       this.props.initialize(this.props.store);
     }
   }
+
+  componentDidMount = () => (
+    this.props.type === 'user'
+      ? this.props.initialize(this.props.userStore)
+      : '');
 
   render() {
     const { animationClass } = this.state;
@@ -56,7 +62,7 @@ class StoreForm extends Component {
     return (
       <form
         onSubmit={this.props.handleSubmit}
-        className={`animate__animated ${animationClass} m-0 px-lg-5`}
+        className={`animate__animated ${animationClass} m-0 ${this.props.type === 'user' ? '' : 'px-lg-5'}`}
         autoComplete="off"
       >
         <h2 className="mb-0">{type === 'create' ? 'New store' : `Edit ${store && store.name}`}</h2>

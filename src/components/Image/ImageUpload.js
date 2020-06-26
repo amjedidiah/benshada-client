@@ -2,10 +2,7 @@ import React from 'react';
 import '../../assets/css/imageupload.css';
 import ContainerDimensions from 'react-container-dimensions';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
 import Image from './Image.js';
-import { userUpdate } from '../../redux/actions/users.js';
 
 class ImageUpload extends React.Component {
   constructor(props) {
@@ -14,8 +11,10 @@ class ImageUpload extends React.Component {
   }
 
   static propTypes = {
-    userUpdate: PropTypes.func,
-    user: PropTypes.object
+    buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    onImageChange: PropTypes.func,
+    user: PropTypes.object,
+    store: PropTypes.object
   };
 
   handleImageChange = (e) => {
@@ -36,33 +35,25 @@ class ImageUpload extends React.Component {
     const fd = new FormData();
     fd.append('image', file);
 
-    this.props
-      .userUpdate(this.props.user.email, fd)
-      .then((response) => toast.success(
-        (response && response.value && response.value.data && response.value.data.message)
-            || (response && response.statusText)
-            || 'Success'
-      ))
-      .catch((err) => toast.error(
-        (err && err.response && err.response.data && err.response.data.message)
-            || (err
-              && err.response
-              && err.response.data
-              && err.response.data.message
-              && err.response.data.message.name)
-            || (err && err.response && err.response.statusText)
-            || 'Network error'
-      ))
-      .finally(() => this.setState(this.INIT));
+    this.props.onImageChange(fd);
   };
 
   render() {
     const { imagePreviewUrl } = this.state;
     let $imagePreview = null;
     if (imagePreviewUrl) {
-      $imagePreview = <img alt="upload" className="img-responsive" src={imagePreviewUrl} />;
+      // $imagePreview = <img alt="upload" className="img-responsive" src={imagePreviewUrl} />;
+      $imagePreview = <Image image={imagePreviewUrl} type={this.props.user ? 'user' : 'store'} />;
     } else {
-      $imagePreview = <Image image={this.props.user && this.props.user.image} size={6} type="user" xtraClass="pt-2" />;
+      $imagePreview = (
+        <Image
+          image={
+            (this.props.user && this.props.user.image) || (this.props.user && this.props.user.image)
+          }
+          size={5}
+          type={this.props.user ? 'user' : 'store'}
+        />
+      );
     }
 
     return (
@@ -72,7 +63,7 @@ class ImageUpload extends React.Component {
             className="preview-component text-center v-align"
             style={{ height: height * 0.8, width }}
           >
-            <form encType="multipart/form-data" >
+            <form encType="multipart/form-data">
               <input
                 className="file-input"
                 type="file"
@@ -80,7 +71,7 @@ class ImageUpload extends React.Component {
                 accept=".jpg,.jpeg,.png,.gif"
               />
               <button type="button" className="btn">
-                Change
+                {this.props.buttonValue}
               </button>
             </form>
             <div className="img-preview">{$imagePreview}</div>
@@ -91,4 +82,4 @@ class ImageUpload extends React.Component {
   }
 }
 
-export default connect(null, { userUpdate })(ImageUpload);
+export default ImageUpload;
