@@ -19,6 +19,10 @@ body#body div#formContainer .form-container-holder form {
   color: #fffff0;
 }
 
+body#body div#formContainer.form-container .form-container-holder form {
+  padding: 0;
+}
+
 body#body div#formContainer .form-container-holder form .form-row {
   margin: 8px auto;
 }
@@ -83,8 +87,20 @@ body#body
   background: #ef932e;
 }
 
-body#body div#formContainer.form-container .form-container-holder form .form-row .form-holder .form-control,
-body#body div#formContainer.form-container .form-container-holder form .form-row .form-holder .form-control:focus,
+body#body
+  div#formContainer.form-container
+  .form-container-holder
+  form
+  .form-row
+  .form-holder
+  .form-control,
+body#body
+  div#formContainer.form-container
+  .form-container-holder
+  form
+  .form-row
+  .form-holder
+  .form-control:focus,
 body#body
   div#formContainer.form-container
   .form-container-holder
