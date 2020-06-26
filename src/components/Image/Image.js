@@ -31,9 +31,9 @@ function Image({
       </div>
   ) : (
       <div className={`text-center ${xtraClass}`}>
-        {type === 'user' ? <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '70px' }} alt={name} />
+        {type === 'user' ? <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '100px' }} alt={name} />
           : <Link to={`/${type}s/?id=${id}`}>
-          <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '70px' }} alt={name} />
+          <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '100px' }} alt={name} />
         </Link>}
       </div>
   );
