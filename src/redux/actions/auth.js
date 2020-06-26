@@ -1,11 +1,7 @@
-import api from '../../api/api.js';
+import api from '../api/api.js';
 import { LOGIN, LOGOUT, SIGNUP } from './types/authTypes.js';
-import { userOne } from './user.js';
-
-export const authSignup = (payload) => ({
-  type: SIGNUP,
-  payload: api.post('/users/login', payload)
-});
+import { userOne, usersAll } from './users.js';
+import { shopsAll } from './stores.js';
 
 export const authLogin = (payload) => (dispatch) => {
   const response = dispatch({
@@ -13,7 +9,18 @@ export const authLogin = (payload) => (dispatch) => {
     payload: api.post('/users/login', payload)
   });
 
-  return response.then(() => dispatch(userOne(payload.email)));
+  return response
+    .then(() => dispatch([userOne(payload.email), usersAll(), shopsAll()]));
+};
+
+export const authSignup = (payload) => (dispatch) => {
+  const response = dispatch({
+    type: SIGNUP,
+    payload: api.post('/users/signup', payload)
+  });
+
+  return response
+    .then(() => dispatch(authLogin({ email: payload.email, password: payload.password })));
 };
 
 export const authLogout = () => ({

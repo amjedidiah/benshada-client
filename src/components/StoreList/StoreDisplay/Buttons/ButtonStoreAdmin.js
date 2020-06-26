@@ -50,12 +50,21 @@ class ButtonStoreAdmin extends React.Component {
                   className="btn btn-danger"
                   onClick={() => this.props
                     .shopDelete(_id)
+                    .then((response) => toast.success(
+                      (response
+                            && response.value
+                            && response.value.data
+                            && response.value.data.message)
+                            || (response && response.statusText)
+                            || 'Success'
+                    ))
                     .catch((err) => toast.error(
-                      (err
-                            && err.response
-                            && err.response.data
-                            && err.response.data.message
-                            && err.response.data.message.name)
+                      (err && err.response && err.response.data && err.response.data.message)
+                            || (err
+                              && err.response
+                              && err.response.data
+                              && err.response.data.message
+                              && err.response.data.message.name)
                             || (err && err.response && err.response.statusText)
                             || 'Network error'
                     ))

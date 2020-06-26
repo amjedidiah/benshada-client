@@ -1,1 +1,1 @@
-export default (type) => (!!(type === 'a' || type === 'b'));
+export default (type) => (type === 'UA' || type === 'UB');

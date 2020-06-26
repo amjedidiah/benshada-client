@@ -16,13 +16,40 @@ class AuthRedirect extends Component {
     if (type === 'user') {
       if (!auth.isSignedIn) return <Redirect to="/login" />;
 
-      if ((user && user.createdAt === user && user.updatedAt) || (user && user.userType === 'user')) { return <Redirect to="/onboarding" />; }
+      if (user && user.createdAt === user && user.updatedAt) {
+        return <Redirect to="/onboarding" />;
+      }
+
+      if ((user && user.type === 'UA') || (user && user.type === 'UB')) {
+        return (user && user.shops).length > 0 ? '' : <Redirect to="/onboarding" />;
+      }
+
+      if (user && user.type === 'UC') {
+        return (user && user.categories).length > 0 ? '' : <Redirect to="/onboarding" />;
+      }
+
+      return <Redirect to="/onboarding" />;
     }
 
     if (type === 'onboarding') {
       if (!auth.isSignedIn) return <Redirect to="/login" />;
 
-      if ((user && user.createdAt === user && user.updatedAt) || (user && user.userType === 'user')) { return false; }
+      if (
+        (user && user.createdAt === user && user.updatedAt)
+        || !['UA', 'UB', 'UC'].includes(user && user.type)
+      ) {
+        return false;
+      }
+
+      if ((user && user.type === 'UA') || (user && user.type === 'UB')) {
+        return (user && user.shops).length > 0 ? <Redirect to="/user" /> : '';
+      }
+
+      if (user && user.type === 'UC') {
+        return (user && user.categories).length > 0 ? <Redirect to="/user" /> : '';
+      }
+
+      return <Redirect to="/user" />;
     }
 
     return auth.isSignedIn ? <Redirect to="/user" /> : '';

@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 
 // Reducer imports
-import loaderReducer from './loaderReducer.js';
 import authReducer from './authReducer.js';
 import userReducer from './userReducer.js';
 import productReducer from './productReducer.js';
@@ -14,7 +13,6 @@ import subscriptionReducer from './subscriptionReducer.js';
 export default combineReducers({
   auth: authReducer,
   form: formReducer,
-  loader: loaderReducer,
   product: productReducer,
   store: storeReducer,
   subscription: subscriptionReducer,

@@ -5,7 +5,7 @@ import Footer from '../Footer/Footer.js';
 
 export default class HrFr extends Component {
   static propTypes = {
-    children: PropTypes.oneOfType([PropTypes.element.isRequired, PropTypes.array])
+    children: PropTypes.any
   }
 
   render() {

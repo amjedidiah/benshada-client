@@ -1,4 +1,4 @@
-import api from '../../api/api.js';
+import api from '../api/api.js';
 import {
   TESTIMONIALS_ONE,
   TESTIMONIALS_ONE_SELECTED,

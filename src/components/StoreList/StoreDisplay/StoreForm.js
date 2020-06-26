@@ -3,16 +3,14 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import {
-  faStoreAlt,
-  faMapPin,
-  faTrademark,
-  faMobileAlt
+  faStoreAlt, faMapPin, faTrademark, faMobileAlt
 } from '@fortawesome/free-solid-svg-icons';
 import { Field, reduxForm } from 'redux-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlag } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
-import { storeValidate } from '../../../assets/js/validate.js';
+import { Link } from 'react-router-dom';
+import { storeValidate as validate } from '../../../assets/js/validate.js';
 
 import '../../../assets/css/form.css';
 import FormField from '../../form/formField.js';
@@ -30,10 +28,10 @@ class StoreForm extends Component {
   static propTypes = {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
-    onBlur: PropTypes.func,
     store: PropTypes.object,
     initialValues: PropTypes.object,
-    initialize: PropTypes.func
+    initialize: PropTypes.func,
+    type: PropTypes.string
   };
 
   componentWillUnmount() {
@@ -42,29 +40,28 @@ class StoreForm extends Component {
 
   getSnapshotBeforeUpdate = (prevProps) => ({
     shouldInitialize:
-      prevProps.store
-      && prevProps.store._id !== this.props.store
-      && this.props.store._id
+      prevProps.store && prevProps.store._id !== this.props.store && this.props.store._id
   });
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize) {
+    if (snapshot.shouldInitialize && this.props.type !== 'create') {
       this.props.initialize(this.props.store);
     }
   }
 
   render() {
     const { animationClass } = this.state;
+    const { type, store } = this.props;
 
     return (
       <form
         onSubmit={this.props.handleSubmit}
-        className={`animate__animated ${animationClass} m-0`}
+        className={`animate__animated ${animationClass} m-0 px-lg-5`}
         autoComplete="off"
       >
-        <h2 className="mb-0">Edit {this.props.store && this.props.store.name}</h2>
+        <h2 className="mb-0">{type === 'create' ? 'New store' : `Edit ${store && store.name}`}</h2>
         <p>
-          Make changes to your store
+          {type === 'create' ? 'Create a new store' : 'Make changes to your store'}
           <FontAwesomeIcon icon={faStoreAlt} className="ml-2" />
         </p>
         <div className="form-row">
@@ -134,7 +131,7 @@ class StoreForm extends Component {
             name="phone"
             type="tel"
             component={FormField}
-            label="Contact Number"
+            label="Store Contact Number"
             icon={faMobileAlt}
             className="col-12 col-md-6"
             placeholder="e.g: 2348124971450"
@@ -145,9 +142,15 @@ class StoreForm extends Component {
           <button className="btn btn-primary" type="submit">
             {this.props.buttonValue}
           </button>
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
-            Done
-          </button>
+          {type === 'create' ? (
+            <Link type="button" to="/logout" className="btn btn-danger">
+              Logout
+            </Link>
+          ) : (
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">
+              Done
+            </button>
+          )}
         </div>
       </form>
     );
@@ -162,6 +165,6 @@ const mapStateToProps = ({ store }) => ({
 
 export default reduxForm({
   form: 'storeForm',
-  storeValidate,
+  validate,
   warn
 })(connect(mapStateToProps)(StoreForm));

@@ -12,7 +12,7 @@ import { Field, reduxForm } from 'redux-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlag } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
-import { productValidate } from '../../../assets/js/validate.js';
+import { productValidate as validate } from '../../../assets/js/validate.js';
 
 import '../../../assets/css/form.css';
 import FormField from '../../form/formField.js';
@@ -32,7 +32,6 @@ class ProductForm extends Component {
   static propTypes = {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
-    onBlur: PropTypes.func,
     product: PropTypes.object,
     initialValues: PropTypes.object,
     initialize: PropTypes.func
@@ -219,7 +218,7 @@ class ProductForm extends Component {
             icon={''}
             className="col-12 col-md-6"
           />
-          <Field
+          {this.props.product && this.props.product.isBatch ? <Field
             action="product"
             name="batchQuality"
             type="number"
@@ -228,7 +227,8 @@ class ProductForm extends Component {
             placeholder="e.g: 30"
             icon={''}
             className="col-12 col-md-6"
-          />
+          /> : ''}
+
         </div>
 
         <div className="form-row">
@@ -265,6 +265,6 @@ const mapStateToProps = ({ product }) => ({
 
 export default reduxForm({
   form: 'productForm',
-  productValidate,
+  validate,
   warn
 })(connect(mapStateToProps)(ProductForm));

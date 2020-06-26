@@ -14,7 +14,7 @@ import { Link } from 'react-router-dom';
 function Image({
   image, name, size, type, xtraClass, id
 }) {
-  return (image && image.length === 0) || image === undefined ? (
+  return (image && image.length === 0) || image === undefined || image === null ? (
       <div className={`text-center ${xtraClass}`}>
         <FontAwesomeIcon
           icon={
@@ -31,16 +31,17 @@ function Image({
       </div>
   ) : (
       <div className={`text-center ${xtraClass}`}>
-        <Link to={`/${type}s/?id=${id}`}>
-          <img className="card-img img-responsive" src={image[0]} alt={name} />
-        </Link>
+        {type === 'user' ? <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '100px' }} alt={name} />
+          : <Link to={`/${type}s/?id=${id}`}>
+          <img className="card-img img-responsive" src={image || (image && image[0])} style={{ minHeight: '100px' }} alt={name} />
+        </Link>}
       </div>
   );
 }
 
 Image.propTypes = {
   id: PropTypes.string,
-  image: PropTypes.array,
+  image: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   name: PropTypes.string,
   size: PropTypes.number,
   type: PropTypes.string,

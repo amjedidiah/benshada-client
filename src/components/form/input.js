@@ -54,5 +54,5 @@ export default class Input extends Component {
         <div className="form-validation-response">{this.renderValidateIcon(touched, error)}</div>
       </div>
     );
-  }
+  };
 }

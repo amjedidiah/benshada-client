@@ -79,18 +79,24 @@ class ButtonProductOwner extends React.Component {
       }
     });
 
-    this.props.productUpdate(_id, product).catch((err) => {
-      this.setState(this.INIT);
-      toast.error(
-        (err
-          && err.response
-          && err.response.data
-          && err.response.data.message
-          && err.response.data.message.name)
-          || (err && err.response && err.response.statusText)
-          || 'Network error'
-      );
-    });
+    this.props
+      .productUpdate(_id, product)
+      .then((response) => toast.success(
+        (response && response.value && response.value.data && response.value.data.message)
+            || (response && response.statusText)
+            || 'Success'
+      ))
+      .catch((err) => toast.error(
+        (err && err.response && err.response.data && err.response.data.message)
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
+      ))
+      .finally(() => this.setState(this.INIT));
   };
 
   render = () => {
@@ -155,12 +161,21 @@ class ButtonProductOwner extends React.Component {
                   className="btn btn-danger"
                   onClick={() => this.props
                     .productDelete(_id)
+                    .then((response) => toast.success(
+                      (response
+                            && response.value
+                            && response.value.data
+                            && response.value.data.message)
+                            || (response && response.statusText)
+                            || 'Success'
+                    ))
                     .catch((err) => toast.error(
-                      (err
-                            && err.response
-                            && err.response.data
-                            && err.response.data.message
-                            && err.response.data.message.name)
+                      (err && err.response && err.response.data && err.response.data.message)
+                            || (err
+                              && err.response
+                              && err.response.data
+                              && err.response.data.message
+                              && err.response.data.message.name)
                             || (err && err.response && err.response.statusText)
                             || 'Network error'
                     ))

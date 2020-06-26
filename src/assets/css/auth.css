@@ -1,5 +1,5 @@
 /*Login CSS*/
-.login-left {
+body#body .login-left {
   background-image: url('../img/login.jpg');
   background-attachment: auto;
   background-position: center center;

@@ -11,7 +11,7 @@ body#body main #app #header ul a li:hover {
 
 body#body main #app #searchDropDown li:hover a,
 body#body main #app #searchDropDown li:hover link {
-  background: #fefbf6;
+  background: #fffff0;
   text-decoration: none;
 }
 
