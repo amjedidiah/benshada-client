@@ -42,18 +42,19 @@ class Onboarding extends Component {
     this.props
       .userUpdate(this.props.user.email, typeData)
       .then((response) => toast.success(
-        (response && response.data && response.data.message && response.data.message.name)
-            || (response && response.statusText)
-            || 'Success'
+        (response && response.value && response.value.data && response.value.data.message)
+        || (response && response.statusText)
+        || 'Success'
       ))
       .catch((err) => toast.error(
-        (err
-            && err.response
-            && err.response.data
-            && err.response.data.message
-            && err.response.data.message.name)
-            || (err && err.response && err.response.statusText)
-            || 'Network error'
+        (err && err.response && err.response.data && err.response.data.message)
+              || (err
+                && err.response
+                && err.response.data
+                && err.response.data.message
+                && err.response.data.message.name)
+              || (err && err.response && err.response.statusText)
+              || 'Network error'
       ))
       .finally(() => this.setState(this.INIT));
   };
@@ -76,18 +77,19 @@ class Onboarding extends Component {
     this.props
       .shopAdd(storeData)
       .then((response) => toast.success(
-        (response && response.data && response.data.message && response.data.message.name)
-            || (response && response.statusText)
-            || 'Success'
+        (response && response.value && response.value.data && response.value.data.message)
+        || (response && response.statusText)
+        || 'Success'
       ))
       .catch((err) => toast.error(
-        (err
-            && err.response
-            && err.response.data
-            && err.response.data.message
-            && err.response.data.message.name)
-            || (err && err.response && err.response.statusText)
-            || 'Network error'
+        (err && err.response && err.response.data && err.response.data.message)
+              || (err
+                && err.response
+                && err.response.data
+                && err.response.data.message
+                && err.response.data.message.name)
+              || (err && err.response && err.response.statusText)
+              || 'Network error'
       ))
       .finally(() => this.setState(this.INIT));
   };
@@ -123,18 +125,19 @@ class Onboarding extends Component {
     return this.props
       .userUpdate(this.props.user.email, user)
       .then((response) => toast.success(
-        (response && response.data && response.data.message && response.data.message.name)
-            || (response && response.statusText)
-            || 'Success'
+        (response && response.value && response.value.data && response.value.data.message)
+        || (response && response.statusText)
+        || 'Success'
       ))
       .catch((err) => toast.error(
-        (err
-            && err.response
-            && err.response.data
-            && err.response.data.message
-            && err.response.data.message.name)
-            || (err && err.response && err.response.statusText)
-            || 'Network error'
+        (err && err.response && err.response.data && err.response.data.message)
+              || (err
+                && err.response
+                && err.response.data
+                && err.response.data.message
+                && err.response.data.message.name)
+              || (err && err.response && err.response.statusText)
+              || 'Network error'
       ))
       .finally(() => this.setState(this.INIT));
   };
@@ -146,17 +149,16 @@ class Onboarding extends Component {
       return <TypeForm buttonValue={this.state.typeButton} onSubmit={this.typeSubmit} />;
     }
 
-    if (((user && user.type === 'UA') || (user && user.type === 'UB')) && (user && user.shops).length < 1) {
+    if (
+      ((user && user.type === 'UA') || (user && user.type === 'UB'))
+      && (user && user.shops).length < 1
+    ) {
       return (
-          <StoreForm
-            type="create"
-            buttonValue={this.state.storeButton}
-            onSubmit={this.storeSubmit}
-          />
+        <StoreForm type="create" buttonValue={this.state.storeButton} onSubmit={this.storeSubmit} />
       );
     }
 
-    if ((user && user.type === 'UC') && (user && user.categories).length < 1) {
+    if (user && user.type === 'UC' && (user && user.categories).length < 1) {
       return <UserForm buttonValue={this.state.userButton} onSubmit={this.userSubmit} />;
     }
 
@@ -166,6 +168,4 @@ class Onboarding extends Component {
   render = () => <Auth type="onboarding">{this.renderHelp()}</Auth>;
 }
 
-const mapStateToProps = ({ user }) => ({ user: user.selected });
-
-export default connect(mapStateToProps, { userUpdate, shopAdd })(Onboarding);
+export default connect(null, { userUpdate, shopAdd })(Onboarding);

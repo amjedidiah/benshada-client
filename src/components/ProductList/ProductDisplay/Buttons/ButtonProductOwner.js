@@ -82,16 +82,17 @@ class ButtonProductOwner extends React.Component {
     this.props
       .productUpdate(_id, product)
       .then((response) => toast.success(
-        (response && response.data && response.data.message && response.data.message.name)
+        (response && response.value && response.value.data && response.value.data.message)
             || (response && response.statusText)
             || 'Success'
       ))
       .catch((err) => toast.error(
-        (err
-            && err.response
-            && err.response.data
-            && err.response.data.message
-            && err.response.data.message.name)
+        (err && err.response && err.response.data && err.response.data.message)
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
             || (err && err.response && err.response.statusText)
             || 'Network error'
       ))
@@ -162,18 +163,19 @@ class ButtonProductOwner extends React.Component {
                     .productDelete(_id)
                     .then((response) => toast.success(
                       (response
-                            && response.data
-                            && response.data.message
-                            && response.data.message.name)
+                            && response.value
+                            && response.value.data
+                            && response.value.data.message)
                             || (response && response.statusText)
                             || 'Success'
                     ))
                     .catch((err) => toast.error(
-                      (err
-                            && err.response
-                            && err.response.data
-                            && err.response.data.message
-                            && err.response.data.message.name)
+                      (err && err.response && err.response.data && err.response.data.message)
+                            || (err
+                              && err.response
+                              && err.response.data
+                              && err.response.data.message
+                              && err.response.data.message.name)
                             || (err && err.response && err.response.statusText)
                             || 'Network error'
                     ))

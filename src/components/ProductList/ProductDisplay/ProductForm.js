@@ -218,7 +218,7 @@ class ProductForm extends Component {
             icon={''}
             className="col-12 col-md-6"
           />
-          <Field
+          {this.props.product && this.props.product.isBatch ? <Field
             action="product"
             name="batchQuality"
             type="number"
@@ -227,7 +227,8 @@ class ProductForm extends Component {
             placeholder="e.g: 30"
             icon={''}
             className="col-12 col-md-6"
-          />
+          /> : ''}
+
         </div>
 
         <div className="form-row">

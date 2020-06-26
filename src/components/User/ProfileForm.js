@@ -1,21 +1,17 @@
 /* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-
-import { faMapPin } from '@fortawesome/free-solid-svg-icons';
+import { faUsers, faMobileAlt, faMapPin } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faFlag } from '@fortawesome/free-regular-svg-icons';
 import { Field, reduxForm } from 'redux-form';
-import { faFlag } from '@fortawesome/free-regular-svg-icons';
-import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { userValidate as validate } from '../../assets/js/validate.js';
+import { profileValidate as validate } from '../../assets/js/validate.js';
 
 import '../../assets/css/form.css';
 import FormField from '../form/formField.js';
-import states from '../../assets/data/states.json';
 import categories from '../../assets/js/categories.js';
-import genders from '../../assets/js/genders.js';
+import states from '../../assets/data/states.json';
 
-class UserForm extends Component {
+class ProfileForm extends Component {
   constructor(props) {
     super(props);
 
@@ -28,36 +24,74 @@ class UserForm extends Component {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
     user: PropTypes.object,
-    initialValues: PropTypes.object,
-    initialize: PropTypes.func
+    initialize: PropTypes.func,
+    initialValues: PropTypes.object
   };
 
   componentWillUnmount() {
     this.setState({ animationClass: 'animate__slideOutLeft' });
   }
 
-  componentDidMount = () => this.props.initialize(this.props.user);
-
-  render() {
-    const { animationClass } = this.state;
+  componentDidMount() {
     const { user } = this.props;
 
+    const initialUser = {
+      ...user,
+      firstName: (user && user.name).split(' ')[0],
+      familyName: (user && user.name).split(' ')[1],
+      categories: (user && user.categories).map((value) => ({ label: value, value }))
+    };
+
+    delete initialUser.name;
+    this.props.initialize(initialUser);
+  }
+
+  render() {
     return (
       <form
         onSubmit={this.props.handleSubmit}
-        className={`animate__animated ${animationClass} m-0 px-lg-5`}
+        className={`animate__animated ${this.state.animationClass}`}
         autoComplete="off"
       >
-        <h2 className="mb-0">Hello {user && user.name}</h2>
-        <p>
-          Tell us more about you{' '}
-          <span role="img" aria-label="smiley-face-wink">
-            &#128521;
-          </span>
-        </p>
         <div className="form-row">
           <Field
-            action="user"
+            action="profile"
+            name="firstName"
+            type="text"
+            component={FormField}
+            label="First Name"
+            icon={faUser}
+            className="col-12 col-sm-6"
+            placeholder="e.g John"
+          />
+          <Field
+            action="profile"
+            name="familyName"
+            type="text"
+            component={FormField}
+            label="Family Name"
+            icon={faUsers}
+            className="col-12 col-sm-6"
+            placeholder="e.g Doe"
+          />
+        </div>
+
+        <div className="form-row">
+          <Field
+            action="profile"
+            name="phone"
+            type="tel"
+            component={FormField}
+            label="Phone Number"
+            icon={faMobileAlt}
+            className="col-12"
+            placeholder="e.g 2348163186209"
+          />
+        </div>
+
+        <div className="form-row">
+          <Field
+            action="profile"
             name="address"
             type="textarea"
             component={FormField}
@@ -67,7 +101,7 @@ class UserForm extends Component {
             placeholder="e.g: 3 Pound Road"
           />
           <Field
-            action="user"
+            action="profile"
             name="state"
             type="datalist"
             options={states.map(({ name }) => name)}
@@ -79,26 +113,9 @@ class UserForm extends Component {
           />
         </div>
 
-        <small className="section-header">Gender</small>
-        <div className="form-row align-items-center">
-          {genders.map(({ name, icon }) => (
-            <Field
-              action="user"
-              name="gender"
-              type="radio"
-              component={FormField}
-              label={name}
-              icon={icon}
-              className="col form-holder-select"
-              value={name}
-              key={`user-gender-${name}`}
-            />
-          ))}
-        </div>
-
         <div className="form-row">
           <Field
-            action="user"
+            action="profile"
             name="categories"
             type="multi"
             component={FormField}
@@ -113,9 +130,6 @@ class UserForm extends Component {
           <button className="btn btn-primary" type="submit">
             {this.props.buttonValue}
           </button>
-          <Link type="button" to="/logout" className="btn btn-danger">
-            Logout
-          </Link>
         </div>
       </form>
     );
@@ -124,12 +138,8 @@ class UserForm extends Component {
 
 const warn = () => ({});
 
-const mapStateToProps = ({ user }) => ({
-  user: user.selected
-});
-
 export default reduxForm({
-  form: 'userForm',
+  form: 'profileForm',
   validate,
   warn
-})(connect(mapStateToProps)(UserForm));
+})(ProfileForm);

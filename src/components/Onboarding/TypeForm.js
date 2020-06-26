@@ -55,7 +55,7 @@ class TypeForm extends Component {
         <small className="section-header">I want to</small>
         <div className="form-row align-items-center">
           <Field
-            action="register"
+            action="type"
             name="type"
             type="radio"
             component={FormField}
@@ -65,7 +65,7 @@ class TypeForm extends Component {
             value="UA"
           />
           <Field
-            action="register"
+            action="type"
             name="type"
             type="radio"
             component={FormField}
@@ -75,7 +75,7 @@ class TypeForm extends Component {
             value="UB"
           />
           <Field
-            action="register"
+            action="type"
             name="type"
             type="radio"
             component={FormField}

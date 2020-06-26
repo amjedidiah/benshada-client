@@ -1,6 +1,6 @@
-import api from '../../api/api.js';
+import api from '../api/api.js';
 import {
-  USER_ONE, USERS_ALL, USER_UPDATE, USER_DELETE
+  USER_ONE, USERS_ALL, USER_UPDATE, USER_DELETE, USER_CHANGE_PASSWORD
 } from './types/userTypes.js';
 
 export const userOne = (email) => ({
@@ -34,6 +34,11 @@ export const userUpdate = (email, userData) => (dispatch) => {
 
   return response.then(() => dispatch(userOne(email)));
 };
+
+export const userChangePassword = (passwordData) => ({
+  type: USER_CHANGE_PASSWORD,
+  payload: api.post('/users/change-password', passwordData)
+});
 
 export const userDelete = (email) => (dispatch) => {
   const response = dispatch({

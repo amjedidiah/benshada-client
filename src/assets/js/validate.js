@@ -1,22 +1,25 @@
 import states from '../data/states.json';
 import types from '../data/types.json';
+import sizes from '../data/sizes.json';
 import categories from './categories.js';
+import genders from './genders.js';
 
-export const productValidate = ({
-  name,
-  shortDescription,
-  longDescription,
-  price,
-  discountPercentage,
-  quantity,
-  color,
-  mainMaterial,
-  category,
-  productionCountry,
-  warranty,
-  sizes
-}) => {
+export const productValidate = (productData) => {
   const errors = {};
+  const {
+    name,
+    shortDescription,
+    longDescription,
+    price,
+    discountPercentage,
+    quantity,
+    color,
+    mainMaterial,
+    category,
+    gender,
+    productionCountry,
+    guarantee
+  } = productData;
 
   if (!name) {
     errors.name = 'What is the name of your product?';
@@ -30,7 +33,7 @@ export const productValidate = ({
     errors.longDescription = 'Tell us more about your product';
   }
 
-  if (!price || price < 0) {
+  if (!price || price < 1) {
     errors.price = 'How much is your product?';
   }
 
@@ -38,7 +41,7 @@ export const productValidate = ({
     errors.discountPercentage = 'Your discount could be 0';
   }
 
-  if (!quantity || quantity < 0) {
+  if (!quantity || quantity < 1) {
     errors.quantity = 'How many products are you putting up for sale';
   }
 
@@ -52,6 +55,12 @@ export const productValidate = ({
     errors.category = 'Do select one of our categories';
   }
 
+  if (!gender) {
+    errors.gender = 'What is your gender?';
+  } else if (!genders.map((gend) => gend.name).includes(gender)) {
+    errors.gender = 'Do select one of our genders';
+  }
+
   if (!mainMaterial) {
     errors.mainMaterial = 'What main material is your product made of?';
   }
@@ -60,12 +69,18 @@ export const productValidate = ({
     errors.productionCountry = 'What country was your product made in?';
   }
 
-  if (!warranty || warranty < 0) {
-    errors.warranty = 'What is the number of days you can guarantee that your product will last for?';
+  if (!guarantee || guarantee < 1) {
+    errors.guarantee = 'What is the number of days you can guarantee that your product will last for?';
   }
 
-  if (!sizes) {
+  if (!productData.sizes) {
     errors.sizes = 'What sizes does your product exist in?';
+  } else if (
+    !productData.sizes
+      .map(({ value }) => value)
+      .every((val) => sizes.map(({ value }) => value).includes(val))
+  ) {
+    errors.categories = 'Do select at least one of our categories';
   }
 
   return errors;
@@ -81,13 +96,7 @@ export const loginValidate = ({ email, password }) => {
   }
 
   if (!password) {
-    errors.password = 'Create a new password';
-  } else if (!/\d/.test(password)) {
-    errors.password = 'To be secure enough, your new password must contain a number';
-  } else if (!/[A-Z]/.test(password)) {
-    errors.password = 'To be secure enough, your new password must contain an upperCase letter';
-  } else if (password.length < 6) {
-    errors.password = 'To be secure enough, your new password must be at least 6 characters long';
+    errors.password = 'What is your password';
   }
 
   return errors;
@@ -149,6 +158,29 @@ export const registerValidate = ({
   return errors;
 };
 
+export const passwordValidate = ({
+  password,
+  oldPassword
+}) => {
+  const errors = {};
+
+  if (!password) {
+    errors.password = 'What is your new password';
+  } else if (!/\d/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain a number';
+  } else if (!/[A-Z]/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain an upperCase letter';
+  } else if (password.length < 6) {
+    errors.password = 'To be secure enough, your new password must be at least 6 characters long';
+  }
+
+  if (!oldPassword) {
+    errors.oldPassword = 'What is your old password';
+  }
+
+  return errors;
+};
+
 export const typeValidate = ({ type }) => {
   const errors = {};
 
@@ -175,11 +207,11 @@ export const storeValidate = ({
   }
 
   if (!address) {
-    errors.address = 'What is your store located?';
+    errors.address = 'Where is your store located?';
   }
 
   if (!state) {
-    errors.state = 'In what state is your store located residence?';
+    errors.state = 'In what state is your store located?';
   } else if (!states.map((store) => store.name).includes(state)) {
     errors.state = 'Please select a Nigerian state';
   }
@@ -193,11 +225,11 @@ export const storeValidate = ({
   return errors;
 };
 
-export const userValidate = (userData) => {
+export const profileValidate = (profileData) => {
   const errors = {};
   const {
-    firstName, familyName, email, phone, password, confirmPassword, type
-  } = userData;
+    firstName, familyName, address, phone, state
+  } = profileData;
 
   if (!firstName) {
     errors.firstName = 'What is your first name?';
@@ -207,38 +239,55 @@ export const userValidate = (userData) => {
     errors.familyName = 'What is your family name?';
   }
 
-  if (!email) {
-    errors.email = 'What is your email address?';
-  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
-    errors.email = 'The email provided is not valid';
-  }
-
   if (!phone) {
     errors.phone = 'What is your phone number?';
   } else if (!/^[234]\d{12}$/i.test(phone)) {
     errors.phone = 'A valid Nigerian phone number starting with 234 is required';
   }
 
-  if (!password) {
-    errors.password = 'Create a new password';
-  } else if (!/\d/.test(password)) {
-    errors.password = 'To be secure enough, your new password must contain a number';
-  } else if (!/[A-Z]/.test(password)) {
-    errors.password = 'To be secure enough, your new password must contain an upperCase letter';
-  } else if (password.length < 6) {
-    errors.password = 'To be secure enough, your new password must be at least 6 characters long';
+  if (!address) {
+    errors.address = 'Where do you live?';
   }
 
-  if (!confirmPassword) {
-    errors.confirmPassword = 'Do confirm your new password to make it easier to remember';
-  } else if (confirmPassword !== password) {
-    errors.confirmPassword = 'Your confirmation did not match the password';
+  if (!state) {
+    errors.state = 'In what state do you live in?';
+  } else if (!states.map((store) => store.name).includes(state)) {
+    errors.state = 'Please select a Nigerian state';
   }
 
-  if (!type) {
-    errors.type = 'What is your user type?';
-  } else if (!types.includes(type)) {
-    errors.type = 'Do select one of our user types';
+  if (!profileData.categories) {
+    errors.categories = 'What categories are you interested in?';
+  } else if (
+    !profileData.categories
+      .map(({ value }) => value)
+      .every((val) => categories.map(({ name }) => name).includes(val))
+  ) {
+    errors.categories = 'Do select at least one of our categories';
+  }
+
+  return errors;
+};
+
+export const userValidate = (userData) => {
+  const errors = {};
+  const {
+    address, state, gender
+  } = userData;
+
+  if (!address) {
+    errors.address = 'Where do you live?';
+  }
+
+  if (!state) {
+    errors.state = 'In what state do you live in?';
+  } else if (!states.map((store) => store.name).includes(state)) {
+    errors.state = 'Please select a Nigerian state';
+  }
+
+  if (!gender) {
+    errors.gender = 'What is your gender?';
+  } else if (!genders.map(({ name }) => name).includes(gender)) {
+    errors.gender = 'Do select one of our genders';
   }
 
   if (!userData.categories) {
@@ -258,7 +307,7 @@ export const testimonialValidate = ({ testimony }) => {
   const errors = {};
 
   if (!testimony) {
-    errors.testimony = 'What do you have to say abnout Benshada?';
+    errors.testimony = 'What do you have to say about Benshada?';
   }
 
   return errors;

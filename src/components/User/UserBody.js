@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { faPlus, faStream, faUser } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faStream } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 
@@ -14,8 +14,10 @@ import Orders from './Orders.js';
 import Products from './Products.js';
 import Profile from './Profile.js';
 import Saved from './Saved.js';
+import Store from './Store.js';
 import Tickets from './Tickets.js';
 import ifSeller from '../../assets/js/ifSeller.js';
+import Image from '../Image/Image.js';
 
 const Components = {
   Analytics,
@@ -26,12 +28,14 @@ const Components = {
   Products,
   Profile,
   Saved,
+  Store,
   Tickets
 };
 
 class UserBody extends Component {
   static propTypes = {
     user: PropTypes.object,
+    store: PropTypes.object,
     list: PropTypes.array
   };
 
@@ -79,6 +83,7 @@ class UserBody extends Component {
   renderBodyComponents = (list) => list.map((listItem, i) => {
     const { Title } = listItem;
     const TagName = Components[Title];
+
     return (
         <div
           className={`h-100 p-0 tab-pane fade p-5 mt-5 ${i === 0 ? 'show active' : ''}`}
@@ -87,7 +92,9 @@ class UserBody extends Component {
           aria-labelledby={`pills-${Title}-tab`}
           key={`user-section-${Title}`}
         >
-            <TagName user={this.props.user} />
+
+
+            <TagName user={this.props.user} store={this.props.store} />
         </div>
     );
   })
@@ -105,13 +112,9 @@ class UserBody extends Component {
         </Link>
       </div>
       <div className="user float-right">
-        {image ? (
-          <div className="img-holder img-holder-user float-left">
-            <img src={''} alt="" className="rounded-circle" width="50" height="50" />
-          </div>
-        ) : (
-          <FontAwesomeIcon icon={faUser} className="float-left position-relative mb-3" style={{ top: '10px', fontSize: '1.5em' }} />
-        )}
+        <div className="img-holder img-holder-user float-left">
+          <Image type="user" image={image} />
+        </div>
         <p className="pt-5 ml-2 d-none d-md-inline position-relative" style={{ top: '10px' }}>
           Hello, {firstName}
         </p>
@@ -122,13 +125,13 @@ class UserBody extends Component {
 
   render() {
     const { user, list } = this.props;
-    const name = user && user.name;
+    const name = (user && user.name) || '';
     const firstName = name.includes(' ') ? name.split(' ')[0] : name;
 
     return (
       <>
         <div
-          className="col-12 p-0 col-md-9 offset-md-3 col-lg-10 offset-lg-2 position-relative tab-content"
+          className="col-12 p-0 col-md-9 offset-md-3 col-lg-10 offset-lg-2 bg-light-benshada position-relative tab-content"
           id="pills-tabContent"
         >
           {this.renderHeader(user, firstName)}

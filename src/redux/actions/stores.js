@@ -1,5 +1,5 @@
 /* eslint-disable no-underscore-dangle */
-import api from '../../api/api.js';
+import api from '../api/api.js';
 import {
   STORES_ONE,
   STORES_ONE_SELECTED,
@@ -24,10 +24,8 @@ export const shopAdd = (shopData) => (dispatch, getState) => {
   });
   const { email } = getState().user.selected;
 
-  return response.then((res) => dispatch([
-    userUpdate(email, { shops: [res.value.data.data._id] }),
-    shopsOne(res.value.data.data._id)
-  ]));
+  return response
+    .then((res) => dispatch(userUpdate(email, { shops: [res.value.data.data._id] })));
 };
 
 export const shopsOneSelected = (payload) => ({

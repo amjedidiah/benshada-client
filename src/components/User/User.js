@@ -1,30 +1,31 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import AuthRedirect from '../Auth/AuthRedirect.js';
-import ifSeller from '../../assets/js/ifSeller.js';
-import buyerNav from '../../assets/js/buyerNav.js';
-import sellerNav from '../../assets/js/sellerNav.js';
+import navUA from '../../assets/js/navUA.js';
+import navUB from '../../assets/js/navUB.js';
+import navUC from '../../assets/js/navUC.js';
 import UserNav from './UserNav.js';
 import '../../assets/css/user.css';
 import UserBody from './UserBody.js';
 
 class User extends Component {
   static propTypes = {
-    user: PropTypes.object
+    email: PropTypes.string,
+    user: PropTypes.object,
+    userOne: PropTypes.func
   };
 
   render = () => {
     const { user } = this.props;
-    const list = ifSeller(user && user.type) ? sellerNav : buyerNav;
+    const list = { UA: navUA, UB: navUB, UC: navUC }[user && user.type] || [];
 
     return (
       <>
         <AuthRedirect type="user" />{' '}
         <div className="container-fluid h-100">
           <div className="row h-100">
-            <UserNav list={list} user={user} className="bg-light-benshada user-side-main" />
-            <UserBody list={list} user={user} />
+            <UserNav list={list} user={user} className="bg-primary-benshada user-side-main" />
+            <UserBody list={list} user={user} store={user && user.shops && user.shops[0]} />
           </div>
         </div>
       </>
@@ -32,6 +33,4 @@ class User extends Component {
   };
 }
 
-const mapStateToProps = ({ user }) => ({ user: user.selected });
-
-export default connect(mapStateToProps)(User);
+export default User;

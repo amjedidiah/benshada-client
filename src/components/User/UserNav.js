@@ -43,20 +43,21 @@ class UserNav extends React.Component {
 
   render = () => (
     <div
-      className={`col-6 col-md-3 col-lg-2 position-fixed h-100 ${this.props.className} px-0 shadow-sm`}
+      className={`col-7 col-sm-5 col-md-3 col-lg-2 position-fixed h-100 ${this.props.className} px-0 shadow-sm`}
       id="userSide"
     >
       <p className="text-center p-4">
-        <Link to="/" className="no-link lead font-weight-bolder">
+        <Link to="/" className="no-link text-white lead font-weight-bolder">
           benshada
         </Link>
       </p>
       <ul className={'nav nav-pills flex-column my-3 pl-4'} id="userNav" role="tablist">
         {this.renderList(this.props.list)}
-        <li className="nav-item text-danger">
-          <Link className="nav-link text-capitalize text-danger" to="/logout">
-            <FontAwesomeIcon icon={faSignOutAlt} className="mr-3 text-danger" />
-            Logout
+        <li className="nav-item">
+          <Link className="nav-link text-capitalize" to="/logout">
+            <button className="btn btn-danger">
+            <FontAwesomeIcon icon={faSignOutAlt} className="mr-3" />
+            Logout</button>
           </Link>
         </li>
       </ul>

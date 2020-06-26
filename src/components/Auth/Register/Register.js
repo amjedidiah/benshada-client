@@ -43,16 +43,17 @@ class Register extends Component {
       : this.props
         .authSignup(user)
         .then((response) => toast.success(
-          (response && response.data && response.data.message && response.data.message.name)
+          (response && response.value && response.value.data && response.value.data.message)
                 || (response && response.statusText)
                 || 'Success'
         ))
         .catch((err) => toast.error(
-          (err
-                && err.response
-                && err.response.data
-                && err.response.data.message
-                && err.response.data.message.name)
+          (err && err.response && err.response.data && err.response.data.message)
+                || (err
+                  && err.response
+                  && err.response.data
+                  && err.response.data.message
+                  && err.response.data.message.name)
                 || (err && err.response && err.response.statusText)
                 || 'Network error'
         ))
@@ -66,6 +67,4 @@ class Register extends Component {
   );
 }
 
-const mapStateToProps = ({ user }) => ({ users: user.all });
-
-export default connect(mapStateToProps, { authSignup })(Register);
+export default connect(null, { authSignup })(Register);

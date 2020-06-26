@@ -2,7 +2,6 @@
 import React from 'react';
 
 // Component imports
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Jumbotron from './Jumbotron/Jumbotron.js';
 import GenderList from './GenderList/GenderList.js';
@@ -13,13 +12,6 @@ import categories from '../../assets/js/categories.js';
 import { randNum } from '../../assets/js/prototypes.js';
 import genders from '../../assets/js/genders.js';
 import ProductList from '../ProductList/ProductList.js';
-
-// Action imports
-import { productsAll } from '../../redux/actions/products.js';
-import { shopsAll } from '../../redux/actions/stores.js';
-import { testimonialsAll } from '../../redux/actions/testimonials.js';
-import { subscriptionsAll } from '../../redux/actions/subscriptions.js';
-import { usersAll } from '../../redux/actions/users.js';
 import StoreList from '../StoreList/StoreList.js';
 import TestimonialList from './TestimonialList/TestimonialList.js';
 import HowItWorks from './HowItWorks/HowItWorks.js';
@@ -31,22 +23,9 @@ class Home extends React.Component {
   static propTypes = {
     isSignedIn: PropTypes.bool,
     products: PropTypes.array,
-    productsAll: PropTypes.func,
-    shopsAll: PropTypes.func,
     stores: PropTypes.array,
-    subscriptionsAll: PropTypes.func,
     testimonials: PropTypes.array,
-    testimonialsAll: PropTypes.func,
-    user: PropTypes.object,
-    usersAll: PropTypes.func
-  };
-
-  componentDidMount = () => {
-    this.props.productsAll();
-    this.props.shopsAll();
-    this.props.subscriptionsAll();
-    this.props.testimonialsAll();
-    this.props.usersAll();
+    user: PropTypes.object
   };
 
   render = () => {
@@ -156,21 +135,5 @@ class Home extends React.Component {
 }
 // End Component
 
-const mapStateToProps = ({
-  auth, user, product, store, testimonial
-}) => ({
-  isSignedIn: auth.isSignedIn,
-  user: user.selected,
-  products: product.all,
-  stores: store.all,
-  testimonials: testimonial.all
-});
-
 // Export component as React-functional-Component
-export default connect(mapStateToProps, {
-  productsAll,
-  shopsAll,
-  subscriptionsAll,
-  testimonialsAll,
-  usersAll
-})(Home);
+export default Home;

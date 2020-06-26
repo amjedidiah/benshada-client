@@ -7,7 +7,7 @@ import multi from 'redux-multi';
 import reducers from './reducers/rootReducer.js';
 
 const createStoreWithMiddleware = composeWithDevTools(
-  applyMiddleware(promiseMiddleware, thunk, multi, save(['auth', 'user', 'product', 'store']))
+  applyMiddleware(promiseMiddleware, multi, thunk, save(['auth', 'user', 'product', 'store']))
 )(createStore);
 
 const store = createStoreWithMiddleware(reducers, load());

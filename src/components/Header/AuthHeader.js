@@ -31,7 +31,7 @@ class AuthHeader extends React.Component {
 
   render() {
     const { user } = this.props;
-    const name = user && user.name;
+    const name = (user && user.name) || '';
     const firstName = name.includes(' ') ? name.split(' ')[0] : name;
 
     return (
