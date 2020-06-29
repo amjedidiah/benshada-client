@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
+import $ from 'jquery';
 import TypeForm from './TypeForm.js';
 import Auth from '../Auth/Auth.js';
 
@@ -56,7 +57,10 @@ class Onboarding extends Component {
               || (err && err.response && err.response.statusText)
               || 'Network error'
       ))
-      .finally(() => this.setState(this.INIT));
+      .finally(() => {
+        this.setState(this.INIT);
+        $('.modal-backdrop').remove();
+      });
   };
 
   storeSubmit = (storeData) => {
@@ -139,7 +143,10 @@ class Onboarding extends Component {
               || (err && err.response && err.response.statusText)
               || 'Network error'
       ))
-      .finally(() => this.setState(this.INIT));
+      .finally(() => {
+        this.setState(this.INIT);
+        $('.modal-backdrop').remove();
+      });
   };
 
   renderHelp = () => {

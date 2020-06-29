@@ -32,7 +32,7 @@ export const userUpdate = (email, userData) => (dispatch) => {
     payload: api.put(`/users/${email}`, userData)
   });
 
-  return response.then(() => dispatch(userOne(email)));
+  return response.then(() => dispatch([userOne(email), usersAll()]));
 };
 
 export const userChangePassword = (passwordData) => ({

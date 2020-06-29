@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import $ from 'jquery';
 import StoreForm from '../../StoreList/StoreDisplay/StoreForm.js';
 import { shopUpdate } from '../../../redux/actions/stores.js';
 import ImageUpload from '../../Image/ImageUpload.js';
@@ -71,7 +72,10 @@ class Store extends Component {
             || (err && err.response && err.response.statusText)
             || 'Network error'
       ))
-      .finally(() => this.setState(this.INIT));
+      .finally(() => {
+        this.setState(this.INIT);
+        $('.modal-backdrop').remove();
+      });
   };
 
   handleImageChange = (fd) => {
@@ -128,7 +132,7 @@ class Store extends Component {
             <ImageUpload
               buttonValue={this.state.changeButtonValue}
               store={this.props.store}
-              onImageChange={this.handleImageChange}
+              onImageChange={this.handleImageChange} type="store"
             />
           </div>
         </div>

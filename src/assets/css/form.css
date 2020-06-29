@@ -23,6 +23,10 @@ body#body div#formContainer.form-container .form-container-holder form {
   padding: 0;
 }
 
+body#body div#formContainer .form-container-holder form#productForm {
+  padding-top: 320px;
+}
+
 body#body div#formContainer .form-container-holder form .form-row {
   margin: 8px auto;
 }

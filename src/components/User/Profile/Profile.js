@@ -167,6 +167,7 @@ class Profile extends Component {
                 buttonValue={this.state.changeButtonValue}
                 user={this.props.user}
                 onImageChange={this.handleImageChange}
+                type="user"
               />
             </div>
           </div>

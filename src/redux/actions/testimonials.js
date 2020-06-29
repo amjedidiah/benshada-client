@@ -28,7 +28,8 @@ export const testimonialUpdate = (id, testimonialData) => (dispatch) => {
     payload: api.put(`/testimonials/${id}`, testimonialData)
   });
 
-  return response.then(() => dispatch(testimonialsOne(id)));
+  return response
+    .then(() => dispatch([testimonialsOne(id), testimonialsAll()]));
 };
 
 export const testimonialDelete = (id) => (dispatch) => {

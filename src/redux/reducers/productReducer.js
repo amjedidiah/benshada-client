@@ -3,7 +3,20 @@ import isDeleted from '../helper/isDeleted.js';
 const INIT = { all: [], selected: {} };
 
 export default (state = INIT, action) => {
-  const responseData = isDeleted(action);
+  let responseData = isDeleted(action);
+
+  responseData = Array.isArray(responseData)
+    ? responseData.map((response) => ({
+      ...response,
+      sizes: ((response && response.sizes) || []).map((size) => ({ label: size, value: size }))
+    }))
+    : {
+      ...responseData,
+      sizes: ((responseData && responseData.sizes) || []).map((size) => ({
+        label: size,
+        value: size
+      }))
+    };
 
   return (
     {

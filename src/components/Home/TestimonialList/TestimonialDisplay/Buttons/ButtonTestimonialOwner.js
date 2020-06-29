@@ -4,8 +4,8 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import $ from 'jquery';
 import {
-  testimonialDelete,
   testimonialUpdate,
   testimonialsOneSelected
 } from '../../../../../redux/actions/testimonials.js';
@@ -24,7 +24,6 @@ class ButtonTestimonialOwner extends React.Component {
   static propTypes = {
     testimonial: PropTypes.object,
     user: PropTypes.object,
-    testimonialDelete: PropTypes.func,
     testimonialsOneSelected: PropTypes.func,
     testimonialUpdate: PropTypes.func
   };
@@ -57,7 +56,10 @@ class ButtonTestimonialOwner extends React.Component {
               || (err && err.response && err.response.statusText)
               || 'Network error'
       ))
-      .finally(() => this.setState(this.INIT));
+      .finally(() => {
+        this.setState(this.INIT);
+        $('.modal-backdrop').remove();
+      });
   };
 
   render = () => (
@@ -87,9 +89,9 @@ class ButtonTestimonialOwner extends React.Component {
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default connect(null, { testimonialDelete, testimonialUpdate, testimonialsOneSelected })(
+export default connect(null, { testimonialUpdate, testimonialsOneSelected })(
   ButtonTestimonialOwner
 );

@@ -4,7 +4,8 @@ import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-import { shopDelete, shopUpdate, shopsOneSelected } from '../../../../redux/actions/stores.js';
+import $ from 'jquery';
+import { shopUpdate, shopsOneSelected } from '../../../../redux/actions/stores.js';
 import StoreForm from '../StoreForm.js';
 
 class ButtonStoreOwner extends React.Component {
@@ -20,7 +21,6 @@ class ButtonStoreOwner extends React.Component {
   static propTypes = {
     store: PropTypes.object,
     user: PropTypes.object,
-    shopDelete: PropTypes.func,
     shopsOneSelected: PropTypes.func,
     shopUpdate: PropTypes.func
   };
@@ -72,7 +72,10 @@ class ButtonStoreOwner extends React.Component {
               || (err && err.response && err.response.statusText)
               || 'Network error'
       ))
-      .finally(() => this.setState(this.INIT));
+      .finally(() => {
+        this.setState(this.INIT);
+        $('.modal-backdrop').remove();
+      });
   };
 
   render = () => (
@@ -105,4 +108,4 @@ class ButtonStoreOwner extends React.Component {
   );
 }
 
-export default connect(null, { shopDelete, shopUpdate, shopsOneSelected })(ButtonStoreOwner);
+export default connect(null, { shopUpdate, shopsOneSelected })(ButtonStoreOwner);
