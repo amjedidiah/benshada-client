@@ -34,15 +34,16 @@ class TestimonialForm extends Component {
 
   getSnapshotBeforeUpdate = (prevProps) => ({
     shouldInitialize:
-      prevProps.testimonial
-      && prevProps.testimonial._id !== this.props.testimonial
-      && this.props.testimonial._id
+      (prevProps.testimonial
+      && prevProps.testimonial._id) !== (this.props.testimonial
+      && this.props.testimonial._id)
   });
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (snapshot.shouldInitialize) {
-      this.props.initialize(this.props.testimonial);
+      return this.props.initialize(this.props.testimonial);
     }
+    return false;
   }
 
   render() {

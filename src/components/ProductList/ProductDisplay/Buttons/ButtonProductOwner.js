@@ -1,9 +1,11 @@
+/* eslint-disable no-underscore-dangle */
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import $ from 'jquery';
 import {
   productDelete,
   productUpdate,
@@ -22,31 +24,16 @@ class ButtonProductOwner extends React.Component {
   }
 
   static propTypes = {
+    action: PropTypes.string,
     product: PropTypes.object,
+    selectedProduct: PropTypes.object,
     user: PropTypes.object,
     productDelete: PropTypes.func,
     productsOneSelected: PropTypes.func,
     productUpdate: PropTypes.func
   };
 
-  submit = ({
-    _id,
-    name,
-    shortDescription,
-    longDescription,
-    price,
-    discountPercentage,
-    quantity,
-    color,
-    category,
-    gender,
-    mainMaterial,
-    productionCountry,
-    guarantee,
-    batchQuality,
-    isBatch,
-    sizes
-  }) => {
+  submit = (product) => {
     this.setState({
       buttonValue: (
         <div className="spinner-border text-white" role="status">
@@ -55,29 +42,7 @@ class ButtonProductOwner extends React.Component {
       )
     });
 
-    const product = {
-      name,
-      shortDescription,
-      longDescription,
-      price,
-      discountPercentage,
-      quantity,
-      color,
-      category,
-      gender,
-      mainMaterial,
-      productionCountry,
-      guarantee,
-      batchQuality,
-      isBatch,
-      sizes
-    };
-
-    Object.keys(product).forEach((key) => {
-      if (product[key] === undefined) {
-        delete product[key];
-      }
-    });
+    const _id = product.get('_id');
 
     this.props
       .productUpdate(_id, product)
@@ -96,12 +61,15 @@ class ButtonProductOwner extends React.Component {
             || (err && err.response && err.response.statusText)
             || 'Network error'
       ))
-      .finally(() => this.setState(this.INIT));
+      .finally(() => {
+        this.setState(this.INIT);
+        $('.modal-backdrop').remove();
+      });
   };
 
   render = () => {
-    const { product } = this.props;
-    const { _id, name } = product;
+    const { product, selectedProduct } = this.props;
+    const { _id, name } = selectedProduct;
 
     return (
       <>
@@ -112,7 +80,7 @@ class ButtonProductOwner extends React.Component {
           />
         </span>
         <span className="pointer ml-2" data-toggle="modal" data-target="#productDelete">
-          <FontAwesomeIcon icon={faTrash} />
+          <FontAwesomeIcon icon={faTrash} onClick={() => this.props.productsOneSelected(product)} />
         </span>
 
         {/* Modal */}
@@ -179,6 +147,10 @@ class ButtonProductOwner extends React.Component {
                             || (err && err.response && err.response.statusText)
                             || 'Network error'
                     ))
+                    .finally(() => {
+                      this.setState(this.INIT);
+                      $('.modal-backdrop').remove();
+                    })
                   }
                 >
                   Delete
@@ -192,6 +164,8 @@ class ButtonProductOwner extends React.Component {
   };
 }
 
-export default connect(null, { productDelete, productUpdate, productsOneSelected })(
+const mapStateToProps = ({ product }) => ({ selectedProduct: product.selected });
+
+export default connect(mapStateToProps, { productDelete, productUpdate, productsOneSelected })(
   ButtonProductOwner
 );

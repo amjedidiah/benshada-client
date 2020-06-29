@@ -4,6 +4,7 @@ import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
+import $ from 'jquery';
 import { shopDelete } from '../../../../redux/actions/stores.js';
 
 class ButtonStoreAdmin extends React.Component {
@@ -68,6 +69,10 @@ class ButtonStoreAdmin extends React.Component {
                             || (err && err.response && err.response.statusText)
                             || 'Network error'
                     ))
+                    .finally(() => {
+                      this.setState(this.INIT);
+                      $('.modal-backdrop').remove();
+                    })
                   }
                 >
                   Delete

@@ -8,6 +8,7 @@ import Image from '../Image/Image.js';
 
 export default class NotFound extends React.Component {
   static propTypes = {
+    action: PropTypes.string,
     type: PropTypes.string
   };
 

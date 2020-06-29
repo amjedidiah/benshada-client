@@ -2,37 +2,40 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import {
-  faBox,
-  faDollarSign,
-  faPercentage,
-  faPaintBrush
-} from '@fortawesome/free-solid-svg-icons';
+import { faDollarSign, faPercentage, faPaintBrush } from '@fortawesome/free-solid-svg-icons';
 import { Field, reduxForm } from 'redux-form';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFlag } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
+import { toast } from 'react-toastify';
 import { productValidate as validate } from '../../../assets/js/validate.js';
 
 import '../../../assets/css/form.css';
 import FormField from '../../form/formField.js';
 import categories from '../../../assets/js/categories.js';
 import genders from '../../../assets/js/genders.js';
-import sizes from '../../../assets/data/sizes.json';
+import productSizes from '../../../assets/data/sizes.json';
+import ImageUpload from '../../Image/ImageUpload.js';
 
 class ProductForm extends Component {
+  INIT = {
+    animationClass: 'animate__zoomIn',
+    imageButtonValue: 'Select Image',
+    data: null,
+    buttonProduct: 'Upload Product'
+  };
+
   constructor(props) {
     super(props);
 
-    this.state = {
-      animationClass: 'animate__zoomIn'
-    };
+    this.state = this.INIT;
   }
 
   static propTypes = {
+    action: PropTypes.string,
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
     product: PropTypes.object,
+    onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
     initialize: PropTypes.func
   };
@@ -43,216 +46,289 @@ class ProductForm extends Component {
 
   getSnapshotBeforeUpdate = (prevProps) => ({
     shouldInitialize:
-      prevProps.product
-      && prevProps.product._id !== this.props.product
-      && this.props.product._id
+      (prevProps.product && prevProps.product._id)
+      !== (this.props.product && this.props.product._id)
   });
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize) {
-      this.props.initialize(this.props.product);
-    }
+    if (snapshot.shouldInitialize) return this.props.initialize(this.props.product);
+
+    return false;
   }
+
+  onSubmit = ({
+    _id,
+    name,
+    shortDescription,
+    longDescription,
+    price,
+    discountPercentage,
+    quantity,
+    color,
+    category,
+    gender,
+    mainMaterial,
+    productionCountry,
+    guarantee,
+    sizes,
+    batchQuality
+  }) => {
+    const { data } = this.state;
+
+    if (!data) {
+      return toast.error('Do select an image');
+    }
+
+    const productData = {
+      _id,
+      name,
+      shortDescription,
+      longDescription,
+      price,
+      discountPercentage,
+      quantity,
+      color,
+      category,
+      gender,
+      mainMaterial,
+      productionCountry,
+      guarantee,
+      sizes,
+      batchQuality: batchQuality || 0
+    };
+
+    Object.entries(productData).forEach(([key, value]) => (key === 'sizes'
+      ? data.append(
+        key,
+        value.map((size) => size.value)
+      )
+      : data.append(key, value)));
+
+    return this.props.onSubmit(data);
+  };
 
   render() {
     const { animationClass } = this.state;
 
     return (
-      <form
-        onSubmit={this.props.handleSubmit}
-        className={`animate__animated ${animationClass} m-0`}
-        autoComplete="off"
-      >
-        <h2 className="mb-0">Edit {this.props.product && this.props.product.name}</h2>
-        <p>
-          Make changes to your product
-          <FontAwesomeIcon icon={faBox} className="ml-2" />
+      <>
+        <h2 className="mb-0 px-3 pt-4">{this.props.action ? 'Upload Product' : 'Edit Product'}</h2>
+        <p className="px-3 pb-4 text-danger font-weight-bold lead">
+          Image should be 680x850 pixels
         </p>
-        <div className="form-row">
-          <Field
-            action="product"
-            name="name"
-            type="text"
-            component={FormField}
-            label="Product Name"
-            icon={''}
-            className="col-12"
-            placeholder="e.g Oxford Shoes"
+        <div
+          className="position-absolute w-100 text-center"
+          id="productUpload"
+          style={{
+            top: '0'
+          }}
+        >
+          <ImageUpload
+            buttonValue={this.state.imageButtonValue}
+            product={this.props.product}
+            onImageChange={(data) => this.setState({ data })}
+            type="product"
+            // imagePreviewUrl={"
+            //   this.props.product && this.props.product.image && this.props.product.image[0]
+            // "}
           />
         </div>
-
-        <div className="form-row">
-          <Field
-            action="product"
-            name="shortDescription"
-            type="textarea"
-            component={FormField}
-            label="Short Description"
-            icon={''}
-            className="col-12 col-md-6"
-            placeholder="e.g: Cooperate unisex shoes"
-          />
-          <Field
-            action="product"
-            name="longDescription"
-            type="textarea"
-            component={FormField}
-            label="Long Description"
-            icon={''}
-            className="col-12 col-md-6"
-          />
-        </div>
-
-        <div className="form-row">
-          <Field
-            action="product"
-            name="price"
-            type="number"
-            component={FormField}
-            label="Price"
-            icon={faDollarSign}
-            className="col-12 col-md-6"
-            placeholder="e.g: 50000"
-          />
-          <Field
-            action="product"
-            name="discountPercentage"
-            type="number"
-            component={FormField}
-            label="Discount"
-            icon={faPercentage}
-            className="col-12 col-md-6"
-            placeholder="e.g: 10"
-          />
-        </div>
-
-        <div className="form-row">
-          <Field
-            action="product"
-            name="quantity"
-            type="number"
-            component={FormField}
-            label="Quantity"
-            icon={''}
-            className="col-12 col-md-6"
-            placeholder="e.g: 100"
-          />
-
-          <Field
-            action="product"
-            name="color"
-            type="color"
-            component={FormField}
-            label="Color"
-            icon={faPaintBrush}
-            className="col-12 col-md-6"
-            placeholder="#000000"
-          />
-        </div>
-
-        <small className="section-header">Category</small>
-        <div className="form-row align-items-center">
-          {categories.map(({ name, icon }) => (
+        <form
+          onSubmit={this.props.handleSubmit(this.onSubmit)}
+          className={`animate__animated ${animationClass} m-0`}
+          autoComplete="off"
+          id="productForm"
+        >
+          <div className="form-row">
             <Field
               action="product"
-              name="category"
-              type="radio"
+              name="name"
+              type="text"
               component={FormField}
-              label={name}
-              icon={icon}
-              className="col form-holder-select"
-              value={name}
-              key={`product-category-${name}`}
+              label="Product Name"
+              icon={''}
+              className="col-12"
+              placeholder="e.g Oxford Shoes"
             />
-          ))}
-        </div>
+          </div>
 
-        <small className="section-header">Gender</small>
-        <div className="form-row align-items-center">
-          {genders.map(({ name, icon }) => (
+          <div className="form-row">
             <Field
               action="product"
-              name="gender"
-              type="radio"
+              name="shortDescription"
+              type="textarea"
               component={FormField}
-              label={name}
-              icon={icon}
-              className="col form-holder-select"
-              value={name}
-              key={`product-gender-${name}`}
+              label="Short Description"
+              icon={''}
+              className="col-12 col-md-6"
+              placeholder="e.g: Cooperate unisex shoes"
             />
-          ))}
-        </div>
+            <Field
+              action="product"
+              name="longDescription"
+              type="textarea"
+              component={FormField}
+              label="Long Description"
+              icon={''}
+              className="col-12 col-md-6"
+              placeholder="e.g: Cooperate unisex shoes for men to go for weddings"
+            />
+          </div>
 
-        <div className="form-row">
-          <Field
-            action="product"
-            name="mainMaterial"
-            type="text"
-            component={FormField}
-            label="Main Material"
-            icon={''}
-            className="col-12 col-md-6"
-            placeholder="e.g: Leather"
-          />
-          <Field
-            action="product"
-            name="productionCountry"
-            type="text"
-            component={FormField}
-            label="Made In"
-            placeholder="e.g: Nigeria"
-            icon={faFlag}
-            className="col-12 col-md-6"
-          />
-        </div>
+          <div className="form-row">
+            <Field
+              action="product"
+              name="price"
+              type="number"
+              component={FormField}
+              label="Price"
+              icon={faDollarSign}
+              className="col-12 col-md-6"
+              placeholder="e.g: 50000"
+            />
+            <Field
+              action="product"
+              name="discountPercentage"
+              type="number"
+              component={FormField}
+              label="Discount"
+              icon={faPercentage}
+              className="col-12 col-md-6"
+              placeholder="e.g: 10"
+            />
+          </div>
 
-        <div className="form-row">
-          <Field
-            action="product"
-            name="guarantee"
-            type="text"
-            component={FormField}
-            label="Days of Warranty"
-            placeholder="e.g: 10"
-            icon={''}
-            className="col-12 col-md-6"
-          />
-          {this.props.product && this.props.product.isBatch ? <Field
-            action="product"
-            name="batchQuality"
-            type="number"
-            component={FormField}
-            label="Batch Quality"
-            placeholder="e.g: 30"
-            icon={''}
-            className="col-12 col-md-6"
-          /> : ''}
+          <div className="form-row">
+            <Field
+              action="product"
+              name="quantity"
+              type="number"
+              component={FormField}
+              label="Quantity"
+              icon={''}
+              className="col-12 col-md-6"
+              placeholder="e.g: 100"
+            />
 
-        </div>
+            <Field
+              action="product"
+              name="color"
+              type="color"
+              component={FormField}
+              label="Color"
+              icon={faPaintBrush}
+              className="col-12 col-md-6"
+              placeholder="#000000"
+            />
+          </div>
 
-        <div className="form-row">
-          <Field
-            action="product"
-            name="sizes"
-            type="multi"
-            component={FormField}
-            label="Available Sizes"
-            icon={''}
-            className="col-12"
-            options={sizes}
-          />
-        </div>
+          <small className="section-header">Category</small>
+          <div className="form-row align-items-center">
+            {categories.map(({ name, icon }) => (
+              <Field
+                action="product"
+                name="category"
+                type="radio"
+                component={FormField}
+                label={name}
+                icon={icon}
+                className="col form-holder-select"
+                value={name}
+                key={`product-category-${name}`}
+              />
+            ))}
+          </div>
 
-        <div className="button-group">
-          <button className="btn btn-primary" type="submit">
-            {this.props.buttonValue}
-          </button>
-          <button type="button" className="btn btn-secondary" data-dismiss="modal">
-            Done
-          </button>
-        </div>
-      </form>
+          <small className="section-header">Gender</small>
+          <div className="form-row align-items-center">
+            {genders.map(({ name, icon }) => (
+              <Field
+                action="product"
+                name="gender"
+                type="radio"
+                component={FormField}
+                label={name}
+                icon={icon}
+                className="col form-holder-select"
+                value={name}
+                key={`product-gender-${name}`}
+              />
+            ))}
+          </div>
+
+          <div className="form-row">
+            <Field
+              action="product"
+              name="mainMaterial"
+              type="text"
+              component={FormField}
+              label="Main Material"
+              icon={''}
+              className="col-12 col-md-6"
+              placeholder="e.g: Leather"
+            />
+            <Field
+              action="product"
+              name="productionCountry"
+              type="text"
+              component={FormField}
+              label="Made In"
+              placeholder="e.g: Nigeria"
+              icon={faFlag}
+              className="col-12 col-md-6"
+            />
+          </div>
+
+          <div className="form-row">
+            <Field
+              action="product"
+              name="guarantee"
+              type="number"
+              component={FormField}
+              label="Days of Warranty"
+              placeholder="e.g: 10"
+              icon={''}
+              className="col-12 col-md-6"
+            />
+            {this.props.product && this.props.product.isBatch ? (
+              <Field
+                action="product"
+                name="batchQuality"
+                type="number"
+                component={FormField}
+                label="Batch Quality"
+                placeholder="e.g: 30"
+                icon={''}
+                className="col-12 col-md-6"
+              />
+            ) : (
+              ''
+            )}
+          </div>
+
+          <div className="form-row">
+            <Field
+              action="product"
+              name="sizes"
+              type="multi"
+              component={FormField}
+              label="Available Sizes"
+              icon={''}
+              className="col-12"
+              options={productSizes}
+            />
+          </div>
+
+          <div className="button-group">
+            <button className="btn btn-primary" type="submit">
+              {this.props.buttonValue}
+            </button>
+            <button type="button" className="btn btn-secondary" data-dismiss="modal">
+              Done
+            </button>
+          </div>
+        </form>
+      </>
     );
   }
 }

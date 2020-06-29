@@ -25,7 +25,7 @@ export const shopAdd = (shopData) => (dispatch, getState) => {
   const { email } = getState().user.selected;
 
   return response
-    .then((res) => dispatch(userUpdate(email, { shops: [res.value.data.data._id] })));
+    .then((res) => dispatch([userUpdate(email, { shops: [res.value.data.data._id] }), shopsAll()]));
 };
 
 export const shopsOneSelected = (payload) => ({
@@ -39,7 +39,7 @@ export const shopUpdate = (id, shopData) => (dispatch) => {
     payload: api.put(`/shops/${id}`, shopData)
   });
 
-  return response.then(() => dispatch(shopsOne(id)));
+  return response.then(() => dispatch([shopsOne(id), shopsAll()]));
 };
 
 export const shopDelete = (id) => (dispatch) => {

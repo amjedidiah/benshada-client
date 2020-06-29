@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -20,7 +21,7 @@ class ProductDisplay extends Component {
     const shops = (user && user.shops) || [];
     const { shop, isBatch } = product;
 
-    if (shops.includes(shop) || (user && user.type === 'ADMIN')) {
+    if (shops.map(({ _id }) => _id).includes(shop && shop._id) || (user && user.type === 'ADMIN')) {
       return <ButtonProductOwner product={product} user={user} />;
     }
 
@@ -32,7 +33,11 @@ class ProductDisplay extends Component {
       return <ButtonProductBuyer product={product} user={user} />;
     }
 
-    return <ButtonProductBuyer product={product} user={user} />;
+    return user && user._id === undefined ? (
+      <ButtonProductBuyer product={product} user={user} />
+    ) : (
+      ''
+    );
   };
 
   render() {
@@ -52,7 +57,9 @@ class ProductDisplay extends Component {
                 <Rating rating={overallRating} xtraClass="mr-2" />
                 <Returns returns={returns} />
               </div>
-              <div className="d-flex flex-grow-1 justify-content-end">{this.renderActionButtons(product)}</div>
+              <div className="d-flex flex-grow-1 justify-content-end">
+                {this.renderActionButtons(product)}
+              </div>
             </div>
             <Link to={`/products/?id=${_id}`}>{name}</Link>
 

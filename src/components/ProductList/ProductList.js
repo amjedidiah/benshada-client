@@ -17,15 +17,17 @@ export default class ProductList extends Component {
   };
 
   renderProductList = (products, filterType, filterValue) => {
-    const filteredProducts = products.filter(
-      (product) => filterList(product, filterType, filterValue)
-    );
+    const filteredProducts = products
+      .filter((product) => filterList(product, filterType, filterValue));
 
     return filteredProducts.length > 0 ? (
       <>
         <div className="cards">
           {filteredProducts.slice(0, this.props.count).map((product, key) => (
-            <ProductDisplay key={`productList${key}`} product={product} />
+            <ProductDisplay
+              key={`productList${key}`}
+              product={product}
+            />
           ))}
         </div>
       </>

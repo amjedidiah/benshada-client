@@ -13,8 +13,10 @@ class ImageUpload extends React.Component {
   static propTypes = {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     onImageChange: PropTypes.func,
+    store: PropTypes.object,
+    type: PropTypes.string,
     user: PropTypes.object,
-    store: PropTypes.object
+    imagePreviewUrl: PropTypes.string
   };
 
   handleImageChange = (e) => {
@@ -39,7 +41,7 @@ class ImageUpload extends React.Component {
   };
 
   render() {
-    const { imagePreviewUrl } = this.state;
+    const imagePreviewUrl = this.props.imagePreviewUrl || this.state.imagePreviewUrl;
     let $imagePreview = null;
     if (imagePreviewUrl) {
       // $imagePreview = <img alt="upload" className="img-responsive" src={imagePreviewUrl} />;
@@ -51,7 +53,7 @@ class ImageUpload extends React.Component {
             (this.props.user && this.props.user.image) || (this.props.user && this.props.user.image)
           }
           size={5}
-          type={this.props.user ? 'user' : 'store'}
+          type={this.props.type}
         />
       );
     }

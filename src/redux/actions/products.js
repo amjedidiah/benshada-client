@@ -4,7 +4,8 @@ import {
   PRODUCTS_ONE_SELECTED,
   PRODUCTS_ALL,
   PRODUCT_UPDATE,
-  PRODUCT_DELETE
+  PRODUCT_DELETE,
+  PRODUCT_ADD
 } from './types/productTypes.js';
 
 export const productsAll = () => ({ type: PRODUCTS_ALL, payload: api.get('/products/') });
@@ -25,7 +26,18 @@ export const productUpdate = (id, productData) => (dispatch) => {
     payload: api.put(`/products/${id}`, productData)
   });
 
-  return response.then(() => dispatch(productsOne(id)));
+  return response.then(() => dispatch([productsOne(id), productsAll()]));
+};
+
+export const productAdd = (data) => (dispatch) => {
+  const response = dispatch({
+    type: PRODUCT_ADD,
+    payload: api.post('/products', data, {
+      headers: { 'Content-Type': 'multipart/form-data' }
+    })
+  });
+
+  return response.then(() => dispatch(productsAll()));
 };
 
 export const productDelete = (id) => (dispatch) => {
