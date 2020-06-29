@@ -57,7 +57,7 @@ class AuthRedirect extends Component {
         return ((user && user.shops) || []).filter(
           (shop) => shop !== null && shop !== undefined && shop !== ''
         ).length > 0 ? (
-          <Redirect to="/user" />
+          <Redirect to="/user/profile" />
           ) : (
             ''
           );
@@ -67,16 +67,16 @@ class AuthRedirect extends Component {
         return ((user && user.categories) || []).filter(
           (cat) => cat !== null && cat !== undefined && cat !== ''
         ).length > 0 ? (
-          <Redirect to="/user" />
+          <Redirect to="/user/profile" />
           ) : (
             ''
           );
       }
 
-      return <Redirect to="/user" />;
+      return <Redirect to="/user/profile" />;
     }
 
-    return auth.isSignedIn ? <Redirect to="/user" /> : '';
+    return auth.isSignedIn ? <Redirect to="/user/profile" /> : '';
   };
 }
 

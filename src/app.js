@@ -83,8 +83,9 @@ class App extends React.Component {
           <Router>
             <Route
               path="/"
-              component={() => (
+              component={(component) => (
                 <Home
+                {...component}
                   isSignedIn={isSignedIn}
                   products={products}
                   stores={stores}
@@ -96,9 +97,9 @@ class App extends React.Component {
             />
             <Route path="/login" component={Login} exact />
             <Route path="/logout" component={Logout} exact />
-            <Route path="/register" component={() => <Register users={users} />} exact />
-            <Route path="/onboarding" component={() => <Onboarding user={user} />} exact />
-            <Route path="/user" component={() => <User user={user} />} exact />
+            <Route path="/register" component={(component) => <Register {...component} users={users} />} exact />
+            <Route path="/onboarding" component={(component) => <Onboarding {...component} user={user} />} exact />
+            <Route path="/user" component={(component) => <User {...component} user={user} />} />
           </Router>
         </div>
         <ToastContainer

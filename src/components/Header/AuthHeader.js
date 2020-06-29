@@ -20,7 +20,7 @@ class AuthHeader extends React.Component {
     const cart = this.props.cart || [];
     return (
       <li className="nav-item position-relative border border-left-0 border-top-0 border-bottom-0 border-right-light px-md-3">
-        <Link className="nav-link" to="/cart">
+        <Link className="nav-link" to="/user/cart">
           {cart.length < 1 ? '' : <small id="cartCount">{cart.length}</small>}
           <FontAwesomeIcon className="mr-2" icon={faShoppingCart} />
           {/* Cart */}
@@ -51,10 +51,13 @@ class AuthHeader extends React.Component {
             {firstName}
           </Link>
           <div className="dropdown-menu border-0 shadow-md-sm" aria-labelledby="navbarDropdown">
-            <Link className="dropdown-item" to={'/cart'}>
+            <Link className="dropdown-item" to={'/user/saved'}>
+              Saved
+            </Link>
+            <Link className="dropdown-item" to={'/user/cart'}>
               Cart
             </Link>
-            <Link className="dropdown-item" to={'/user'}>
+            <Link className="dropdown-item" to={'/user/profile'}>
               Account
             </Link>
             <div className="dropdown-divider" />

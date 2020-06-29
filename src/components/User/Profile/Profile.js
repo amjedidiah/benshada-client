@@ -165,7 +165,7 @@ class Profile extends Component {
             >
               <ImageUpload
                 buttonValue={this.state.changeButtonValue}
-                user={this.props.user}
+                object={this.props.user}
                 onImageChange={this.handleImageChange}
                 type="user"
               />

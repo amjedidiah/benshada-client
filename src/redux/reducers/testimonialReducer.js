@@ -9,6 +9,6 @@ export default (state = INIT, action) => {
     TESTIMONIALS_ALL_FULFILLED: { ...state, all: responseData },
     TESTIMONIALS_ONE_FULFILLED: { ...state, selected: responseData },
     TESTIMONIALS_ONE_SELECTED: { ...state, selected: action.payload },
-    LOGOUT: INIT
+    LOGOUT: { ...state, selected: {} }
   }[action.type] || state);
 };

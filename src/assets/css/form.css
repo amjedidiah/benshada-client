@@ -247,7 +247,7 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
   body#body div#formContainer .form-container-holder form .button-group {
     margin: 0.5rem 0;
     position: static;
-    justify-content: start;
+    justify-content: flex-start;
   }
 
   body#body div#formContainer .form-container-holder form .form-row .form-holder {

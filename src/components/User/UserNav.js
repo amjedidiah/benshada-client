@@ -9,7 +9,8 @@ import headerMenuAnimation from '../../assets/js/headerMenuAnimation.js';
 class UserNav extends React.Component {
   static propTypes = {
     className: PropTypes.string,
-    list: PropTypes.array
+    list: PropTypes.array,
+    pathname: PropTypes.string
   };
 
   componentDidMount = () => headerMenuAnimation();
@@ -18,7 +19,7 @@ class UserNav extends React.Component {
     let active;
     let selected;
 
-    if (index === 0) {
+    if (this.props.pathname.includes(item.Title.toLowerCase())) {
       active = 'active';
       selected = 'selected';
     }

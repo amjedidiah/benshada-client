@@ -34,6 +34,7 @@ class ProductForm extends Component {
     action: PropTypes.string,
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
+    user: PropTypes.object,
     product: PropTypes.object,
     onSubmit: PropTypes.func,
     initialValues: PropTypes.object,
@@ -55,6 +56,8 @@ class ProductForm extends Component {
 
     return false;
   }
+
+  componentDidMount = () => this.props.initialize(this.props.product);
 
   onSubmit = ({
     _id,
@@ -125,12 +128,9 @@ class ProductForm extends Component {
         >
           <ImageUpload
             buttonValue={this.state.imageButtonValue}
-            product={this.props.product}
+            object={this.props.product}
             onImageChange={(data) => this.setState({ data })}
             type="product"
-            // imagePreviewUrl={"
-            //   this.props.product && this.props.product.image && this.props.product.image[0]
-            // "}
           />
         </div>
         <form
@@ -290,7 +290,7 @@ class ProductForm extends Component {
               icon={''}
               className="col-12 col-md-6"
             />
-            {this.props.product && this.props.product.isBatch ? (
+            {(this.props.product && this.props.product.isBatch) || (this.props.user && this.props.user.type === 'UA') ? (
               <Field
                 action="product"
                 name="batchQuality"
