@@ -13,7 +13,8 @@ export default class ProductList extends Component {
     products: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
     type: PropTypes.object,
     count: PropTypes.number,
-    title: PropTypes.string
+    title: PropTypes.string,
+    action: PropTypes.string
   };
 
   renderProductList = (products, filterType, filterValue) => {
@@ -32,7 +33,7 @@ export default class ProductList extends Component {
         </div>
       </>
     ) : (
-      <NotFound type="product" />
+      <NotFound type="product" action={this.props.action} />
     );
   };
 

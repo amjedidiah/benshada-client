@@ -131,8 +131,9 @@ class Store extends Component {
           >
             <ImageUpload
               buttonValue={this.state.changeButtonValue}
-              store={this.props.store}
-              onImageChange={this.handleImageChange} type="store"
+              object={this.props.store}
+              onImageChange={this.handleImageChange}
+              type="store"
             />
           </div>
         </div>

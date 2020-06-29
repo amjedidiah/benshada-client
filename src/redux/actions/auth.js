@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import api from '../api/api.js';
 import { LOGIN, LOGOUT, SIGNUP } from './types/authTypes.js';
 import { userOne, usersAll } from './users.js';

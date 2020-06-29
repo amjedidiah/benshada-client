@@ -51,7 +51,8 @@ class UserBody extends Component {
     list: PropTypes.array,
     productAdd: PropTypes.func,
     store: PropTypes.object,
-    user: PropTypes.object
+    user: PropTypes.object,
+    pathname: PropTypes.string
   };
 
   productSubmit = (productData) => {
@@ -112,6 +113,7 @@ class UserBody extends Component {
                   action="create"
                   buttonValue={this.state.buttonProduct}
                   onSubmit={this.productSubmit}
+                  user={this.props.user}
                 />
               </div>
             </div>
@@ -129,13 +131,15 @@ class UserBody extends Component {
     );
   };
 
-  renderBodyComponents = (list) => list.map((listItem, i) => {
+  renderBodyComponents = (list) => list.map((listItem) => {
     const { Title } = listItem;
     const TagName = Components[Title];
 
     return (
         <div
-          className={`h-100 p-0 tab-pane fade p-5 mt-5 ${i === 0 ? 'show active' : ''}`}
+          className={`h-100 p-0 tab-pane fade p-5 mt-5 ${
+            this.props.pathname.includes(Title.toLowerCase()) ? 'show active' : ''
+          }`}
           id={`pills-${Title}`}
           role="tabpanel"
           aria-labelledby={`pills-${Title}-tab`}
@@ -160,7 +164,7 @@ class UserBody extends Component {
       </div>
       <div className="user float-right">
         <div className="img-holder img-holder-user float-left">
-          <Image type="user" image={image} />
+          <Image type="user" image={image} size={3} />
         </div>
         <p className="pt-5 ml-2 d-none d-md-inline position-relative" style={{ top: '10px' }}>
           Hello, {firstName}

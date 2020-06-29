@@ -9,6 +9,6 @@ export default (state = INIT, action) => {
     STORES_ALL_FULFILLED: { ...state, all: responseData },
     STORES_ONE_FULFILLED: { ...state, selected: responseData },
     STORES_ONE_SELECTED: { ...state, selected: action.payload },
-    LOGOUT: INIT
+    LOGOUT: { ...state, selected: {} }
   }[action.type] || state);
 };

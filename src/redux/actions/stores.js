@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-underscore-dangle */
 import api from '../api/api.js';
 import {

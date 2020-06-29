@@ -12,5 +12,9 @@ export const filterList = (list, type, typeValue) => {
     return typeValue.forEach((value) => (list[type] || []).includes(value));
   }
 
+  if (typeof list[type] === 'boolean') {
+    return list[type] === typeValue;
+  }
+
   return (list[type] || '').toLowerCase() === typeValue;
 };

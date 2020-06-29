@@ -13,7 +13,7 @@ export default class NotFound extends React.Component {
   };
 
   renderHelper = () => ({
-    product: window.location.href.includes('user') ? (
+    product: window.location.href.includes('user') && this.props.action !== 'saved' ? (
       <span
         className="pointer text-primary-benshada"
         data-toggle="modal"

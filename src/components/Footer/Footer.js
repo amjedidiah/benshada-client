@@ -102,11 +102,11 @@ class Footer extends Component {
               <Link to="/products">
                 <p className="mb-1">Products</p>
               </Link>
-              <Link to="/cart">
+              <Link to="/user/cart">
                 <p className="mb-1">Cart</p>
               </Link>
-              <Link to="/wishlist">
-                <p className="mb-1">wishlist</p>
+              <Link to="/user/saved">
+                <p className="mb-1">Saved</p>
               </Link>
             </div>
             <div className="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0">

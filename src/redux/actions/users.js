@@ -1,7 +1,9 @@
+/* eslint-disable import/no-cycle */
 import api from '../api/api.js';
 import {
   USER_ONE, USERS_ALL, USER_UPDATE, USER_DELETE, USER_CHANGE_PASSWORD
 } from './types/userTypes.js';
+import { authLogout } from './auth.js';
 
 export const userOne = (email) => ({
   type: USER_ONE,
@@ -35,10 +37,14 @@ export const userUpdate = (email, userData) => (dispatch) => {
   return response.then(() => dispatch([userOne(email), usersAll()]));
 };
 
-export const userChangePassword = (passwordData) => ({
-  type: USER_CHANGE_PASSWORD,
-  payload: api.post('/users/change-password', passwordData)
-});
+export const userChangePassword = (passwordData) => (dispatch) => {
+  const response = dispatch({
+    type: USER_CHANGE_PASSWORD,
+    payload: api.post('/users/change-password', passwordData)
+  });
+
+  return response.then(() => dispatch(authLogout()));
+};
 
 export const userDelete = (email) => (dispatch) => {
   const response = dispatch({

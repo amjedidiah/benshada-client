@@ -141,12 +141,24 @@ body#body main #app .card-columns.testimonials {
 body#body main #app .cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 body#body main #app .cards .card {
-  flex: 1 180px;
+  flex: 1 200px;
+  margin-right: 20px;
 }
+
+body#body main #app .cards .card img {
+  min-height: 312.5px;
+  max-height: 312.5px;
+  min-width: 250px;
+  max-width: 250px;
+  width: 250px;
+  height: 312.5px;
+  border-radius: 0;
+}
+
 
 body#body main #app .card-select {
   cursor: pointer;
@@ -215,6 +227,17 @@ body#body main #app #genderList .icon {
   font-size: 2em;
 }
 
+@media (max-width: 250px) {
+  body#body main #app .cards .card img {
+    min-height: 250px;
+    max-height: 250px;
+    min-width: 200px;
+    max-width: 200px;
+    width: 200px;
+    height: 250px;
+  }
+}
+
 @media (min-width: 576px) {
   body#body main #app .card-columns {
     column-count: 2;
@@ -226,12 +249,8 @@ body#body main #app #genderList .icon {
     column-count: 3;
   }
 
-  body#body main #app .cards {
-    justify-content: space-around;
-  }
-
   body#body main #app .cards .card {
-    flex: 0 1 222px;
+    flex: 0 1 250px;
   }
 
   body#body main #app .card-columns.testimonials {
