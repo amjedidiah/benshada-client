@@ -28,6 +28,7 @@ export default class ProductList extends Component {
             <ProductDisplay
               key={`productList${key}`}
               product={product}
+              action={this.props.action}
             />
           ))}
         </div>
