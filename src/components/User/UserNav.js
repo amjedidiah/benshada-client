@@ -16,28 +16,24 @@ class UserNav extends React.Component {
   componentDidMount = () => headerMenuAnimation();
 
   renderList = (list) => list.map((item, index) => {
-    let active;
-    let selected;
-
-    if (this.props.pathname.includes(item.Title.toLowerCase())) {
-      active = 'active';
-      selected = 'selected';
-    }
+    const active = this.props.pathname.includes(item.Title.toLowerCase()) ? 'active' : '';
+    // const selected = this.props.pathname.includes(item.Title.toLowerCase()) ? 'selected' : '';
 
     return (
         <li className="nav-item" key={`user-nav-${index}`}>
-          <a
+          <Link
             className={`nav-link text-capitalize ${active}`}
-            id={`pills-${item.Title}-tab`}
-            data-toggle="pill"
-            href={`#pills-${item.Title}`}
-            role="tab"
-            aria-controls={`pills-${item.Title}`}
-            aria-selected={selected}
+            // id={`pills-${item.Title}-tab`}
+            // data-toggle="pill"
+            // href={`#pills-${item.Title}`}
+            to={`/user/${item.Title.toLowerCase()}`}
+            // role="tab"
+            // aria-controls={`pills-${item.Title}`}
+            // aria-selected={selected}
           >
             <FontAwesomeIcon icon={item.icon} />
             <span className="ml-2">{item.Title}</span>
-          </a>
+          </Link>
         </li>
     );
   });
@@ -57,8 +53,9 @@ class UserNav extends React.Component {
         <li className="nav-item">
           <Link className="nav-link text-capitalize" to="/logout">
             <button className="btn btn-danger">
-            <FontAwesomeIcon icon={faSignOutAlt} className="mr-3" />
-            Logout</button>
+              <FontAwesomeIcon icon={faSignOutAlt} className="mr-3" />
+              Logout
+            </button>
           </Link>
         </li>
       </ul>

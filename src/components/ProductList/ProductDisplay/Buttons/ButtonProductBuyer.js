@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingBag, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingBag, faHeart, faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartAlt } from '@fortawesome/free-regular-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -10,19 +10,25 @@ import { toast } from 'react-toastify';
 import { userUpdate } from '../../../../redux/actions/users.js';
 
 const ButtonProductBuyer = (props) => {
-  const ifWishlisted = (productID, saved) => saved.map(({ _id }) => _id).includes(productID);
+  const ifSaved = (productID, saved) => saved.map(({ _id }) => _id).includes(productID);
+  const ifInCart = (productID, cart) => cart.map(({ _id }) => _id).includes(productID);
 
-  const INIT = ifWishlisted(props.product._id, (props.user && props.user.saved) || [])
-    ? faHeart
-    : faHeartAlt;
+  const INIT = {
+    save: ifSaved(props.product._id, (props.user && props.user.saved) || [])
+      ? faHeart
+      : faHeartAlt,
+    cart: ifInCart(props.product._id, (props.user && props.user.cart) || [])
+      ? faShoppingBag
+      : faCartPlus
+  };
 
-  const [saveIcon, setSaveIcon] = useState(INIT);
+  const [saveIcon, setSaveIcon] = useState(INIT.save);
+  const [cartIcon, setCartIcon] = useState(INIT.cart);
 
   const shouldWishlist = (id, product, saved, email) => {
-    const newSaved = ifWishlisted(id, saved)
+    const newSaved = ifSaved(id, saved)
       ? saved.filter(({ _id }) => _id !== id)
       : [...saved, product];
-
 
     setSaveIcon(
       <div className="spinner-border" role="status">
@@ -30,31 +36,30 @@ const ButtonProductBuyer = (props) => {
       </div>
     );
 
-    props.userUpdate(email, { saved: newSaved })
+    props
+      .userUpdate(email, { saved: newSaved })
       .then((response) => toast.success(
         (response && response.value && response.value.data && response.value.data.message)
-          || (response && response.statusText)
-          || 'Success'
+            || (response && response.statusText)
+            || 'Success'
       ))
       .catch((err) => toast.error(
         (err && err.response && err.response.data && err.response.data.message)
-          || (err
-            && err.response
-            && err.response.data
-            && err.response.data.message
-            && err.response.data.message.name)
-          || (err && err.response && err.response.statusText)
-          || 'Network error'
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
       ))
-      .finally(() => setSaveIcon(INIT));
+      .finally(() => setSaveIcon(INIT.save));
   };
-
-  const ifInCart = (productID, cart) => cart.map(({ _id }) => _id).includes(productID);
 
   const shouldAddToCart = (id, product, cart, email) => {
     const newCart = ifInCart(id, cart) ? cart.filter(({ _id }) => _id !== id) : [...cart, product];
 
-    setSaveIcon(
+    setCartIcon(
       <div className="spinner-border" role="status">
         <span className="sr-only">Loading...</span>
       </div>
@@ -77,7 +82,7 @@ const ButtonProductBuyer = (props) => {
             || (err && err.response && err.response.statusText)
             || 'Network error'
       ))
-      .finally(() => setSaveIcon(INIT));
+      .finally(() => setCartIcon(INIT.cart));
   };
 
   const { product, user, isSignedIn } = props;
@@ -92,11 +97,11 @@ const ButtonProductBuyer = (props) => {
     <>
       {}
       <span
-        className={'pointer'}
+        className={`pointer ${ifSaved(_id, saved) ? 'text-primary-benshada' : ''}`}
         onClick={() => (!isSignedIn ? history.push('/login') : shouldWishlist(_id, product, saved, email))
         }
       >
-        {saveIcon === INIT ? <FontAwesomeIcon icon={saveIcon} /> : saveIcon}
+        {saveIcon === INIT.save ? <FontAwesomeIcon icon={saveIcon} /> : saveIcon}
       </span>
 
       <span
@@ -104,7 +109,7 @@ const ButtonProductBuyer = (props) => {
         onClick={() => (!isSignedIn ? history.push('/login') : shouldAddToCart(_id, product, cart, email))
         }
       >
-        <FontAwesomeIcon icon={faShoppingBag} />
+        {cartIcon === INIT.cart ? <FontAwesomeIcon icon={cartIcon} /> : cartIcon}
       </span>
     </>
   );
