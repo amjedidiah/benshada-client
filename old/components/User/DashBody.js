@@ -36,7 +36,7 @@ class DashBody extends Component {
     store: PropTypes.object,
     orders: PropTypes.array,
     list: PropTypes.array
-  }
+  };
 
   productUploadRenderer(user) {
     const productFields = [
@@ -84,97 +84,96 @@ class DashBody extends Component {
     const productButtons = [{ value: 'Upload Product', className: 'btn-primary' }];
     const type = user && user.type;
 
-    console.log(type);
-
     if (ifSeller(type)) {
-      return <>
-        <div
-          className="modal fade"
-          id="productModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="productModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-xl" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title font-weight-light" id="productModalLabel">
-                  Upload Product
-                </h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <BenshadaForm
-                  form={'form-product-add'}
-                  onSubmitForm={this.props.productUpload}
-                  className="form"
-                  fields={productFields}
-                  buttons={productButtons}
-                  initialValues={{}}
-                />
+      return (
+        <>
+          <div
+            className="modal fade"
+            id="productModal"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="productModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-xl" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title font-weight-light" id="productModalLabel">
+                    Upload Product
+                  </h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <BenshadaForm
+                    form={'form-product-add'}
+                    onSubmitForm={this.props.productUpload}
+                    className="form"
+                    fields={productFields}
+                    buttons={productButtons}
+                    initialValues={{}}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="btn btn-primary d-fixed rounded-circle shadow-sm "
-          id="questionMark"
-          data-toggle="modal"
-          data-target="#productModal"
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </div>
-      </>;
+          <div
+            className="btn btn-primary d-fixed rounded-circle shadow-sm "
+            id="questionMark"
+            data-toggle="modal"
+            data-target="#productModal"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </div>
+        </>
+      );
     }
 
-    console.log(type);
-
-
     if (type === 'UDC') {
-      return <>
-        <div
-          className="modal fade"
-          id="productModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="productModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-xl" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title font-weight-light" id="productModalLabel">
-                  Upload Product
-                </h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <BenshadaForm
-                  form={'form-product-add'}
-                  onSubmitForm={this.props.productUpload}
-                  className="form"
-                  fields={productFields}
-                  buttons={productButtons}
-                  initialValues={{}}
-                />
+      return (
+        <>
+          <div
+            className="modal fade"
+            id="productModal"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="productModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-xl" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title font-weight-light" id="productModalLabel">
+                    Upload Product
+                  </h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <BenshadaForm
+                    form={'form-product-add'}
+                    onSubmitForm={this.props.productUpload}
+                    className="form"
+                    fields={productFields}
+                    buttons={productButtons}
+                    initialValues={{}}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="btn btn-primary d-fixed rounded-circle shadow-sm "
-          id="questionMark"
-          data-toggle="modal"
-          data-target="#productModal"
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </div>
-      </>;
+          <div
+            className="btn btn-primary d-fixed rounded-circle shadow-sm "
+            id="questionMark"
+            data-toggle="modal"
+            data-target="#productModal"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </div>
+        </>
+      );
     }
 
     return false;
@@ -193,11 +192,11 @@ class DashBody extends Component {
           aria-labelledby={`pills-${Title}-tab`}
           key={Title}
         >
-          {
-            user !== undefined
-              ? <TagName user={user} store={store} orders={orders} />
-              : <Messages />
-              }
+          {user !== undefined ? (
+            <TagName user={user} store={store} orders={orders} />
+          ) : (
+            <Messages />
+          )}
         </div>
       );
     });
@@ -233,7 +232,7 @@ class DashBody extends Component {
       </div>
   ) : (
     ''
-  ))
+  ));
 
   render() {
     const { user, list } = this.props;

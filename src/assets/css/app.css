@@ -151,10 +151,6 @@ body#body main #app .cards {
   margin: 10px;
 }
 
-body#body main #app .cards.products.products-gallery .card {
-  margin: 0px;
-}
-
 body#body main #app .cards.products .card {
   flex: 1 185px;
   min-width: 185px;
@@ -166,6 +162,10 @@ body#body main #app .cards.testimonials .card,
 body#body main #app .cards.stores .card,
 body#body main #app .cards.packages .card {
   flex: 1 250px;
+}
+
+body#body main #app .cards.products.products-gallery .card {
+  margin: 0;
 }
 
 body#body main #app .cards.products .card img {

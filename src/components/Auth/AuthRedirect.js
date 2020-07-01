@@ -25,7 +25,7 @@ class AuthRedirect extends Component {
     if (type === 'user') {
       if (!auth.isSignedIn) return <Redirect to="/login" />;
 
-      if ((user && user.createdAt === user && user.updatedAt) && user && user.type !== 'UDC') {
+      if (user && user.createdAt === user && user.updatedAt && user && user.type !== 'UDC') {
         return <Redirect to="/onboarding" />;
       }
 
@@ -92,12 +92,11 @@ class AuthRedirect extends Component {
           );
       }
 
-
       if (user && user.type === 'UDC') {
         return (deliveryCompany
           && deliveryCompany.contactPerson
           && deliveryCompany.contactPerson.email) === user.email ? (
-            <Redirect to="/user/profile" />
+          <Redirect to="/user/profile" />
           ) : (
             ''
           );

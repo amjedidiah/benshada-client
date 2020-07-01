@@ -298,7 +298,12 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
     background: #fffff0;
   }
 
-  body#body div#formContainer .form-container-holder#formContainerHolder form .form-row .form-holder {
+  body#body
+    div#formContainer
+    .form-container-holder#formContainerHolder
+    form
+    .form-row
+    .form-holder {
     background: #fff;
   }
 
