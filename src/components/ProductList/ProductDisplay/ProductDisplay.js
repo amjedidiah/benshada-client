@@ -100,7 +100,7 @@ class ProductDisplay extends Component {
     const {
       _id, name, image, price, discountPercentage, overallRating, returns
     } = product;
-    const cart = user && user.cart;
+    const cart = (user && user.cart) || [];
     const cartCount = cart.filter((item) => item._id === _id).length;
 
     return (
@@ -149,9 +149,8 @@ class ProductDisplay extends Component {
                 <input
                   className="p-2 mx-1 d-inline w-25 border-0 bg-light-benshada text-center"
                   type="text"
-                  onChange={
-                    (e) => this
-                      .updateCartCount(user, product, null, cartCount, e.target.value)
+                  onChange={(e) => this
+                    .updateCartCount(user, product, null, cartCount, e.target.value)
                   }
                   defaultValue={cartCount}
                 />

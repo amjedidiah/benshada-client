@@ -13,18 +13,20 @@ class ImageGallery extends React.Component {
 
     return productsWithImages.length > 0
       ? productsWithImages.map(({ _id, image, name }, i) => (
-        <Image type="product" id={_id} image={image} name={name} key={`gallery-image-${i}`}
-            xtraClass="col-4 col-sm-2 col-lg-1 img-fluid px-0"
-          />
+          <div className="card" key={`gallery-image-${i}`}>
+            <Image
+              type="product"
+              id={_id}
+              image={image}
+              name={name}
+              xtraClass="col-4 col-sm-2 col-lg-1 img-fluid px-0"
+            />
+          </div>
       ))
       : '';
   };
 
-  render = () => (
-    <div className="container-fluid">
-      <div className="row justify-content-center">{this.renderImage()}</div>
-    </div>
-  );
+  render = () => <div className="cards products products-gallery">{this.renderImage()}</div>;
 }
 
 const mapStateToProps = ({ product }) => ({ products: product.all });

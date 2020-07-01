@@ -24,12 +24,14 @@ import { shopsAll } from './redux/actions/stores.js';
 import { testimonialsAll } from './redux/actions/testimonials.js';
 import { subscriptionsAll } from './redux/actions/subscriptions.js';
 import { usersAll, userOne } from './redux/actions/users.js';
+import Checkout from './components/Checkout/Checkout.js';
 
 // Start Component
 class App extends React.Component {
   static propTypes = {
     email: PropTypes.string,
     isSignedIn: PropTypes.bool,
+    loading: PropTypes.bool,
     products: PropTypes.array,
     productsAll: PropTypes.func,
     shopsAll: PropTypes.func,
@@ -51,8 +53,10 @@ class App extends React.Component {
     this.props.usersAll();
 
     if (this.props.isSignedIn) {
+      const { email } = this.props;
+
       this.props
-        .userOne(this.props.email)
+        .userOne(email)
         .then((response) => toast.success(
           (response && response.value && response.value.data && response.value.data.message)
               || (response && response.statusText)
@@ -74,10 +78,19 @@ class App extends React.Component {
 
   render = () => {
     const {
-      isSignedIn, products, stores, testimonials, user, users
+      isSignedIn, loading, products, stores, testimonials, user, users
     } = this.props;
 
-    return (
+    return loading ? (
+      <div className="d-flex justify-content-center align-items-center text-center text-white bg-primary-benshada h-100">
+        <div>
+          <div className="spinner-grow" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+          <h5>Getting things ready for you</h5>
+        </div>
+      </div>
+    ) : (
       <>
         <div id="app" className="h-100">
           <Router>
@@ -85,7 +98,7 @@ class App extends React.Component {
               path="/"
               component={(component) => (
                 <Home
-                {...component}
+                  {...component}
                   isSignedIn={isSignedIn}
                   products={products}
                   stores={stores}
@@ -97,9 +110,21 @@ class App extends React.Component {
             />
             <Route path="/login" component={Login} exact />
             <Route path="/logout" component={Logout} exact />
-            <Route path="/register" component={(component) => <Register {...component} users={users} />} exact />
-            <Route path="/onboarding" component={(component) => <Onboarding {...component} user={user} />} exact />
+            <Route
+              path="/register"
+              component={(component) => <Register {...component} users={users} />}
+              exact
+            />
+            <Route
+              path="/onboarding"
+              component={(component) => <Onboarding {...component} user={user} />}
+              exact
+            />
             <Route path="/user" component={(component) => <User {...component} user={user} />} />
+            <Route
+              path="/checkout"
+              component={(component) => <Checkout {...component} user={user} />}
+            />
           </Router>
         </div>
         <ToastContainer
@@ -120,9 +145,10 @@ class App extends React.Component {
 // End Component
 
 const mapStateToProps = ({
-  auth, user, product, store, testimonial
+  auth, user, product, store, testimonial, loading
 }) => ({
   isSignedIn: auth.isSignedIn,
+  loading: loading && loading.pending,
   user: user.selected,
   users: user.all,
   products: product.all,

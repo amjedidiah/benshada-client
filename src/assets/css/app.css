@@ -20,6 +20,10 @@ body#body main #app h6 {
   font-family: 'Roboto', serif;
 }
 
+body#body main #app img {
+  border-radius: 10px;
+}
+
 body#body main #app a {
   text-decoration: none;
   color: #212529;
@@ -80,6 +84,7 @@ body#body main #app .border-primary {
 
 body#body main #app .bg-primary,
 body#body main #app .btn-primary,
+body#body main .bg-primary-benshada,
 body#body main #app .bg-primary-benshada,
 body#body main #app .btn-primary-benshada {
   background: #ef932e;
@@ -118,7 +123,8 @@ body#body main #app .bg-lg-light-benshada {
   background: #fffff0;
 }
 
-body#body main #app .bg-warning {
+body#body main #app .bg-warning,
+body#body main #app .bg-warning-benshada {
   background: #ffdcb0;
 }
 
@@ -142,26 +148,54 @@ body#body main #app .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  margin: 10px;
 }
 
-body#body main #app .cards .card {
-  flex: 1 200px;
-  margin: 20px;
-  min-width: 250px;
-  max-width: 250px;
-  width: 250px;
+body#body main #app .cards.products .card {
+  flex: 1 185px;
+  min-width: 185px;
+  max-width: 185px;
+  width: 185px;
 }
 
-body#body main #app .cards .card img {
-  min-height: 312.5px;
-  max-height: 312.5px;
-  min-width: 250px;
-  max-width: 250px;
-  width: 250px;
-  height: 312.5px;
+body#body main #app .cards.testimonials .card,
+body#body main #app .cards.stores .card,
+body#body main #app .cards.packages .card {
+  flex: 1 250px;
+}
+
+body#body main #app .cards.products.products-gallery .card {
+  margin: 0;
+}
+
+body#body main #app .cards.products .card img {
+  min-height: 185px;
+  max-height: 185px;
+  min-width: 185px;
+  max-width: 185px;
+  width: 185px;
+  height: 185px;
   border-radius: 0;
 }
 
+body#body main #app .cards.stores .card img {
+  min-height: 200px;
+  max-height: 200px;
+  min-width: 200px;
+  max-width: 200px;
+  width: 200px;
+  height: 200px;
+  border-radius: 0;
+}
+
+body#body main #app #checkOut .card-img {
+  min-height: 75px;
+  max-height: 75px;
+  min-width: 60px;
+  max-width: 60px;
+  width: 60px;
+  height: 75px;
+}
 
 body#body main #app .card-select {
   cursor: pointer;
@@ -230,23 +264,6 @@ body#body main #app #genderList .icon {
   font-size: 2em;
 }
 
-@media (max-width: 250px) {
-  body#body main #app .cards .card {
-    min-width: 200px;
-    max-width: 200px;
-    width: 200px;
-  }
-
-  body#body main #app .cards .card img {
-    min-height: 250px;
-    max-height: 250px;
-    min-width: 200px;
-    max-width: 200px;
-    width: 200px;
-    height: 250px;
-  }
-}
-
 @media (min-width: 576px) {
   body#body main #app .card-columns {
     column-count: 2;
@@ -258,12 +275,20 @@ body#body main #app #genderList .icon {
     column-count: 3;
   }
 
-  body#body main #app .cards .card {
-    flex: 0 1 250px;
+  body#body main #app .cards.testimonials .card,
+  body#body main #app .cards.stores .card,
+  body#body main #app .cards.packages .card {
+    flex: 0 1 270px;
   }
 
   body#body main #app .card-columns.testimonials {
     column-count: 3;
+  }
+
+  body#body main #app .cards.packages .card {
+    flex: 0 1 px;
+    margin: 10px;
+    min-width: px;
   }
 }
 

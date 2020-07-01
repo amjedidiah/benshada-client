@@ -22,23 +22,32 @@ import ifSeller from '../../assets/js/ifSeller.js';
 import Image from '../Image/Image.js';
 import ProductForm from '../ProductList/ProductDisplay/ProductForm.js';
 import { productAdd } from '../../redux/actions/products.js';
+import Deliveries from './Deliveries.js';
+import Packages from './Packages/Packages.js';
+import Company from './Company.js';
+import PackageForm from './Packages/PackageForm.js';
+import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
+import { deliveryPackagesAdd } from '../../redux/actions/deliveryPackages.js';
 
 const Components = {
   Analytics,
   Bank,
   Cart,
+  Company,
+  Deliveries,
   Notifications,
   Orders,
+  Packages,
   Products,
   Profile,
   Saved,
   Store,
   Tickets
 };
-
 class UserBody extends Component {
   INIT = {
-    buttonProduct: 'Upload'
+    buttonProduct: 'Upload',
+    buttonPackage: 'Upload'
   };
 
   constructor(props) {
@@ -48,6 +57,8 @@ class UserBody extends Component {
   }
 
   static propTypes = {
+    deliveryCompany: PropTypes.object,
+    deliveryPackagesAdd: PropTypes.func,
     list: PropTypes.array,
     productAdd: PropTypes.func,
     store: PropTypes.object,
@@ -91,44 +102,149 @@ class UserBody extends Component {
       });
   };
 
+  packageSubmit = (packageData) => {
+    this.setState({
+      buttonPackage: (
+        <div className="spinner-border text-white" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      )
+    });
+
+    const {
+      method,
+      from,
+      to,
+      duration,
+      maxDeliverySize,
+      cost,
+      pickupStationName,
+      pickupStationAddress,
+      pickupStationState
+    } = packageData;
+
+    const deliveryPackage = {
+      method,
+      from,
+      to,
+      duration,
+      maxDeliverySize,
+      cost,
+      pickupStationName,
+      pickupStationAddress,
+      pickupStationState,
+      pickupStation: {
+        name: packageData.pickupStationName,
+        address: packageData.pickupStationAddress,
+        state: packageData.pickupStationState
+      },
+      deliveryCompany: this.props.deliveryCompany && this.props.deliveryCompany._id
+    };
+
+    if (!pickupStationName) delete deliveryPackage.pickupStation;
+    delete deliveryPackage.pickupStationName;
+    delete deliveryPackage.pickupStationAddress;
+    delete deliveryPackage.pickupStationState;
+
+    this.props
+      .deliveryPackagesAdd(deliveryPackage)
+      .then((response) => toast.success(
+        (response && response.value && response.value.data && response.value.data.message)
+            || (response && response.statusText)
+            || 'Success'
+      ))
+      .catch((err) => toast.error(
+        (err && err.response && err.response.data && err.response.data.message)
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
+      ))
+      .finally(() => {
+        this.setState(this.INIT);
+        $('.modal-backdrop').remove();
+      });
+  };
+
   productUploadRenderer = (user) => {
     const type = user && user.type;
 
-    return !ifSeller(type) ? (
-      ''
-    ) : (
-      <>
-        <div
-          className="modal fade"
-          id="productModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="productModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-lg" role="document">
-            <div className="modal-content" id="formContainer">
-              <div className="modal-body form-container-holder">
-                <ProductForm
-                  action="create"
-                  buttonValue={this.state.buttonProduct}
-                  onSubmit={this.productSubmit}
-                  user={this.props.user}
-                />
+    if (ifSeller(type)) {
+      return (
+        <>
+          <div
+            className="modal fade"
+            id="productModal"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="productModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-lg" role="document">
+              <div className="modal-content" id="formContainer">
+                <div className="modal-body form-container-holder">
+                  <ProductForm
+                    action="create"
+                    buttonValue={this.state.buttonProduct}
+                    onSubmit={this.productSubmit}
+                    user={this.props.user}
+                  />
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div
-          className="btn btn-primary rounded-circle shadow-sm"
-          id="addProductButton"
-          data-toggle="modal"
-          data-target="#productModal"
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </div>
-      </>
-    );
+          <div
+            className="btn btn-primary rounded-circle shadow-sm"
+            id="addProductButton"
+            data-toggle="modal"
+            data-target="#productModal"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </div>
+        </>
+      );
+    }
+
+    if (type === 'UDC') {
+      return (
+        <>
+          <div
+            className="modal fade"
+            id="packageModal"
+            tabIndex="-1"
+            role="dialog"
+            aria-labelledby="packageModalLabel"
+            aria-hidden="true"
+          >
+            <div className="modal-dialog modal-md" role="document">
+              <div className="modal-content" id="formContainer">
+                <div className="modal-body form-container-holder">
+                  <PackageForm
+                    action="create"
+                    buttonValue={this.state.buttonPackage}
+                    onSubmit={this.packageSubmit}
+                    user={this.props.user}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div
+            className="btn btn-primary rounded-circle shadow-sm"
+            id="addProductButton"
+            data-toggle="modal"
+            data-target="#packageModal"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </div>
+        </>
+      );
+    }
+
+    return false;
   };
 
   renderBodyComponents = (list) => list.map((listItem) => {
@@ -194,6 +310,8 @@ class UserBody extends Component {
   }
 }
 
-const mapStateToProps = () => ({});
+const mapStateToProps = ({ user, deliveryCompany }) => ({
+  deliveryCompany: getDeliveryCompany(user, deliveryCompany)
+});
 
-export default connect(mapStateToProps, { productAdd })(UserBody);
+export default connect(mapStateToProps, { productAdd, deliveryPackagesAdd })(UserBody);

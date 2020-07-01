@@ -5,6 +5,7 @@ import AuthRedirect from '../Auth/AuthRedirect.js';
 import navUA from '../../assets/js/navUA.js';
 import navUB from '../../assets/js/navUB.js';
 import navUC from '../../assets/js/navUC.js';
+import navUDC from '../../assets/js/navUDC.js';
 import UserNav from './UserNav.js';
 import '../../assets/css/user.css';
 import UserBody from './UserBody.js';
@@ -19,7 +20,9 @@ class User extends Component {
 
   render = () => {
     const { user, location } = this.props;
-    const list = { UA: navUA, UB: navUB, UC: navUC }[user && user.type] || [];
+    const list = {
+      UA: navUA, UB: navUB, UC: navUC, UDC: navUDC
+    }[user && user.type] || [];
 
     return (
       <>

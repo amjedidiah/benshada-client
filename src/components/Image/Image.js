@@ -5,7 +5,8 @@ import {
   faStoreAlt,
   faUser,
   faShoppingBag,
-  faUserEdit
+  faUserEdit,
+  faTruck
 } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
@@ -20,6 +21,7 @@ function Image({
       <FontAwesomeIcon
         icon={
           {
+            deliveryCompany: faTruck,
             store: faStoreAlt,
             product: faBox,
             user: faUser,
@@ -33,28 +35,22 @@ function Image({
   ) : (
     <div className={`text-center ${xtraClass}`}>
       {type === 'user' ? (
-
         <ContainerDimensions>
-        {({ height, width }) => (
-          <img
-          className="card-img img-responsive"
-          src={image || (image && image[0])}
-          style={{
-            minHeight: `${height * 1.15}px`, minWidth: `${width}px`
-          }}
-          alt={name}
-        />
-        )}
-      </ContainerDimensions>
-
+          {({ height, width }) => (
+            <img
+              className="card-img img-responsive"
+              src={image || (image && image[0])}
+              style={{
+                minHeight: `${height * 1.15}px`,
+                minWidth: `${width}px`
+              }}
+              alt={name}
+            />
+          )}
+        </ContainerDimensions>
       ) : (
         <Link to={`/${type}s/?id=${id}`}>
-          <img
-            className="card-img img-responsive"
-            src={image || (image && image[0])}
-            style={{ minHeight: '100px' }}
-            alt={name}
-          />
+          <img className="card-img img-responsive" src={image || (image && image[0])} alt={name} />
         </Link>
       )}
     </div>

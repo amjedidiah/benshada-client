@@ -2,12 +2,21 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
+import types from '../../assets/data/types.json';
+import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
 
 class AuthRedirect extends Component {
-  static propTypes = { auth: PropTypes.object, type: PropTypes.string, user: PropTypes.object };
+  static propTypes = {
+    auth: PropTypes.object,
+    deliveryCompany: PropTypes.object,
+    type: PropTypes.string,
+    user: PropTypes.object
+  };
 
   render = () => {
-    const { auth, type, user } = this.props;
+    const {
+      auth, type, user, deliveryCompany
+    } = this.props;
 
     if (type === 'logout') {
       return auth.isSignedIn ? '' : <Redirect to="/" />;
@@ -16,7 +25,7 @@ class AuthRedirect extends Component {
     if (type === 'user') {
       if (!auth.isSignedIn) return <Redirect to="/login" />;
 
-      if (user && user.createdAt === user && user.updatedAt) {
+      if (user && user.createdAt === user && user.updatedAt && user && user.type !== 'UDC') {
         return <Redirect to="/onboarding" />;
       }
 
@@ -40,6 +49,16 @@ class AuthRedirect extends Component {
           );
       }
 
+      if (user && user.type === 'UDC') {
+        return (deliveryCompany
+          && deliveryCompany.contactPerson
+          && deliveryCompany.contactPerson.email) === user.email ? (
+            ''
+          ) : (
+          <Redirect to="/onboarding" />
+          );
+      }
+
       return <Redirect to="/onboarding" />;
     }
 
@@ -48,7 +67,7 @@ class AuthRedirect extends Component {
 
       if (
         (user && user.createdAt === user && user.updatedAt)
-        || !['UA', 'UB', 'UC'].includes(user && user.type)
+        || !types.includes(user && user.type)
       ) {
         return false;
       }
@@ -73,6 +92,16 @@ class AuthRedirect extends Component {
           );
       }
 
+      if (user && user.type === 'UDC') {
+        return (deliveryCompany
+          && deliveryCompany.contactPerson
+          && deliveryCompany.contactPerson.email) === user.email ? (
+          <Redirect to="/user/profile" />
+          ) : (
+            ''
+          );
+      }
+
       return <Redirect to="/user/profile" />;
     }
 
@@ -80,6 +109,10 @@ class AuthRedirect extends Component {
   };
 }
 
-const mapStateToProps = ({ auth, user }) => ({ auth, user: user.selected });
+const mapStateToProps = ({ auth, user, deliveryCompany }) => ({
+  auth,
+  user: user.selected,
+  deliveryCompany: getDeliveryCompany(user, deliveryCompany)
+});
 
 export default connect(mapStateToProps)(AuthRedirect);
