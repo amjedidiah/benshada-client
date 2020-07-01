@@ -23,7 +23,7 @@ export default class StoreList extends Component {
 
     return filteredStores.length > 0 ? (
       <>
-        <div className="card-columns">
+        <div className="cards stores">
           {filteredStores.slice(0, this.props.count).map((store, key) => (
             <StoreDisplay key={`storeList${key}`} store={store} />
           ))}

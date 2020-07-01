@@ -120,6 +120,33 @@ body#body
   background: #fffff0;
 }
 
+body#body
+  div#formContainer.form-container
+  .form-container-holder#formContainerHolder
+  form
+  .form-row
+  .form-holder
+  .form-control,
+body#body
+  div#formContainer.form-container
+  .form-container-holder#formContainerHolder
+  form
+  .form-row
+  .form-holder
+  .form-control:focus,
+body#body
+  div#formContainer.form-container
+  .form-container-holder#formContainerHolder
+  form
+  .form-row
+  .form-holder
+  .form-control:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 100px #fff inset;
+  box-shadow: 0 0 0 100px #fff inset;
+  -webkit-text-fill-color: #333;
+  background: #fff;
+}
+
 body#body div#formContainer .form-container-holder form .form-row .form-holder:hover .form-control,
 body#body
   div#formContainer
@@ -193,6 +220,17 @@ body#body
 }
 
 body#body
+  div#formContainer.form-container
+  .form-container-holder#formContainerHolder
+  form
+  .form-row
+  .form-holder
+  input[type='radio']
+  + label {
+  background: #fff;
+}
+
+body#body
   div#formContainer
   .form-container-holder
   form
@@ -235,6 +273,12 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
     background: #fffff0;
   }
 
+  body#body div#formContainer..form-container,
+  body#body div#formContainer..form-container .form-container-holder#formContainerHolder,
+  body#body div#formContainer..form-container .form-container-holder#formContainerHolder form {
+    background: #fff;
+  }
+
   body#body div#formContainer {
     padding: 25px 40px;
   }
@@ -252,6 +296,10 @@ body#body div#formContainer .form-container-holder form .button-group .btn[type=
 
   body#body div#formContainer .form-container-holder form .form-row .form-holder {
     background: #fffff0;
+  }
+
+  body#body div#formContainer .form-container-holder#formContainerHolder form .form-row .form-holder {
+    background: #fff;
   }
 
   body#body div#formContainer .form-container-holder form .form-row .form-holder:hover {

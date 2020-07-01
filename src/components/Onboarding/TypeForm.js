@@ -6,7 +6,8 @@ import {
   faCartArrowDown,
   faStoreAlt,
   faShoppingBasket,
-  faHome
+  faHome,
+  faTruck
 } from '@fortawesome/free-solid-svg-icons';
 import { Field, reduxForm } from 'redux-form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -83,6 +84,16 @@ class TypeForm extends Component {
             icon={faCartArrowDown}
             className="col form-holder-select"
             value="UC"
+          />
+          <Field
+            action="register"
+            name="type"
+            type="radio"
+            component={FormField}
+            label="Deliver Only"
+            icon={faTruck}
+            className="col form-holder-select"
+            value="UDC"
           />
         </div>
 

@@ -4,11 +4,16 @@ import {
   USER_ONE, USERS_ALL, USER_UPDATE, USER_DELETE, USER_CHANGE_PASSWORD
 } from './types/userTypes.js';
 import { authLogout } from './auth.js';
+import { deliveryCompaniesAll } from './deliveryCompanies.js';
 
-export const userOne = (email) => ({
-  type: USER_ONE,
-  payload: api.get(`/users/${email}`)
-});
+export const userOne = (email) => (dispatch) => {
+  const response = dispatch({
+    type: USER_ONE,
+    payload: api.get(`/users/${email}`)
+  });
+
+  return response.then(() => dispatch(deliveryCompaniesAll()));
+};
 
 export const usersAll = () => (dispatch, getState) => {
   let headers = {};

@@ -50,7 +50,7 @@ class ImageUpload extends React.Component {
         <Image
           image={object && object.image}
           size={5}
-          type={this.props.type}
+          type={type}
         />
       );
     }
