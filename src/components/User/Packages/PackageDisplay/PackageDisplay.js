@@ -4,7 +4,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
-import { deliveryPackageUpdate } from '../../../../redux/actions/deliveryPackages.js';
+import {
+  deliveryPackageUpdate,
+  deliveryPackagesOneSelected
+} from '../../../../redux/actions/deliveryPackages.js';
 import Price from '../../../ProductList/ProductDisplay/Price.js';
 import ButtonPackageOwner from './ButtonPackageOwner.js';
 
@@ -12,7 +15,9 @@ class PackageDisplay extends Component {
   static propTypes = {
     deliveryPackage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     user: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-    deliveryPackageUpdate: PropTypes.func
+    deliveryPackageUpdate: PropTypes.func,
+    deliveryPackagesOneSelected: PropTypes.func,
+    selectedDeliveryPackage: PropTypes.object
   };
 
   renderDetails = ({
@@ -22,6 +27,7 @@ class PackageDisplay extends Component {
       const { name, address, state } = pickupStation;
       return (
         <>
+          @<br />
           <small className="d-block font-weight-bold" style={{ lineHeight: '16px' }}>
             {name}
           </small>
@@ -55,15 +61,19 @@ class PackageDisplay extends Component {
   };
 
   render() {
-    const { deliveryPackage } = this.props;
+    const { deliveryPackage, user, selectedDeliveryPackage } = this.props;
     const { cost, deliveryCompany, method } = deliveryPackage;
 
     return (
       <>
         <div
-          className={`card mb-4 product rounded shadow-sm border-0  bg-${
-            method === 'pickup' ? 'dark' : 'secondary'
-          } text-white`}
+          className={`card mb-4 product rounded shadow-sm border-0 ${
+            deliveryCompany && deliveryCompany.contactPerson === user._id ? '' : 'pointer'
+          }  bg-${selectedDeliveryPackage && selectedDeliveryPackage._id === deliveryPackage._id ? 'primary-benshada' : 'secondary'} text-white`}
+          onClick={() => (deliveryCompany && deliveryCompany.contactPerson === user._id
+            ? ''
+            : this.props.deliveryPackagesOneSelected(deliveryPackage))
+          }
         >
           <div className="card-body p-0">
             <div
@@ -84,33 +94,36 @@ class PackageDisplay extends Component {
                 </small>
                 {this.renderDetails(deliveryPackage)}
               </div>
-              <div className="flex-grow-1 d-flex mt-3">
-                <div
-                  style={{ width: '60px', height: '60px', overflow: 'hidden' }}
-                  className="rounded-circle mr-1"
-                >
-                  <img
-                    src={deliveryCompany && deliveryCompany.image}
-                    alt=""
-                    className="img-fluid"
-                    style={{ minHeight: '60px', minWidth: '60px' }}
-                  />
-                </div>
-                <div className="flex-grow-1 d-flex flex-column justify-content-center">
-                  <small
-                    className="d-block font-weight-bold text-uppercase"
-                    style={{ lineHeight: '16px' }}
+
+              {deliveryCompany && deliveryCompany.contactPerson === user._id ? (
+                ''
+              ) : (
+                <div className="flex-grow-1 d-flex mt-3 flex-end">
+                  <small>Provided by</small>
+                  <div
+                    style={{ width: '60px', height: '60px', overflow: 'hidden' }}
+                    className="rounded-circle mr-1"
                   >
-                    {deliveryCompany && deliveryCompany.name}
-                  </small>
-                  <small className="d-block" style={{ lineHeight: '16px' }}>
-                    {deliveryCompany && deliveryCompany.email}
-                  </small>
-                  <small className="d-block" style={{ lineHeight: '16px' }}>
-                    {deliveryCompany && deliveryCompany.phone}
-                  </small>
+                    <img
+                      src={deliveryCompany && deliveryCompany.image}
+                      alt=""
+                      className="img-fluid"
+                      style={{ minHeight: '60px', minWidth: '60px' }}
+                    />
+                  </div>
+                  <div className="flex-grow-1 d-flex flex-column justify-content-center">
+                    <small
+                      className="d-block font-weight-bold text-uppercase"
+                      style={{ lineHeight: '16px' }}
+                    >
+                      {deliveryCompany && deliveryCompany.name}
+                    </small>
+                    <small className="d-block" style={{ lineHeight: '16px' }}>
+                      {deliveryCompany && deliveryCompany.phone}
+                    </small>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>
@@ -119,6 +132,11 @@ class PackageDisplay extends Component {
   }
 }
 
-const mapStateToProps = ({ user }) => ({ user: user.selected });
+const mapStateToProps = ({ user, deliveryPackage }) => ({
+  user: user.selected,
+  selectedDeliveryPackage: deliveryPackage.selected
+});
 
-export default connect(mapStateToProps, { deliveryPackageUpdate })(PackageDisplay);
+export default connect(mapStateToProps, { deliveryPackageUpdate, deliveryPackagesOneSelected })(
+  PackageDisplay
+);

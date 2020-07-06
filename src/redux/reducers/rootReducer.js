@@ -12,6 +12,7 @@ import subscriptionReducer from './subscriptionReducer.js';
 import deliveryCompanyReducer from './deliveryCompanyReducer.js';
 import deliveryPackageReducer from './deliveryPackageReducer.js';
 import loadingReducer from './loadingReducer.js';
+import orderReducer from './orderReducer.js';
 
 export default combineReducers({
   auth: authReducer,
@@ -19,6 +20,7 @@ export default combineReducers({
   deliveryPackage: deliveryPackageReducer,
   form: formReducer,
   loading: loadingReducer,
+  order: orderReducer,
   product: productReducer,
   store: storeReducer,
   subscription: subscriptionReducer,

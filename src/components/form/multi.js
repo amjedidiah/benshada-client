@@ -31,17 +31,10 @@ export default class Multi extends Component {
 
   render = () => {
     const {
-      icon,
-      action,
-      input,
-      label,
-      touched,
-      error,
-      options
+      icon, action, input, label, touched, error, options
     } = this.props;
 
     const id = `${action}${input.name}`;
-
 
     return (
       <div className="d-flex align-items-center">
@@ -50,16 +43,17 @@ export default class Multi extends Component {
           <label htmlFor={`${id}`}>{label}</label>
           <Select
             {...input}
-            options={options}
+            options={options.map(({ name }) => ({ label: name, value: name }))}
             value={input.value}
             isMulti={true}
-            id={id} className="form-control" style={{ zIndex: 999 }}
+            isSearchable={true}
+            id={id}
+            className="form-control"
+            style={{ zIndex: 999 }}
             onBlur={() => input.onBlur([...input.value])}
           />
         </div>
-        <div className="form-validation-response">
-          {this.renderValidateIcon(touched, error)}
-        </div>
+        <div className="form-validation-response">{this.renderValidateIcon(touched, error)}</div>
       </div>
     );
   };

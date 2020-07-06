@@ -12,6 +12,7 @@ import { deliveryCompanyValidate as validate } from '../../assets/js/validate.js
 import '../../assets/css/form.css';
 import FormField from '../form/formField.js';
 import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
+import states from '../../assets/data/states.json';
 
 class DeliveryCompanyForm extends Component {
   constructor(props) {
@@ -91,13 +92,13 @@ class DeliveryCompanyForm extends Component {
           />
           <Field
             action="deliveryCompany"
-            name="headOffice"
-            type="textarea"
+            name="states"
+            type="multi"
             component={FormField}
-            label="Company HeadOffice Address"
+            label="States Active In"
             icon={faMapPin}
             className="col-12 col-md-6"
-            placeholder="e.g: 42 Shodipo Street Mushin Lagos"
+            options={states.map(({ name }) => ({ value: name, label: name }))}
           />
         </div>
 

@@ -17,6 +17,8 @@ import Logout from './components/Auth/Logout/Logout.js';
 import Register from './components/Auth/Register/Register.js';
 import User from './components/User/User.js';
 import Onboarding from './components/Onboarding/Onboarding.js';
+import Checkout from './components/Checkout/Checkout.js';
+import Payment from './components/Payment/Payment.js';
 
 // Action imports
 import { productsAll } from './redux/actions/products.js';
@@ -24,7 +26,6 @@ import { shopsAll } from './redux/actions/stores.js';
 import { testimonialsAll } from './redux/actions/testimonials.js';
 import { subscriptionsAll } from './redux/actions/subscriptions.js';
 import { usersAll, userOne } from './redux/actions/users.js';
-import Checkout from './components/Checkout/Checkout.js';
 
 // Start Component
 class App extends React.Component {
@@ -108,23 +109,27 @@ class App extends React.Component {
               )}
               exact
             />
+            <Route
+              path="/checkout"
+              component={(component) => <Checkout {...component} user={user} />}
+            />
             <Route path="/login" component={Login} exact />
             <Route path="/logout" component={Logout} exact />
-            <Route
-              path="/register"
-              component={(component) => <Register {...component} users={users} />}
-              exact
-            />
             <Route
               path="/onboarding"
               component={(component) => <Onboarding {...component} user={user} />}
               exact
             />
-            <Route path="/user" component={(component) => <User {...component} user={user} />} />
             <Route
-              path="/checkout"
-              component={(component) => <Checkout {...component} user={user} />}
+              path="/payment"
+              component={(component) => <Payment {...component} user={user} />}
             />
+            <Route
+              path="/register"
+              component={(component) => <Register {...component} users={users} />}
+              exact
+            />
+            <Route path="/user" component={(component) => <User {...component} user={user} />} />
           </Router>
         </div>
         <ToastContainer

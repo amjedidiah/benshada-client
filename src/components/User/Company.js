@@ -27,7 +27,7 @@ class Company extends Component {
   };
 
   submit = ({
-    _id, name, email, phone, headOffice
+    _id, name, email, phone, states
   }) => {
     this.setState({
       buttonValue: (
@@ -41,7 +41,7 @@ class Company extends Component {
       name,
       email,
       phone,
-      headOffice
+      states: states.map((state) => state.value)
     };
 
     this.props
