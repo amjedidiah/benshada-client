@@ -6,7 +6,8 @@ import {
   faUser,
   faShoppingBag,
   faUserEdit,
-  faTruck
+  faTruck,
+  faTruckMoving
 } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
@@ -26,7 +27,8 @@ function Image({
             product: faBox,
             user: faUser,
             order: faShoppingBag,
-            review: faUserEdit
+            review: faUserEdit,
+            package: faTruckMoving
           }[type]
         }
         className={`fa-${size}x text-secondary`}

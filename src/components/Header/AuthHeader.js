@@ -8,7 +8,6 @@ import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 // Asset imports
 import ContainerDimensions from 'react-container-dimensions';
-import ifSeller from '../../assets/js/ifSeller.js';
 
 class AuthHeader extends React.Component {
   static propTypes = {
@@ -49,7 +48,7 @@ class AuthHeader extends React.Component {
 
     return (
       <ul className="navbar-nav ml-auto " id="loggedIn">
-        {ifSeller(user && user.type) ? '' : this.renderCartLink()}
+        {['UDC', 'UA'].includes(user && user.type) ? '' : this.renderCartLink()}
         <li className="nav-item dropdown pl-md-3">
           <Link
             className="nav-link dropdown-toggle"
@@ -64,12 +63,18 @@ class AuthHeader extends React.Component {
             {firstName}
           </Link>
           <div className="dropdown-menu border-0 shadow-md-sm" aria-labelledby="navbarDropdown">
-            <Link className="dropdown-item" to={'/user/saved'}>
-              Saved
-            </Link>
-            <Link className="dropdown-item" to={'/user/cart'}>
-              Cart
-            </Link>
+            {['UDC', 'UA'].includes(user && user.type) ? (
+              ''
+            ) : (
+              <>
+                <Link className="dropdown-item" to={'/user/saved'}>
+                  Saved
+                </Link>
+                <Link className="dropdown-item" to={'/user/cart'}>
+                  Cart
+                </Link>
+              </>
+            )}
             <Link className="dropdown-item" to={'/user/profile'}>
               Account
             </Link>

@@ -147,15 +147,12 @@ body#body main #app .card-columns.testimonials {
 body#body main #app .cards {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: flex-start;
   margin: 10px;
 }
 
 body#body main #app .cards.products .card {
   flex: 1 185px;
-  min-width: 185px;
-  max-width: 185px;
-  width: 185px;
 }
 
 body#body main #app .cards.testimonials .card,
@@ -273,6 +270,10 @@ body#body main #app #genderList .icon {
 @media (min-width: 768px) {
   body#body main #app .card-columns {
     column-count: 3;
+  }
+
+  body#body main #app .cards.products .card {
+    flex: 0 1 185px;
   }
 
   body#body main #app .cards.testimonials .card,

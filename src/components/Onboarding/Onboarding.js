@@ -158,7 +158,7 @@ class Onboarding extends Component {
   };
 
   deliveryCompanySubmit = ({
-    name, email, phone, headOffice
+    name, email, phone, states
   }) => {
     this.setState({
       deliveryCompanyButton: (
@@ -172,7 +172,7 @@ class Onboarding extends Component {
       name,
       email,
       phone,
-      headOffice,
+      states: states.map((state) => state.value),
       contactPerson: this.props.user && this.props.user._id
     };
 
