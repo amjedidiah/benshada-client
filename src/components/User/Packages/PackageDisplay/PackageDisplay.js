@@ -5,8 +5,7 @@ import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import {
-  deliveryPackageUpdate,
-  deliveryPackagesOneSelected
+  deliveryPackageUpdate
 } from '../../../../redux/actions/deliveryPackages.js';
 import Price from '../../../ProductList/ProductDisplay/Price.js';
 import ButtonPackageOwner from './ButtonPackageOwner.js';
@@ -14,15 +13,19 @@ import ButtonPackageOwner from './ButtonPackageOwner.js';
 class PackageDisplay extends Component {
   static propTypes = {
     deliveryPackage: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
+    onPackageSelect: PropTypes.func,
     user: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     deliveryPackageUpdate: PropTypes.func,
-    deliveryPackagesOneSelected: PropTypes.func,
-    selectedDeliveryPackage: PropTypes.object
+    selected: PropTypes.bool
   };
 
-  renderDetails = ({
-    method, pickupStation, to, from, duration
-  }) => {
+  renderDetails = (deliveryPackage) => {
+    const method = deliveryPackage && deliveryPackage.method;
+    const pickupStation = deliveryPackage && deliveryPackage.pickupStation;
+    const to = deliveryPackage && deliveryPackage.to;
+    const from = deliveryPackage && deliveryPackage.from;
+    const duration = deliveryPackage && deliveryPackage.duration;
+
     if (method === 'pickup') {
       const { name, address, state } = pickupStation;
       return (
@@ -51,28 +54,31 @@ class PackageDisplay extends Component {
   };
 
   renderActionButtons = (deliveryPackage) => {
-    const { deliveryCompany } = deliveryPackage;
+    const deliveryCompany = deliveryPackage && deliveryPackage.deliveryCompany;
 
-    return deliveryCompany.contactPerson === this.props.user._id ? (
+    return deliveryCompany && deliveryCompany.contactPerson === this.props.user._id ? (
       <ButtonPackageOwner deliveryPackage={deliveryPackage} user={this.props.user} />
     ) : (
       ''
     );
   };
 
+
   render() {
-    const { deliveryPackage, user, selectedDeliveryPackage } = this.props;
-    const { cost, deliveryCompany, method } = deliveryPackage;
+    const { deliveryPackage, user, selected } = this.props;
+    const cost = deliveryPackage && deliveryPackage.cost;
+    const deliveryCompany = deliveryPackage && deliveryPackage.deliveryCompany;
+    const method = deliveryPackage && deliveryPackage.method;
 
     return (
       <>
         <div
           className={`card mb-4 product rounded shadow-sm border-0 ${
             deliveryCompany && deliveryCompany.contactPerson === user._id ? '' : 'pointer'
-          }  bg-${selectedDeliveryPackage && selectedDeliveryPackage._id === deliveryPackage._id ? 'primary-benshada' : 'secondary'} text-white`}
+          }  bg-${selected ? 'primary-benshada' : 'secondary'} text-white`}
           onClick={() => (deliveryCompany && deliveryCompany.contactPerson === user._id
             ? ''
-            : this.props.deliveryPackagesOneSelected(deliveryPackage))
+            : this.props.onPackageSelect(deliveryPackage))
           }
         >
           <div className="card-body p-0">
@@ -132,11 +138,10 @@ class PackageDisplay extends Component {
   }
 }
 
-const mapStateToProps = ({ user, deliveryPackage }) => ({
-  user: user.selected,
-  selectedDeliveryPackage: deliveryPackage.selected
+const mapStateToProps = ({ user }) => ({
+  user: user.selected
 });
 
-export default connect(mapStateToProps, { deliveryPackageUpdate, deliveryPackagesOneSelected })(
+export default connect(mapStateToProps, { deliveryPackageUpdate })(
   PackageDisplay
 );

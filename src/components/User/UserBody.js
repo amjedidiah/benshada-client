@@ -12,7 +12,7 @@ import Analytics from './Analytics.js';
 import Bank from './Bank.js';
 import Cart from './Cart.js';
 import Notifications from './Notifications.js';
-import Orders from './Orders.js';
+import Orders from './Orders/Orders.js';
 import Products from './Products/Products.js';
 import Profile from './Profile/Profile.js';
 import Saved from './Saved.js';
@@ -253,7 +253,7 @@ class UserBody extends Component {
 
     return (
         <div
-          className={`h-100 p-0 tab-pane fade p-5 mt-5 ${
+          className={`h-100 tab-pane fade user-section mt-5 ${
             this.props.pathname.includes(Title.toLowerCase()) ? 'show active' : ''
           }`}
           id={`pills-${Title}`}

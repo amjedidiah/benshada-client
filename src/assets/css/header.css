@@ -33,12 +33,17 @@ body#body main #app .cart-count.cart-count-user {
   font-size: 2em;
 }
 
+body#body main #app .cart-count.cart-count-header {
+  left: 25px;
+  top: 14px;
+}
+
 body#body main #app .cart-count span {
   border-radius: 50%;
   width: fit-content;
   height: fit-content;
   background: #ef932e;
-  padding: 3px 1px;
+  padding: 3px 6px;
   position: relative;
 }
 

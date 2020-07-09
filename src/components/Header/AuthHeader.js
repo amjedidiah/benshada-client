@@ -24,7 +24,7 @@ class AuthHeader extends React.Component {
           {cart.length < 1 ? (
             ''
           ) : (
-            <div className="cart-count cart-count-user">
+            <div className="cart-count cart-count-header">
               <ContainerDimensions>
                 {({ height, width }) => (
                   <span className="" style={{ top: `-${height / 2}px`, left: `-${width / 2}px` }}>

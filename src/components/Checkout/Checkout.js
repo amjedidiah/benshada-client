@@ -1,4 +1,5 @@
 /* eslint-disable no-underscore-dangle */
+// Module imports
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -7,30 +8,38 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import { toast } from 'react-toastify';
+
+// Component imports
 import HrFr from '../HrFr/HrFr.js';
 import Price from '../ProductList/ProductDisplay/Price.js';
 import AuthRedirect from '../Auth/AuthRedirect.js';
-import Image from '../Image/Image.js';
 import AddressForm from './AddressForm.js';
-import PackageList from '../User/Packages/PackageList.js';
+import CheckoutProductList from './CheckoutProductList.js';
+import ProductDeliveryMethod from './ProductDeliveryMethod.js';
+
+// Action imports
 import { deliveryPackagesOneSelected } from '../../redux/actions/deliveryPackages.js';
 import { orderAdd } from '../../redux/actions/orders.js';
 
-class CheckOut extends Component {
-  INIT = {
-    address: {},
-    btnOrder: 'Place Order'
-  };
+// Asset imports
+import { genUniqueNumber } from '../../assets/js/prototypes.js';
 
+// Start Component
+class CheckOut extends Component {
+  // Initial Value for state
+  INIT = { details: {}, btnOrder: 'Place Order', order: [] };
+
+  // Initialize component state
   constructor(props) {
     super(props);
-
     this.state = this.INIT;
   }
 
+  // Declare propTypes
   static propTypes = {
     user: PropTypes.object,
     isSignedIn: PropTypes.bool,
+    orders: PropTypes.array,
     stores: PropTypes.array,
     deliveryPackages: PropTypes.array,
     selectedDeliveryPackage: PropTypes.object,
@@ -38,43 +47,11 @@ class CheckOut extends Component {
     orderAdd: PropTypes.func
   };
 
-  renderOrderedProducts = (cart) => cart.map(({
-    name, price, discountPercentage, _id, color, image
-  }, key) => {
-    const qty = this.props.user.cart.filter((product) => product._id === _id).length;
-    return (
-        <div
-          className="p-3 border border-secondary border-left-0 border-top-0 border-right-0 d-flex"
-          key={key}
-        >
-          <div className="flex-grow-1 d-flex">
-            <Image type="product" id={_id} image={image} xtraClass="mr-2" />
-            <div>
-              <span>{name}</span>
-              <br />
-              <div
-                style={{
-                  backgroundColor: color,
-                  width: '18px',
-                  height: '18px',
-                  borderRadius: '50%',
-                  marginTop: '5px'
-                }}
-              ></div>
-            </div>
-          </div>
-          <div className="align-self-center">
-            <p>X {qty}</p>
-            <Price price={price * qty} discount={discountPercentage} />
-          </div>
-        </div>
-    );
-  });
-
+  // Delivery addresses
   submitAddress = ({
     firstName, familyName, phone, address, state
   }) => this.setState({
-    address: {
+    details: {
       name: `${firstName} ${familyName}`,
       phone,
       address,
@@ -85,7 +62,7 @@ class CheckOut extends Component {
   renderAddress = () => {
     const {
       name, address, state, phone
-    } = this.state.address;
+    } = this.state.details;
 
     return name ? (
       <div className="py-4 px-5">
@@ -102,51 +79,39 @@ class CheckOut extends Component {
     );
   };
 
-  renderDeliveryPackages = (list) => (this.state.address && this.state.address.name ? (
-      <div className="py-4 px-5">
-        {list > 0 ? (
-          <p>
-            How do you want your order delivered?
-            <br />
-            Select one
-          </p>
-        ) : (
-          ''
-        )}
-
-        <PackageList packages={list} count={4} title="Your Delivery Packages" />
-      </div>
-  ) : (
-    ''
-  ));
-
   componentDidMount = () => {
-    this.setState({
-      address: {
-        name: this.props.user && this.props.user.name,
-        address: this.props.user && this.props.user.address,
-        state: this.props.user && this.props.user.state,
-        phone: this.props.user && this.props.user.phone
-      }
-    });
+    const {
+      _id, cart, name, address, state, phone
+    } = this.props.user;
+    const { order } = this.state;
+    const details = {
+      name,
+      address,
+      state,
+      phone
+    };
+    const uniqCart = _.uniqBy(cart, '_id');
 
-    this.props.deliveryPackagesOneSelected({});
+    for (let i = 0; i < uniqCart.length; i += 1) {
+      const product = uniqCart[i];
+      const { price, discountPercentage } = product;
+      const count = _.countBy(cart, (j) => j._id === product._id).true;
+
+      order.push({
+        product,
+        user: _id,
+        totalPrice: price * (1 - discountPercentage / 100) * count,
+        deliveryPackage: null,
+        orderNumber: null,
+        count,
+        details
+      });
+    }
+
+    this.setState({ details, order });
   };
 
-  toAndFroms = (cart, stores, address) => {
-    const shopsInCheckOutID = _.uniq(cart.map(({ shop }) => shop));
-    const shopsInCheckOut = stores.filter(({ _id }) => shopsInCheckOutID.includes(_id));
-
-    return { froms: shopsInCheckOut.map(({ state }) => state), to: address && address.state };
-  };
-
-  appropriatePackages = (deliveryPackages, toAndFroms) => deliveryPackages.filter(({
-    method, pickupStation, to, from
-  }) => (method === 'pickup'
-    ? pickupStation && pickupStation.state === toAndFroms.to
-    : toAndFroms.to === to && from === toAndFroms.froms.includes(from)));
-
-  orderCreate = ({ _id, cart }, totalPrice, selectedDeliveryPackage) => {
+  orderCreate = (order) => {
     this.setState({
       btnOrder: (
         <div className="spinner-border text-white" role="status">
@@ -155,15 +120,14 @@ class CheckOut extends Component {
       )
     });
 
-    const deliveryPackage = selectedDeliveryPackage._id;
+    const orderNumbers = (this.props.orders || []).map(({ orderNumber }) => orderNumber);
+    const finalOrder = order.map((item) => ({
+      ...item,
+      orderNumber: genUniqueNumber(1073741824, orderNumbers)
+    }));
 
     this.props
-      .orderAdd({
-        products: cart,
-        user: _id,
-        totalPrice,
-        deliveryPackage
-      })
+      .orderAdd(finalOrder)
       .then((response) => toast.success(
         (response && response.value && response.value.data && response.value.data.message)
             || (response && response.statusText)
@@ -182,25 +146,38 @@ class CheckOut extends Component {
       .finally(() => this.setState({ btnOrder: this.INIT.btnOrder }));
   };
 
+  updateDeliveryPackage = ({ _id, cost }, productID) => {
+    this.setState({
+      order: this.state.order.map((item) => (item.product && item.product._id === productID
+        ? { ...item, deliveryPackage: _id, totalPrice: item.totalPrice + cost }
+        : item))
+    });
+  };
+
+  renderOrderButton = (l1, l2) => (l1 === l2 ? (
+      <div className="col-12">
+        <button
+          className="btn btn-primary d-block w-100"
+          onClick={() => this.orderCreate(this.state.order)}
+        >
+          {this.state.btnOrder}
+        </button>
+        <small>This is where you go ahead to make payment</small>
+      </div>
+  ) : (
+    ''
+  ));
+
   render() {
-    const { user, stores, selectedDeliveryPackage } = this.props;
+    const {
+      user, stores, selectedDeliveryPackage, deliveryPackages
+    } = this.props;
     const cart = (user && user.cart) || [];
     const uniqCart = _.uniqBy(user && user.cart, '_id') || [];
-    const cartTotal = cart.map(({ price }) => price).reduce((total, price) => total + price, 0);
-    const cartTotalDiscount = cart
-      .map((
-        { price, discountPercentage }
-      ) => (discountPercentage < 1
-        ? price
-        : (1 - discountPercentage / 100) * price))
-      .reduce((total, price) => total + price, 0);
-    const { address, btnOrder } = this.state;
-    const cartTransport = (selectedDeliveryPackage && selectedDeliveryPackage.cost) || 0;
-    const combinedTotal = cartTotalDiscount + cartTransport;
-    const list = this.appropriatePackages(
-      this.props.deliveryPackages,
-      this.toAndFroms(cart, stores, address)
-    );
+    const { details, order } = this.state;
+    const combinedTotal = this.state.order
+      .map(({ totalPrice }) => totalPrice)
+      .reduce((a, b) => a + b, 0);
 
     return (
       <>
@@ -219,12 +196,12 @@ class CheckOut extends Component {
                         <FontAwesomeIcon
                           icon={faCheckCircle}
                           className={`${
-                            address && address.address ? 'text-primary-benshada' : 'text-ash'
+                            details && details.address ? 'text-primary-benshada' : 'text-ash'
                           } mr-2`}
                         />
                         1. Address Details
                       </div>
-                      {address && address.address ? (
+                      {details && details.address ? (
                         <>
                           <div className="flex-grow-1 text-right text-primary-benshada">
                             <span
@@ -283,7 +260,14 @@ class CheckOut extends Component {
                       />
                       2. Delivery Method
                     </div>
-                    {this.renderDeliveryPackages(list)}
+                    <ProductDeliveryMethod
+                      details={details}
+                      deliveryPackages={deliveryPackages}
+                      products={uniqCart}
+                      stores={stores}
+                      onPackageSelect={this.updateDeliveryPackage}
+                      checkoutOrder={order}
+                    />
                   </div>
                 </div>
               </div>
@@ -291,25 +275,9 @@ class CheckOut extends Component {
                 <div className="row">
                   <div className="col-12 shadow-sm bg-sm-white border border-light p-0">
                     <div className="lead text-uppercase font-weight-bold border border-secondary border-left-0 border-right-0 border-top-0 p-3">
-                      Your Order ({uniqCart.length} item{cart.length > 1 ? 's' : ''})
+                      Your Order{cart.length > 1 ? 's' : ''}
                     </div>
-                    {this.renderOrderedProducts(uniqCart)}
-                    <div className="d-flex p-3 font-weight-bold border border-secondary border-top-0 border-right-0 border-left-0">
-                      <h4 className="text-left flex-grow-1">Subtotal</h4>
-                      <div className="text-right flex-grow-1">
-                        <Price
-                          price={cartTotal}
-                          discount={((cartTotal - cartTotalDiscount) / cartTotal) * 100}
-                        />
-                      </div>
-                    </div>
-                    <div className="d-flex p-3 font-weight-bold border border-secondary border-top-0 border-right-0 border-left-0">
-                      <h4 className="text-left flex-grow-1">Shipping Cost</h4>
-                      <div className="text-right flex-grow-1">
-                        <Price price={cartTransport} />
-                      </div>
-                    </div>
-
+                    <CheckoutProductList orders={this.state.order} />
                     <div className="d-flex p-3 font-weight-bold lead">
                       <h4 className="text-left flex-grow-1 text-uppercase">total</h4>
                       <div className="text-right flex-grow-1">
@@ -325,18 +293,12 @@ class CheckOut extends Component {
                   </div>
                 </div>
               </div>
-              <div className="col-12">
-            <button
-              className="btn btn-primary d-block w-100"
-              onClick={() => this.orderCreate(user, combinedTotal, selectedDeliveryPackage)}
-            >
-              {btnOrder}
-            </button>
-            <small>This is where you go ahead to make payment</small>
-          </div>
+              {this.renderOrderButton(
+                uniqCart.length,
+                _.compact(order.map(({ deliveryPackage }) => deliveryPackage)).length
+              )}
             </div>
           </div>
-
         </HrFr>
       </>
     );
@@ -344,13 +306,14 @@ class CheckOut extends Component {
 }
 
 const mapStateToProps = ({
-  cart, auth, store, deliveryPackage
+  cart, auth, store, deliveryPackage, order
 }) => ({
   cart,
   isSignedIn: auth.isSignedIn,
   stores: store.all,
   deliveryPackages: deliveryPackage.all,
-  selectedDeliveryPackage: deliveryPackage.selected
+  selectedDeliveryPackage: deliveryPackage.selected,
+  orders: order.all
 });
 
 export default connect(mapStateToProps, { deliveryPackagesOneSelected, orderAdd })(CheckOut);
