@@ -11,12 +11,18 @@ import { userUpdate } from '../../redux/actions/users.js';
 import { shopAdd } from '../../redux/actions/stores.js';
 import StoreForm from '../StoreList/StoreDisplay/StoreForm.js';
 import UserForm from './UserForm.js';
+import DeliveryCompanyForm from './DeliveryCompanyForm.js';
+import { deliveryCompaniesAdd } from '../../redux/actions/deliveryCompanies.js';
+
+import types from '../../assets/data/types.json';
+import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
 
 class Onboarding extends Component {
   INIT = {
     typeButton: 'Next',
     storeButton: 'Create',
-    userButton: 'Done'
+    userButton: 'Done',
+    deliveryCompanyButton: 'Submit'
   };
 
   constructor(props) {
@@ -26,6 +32,8 @@ class Onboarding extends Component {
   }
 
   static propTypes = {
+    deliveryCompany: PropTypes.object,
+    deliveryCompaniesAdd: PropTypes.func,
     user: PropTypes.object,
     userUpdate: PropTypes.func,
     shopAdd: PropTypes.func
@@ -44,18 +52,18 @@ class Onboarding extends Component {
       .userUpdate(this.props.user.email, typeData)
       .then((response) => toast.success(
         (response && response.value && response.value.data && response.value.data.message)
-        || (response && response.statusText)
-        || 'Success'
+            || (response && response.statusText)
+            || 'Success'
       ))
       .catch((err) => toast.error(
         (err && err.response && err.response.data && err.response.data.message)
-              || (err
-                && err.response
-                && err.response.data
-                && err.response.data.message
-                && err.response.data.message.name)
-              || (err && err.response && err.response.statusText)
-              || 'Network error'
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
       ))
       .finally(() => {
         this.setState(this.INIT);
@@ -82,18 +90,18 @@ class Onboarding extends Component {
       .shopAdd(storeData)
       .then((response) => toast.success(
         (response && response.value && response.value.data && response.value.data.message)
-        || (response && response.statusText)
-        || 'Success'
+            || (response && response.statusText)
+            || 'Success'
       ))
       .catch((err) => toast.error(
         (err && err.response && err.response.data && err.response.data.message)
-              || (err
-                && err.response
-                && err.response.data
-                && err.response.data.message
-                && err.response.data.message.name)
-              || (err && err.response && err.response.statusText)
-              || 'Network error'
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
       ))
       .finally(() => this.setState(this.INIT));
   };
@@ -130,18 +138,18 @@ class Onboarding extends Component {
       .userUpdate(this.props.user.email, user)
       .then((response) => toast.success(
         (response && response.value && response.value.data && response.value.data.message)
-        || (response && response.statusText)
-        || 'Success'
+            || (response && response.statusText)
+            || 'Success'
       ))
       .catch((err) => toast.error(
         (err && err.response && err.response.data && err.response.data.message)
-              || (err
-                && err.response
-                && err.response.data
-                && err.response.data.message
-                && err.response.data.message.name)
-              || (err && err.response && err.response.statusText)
-              || 'Network error'
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
       ))
       .finally(() => {
         this.setState(this.INIT);
@@ -149,10 +157,49 @@ class Onboarding extends Component {
       });
   };
 
-  renderHelp = () => {
-    const { user } = this.props;
+  deliveryCompanySubmit = ({
+    name, email, phone, states
+  }) => {
+    this.setState({
+      deliveryCompanyButton: (
+        <div className="spinner-border text-white" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      )
+    });
 
-    if (!['UA', 'UB', 'UC'].includes(user && user.type)) {
+    const company = {
+      name,
+      email,
+      phone,
+      states: states.map((state) => state.value),
+      contactPerson: this.props.user && this.props.user._id
+    };
+
+    return this.props
+      .deliveryCompaniesAdd(company)
+      .then((response) => toast.success(
+        (response && response.value && response.value.data && response.value.data.message)
+            || (response && response.statusText)
+            || 'Success'
+      ))
+      .catch((err) => toast.error(
+        (err && err.response && err.response.data && err.response.data.message)
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
+      ))
+      .finally(() => this.setState(this.INIT));
+  };
+
+  renderHelp = () => {
+    const { user, deliveryCompany } = this.props;
+
+    if (!types.includes(user && user.type)) {
       return <TypeForm buttonValue={this.state.typeButton} onSubmit={this.typeSubmit} />;
     }
 
@@ -167,10 +214,29 @@ class Onboarding extends Component {
       );
     }
 
-    if (((user && user.categories) || []).filter(
-      (cat) => cat !== null && cat !== undefined && cat !== ''
-    ).length < 1) {
+    if (
+      user
+      && user.type === 'UC'
+      && ((user && user.categories) || []).filter(
+        (cat) => cat !== null && cat !== undefined && cat !== ''
+      ).length < 1
+    ) {
       return <UserForm buttonValue={this.state.userButton} onSubmit={this.userSubmit} />;
+    }
+
+    if (user && user.type === 'UDC') {
+      if (
+        (deliveryCompany
+          && deliveryCompany.contactPerson
+          && deliveryCompany.contactPerson.email) !== (user && user.email)
+      ) {
+        return (
+          <DeliveryCompanyForm
+            buttonValue={this.state.deliveryCompanyButton}
+            onSubmit={this.deliveryCompanySubmit}
+          />
+        );
+      }
     }
 
     return false;
@@ -179,4 +245,12 @@ class Onboarding extends Component {
   render = () => <Auth type="onboarding">{this.renderHelp()}</Auth>;
 }
 
-export default connect(null, { userUpdate, shopAdd })(Onboarding);
+const mapStateToProps = ({ user, deliveryCompany }) => ({
+  deliveryCompany: getDeliveryCompany(user, deliveryCompany)
+});
+
+export default connect(mapStateToProps, {
+  userUpdate,
+  shopAdd,
+  deliveryCompaniesAdd
+})(Onboarding);

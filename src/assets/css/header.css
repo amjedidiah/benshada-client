@@ -15,19 +15,40 @@ body#body main #app #searchDropDown li:hover link {
   text-decoration: none;
 }
 
-body#body main #app #cartCount {
+body#body main #app .cart-count {
   border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  width: fit-content;
+  height: fit-content;
   color: #fff;
-  background: #ef932e;
-  font-weight: 700;
-  padding: 3px 1px;
+  font-weight: 500;
+  padding: 0;
   position: absolute;
-  left: 10px;
-  top: 0px;
+  left: 0;
+  top: 0;
   font-size: 10px;
   text-align: center;
+}
+
+body#body main #app .cart-count.cart-count-user {
+  font-size: 2em;
+}
+
+body#body main #app .cart-count.cart-count-header {
+  left: 25px;
+  top: 14px;
+}
+
+body#body main #app .cart-count span {
+  border-radius: 50%;
+  width: fit-content;
+  height: fit-content;
+  background: #ef932e;
+  padding: 3px 6px;
+  position: relative;
+}
+
+body#body main #app .cart-count.cart-count-user span {
+  padding: 3px 16px;
 }
 
 @media (max-width: 768px) {

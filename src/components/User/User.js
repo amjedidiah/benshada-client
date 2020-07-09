@@ -5,6 +5,7 @@ import AuthRedirect from '../Auth/AuthRedirect.js';
 import navUA from '../../assets/js/navUA.js';
 import navUB from '../../assets/js/navUB.js';
 import navUC from '../../assets/js/navUC.js';
+import navUDC from '../../assets/js/navUDC.js';
 import UserNav from './UserNav.js';
 import '../../assets/css/user.css';
 import UserBody from './UserBody.js';
@@ -17,14 +18,28 @@ class User extends Component {
     location: PropTypes.object
   };
 
+  ifPathNameInList = (list, location) => {
+    const pathnameArr = location.pathname.split('/');
+    const pathnameArrLength = pathnameArr.length;
+    const pathnameConcern = pathnameArr[pathnameArrLength - 1];
+    const listArray = list.map(({ Title }) => Title.toLowerCase());
+
+    return listArray.includes(pathnameConcern);
+  };
+
   render = () => {
     const { user, location } = this.props;
-    const list = { UA: navUA, UB: navUB, UC: navUC }[user && user.type] || [];
+    const list = {
+      UA: navUA,
+      UB: navUB,
+      UC: navUC,
+      UDC: navUDC
+    }[user && user.type] || [];
 
     return (
       <>
         <AuthRedirect type="user" />
-        {location.pathname.split('/').length < 3 ? <Redirect to="/user/profile" /> : ''}
+        {!this.ifPathNameInList(list, location) ? <Redirect to="/login" /> : ''}
         <div className="container-fluid h-100">
           <div className="row h-100">
             <UserNav
