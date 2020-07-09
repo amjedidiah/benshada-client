@@ -5,7 +5,8 @@ import {
   PRODUCTS_ALL,
   PRODUCT_UPDATE,
   PRODUCT_DELETE,
-  PRODUCT_ADD
+  PRODUCT_ADD,
+  PRODUCT_UPDATE_MULTIPLE
 } from './types/productTypes.js';
 
 export const productsAll = () => ({ type: PRODUCTS_ALL, payload: api.get('/products/') });
@@ -27,6 +28,15 @@ export const productUpdate = (id, productData) => (dispatch) => {
   });
 
   return response.then(() => dispatch([productsOne(id), productsAll()]));
+};
+
+export const productUpdateMultiple = (productRequests) => (dispatch) => {
+  const response = dispatch({
+    type: PRODUCT_UPDATE_MULTIPLE,
+    payload: Promise.all(productRequests)
+  });
+
+  return response.then(() => dispatch(productsAll()));
 };
 
 export const productAdd = (data) => (dispatch) => {

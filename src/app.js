@@ -88,7 +88,6 @@ class App extends React.Component {
           <div className="spinner-grow" role="status">
             <span className="sr-only">Loading...</span>
           </div>
-          <h5>Getting things ready for you</h5>
         </div>
       </div>
     ) : (

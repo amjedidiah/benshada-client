@@ -28,7 +28,10 @@ class ProductDisplay extends Component {
     const shops = (user && user.shops) || [];
     const { shop, isBatch } = product;
 
-    if (shops.map(({ _id }) => _id).includes(shop && shop._id) || (user && user.type === 'ADMIN')) {
+    if (
+      shops.map((item) => item && item._id).includes(shop && shop._id)
+      || (user && user.type === 'ADMIN')
+    ) {
       return <ButtonProductOwner product={product} user={user} />;
     }
 
@@ -48,7 +51,10 @@ class ProductDisplay extends Component {
   };
 
   helperCartCount = (cart, product, type) => {
-    if (type === 'increase') return [...cart, product];
+    if (
+      type === 'increase'
+      && product.quantity > cart.filter(({ _id }) => _id === product.id).length
+    ) { return [...cart, product]; }
 
     for (let i = 0; i < cart.length; i += 1) {
       const element = cart[i];
@@ -69,7 +75,9 @@ class ProductDisplay extends Component {
 
     if (initCount) {
       for (let i = 0; i < Number(count); i += 1) {
-        newCart.push(product);
+        if (product.quantity > cart.filter(({ _id }) => _id === product.id).length) {
+          newCart.push(product);
+        }
       }
     } else {
       newCart = this.helperCartCount(cart, product, type);
@@ -149,8 +157,11 @@ class ProductDisplay extends Component {
                 <input
                   className="p-2 mx-1 d-inline w-25 border-0 bg-light-benshada text-center"
                   type="text"
-                  onChange={(e) => this
-                    .updateCartCount(user, product, null, cartCount, e.target.value)
+                  onChange={
+                    (e) => this
+                      .updateCartCount(
+                        user, product, null, cartCount, e.target.value
+                      )
                   }
                   defaultValue={cartCount}
                 />

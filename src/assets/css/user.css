@@ -56,6 +56,10 @@ body#body #userSide .img-holder {
   margin-bottom: -20px;
 }
 
+body#body .user-section {
+  padding: 40px 2.5%;
+}
+
 body#body #pills-tabContent {
   overflow: hidden;
 }

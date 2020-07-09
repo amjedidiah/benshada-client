@@ -12,7 +12,7 @@ class AuthRedirect extends Component {
     deliveryCompany: PropTypes.object,
     type: PropTypes.string,
     user: PropTypes.object,
-    order: PropTypes.object
+    order: PropTypes.array
   };
 
   render = () => {
@@ -22,7 +22,7 @@ class AuthRedirect extends Component {
 
     if (type === 'checkout') {
       if (!auth.isSignedIn) return <Redirect to="/" />;
-      if (order && order._id) return <Redirect to="/payment" />;
+      if (order.length > 0 && (user && user.cart).length < 1) return <Redirect to="/payment" />;
       if ((user && user.cart).length < 1) return <Redirect to="/user/cart" />;
 
       return false;
@@ -76,7 +76,7 @@ class AuthRedirect extends Component {
     }
 
     if (type === 'payment') {
-      if (!(order && order._id)) return <Redirect to="/checkout" />;
+      if (order.length < 1 || (user && user.cart).length > 0) return <Redirect to="/checkout" />;
 
       return false;
     }
