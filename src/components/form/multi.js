@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select';
 import FormIcon from './formIcon.js';
+import ValidateIcon from './validateIcon.js';
 
 export default class Multi extends Component {
   static propTypes = {
@@ -15,18 +13,6 @@ export default class Multi extends Component {
     options: PropTypes.array,
     touched: PropTypes.bool,
     error: PropTypes.string
-  };
-
-  renderValidateIcon = (touched, error) => {
-    let className = null;
-    let icon = null;
-    if (touched) {
-      className = error === undefined ? 'text-success' : 'text-danger';
-      icon = error === undefined ? faCheckCircle : faTimes;
-
-      return <FontAwesomeIcon className={className} icon={icon} />;
-    }
-    return false;
   };
 
   render = () => {
@@ -43,7 +29,7 @@ export default class Multi extends Component {
           <label htmlFor={`${id}`}>{label}</label>
           <Select
             {...input}
-            options={options.map(({ name }) => ({ label: name, value: name }))}
+            options={options}
             value={input.value}
             isMulti={true}
             isSearchable={true}
@@ -53,7 +39,9 @@ export default class Multi extends Component {
             onBlur={() => input.onBlur([...input.value])}
           />
         </div>
-        <div className="form-validation-response">{this.renderValidateIcon(touched, error)}</div>
+        <div className="form-validation-response">
+          <ValidateIcon touched={touched} error={error} />
+        </div>
       </div>
     );
   };

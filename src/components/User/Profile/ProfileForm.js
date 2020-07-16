@@ -120,7 +120,6 @@ class ProfileForm extends Component {
             type="multi"
             component={FormField}
             label="Preferred Categories"
-            icon={''}
             className="col-12"
             options={categories.map(({ name }) => ({ label: name, value: name }))}
           />

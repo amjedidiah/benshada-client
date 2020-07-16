@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCheckCircle } from '@fortawesome/free-regular-svg-icons';
-import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import FormIcon from './formIcon.js';
+import ValidateIcon from './validateIcon.js';
 
 export default class Input extends Component {
   static propTypes = {
@@ -15,24 +13,14 @@ export default class Input extends Component {
     placeholder: PropTypes.string,
     touched: PropTypes.bool,
     error: PropTypes.string,
-    disabled: PropTypes.bool
-  };
-
-  renderValidateIcon = (touched, error) => {
-    let className = null;
-    let icon = null;
-    if (touched) {
-      className = error === undefined ? 'text-success' : 'text-danger';
-      icon = error === undefined ? faCheckCircle : faTimes;
-
-      return <FontAwesomeIcon className={className} icon={icon} />;
-    }
-    return false;
+    disabled: PropTypes.bool,
+    val: PropTypes.string,
+    maxLength: PropTypes.number
   };
 
   render = () => {
     const {
-      icon, action, input, label, type, placeholder, touched, error, disabled
+      icon, action, input, label, type, placeholder, touched, error, disabled, val, maxLength
     } = this.props;
 
     return (
@@ -49,9 +37,13 @@ export default class Input extends Component {
             placeholder={placeholder}
             autoComplete="off"
             disabled={disabled}
+            value={val}
+            maxLength={maxLength}
           />
         </div>
-        <div className="form-validation-response">{this.renderValidateIcon(touched, error)}</div>
+        <div className="form-validation-response">
+          <ValidateIcon touched={touched} error={error} />
+        </div>
       </div>
     );
   };

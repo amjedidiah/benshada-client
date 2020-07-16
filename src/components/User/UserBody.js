@@ -1,15 +1,17 @@
 /* eslint-disable no-underscore-dangle */
+// Module imports
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { faPlus, faStream } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faStream, faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
-
 import { toast } from 'react-toastify';
 import $ from 'jquery';
+
+// Component imports
 import Analytics from './Analytics.js';
-import Bank from './Bank.js';
+import Bank from './Bank/Bank.js';
 import Cart from './Cart.js';
 import Notifications from './Notifications.js';
 import Orders from './Orders/Orders.js';
@@ -18,16 +20,23 @@ import Profile from './Profile/Profile.js';
 import Saved from './Saved.js';
 import Store from './Store/Store.js';
 import Tickets from './Tickets.js';
-import ifSeller from '../../assets/js/ifSeller.js';
 import Image from '../Image/Image.js';
 import ProductForm from '../ProductList/ProductDisplay/ProductForm.js';
-import { productAdd } from '../../redux/actions/products.js';
 import Deliveries from './Deliveries.js';
 import Packages from './Packages/Packages.js';
 import Company from './Company.js';
 import PackageForm from './Packages/PackageForm.js';
-import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
+
+// Action imports
+import { productAdd, productsOneSelected } from '../../redux/actions/products.js';
 import { deliveryPackagesAdd } from '../../redux/actions/deliveryPackages.js';
+
+// Asset imports
+import ifSeller from '../../assets/js/ifSeller.js';
+import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
+import newItems from '../../assets/js/newItems.js';
+import CardForm from './Bank/CardList/CardForm.js';
+import { userUpdate } from '../../redux/actions/users.js';
 
 const Components = {
   Analytics,
@@ -47,7 +56,10 @@ const Components = {
 class UserBody extends Component {
   INIT = {
     buttonProduct: 'Upload',
-    buttonPackage: 'Upload'
+    buttonPackage: 'Add',
+    buttonCard: 'Add',
+    newItemsClass: 'hidden',
+    plusButtonIcon: 'plus'
   };
 
   constructor(props) {
@@ -61,8 +73,10 @@ class UserBody extends Component {
     deliveryPackagesAdd: PropTypes.func,
     list: PropTypes.array,
     productAdd: PropTypes.func,
+    productsOneSelected: PropTypes.func,
     store: PropTypes.object,
     user: PropTypes.object,
+    userUpdate: PropTypes.func,
     pathname: PropTypes.string
   };
 
@@ -169,82 +183,157 @@ class UserBody extends Component {
       });
   };
 
+  cardSubmit = (cardData, user) => {
+    this.setState({
+      buttonCard: (
+        <div className="spinner-border text-white" role="status">
+          <span className="sr-only">Loading...</span>
+        </div>
+      )
+    });
+
+    const email = user && user.email;
+    const cards = (user && user.cards) || [];
+
+    return cards.filter(({ number }) => number === cardData.number).length > 0
+      ? (toast.warn('You have already added this card'), this.setState(this.INIT))
+      : this.props
+        .userUpdate(email, { cards: [...cards, cardData] })
+        .then((response) => toast.success(
+          (response && response.value && response.value.data && response.value.data.message)
+                || (response && response.statusText)
+                || 'Success'
+        ))
+        .catch((err) => toast.error(
+          (err && err.response && err.response.data && err.response.data.message)
+                || (err
+                  && err.response
+                  && err.response.data
+                  && err.response.data.message
+                  && err.response.data.message.name)
+                || (err && err.response && err.response.statusText)
+                || 'Network error'
+        ))
+        .finally(() => {
+          this.setState(this.INIT);
+          $('.modal-backdrop').remove();
+        });
+  };
+
+  handleNewItems = (name) => {
+    this.setState({
+      newItemsClass: this.state.newItemsClass === 'hidden' ? '' : 'hidden',
+      plusButtonIcon: this.state.plusButtonIcon === 'plus' ? 'times' : 'plus'
+    });
+
+    return { product: this.props.productsOneSelected({}) }[name];
+  };
+
   productUploadRenderer = (user) => {
     const type = user && user.type;
+    let all = '';
 
     if (ifSeller(type)) {
-      return (
-        <>
-          <div
-            className="modal fade"
-            id="productModal"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="productModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-lg" role="document">
-              <div className="modal-content" id="formContainer">
-                <div className="modal-body form-container-holder">
-                  <ProductForm
-                    action="create"
-                    buttonValue={this.state.buttonProduct}
-                    onSubmit={this.productSubmit}
-                    user={this.props.user}
-                  />
-                </div>
+      all = (
+        <div
+          className="modal fade"
+          id="productModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="productModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content" id="formContainer">
+              <div className="modal-body form-container-holder">
+                <ProductForm
+                  action="create"
+                  buttonValue={this.state.buttonProduct}
+                  onSubmit={this.productSubmit}
+                  user={this.props.user}
+                />
               </div>
             </div>
           </div>
-          <div
-            className="btn btn-primary rounded-circle shadow-sm"
-            id="addProductButton"
-            data-toggle="modal"
-            data-target="#productModal"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </div>
-        </>
+        </div>
       );
     }
 
     if (type === 'UDC') {
-      return (
-        <>
-          <div
-            className="modal fade"
-            id="packageModal"
-            tabIndex="-1"
-            role="dialog"
-            aria-labelledby="packageModalLabel"
-            aria-hidden="true"
-          >
-            <div className="modal-dialog modal-md" role="document">
-              <div className="modal-content" id="formContainer">
-                <div className="modal-body form-container-holder">
-                  <PackageForm
-                    action="create"
-                    buttonValue={this.state.buttonPackage}
-                    onSubmit={this.packageSubmit}
-                    user={this.props.user}
-                  />
-                </div>
+      all = (
+        <div
+          className="modal fade"
+          id="packageModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="packageModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-md" role="document">
+            <div className="modal-content" id="formContainer">
+              <div className="modal-body form-container-holder">
+                <PackageForm
+                  action="create"
+                  buttonValue={this.state.buttonPackage}
+                  onSubmit={this.packageSubmit}
+                  user={this.props.user}
+                />
               </div>
             </div>
           </div>
-          <div
-            className="btn btn-primary rounded-circle shadow-sm"
-            id="addProductButton"
-            data-toggle="modal"
-            data-target="#packageModal"
-          >
-            <FontAwesomeIcon icon={faPlus} />
-          </div>
-        </>
+        </div>
       );
     }
 
-    return false;
+    return (
+      <>
+        {all}
+        <div
+          className="modal fade"
+          id="cardModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="cardModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-md" role="document">
+            <div className="modal-content" id="formContainer">
+              <div className="modal-body form-container-holder">
+                <CardForm
+                  action="create"
+                  buttonValue={this.state.buttonCard}
+                  onSubmit={(cardData) => this.cardSubmit(cardData, user)}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className={`shadow ${this.state.newItemsClass}`} id="newItems">
+          {newItems
+            .filter(({ users }) => users.includes(this.props.user && this.props.user.type))
+            .map(({ icon, name }, i) => (
+              <div
+                key={`newItem-${i}`}
+                data-toggle="modal"
+                data-target={`#${name}Modal`}
+                className={`pointer ${i === 0 ? '' : 'border border-top-secondary'}`}
+                onClick={() => this.handleNewItems(name)}
+              >
+                <div data-toggle="tooltip" title={name}>
+                  <FontAwesomeIcon icon={icon} />
+                </div>
+              </div>
+            ))}
+        </div>
+        <div
+          className="btn btn-primary rounded-circle shadow-sm"
+          id="addProductButton"
+          onClick={this.handleNewItems}
+        >
+          <FontAwesomeIcon icon={this.state.plusButtonIcon === 'plus' ? faPlus : faTimes} />
+        </div>
+      </>
+    );
   };
 
   renderBodyComponents = (list) => list.map((listItem) => {
@@ -314,4 +403,9 @@ const mapStateToProps = ({ user, deliveryCompany }) => ({
   deliveryCompany: getDeliveryCompany(user, deliveryCompany)
 });
 
-export default connect(mapStateToProps, { productAdd, deliveryPackagesAdd })(UserBody);
+export default connect(mapStateToProps, {
+  userUpdate,
+  productAdd,
+  deliveryPackagesAdd,
+  productsOneSelected
+})(UserBody);
