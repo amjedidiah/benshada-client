@@ -15,7 +15,7 @@ class Price extends React.Component {
 
     return this.props.discount > 0 ? (
       <>
-        <span className="font-weight-bold lead mb-0 pb-0">
+        <span className="font-weight-bold mb-0 pb-0">
           &#x20A6; {addComma(productPrice * (1 - this.props.discount / 100))}
         </span>
         <br />
@@ -26,7 +26,7 @@ class Price extends React.Component {
         </small>
       </>
     ) : (
-      <span className="font-weight-bold lead">&#x20A6; {`${addComma(productPrice)}`}</span>
+      <span className="font-weight-bold">&#x20A6; {`${addComma(productPrice)}`}</span>
     );
   };
 }

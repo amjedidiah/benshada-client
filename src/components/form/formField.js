@@ -8,7 +8,7 @@ import Multi from './multi.js';
 
 const FormField = ({
   input, label, type, placeholder, icon, action, className,
-  options, meta: { touched, error, warning }, disabled
+  options, meta: { touched, error, warning }, disabled, val, maxLength
 }) => (
   <div className={`${className} form-holder`}>
     {{
@@ -56,6 +56,8 @@ const FormField = ({
         touched={touched}
         error={error}
         disabled={disabled}
+        val={val}
+        maxLength={maxLength}
       />
     )}
     {touched
@@ -74,7 +76,9 @@ FormField.propTypes = {
   className: PropTypes.string,
   meta: PropTypes.object,
   options: PropTypes.array,
-  disabled: PropTypes.bool
+  disabled: PropTypes.bool,
+  val: PropTypes.string,
+  maxLength: PropTypes.number
 };
 
 export default FormField;

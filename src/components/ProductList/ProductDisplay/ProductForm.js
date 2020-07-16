@@ -146,7 +146,6 @@ class ProductForm extends Component {
               type="text"
               component={FormField}
               label="Product Name"
-              icon={''}
               className="col-12"
               placeholder="e.g Oxford Shoes"
             />
@@ -159,7 +158,6 @@ class ProductForm extends Component {
               type="textarea"
               component={FormField}
               label="Short Description"
-              icon={''}
               className="col-12 col-md-6"
               placeholder="e.g: Cooperate unisex shoes"
             />
@@ -169,7 +167,6 @@ class ProductForm extends Component {
               type="textarea"
               component={FormField}
               label="Long Description"
-              icon={''}
               className="col-12 col-md-6"
               placeholder="e.g: Cooperate unisex shoes for men to go for weddings"
             />
@@ -205,7 +202,6 @@ class ProductForm extends Component {
               type="number"
               component={FormField}
               label="Quantity"
-              icon={''}
               className="col-12 col-md-6"
               placeholder="e.g: 100"
             />
@@ -263,7 +259,6 @@ class ProductForm extends Component {
               type="text"
               component={FormField}
               label="Main Material"
-              icon={''}
               className="col-12 col-md-6"
               placeholder="e.g: Leather"
             />
@@ -287,7 +282,6 @@ class ProductForm extends Component {
               component={FormField}
               label="Days of Warranty"
               placeholder="e.g: 10"
-              icon={''}
               className="col-12 col-md-6"
             />
             {(this.props.product && this.props.product.isBatch) || (this.props.user && this.props.user.type === 'UA') ? (
@@ -298,7 +292,6 @@ class ProductForm extends Component {
                 component={FormField}
                 label="Batch Quality"
                 placeholder="e.g: 30"
-                icon={''}
                 className="col-12 col-md-6"
               />
             ) : (
@@ -313,7 +306,6 @@ class ProductForm extends Component {
               type="multi"
               component={FormField}
               label="Available Sizes"
-              icon={''}
               className="col-12"
               options={productSizes}
             />

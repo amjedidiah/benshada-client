@@ -7,12 +7,14 @@ import {
   faShoppingBag,
   faUserEdit,
   faTruck,
-  faTruckMoving
+  faTruckMoving,
+  faTicketAlt
 } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import ContainerDimensions from 'react-container-dimensions';
+import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
 
 function Image({
   image, name, size, type, xtraClass, id
@@ -28,7 +30,9 @@ function Image({
             user: faUser,
             order: faShoppingBag,
             review: faUserEdit,
-            package: faTruckMoving
+            package: faTruckMoving,
+            card: faCreditCard,
+            ticket: faTicketAlt
           }[type]
         }
         className={`fa-${size}x text-secondary`}

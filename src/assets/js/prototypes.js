@@ -21,3 +21,5 @@ export const addComma = (number) => {
   const num = number.toString().includes('.') ? number.toString().split('.')[0] : number.toString();
   return splitByLength(num, 3).join(',');
 };
+
+export const cardNum = (num) => splitByLength(num, 4).join(' ');
