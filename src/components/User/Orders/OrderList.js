@@ -7,7 +7,7 @@ import OrderDisplay from './OrderDisplay/OrderDisplay.js';
 import NotFound from '../../NotFound/NotFound.js';
 
 // Start Component
-export default class ProductList extends Component {
+export default class OrderList extends Component {
   static propTypes = {
     orders: PropTypes.array,
     count: PropTypes.number,

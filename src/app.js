@@ -2,16 +2,13 @@
 import React from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
-
-// Component Imports
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Home from './components/Home/Home.js';
 
-// Asset imports
-import './assets/css/app.css';
+// Component Imports
+import Home from './components/Home/Home.js';
+import Catalog from './components/Catalog/Catalog.js';
 import Login from './components/Auth/Login/Login.js';
 import Logout from './components/Auth/Logout/Logout.js';
 import Register from './components/Auth/Register/Register.js';
@@ -19,6 +16,9 @@ import User from './components/User/User.js';
 import Onboarding from './components/Onboarding/Onboarding.js';
 import Checkout from './components/Checkout/Checkout.js';
 import Payment from './components/Payment/Payment.js';
+
+// Asset imports
+import './assets/css/app.css';
 
 // Action imports
 import { productsAll } from './redux/actions/products.js';
@@ -94,6 +94,7 @@ class App extends React.Component {
       <>
         <div id="app" className="h-100">
           <Router>
+          <Route path="/catalog" component={Catalog} />
             <Route
               path="/"
               component={(component) => (
