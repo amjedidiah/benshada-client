@@ -43,3 +43,5 @@ export const sortNumAsc = (array) => array.sort((a, b) => a - b);
 export const sortNumDesc = (array) => array.sort((a, b) => b - a);
 
 export const addComma = (num) => (typeof num === 'number' ? split(num.toString(), 3).join(',') : '');
+
+export const cardNum = (num) => split(num, 4).join(' ');

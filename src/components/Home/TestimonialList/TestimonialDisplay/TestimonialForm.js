@@ -67,7 +67,6 @@ class TestimonialForm extends Component {
             type="textarea"
             component={FormField}
             label="Testimony"
-            icon={''}
             className="col-12"
             placeholder="e.g Benshada's place meets all my fashion needs"
           />

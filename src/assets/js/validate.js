@@ -1,3 +1,7 @@
+// Module imports
+import luhn from 'luhn';
+
+// Asset imports
 import states from '../data/states.json';
 import types from '../data/types.json';
 import sizes from '../data/sizes.json';
@@ -158,10 +162,7 @@ export const registerValidate = ({
   return errors;
 };
 
-export const passwordValidate = ({
-  password,
-  oldPassword
-}) => {
+export const passwordValidate = ({ password, oldPassword }) => {
   const errors = {};
 
   if (!password) {
@@ -302,9 +303,7 @@ export const addressValidate = ({
 
 export const userValidate = (userData) => {
   const errors = {};
-  const {
-    address, state, gender
-  } = userData;
+  const { address, state, gender } = userData;
 
   if (!address) {
     errors.address = 'Where do you live?';
@@ -337,9 +336,7 @@ export const userValidate = (userData) => {
 
 export const packageValidate = (packageData) => {
   const errors = {};
-  const {
-    method, cost, maxDeliverySize
-  } = packageData;
+  const { method, cost, maxDeliverySize } = packageData;
 
   if (!method) {
     errors.method = 'What is the delivery method for this package?';
@@ -358,11 +355,7 @@ export const packageValidate = (packageData) => {
   }
 
   if (method === 'pickup') {
-    const {
-      pickupStationName,
-      pickupStationAddress,
-      pickupStationState
-    } = packageData;
+    const { pickupStationName, pickupStationAddress, pickupStationState } = packageData;
 
     if (!pickupStationName) {
       errors.pickupStationName = 'What is the name for the pickup station or a place nearby for this package?';
@@ -380,9 +373,7 @@ export const packageValidate = (packageData) => {
   }
 
   if (method === 'delivery') {
-    const {
-      from, to, duration
-    } = packageData;
+    const { from, to, duration } = packageData;
 
     if (!from) {
       errors.from = 'Required';
@@ -406,29 +397,89 @@ export const packageValidate = (packageData) => {
   return errors;
 };
 
+export const ifVisa = (inputtxt) => {
+  const cardno = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+
+  return !!inputtxt.match(cardno);
+};
+
+export const ifMaster = (inputtxt) => {
+  const cardno = /^(?:5[1-5][0-9]{14})$/;
+  return !!inputtxt.match(cardno);
+};
+
+export const cardValidate = ({
+  cvv, expiry, name, number
+}) => {
+  const errors = {};
+
+  if (!cvv) {
+    errors.cvv = 'What is the 3 digit pin at the back of your card?';
+  } else if (cvv.length !== 3) {
+    errors.cvv = `The 3 digit pin is ${3 - cvv.length} ${cvv.length > 3 ? 'more' : 'less'}`;
+  }
+
+  if (!expiry) {
+    errors.expiry = 'What is the expiry date of your card?';
+  } else if (expiry.length !== 7) {
+    errors.expiry = 'The format is MM/YYYY';
+  } else if ((expiry || []).includes('/')) {
+    const expiryArr = expiry.split('/');
+    const mm = Number(expiryArr[0]);
+    const yyyy = Number(expiryArr[1]);
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = d.getMonth() + 1;
+
+    if (mm > 12 || mm < 1) {
+      errors.expiry = 'Please enter a valid month';
+    }
+
+    if (yyyy < y || (yyyy === y && mm <= m)) {
+      errors.expiry = 'Date entered shows that card has expired';
+    }
+  }
+
+  if (!name) {
+    errors.name = 'What is the name on your card?';
+  }
+
+  const num = (number || '').replace(/\s/g, '');
+
+  if (!num) {
+    errors.number = 'What is the number on your card?';
+  } else if (!luhn.validate(num)) {
+    errors.number = 'Invalid card number';
+  } else if (luhn.validate(num)) {
+    if (!ifVisa(num) && !ifMaster(num)) errors.number = 'Please use either a visa or master card';
+  }
+
+  return errors;
+};
+
 export const deliveryCompanyValidate = ({
   name, email, phone, headOffice
 }) => {
   const errors = {};
 
   if (!name) {
-    errors.name = 'Where is your company\'s name?';
+    errors.name = "Where is your company's name?";
   }
 
   if (!email) {
-    errors.email = 'What is your company\'s email address?';
+    errors.email = "What is your company's email address?";
   } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
     errors.email = 'The email provided is not valid';
   }
 
   if (!phone) {
-    errors.phone = 'What is your company\'s contact phone number?';
+    errors.phone = "What is your company's contact phone number?";
   } else if (!/^[234]\d{12}$/i.test(phone)) {
     errors.phone = 'A valid Nigerian phone number starting with 234 is required';
   }
 
   if (!headOffice) {
-    errors.headOffice = 'Where is your company\'s head office?';
+    errors.headOffice = "Where is your company's head office?";
   }
 
   return errors;

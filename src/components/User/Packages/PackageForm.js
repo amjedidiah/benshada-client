@@ -134,7 +134,6 @@ class PackageForm extends Component {
                   type="text"
                   component={FormField}
                   label="Name of Pickup Place"
-                  icon={''}
                   className="col-12"
                   placeholder="e.g: Mega Chicken"
                 />

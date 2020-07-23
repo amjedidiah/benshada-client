@@ -7,9 +7,11 @@ export default class FormIcon extends Component {
     icon: PropTypes.oneOfType([PropTypes.string, PropTypes.object])
   };
 
-  render = () => (this.props.icon !== '' ? (
-    <div className="form-icon">
-      <FontAwesomeIcon icon={this.props.icon} />
-    </div>
-  ) : '');
+  render = () => (this.props.icon && this.props.icon !== undefined && this.props.icon !== null ? (
+      <div className="form-icon">
+        <FontAwesomeIcon icon={this.props.icon} />
+      </div>
+  ) : (
+    ''
+  ));
 }

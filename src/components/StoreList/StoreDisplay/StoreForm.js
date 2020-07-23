@@ -77,7 +77,6 @@ class StoreForm extends Component {
             type="text"
             component={FormField}
             label="Store Name"
-            icon={''}
             className="col-12"
             placeholder="e.g Amadi Stores"
           />
@@ -90,7 +89,6 @@ class StoreForm extends Component {
             type="textarea"
             component={FormField}
             label="Store Description"
-            icon={''}
             className="col-12"
             placeholder="e.g: We deal in female wears"
           />

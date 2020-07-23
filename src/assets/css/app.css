@@ -160,6 +160,100 @@ body#body main #app .cards.products .card {
   flex: 1 185px;
 }
 
+body#body main #app .cards.bank .card {
+  flex: 1 280px;
+  width: 280px;
+  height: 160px;
+  background: #23164a;
+  color: #fff;
+}
+
+body#body main #app #benshadaCard .cards.bank .card {
+  background: #ef932e;
+}
+
+body#body main #app .cards.bank .card .arc {
+  width: 180px;
+  height: 45px;
+
+  background: rgba(196, 196, 196, 0.54);
+  border-radius: 0px 0px 200px 100px;
+}
+
+body#body main #app .cards.bank .card .balance {
+  position: absolute;
+  right: 20px;
+  top: 2px;
+  font-weight: 500;
+  font-size: 28px;
+}
+
+body#body main #app .cards.bank .card .gold {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  left: 20px;
+  top: 22px;
+
+  background: #e3b43a;
+  border-radius: 12px;
+}
+
+body#body main #app .cards.bank .card .blank {
+  position: absolute;
+  width: 70px;
+  height: 40px;
+  right: 20px;
+  top: 50px;
+
+  background: #c4c4c4;
+}
+
+body#body main #app .cards.bank .card .number {
+  position: absolute;
+  height: 27px;
+  left: 20px;
+  right: 92px;
+  top: 75px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+body#body main #app .cards.bank .card .date {
+  position: absolute;
+  right: 92px;
+  top: 107px;
+  display: flex;
+  font-size: 14px;
+  justify-content: flex-end;
+}
+
+body#body main #app .cards.bank .card .date small {
+  width: 50px;
+  font-size: 6px;
+  padding-top: 3px;
+}
+
+body#body main #app .cards.bank .card .name {
+  position: absolute;
+  left: 20px;
+  right: 92px;
+  top: 135px;
+  font-weight: 300;
+  font-size: 14px;
+  text-transform: uppercase;
+}
+
+body#body main #app .cards.bank .card .type {
+  position: absolute;
+  right: 20px;
+  top: 100px;
+}
+
+body#body main #app .cards.bank .card .type img {
+  width: 60px;
+}
+
 body#body main #app .cards.testimonials .card,
 body#body main #app .cards.stores .card,
 body#body main #app .cards.packages .card {
@@ -269,6 +363,34 @@ body#body main #app .img-holder.img-holder-user {
   border: 1px solid #ccc;
 }
 
+#newItems {
+  bottom: 80px;
+  right: 30px;
+  position: fixed;
+  background: #fffff0;
+  color: #ef932e;
+  text-align: center;
+  border-radius: 100px;
+  overflow: hidden;
+  display: block;
+
+  transition: display 2s, bottom 1s;
+}
+
+#newItems.hidden {
+  display: none;
+  bottom: 20px;
+}
+
+#newItems div div {
+  padding: 8px 12px;
+}
+
+#newItems div div:hover {
+  background: #fff;
+  font-size: 1.1em;
+}
+
 #addProductButton {
   bottom: 30px;
   right: 30px;
@@ -293,6 +415,11 @@ body#body main #app #genderList .icon {
     width: 50px;
     height: 110px;
     border-radius: 0;
+  }
+
+  body#body main #app .cards.cards .card {
+    flex: 1 210px;
+    width: 210px;
   }
 }
 
@@ -347,7 +474,7 @@ body#body main #app #genderList .icon {
     flex: 1 49%;
   }
 
-  body#body main #app .cards.orders .card:nth-child(2n+1) {
+  body#body main #app .cards.orders .card:nth-child(2n + 1) {
     margin-right: 2%;
   }
 }

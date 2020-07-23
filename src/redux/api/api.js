@@ -6,7 +6,6 @@ import store from '../store.js';
 const api = axios.create({
   baseURL: 'https://benshada-api-staging-app.herokuapp.com/api',
   // baseURL: 'http://localhost:8000/api',
-  // baseURL: 'http://localhost:8008/api',
   timeout: 30000
 });
 
