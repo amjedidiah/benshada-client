@@ -112,3 +112,6 @@ build
 
 # misc
 .DS_Store
+
+# Custom
+old/

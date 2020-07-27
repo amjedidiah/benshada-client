@@ -243,7 +243,7 @@ class Catalog extends Component {
               prices={prices}
             />
             <div className="col-12 col-md">
-              <ProductList products={this.filterProducts(initProd)} title="Products" count={10} />
+              <ProductList products={this.filterProducts(initProd)} title="Products" />
             </div>
           </div>
         </div>

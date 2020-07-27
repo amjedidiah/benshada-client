@@ -16,6 +16,7 @@ import User from './components/User/User.js';
 import Onboarding from './components/Onboarding/Onboarding.js';
 import Checkout from './components/Checkout/Checkout.js';
 import Payment from './components/Payment/Payment.js';
+import ProductDomain from './components/ProductList/ProductDomain/ProductDomain.js';
 
 // Asset imports
 import './assets/css/app.css';
@@ -123,6 +124,12 @@ class App extends React.Component {
             <Route
               path="/payment"
               component={(component) => <Payment {...component} user={user} />}
+            />
+            <Route
+              path="/products"
+              component={(component) => (
+                <ProductDomain {...component} user={user} products={products} />
+              )}
             />
             <Route
               path="/register"
