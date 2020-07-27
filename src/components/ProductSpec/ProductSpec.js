@@ -39,7 +39,7 @@ class ProductSpec extends Component {
               Some of these products are discounted also.
             </p>
 
-            <Link to={`/products/?${typeName}=${typeValue}`}>
+            <Link to={`/catalog/?a=p&${typeName}=${typeValue}`}>
               <button className="btn btn-outline-danger rounded-pill mt-3">Shop Now</button>
             </Link>
             <div className="text-right">

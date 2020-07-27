@@ -37,7 +37,7 @@ class StoreDisplay extends Component {
     } = store;
 
     return (
-      <div className="card mb-4 product rounded shadow-sm border-0" key={`store${_id}`}>
+      <div className="card mb-4 product rounded border-0" key={`store${_id}`}>
         <div className="card-body p-0">
           <Image name={name} image={image} type="store" size={6} id={_id} />
 
@@ -49,7 +49,7 @@ class StoreDisplay extends Component {
               </div>
               <div className="d-flex flex-grow-1 justify-content-end">{this.renderActionButtons(store)}</div>
             </div>
-            <Link to={`/stores/?id=${_id}`}>{name}</Link>
+            <Link to={`/stores/${_id}`}>{name}</Link>
           </div>
         </div>
       </div>

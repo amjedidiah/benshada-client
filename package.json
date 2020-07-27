@@ -57,7 +57,7 @@
     "luhn": "^2.4.1",
     "popper.js": "^1.16.1",
     "prop-types": "^15.7.2",
-    "query-string": "^6.12.1",
+    "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-anchor-link-smooth-scroll": "^1.0.12",
     "react-bootstrap": "^1.0.1",

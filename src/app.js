@@ -94,7 +94,7 @@ class App extends React.Component {
       <>
         <div id="app" className="h-100">
           <Router>
-          <Route path="/catalog" component={Catalog} />
+            <Route path="/catalog" component={Catalog} />
             <Route
               path="/"
               component={(component) => (

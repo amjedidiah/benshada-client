@@ -38,8 +38,7 @@ class Search extends Component {
     shopsAll: PropTypes.func
   };
 
-  search = async (e) => {
-    const { value } = e.target;
+  search = (value) => {
     this.setState({ value });
 
     if (value !== '') {
@@ -50,17 +49,14 @@ class Search extends Component {
         relatedProducts: null
       });
 
-      await this.props.productsAll();
-      await this.props.shopsAll();
-
       const { stores, products } = this.props;
       const relatedStoresInit = stores.filter(
-        ({ name }) => name.toLowerCase().indexOf(this.state.value.toLowerCase()) >= 0
+        ({ name }) => name.toLowerCase().indexOf(value.toLowerCase()) >= 0
       );
       const relatedStores = relatedStoresInit.slice(0, 3);
       const relatedProductsInit = filterContent(
         products.filter(
-          ({ name }) => name.toLowerCase().indexOf(this.state.value.toLowerCase()) >= 0
+          ({ name }) => name.toLowerCase().indexOf(value.toLowerCase()) >= 0
         )
       );
       const relatedProducts = relatedProductsInit.slice(0, 3);
@@ -68,32 +64,30 @@ class Search extends Component {
       this.setState({
         relatedProducts,
         relatedStores,
-        totalResults: relatedProductsInit.length + relatedStoresInit.length
+        totalResults: relatedProductsInit.length
       });
     } else {
       $('#searchDropDown').hide();
     }
   };
 
-  searchLoading() {
-    return (
+  searchLoading = (value) => (
       <div className="text-center">
         <h2>
           <FontAwesomeIcon icon={faSpinner} className="fa-pulse" />
         </h2>
         <p>
-          Searching for <strong> {this.state.value}</strong>
+          Searching for <strong> {value}</strong>
         </p>
       </div>
-    );
-  }
+  )
 
   renderResult = (related, type) => (related < 1 ? (
       <div className="px-4 py-2">No {type} found</div>
   ) : (
     related.map((item, i) => (
         <li className="" key={`related${type}${i}`}>
-          <Link to={`/${type}s/?id=${item && item._id}`} className="d-block px-4 py-2 border border-white">
+          <Link to={`/${type}s/${item && item._id}`} className="d-block px-4 py-2 border border-white">
             <div className="row align-items-center h-100">
               <div className="mr-2 p-0 text-center" style={{ width: '60px' }}>
                 <Image
@@ -115,14 +109,14 @@ class Search extends Component {
     ))
   ));
 
-  searchFound = () => (
+  searchFound = (value) => (
     <>
-      <li className="dropdown-header text-uppercase">
+      {/* <li className="dropdown-header text-uppercase">
         <small className="font-weight-bold">stores</small>
       </li>
       {this.renderResult(this.state.relatedStores, 'store')}
 
-      <li className="dropdown-divider"></li>
+      <li className="dropdown-divider"></li> */}
 
       <li className="dropdown-header text-uppercase">
         <small className="font-weight-bold">products</small>
@@ -132,7 +126,7 @@ class Search extends Component {
 
       {this.state.totalResults > 0 ? (
         <li className="text-center text-primary-benshada text-uppercase my-2">
-          <Link to={`/catalog/?q=${this.state.value}`} className="p-2">
+          <Link to={`/catalog/?a=p&q=${value}`} className="p-2">
             see all results ({this.state.totalResults})
           </Link>
         </li>
@@ -142,10 +136,10 @@ class Search extends Component {
     </>
   );
 
-  searchRenderHelper() {
-    return this.state.relatedProducts === null || this.state.relatedStores === null
-      ? this.searchLoading()
-      : this.searchFound();
+  searchRenderHelper(value) {
+    return this.state.relatedProducts === null
+      ? this.searchLoading(value)
+      : this.searchFound(value);
   }
 
   // Animation for search component
@@ -164,11 +158,13 @@ class Search extends Component {
               placeholder="Search"
               aria-label="Search"
               value={this.state.value}
-              onChange={(e) => this.search(e)}
+              onChange={(e) => this.search(e.target.value)}
+              onReset={() => this.search('')}
+              autoCorrect="true"
             />
 
             <ul className="dropdown-menu w-100" id="searchDropDown">
-              {this.searchRenderHelper()}
+              {this.searchRenderHelper(this.state.value)}
             </ul>
           </div>
 
@@ -184,8 +180,8 @@ class Search extends Component {
 }
 
 const mapStateToProps = ({ product, store }) => ({
-  products: (product && product.all) || [],
-  stores: (store && store.all) || []
+  products: product.all,
+  stores: store.all
 });
 
 export default connect(mapStateToProps, { shopsAll, productsAll })(Search);

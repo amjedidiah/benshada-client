@@ -19,7 +19,6 @@ export default class ProductList extends Component {
 
   renderProductList = (products, filterType, filterValue) => {
     const filteredProducts = products
-      .filter(({ quantity }) => quantity > 0)
       .filter((product) => filterList(product, filterType, filterValue));
 
     return filteredProducts.length > 0 ? (

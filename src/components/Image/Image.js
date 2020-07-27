@@ -12,12 +12,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import ContainerDimensions from 'react-container-dimensions';
 import { faCreditCard } from '@fortawesome/free-regular-svg-icons';
 
 function Image({
-  image, name, size, type, xtraClass, id
+  image, name, size, type, xtraClass
 }) {
   return (image && image.length === 0) || image === undefined || image === null ? (
     <div className={`text-center ${xtraClass}`}>
@@ -55,9 +54,7 @@ function Image({
           )}
         </ContainerDimensions>
       ) : (
-        <Link to={`/${type}s/?id=${id}`}>
-          <img className="card-img img-responsive" src={image || (image && image[0])} alt={name} />
-        </Link>
+        <img className="card-img img-responsive" src={image || (image && image[0])} alt={name} />
       )}
     </div>
   );

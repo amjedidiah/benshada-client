@@ -37,13 +37,13 @@ class ButtonOrderOwner extends React.Component {
     user: PropTypes.object
   };
 
-  renderPaymentMethod = ({ status, totalPrice }, deliveryCost) => (status === 'paid' ? (
+  renderPaymentMethod = (order, deliveryCost) => (order && order.status === 'paid' ? (
       <>
         <h5>Payment Method</h5>
         <p>Online transaction</p>
         <h5 className="mt-3">Payment Details</h5>
         <p>
-          Items total: <Price price={totalPrice - deliveryCost} />
+          Items total: <Price price={(order && order.totalPrice) - deliveryCost} />
         </p>
         <p>
           Delivery fees: <Price price={deliveryCost} />

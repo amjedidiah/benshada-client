@@ -25,7 +25,7 @@ body#body #userNav li a:hover {
   color: #fff;
 }
 
-body#body #userNav li a.active {
+body#body #userNav li a.active  {
   padding: 15px 15px 15px 25px;
   background: #fff;
   color: #ef932e;

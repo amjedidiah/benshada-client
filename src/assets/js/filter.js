@@ -4,8 +4,9 @@ export const filterContent = (array) => (array === undefined || typeof array !==
 
 export const filterList = (list, type, typeValue) => {
   if (!type) return list;
+
   if (typeof list[type] === 'number') {
-    return Number(list[type]) > 0 && Number(list[type]) <= typeValue;
+    return Number(list[type]) > typeValue;
   }
 
   if (typeof list[type] === 'object') {
@@ -16,5 +17,9 @@ export const filterList = (list, type, typeValue) => {
     return list[type] === typeValue;
   }
 
-  return (list[type] || '').toLowerCase() === typeValue;
+  return ((list[type] || '').toLowerCase() === typeValue);
 };
+
+export const filterJargon = (array) => array.filter(
+  (item) => item !== undefined && item !== null && item !== ''
+);

@@ -13,7 +13,7 @@ export default class CategoryList extends Component {
   renderCats = () => categories.map(({ name, icon }, i) => (
       <div className="row text-center align-items-center flex-fill py-2" key={i}>
         <div className="col">
-          <Link to={`/products/?category=${name}`}>
+          <Link to={`/catalog/?a=p&category=${name}`}>
             <FontAwesomeIcon className="fa-3x text-primary-benshada" icon={icon} />
             <p className="font-weight-bold text-uppercase text-secondary">{name}</p>
           </Link>

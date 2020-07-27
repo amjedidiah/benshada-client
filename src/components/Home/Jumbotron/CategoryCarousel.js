@@ -23,7 +23,7 @@ export default class CategoryCarousel extends Component {
         style={{ height: '60vh' }}
       >
         <Link
-          to={`/products/?category=${to}`} className="h-100 d-block"
+          to={`/catalog/?a=p&category=${to}`} className="h-100 d-block"
         >
           <img
             alt=""

@@ -23,20 +23,20 @@ export default class NotFound extends React.Component {
       </span>
     ) : (
       <Link
-        to={`/${this.props.type}s`}
-        className="btn rounded-pill btn-primary text-white text-capitalize"
-      >
-        Shop All {this.props.type}s
-      </Link>
-    ),
-    store: (
-      <Link
-        to={`/${this.props.type}s`}
+        to="/catalog/?a=p"
         className="btn rounded-pill btn-primary text-white text-capitalize"
       >
         Shop All {this.props.type}s
       </Link>
     )
+    // store: (
+    //   <Link
+    //     to={`/${this.props.type}s`}
+    //     className="btn rounded-pill btn-primary text-white text-capitalize"
+    //   >
+    //     Shop All {this.props.type}s
+    //   </Link>
+    // )
   }[this.props.type])
 
   render = () => (

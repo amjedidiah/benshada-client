@@ -106,13 +106,13 @@ class ProductDisplay extends Component {
   render() {
     const { product, user, action } = this.props;
     const {
-      _id, name, image, price, discountPercentage, overallRating, returns
+      _id, name, image, price, discountPercentage, overallRating, returns, quantity
     } = product;
     const cart = (user && user.cart) || [];
     const cartCount = cart.filter((item) => item._id === _id).length;
 
     return (
-      <div className="card mb-4 product rounded shadow-sm border-0" key={`product${_id}`}>
+      <div className="card mb-4 product rounded border-0" key={`product${_id}`}>
         <div className="card-body p-0">
           <Image name={name} image={image} type="product" size={6} id={_id} />
 
@@ -140,10 +140,10 @@ class ProductDisplay extends Component {
                 {this.renderActionButtons(product)}
               </div>
             </div>
-            <Link to={`/products/?id=${_id}`}>{name}</Link>
+            <Link to={`/products/${_id}`}>{name}</Link>
 
             <p className="">
-              <Price price={price} discount={discountPercentage} />
+              {quantity > 0 ? <Price price={price} discount={discountPercentage} /> : <span className="bg-danger text-white px-2 py-1 d-inline-block rounded mt-1">Sold out</span>}
             </p>
           </div>
           {action === 'cart' ? (
