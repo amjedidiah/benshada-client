@@ -1,10 +1,11 @@
+// Module imports
 import React, { Component } from 'react';
-// import { filterContent } from "../../actions/load";
 import { connect } from 'react-redux';
-// import NotFound from "../Misc/NotFound/NotFound";
 import PropTypes from 'prop-types';
+
+// Component imports
 import Reviews from './Reviews.js';
-import Stars from './Stars.js';
+import Stars from '../../ProductDisplay/Stars.js';
 
 class Review extends Component {
   static propTypes = {

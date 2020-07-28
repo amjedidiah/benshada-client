@@ -131,7 +131,6 @@ class Catalog extends Component {
       ? products.filter(({ name }) => (name && name.toLowerCase()).includes(qO.q.toLowerCase()))
       : products;
 
-
     const prices = unique(sortNumAsc(initProd.map((i) => i && i.price)));
     const initMin = prices[0] || 0;
     const initMax = prices[prices.length - 1] || 0;

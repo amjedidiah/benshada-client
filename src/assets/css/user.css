@@ -16,7 +16,7 @@ body#body main #app #userSide.user-side-main {
 body#body main #app #userNav li a {
   padding: 12px;
   margin-bottom: 10px;
-  color: #fff ;
+  color: #fff;
 }
 
 body#body main #app #userNav li a:hover {
@@ -25,12 +25,18 @@ body#body main #app #userNav li a:hover {
   color: #fff;
 }
 
-body#body main #app #userNav li a.active  {
+body#body main #app #userNav li a.active {
   padding: 15px 15px 15px 25px;
   background: #fff;
   color: #ef932e;
   border-radius: 22px 0 0 22px;
   font-weight: bolder;
+}
+
+body#body main #app #userSide .img-holder {
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: -20px;
 }
 
 body#body main #app .user-side-main #userNav li a:hover,
@@ -48,12 +54,6 @@ body#body main #app .user-notification {
   position: relative;
   top: 8px;
   font-size: 40px;
-}
-
-body#body main #app #userSide .img-holder {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: -20px;
 }
 
 body#body main #app .user-section {

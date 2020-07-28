@@ -34,7 +34,7 @@ div#slider-distance > div > #inverse-right {
 
 div#slider-distance > div > #range {
   position: absolute;
-  left: 0px;
+  left: 0;
   height: 14px;
   border-radius: 14px;
   background-color: #ef932e;
@@ -46,7 +46,6 @@ div#slider-distance > div > .thumb {
   z-index: 2;
   height: 28px;
   width: 28px;
-  /* text-align: left; */
   margin-left: -11px;
   cursor: pointer;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
@@ -97,7 +96,7 @@ div#slider-distance > input[type='range']::-ms-thumb {
   pointer-events: all;
   width: 28px;
   height: 28px;
-  border-radius: 0px;
+  border-radius: 0;
   border: 0 none;
 }
 
@@ -105,7 +104,7 @@ div#slider-distance > input[type='range']::-moz-range-thumb {
   pointer-events: all;
   width: 28px;
   height: 28px;
-  border-radius: 0px;
+  border-radius: 0;
   border: 0 none;
 }
 
@@ -113,7 +112,7 @@ div#slider-distance > input[type='range']::-webkit-slider-thumb {
   pointer-events: all;
   width: 28px;
   height: 28px;
-  border-radius: 0px;
+  border-radius: 0;
   border: 0 none;
   -webkit-appearance: none;
 }
@@ -150,7 +149,7 @@ div#slider-distance > div > .sign {
   text-align: center;
 }
 
-div#slider-distance > div > .sign:after {
+div#slider-distance > div > .sign::after {
   position: absolute;
   content: '';
   left: 0;
