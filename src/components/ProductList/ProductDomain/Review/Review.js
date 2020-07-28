@@ -38,7 +38,7 @@ class Review extends Component {
 
 const mapStateToProps = ({ auth, order }) => ({
   isSignedIn: auth.isSignedIn,
-  orders: order
+  orders: order.all
 });
 
 export default connect(mapStateToProps, {})(Review);

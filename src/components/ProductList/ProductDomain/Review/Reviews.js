@@ -10,11 +10,12 @@ export default class Reviews extends Component {
   }
 
   render() {
-    return (this.props.reviews || []).length < 1 ? (
+    const reviews = this.props.reviews || [];
+    return reviews.length < 1 ? (
       <NotFound type="review" />
     ) : (
       <div className="card-columns products my-2">
-        {this.reviews.map((review, i) => (
+        {reviews.map((review, i) => (
           <div className="card shadow-sm text-left" key={`review${i}`}>
             <div className="card-header bg-white d-flex">
               <img
@@ -26,7 +27,7 @@ export default class Reviews extends Component {
               />
               <p className="flex-grow-1 mx-3 pt-3">{review && review.user}</p>
               <p className="pt-3">
-                <FontAwesomeIcon className="text-primary mr-2" icon={faStar} /> <span>{review.rating}</span>
+                <FontAwesomeIcon className="text-primary-benshada mr-2" icon={faStar} /> <span>{review.rating}</span>
               </p>
             </div>
             <div className="card-body">

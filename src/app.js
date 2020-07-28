@@ -27,6 +27,7 @@ import { shopsAll } from './redux/actions/stores.js';
 import { testimonialsAll } from './redux/actions/testimonials.js';
 import { subscriptionsAll } from './redux/actions/subscriptions.js';
 import { usersAll, userOne } from './redux/actions/users.js';
+import StoreDomain from './components/StoreList/StoreDomain/StoreDomain.js';
 
 // Start Component
 class App extends React.Component {
@@ -34,6 +35,7 @@ class App extends React.Component {
     email: PropTypes.string,
     isSignedIn: PropTypes.bool,
     loading: PropTypes.bool,
+    orders: PropTypes.array,
     products: PropTypes.array,
     productsAll: PropTypes.func,
     shopsAll: PropTypes.func,
@@ -80,7 +82,7 @@ class App extends React.Component {
 
   render = () => {
     const {
-      isSignedIn, loading, products, stores, testimonials, user, users
+      isSignedIn, loading, products, stores, testimonials, user, users, orders
     } = this.props;
 
     return loading ? (
@@ -136,6 +138,18 @@ class App extends React.Component {
               component={(component) => <Register {...component} users={users} />}
               exact
             />
+            <Route
+              path="/stores"
+              component={(component) => (
+                <StoreDomain
+                  {...component}
+                  user={user}
+                  products={products}
+                  stores={stores}
+                  orders={orders}
+                />
+              )}
+            />
             <Route path="/user" component={(component) => <User {...component} user={user} />} />
           </Router>
         </div>
@@ -157,10 +171,11 @@ class App extends React.Component {
 // End Component
 
 const mapStateToProps = ({
-  auth, user, product, store, testimonial, loading
+  auth, user, product, store, testimonial, loading, order
 }) => ({
   isSignedIn: auth.isSignedIn,
   loading: loading && loading.pending,
+  orders: order.all,
   user: user.selected,
   users: user.all,
   products: product.all,

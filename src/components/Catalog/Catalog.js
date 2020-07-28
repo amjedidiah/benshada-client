@@ -8,10 +8,10 @@ import qs from 'query-string';
 // Component imports
 import HrFr from '../HrFr/HrFr.js';
 import ProductList from '../ProductList/ProductList.js';
+import Filter from './Filter/Filter.js';
 
 // Asset imports
 import '../../assets/css/catalog.css';
-import Filter from './Filter/Filter.js';
 import { sortNumAsc, unique } from '../../assets/js/prototypes.js';
 
 class Catalog extends Component {
@@ -50,9 +50,7 @@ class Catalog extends Component {
     }
 
     if (discount) {
-      rP = rP.filter(
-        ({ discountPercentage }) => discountPercentage >= Number(discount)
-      );
+      rP = rP.filter(({ discountPercentage }) => discountPercentage >= Number(discount));
     }
 
     if (this.state.gender !== '') {
@@ -133,7 +131,6 @@ class Catalog extends Component {
       ? products.filter(({ name }) => (name && name.toLowerCase()).includes(qO.q.toLowerCase()))
       : products;
 
-    console.log(products, initProd);
 
     const prices = unique(sortNumAsc(initProd.map((i) => i && i.price)));
     const initMin = prices[0] || 0;
@@ -164,14 +161,15 @@ class Catalog extends Component {
         searchParams.set(type, newValue);
       }
     } else {
-      // Set products
-      this.setState({ products: initProd });
-
       // Set prices
       const newMin = qO.min >= initMin && qO.min < initMax ? qO.min : initMin;
       const newMax = qO.max <= initMax && qO.max > initMin ? qO.max : initMax;
 
-      this.setState({ price: { min: newMin, max: newMax } });
+      this.setState({
+        price: { min: newMin, max: newMax },
+        products: initProd,
+        q: qO.q ? qO.q : undefined
+      });
       searchParams.set('min', newMin);
       searchParams.set('max', newMax);
     }
@@ -200,8 +198,8 @@ class Catalog extends Component {
   };
 
   getSnapshotBeforeUpdate = (prevProps, prevState) => ({
-    shouldInitialize: prevState.q !== this.state.q
-  })
+    shouldInitialize: prevState.q !== qs.parse(window.location.search).q
+  });
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (snapshot.shouldInitialize) {
@@ -223,8 +221,8 @@ class Catalog extends Component {
       : products;
     const prices = unique(sortNumAsc(initProd.map((i) => i && i.price)));
 
-    return !a ? (
-      <Redirect to={{ pathname: '/' }} />
+    return !(a === 'p') ? (
+      <Redirect to='/' />
     ) : (
       <HrFr>
         <div className="container mt-5 py-5">

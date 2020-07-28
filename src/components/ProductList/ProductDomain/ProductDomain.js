@@ -2,7 +2,7 @@
 // Module imports
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 // Component imports
 import Image from '../../Image/Image.js';
@@ -78,26 +78,25 @@ export default class ProductDomain extends Component {
 
   render() {
     const { product } = this.state;
-    const {
-      category,
-      name,
-      image,
-      _id,
-      gender,
-      discountPercentage,
-      shortDescription,
-      price,
-      shop,
-      guarantee,
-      inStock,
-      longDescription,
-      sizes,
-      color,
-      mainMaterial,
-      productionCountry, reviews
-    } = product;
+    const category = product && product.category;
+    const image = product && product.image;
+    const name = product && product.name;
+    const _id = product && product._id;
+    const gender = product && product.gender;
+    const discountPercentage = product && product.discountPercentage;
+    const shortDescription = product && product.shortDescription;
+    const shop = product && product.shop;
+    const guarantee = product && product.category;
+    const sizes = product && product.sizes;
+    const color = product && product.color;
+    const mainMaterial = product && product.mainMaterial;
+    const reviews = product && product.reviews;
+    const inStock = product && product.inStock;
+    const price = product && product.price;
+    const longDescription = product && product.longDescription;
+    const productionCountry = product && product.productionCountry;
 
-    return (
+    return !product ? <Redirect to="/" /> : (
       <HrFr>
           <ProductsBanner
             headers={[
@@ -125,7 +124,7 @@ export default class ProductDomain extends Component {
                       <strong>Shop</strong>{' '}
                     </div>
                     <div className="col-6 my-1">
-                      <Link to={`/stores/${shop && shop._id}`} className="text-primary">
+                      <Link to={`/stores/${shop && shop._id}`} className="text-primary-benshada">
                         {shop && shop.name}
                       </Link>
                     </div>
@@ -166,7 +165,7 @@ export default class ProductDomain extends Component {
                 </div>
 
                 <div className="row">
-                  <div className="col-12 pb-3">
+                  <div className="col-12 pb-3 text-uppercase">
                     <h5>Specifications</h5>
                     <table className="table">
                       <thead>
@@ -244,7 +243,7 @@ export default class ProductDomain extends Component {
                 </div>
               </div>
               <div className="col-12 col-md-4">
-                <div className="row bg-white p-3 shadow-sm">
+                <div className="row p-3 shadow-sm">
                 <h5>Reviews</h5>
                 <Reviews reviews={reviews} />
               </div>
