@@ -10,7 +10,7 @@ export default (state = INIT, action) => {
       ORDERS_ALL_FULFILLED: { ...state, all: responseData },
       ORDERS_ONE_FULFILLED: { ...state, selected: [responseData] },
       ORDERS_MULTIPLE_SELECTED: { ...state, selected: action.payload },
-      LOGOUT: { ...state, selected: {} }
+      LOGOUT: { ...state, selected: [] }
     }[action.type] || state
   );
 };

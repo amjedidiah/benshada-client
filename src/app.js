@@ -2,16 +2,13 @@
 import React from 'react';
 import { Route, BrowserRouter as Router } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
-
 import 'react-toastify/dist/ReactToastify.css';
-
-// Component Imports
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import Home from './components/Home/Home.js';
 
-// Asset imports
-import './assets/css/app.css';
+// Component Imports
+import Home from './components/Home/Home.js';
+import Catalog from './components/Catalog/Catalog.js';
 import Login from './components/Auth/Login/Login.js';
 import Logout from './components/Auth/Logout/Logout.js';
 import Register from './components/Auth/Register/Register.js';
@@ -19,6 +16,10 @@ import User from './components/User/User.js';
 import Onboarding from './components/Onboarding/Onboarding.js';
 import Checkout from './components/Checkout/Checkout.js';
 import Payment from './components/Payment/Payment.js';
+import ProductDomain from './components/ProductList/ProductDomain/ProductDomain.js';
+
+// Asset imports
+import './assets/css/app.css';
 
 // Action imports
 import { productsAll } from './redux/actions/products.js';
@@ -26,6 +27,7 @@ import { shopsAll } from './redux/actions/stores.js';
 import { testimonialsAll } from './redux/actions/testimonials.js';
 import { subscriptionsAll } from './redux/actions/subscriptions.js';
 import { usersAll, userOne } from './redux/actions/users.js';
+import StoreDomain from './components/StoreList/StoreDomain/StoreDomain.js';
 
 // Start Component
 class App extends React.Component {
@@ -33,6 +35,7 @@ class App extends React.Component {
     email: PropTypes.string,
     isSignedIn: PropTypes.bool,
     loading: PropTypes.bool,
+    orders: PropTypes.array,
     products: PropTypes.array,
     productsAll: PropTypes.func,
     shopsAll: PropTypes.func,
@@ -79,7 +82,7 @@ class App extends React.Component {
 
   render = () => {
     const {
-      isSignedIn, loading, products, stores, testimonials, user, users
+      isSignedIn, loading, products, stores, testimonials, user, users, orders
     } = this.props;
 
     return loading ? (
@@ -94,6 +97,7 @@ class App extends React.Component {
       <>
         <div id="app" className="h-100">
           <Router>
+            <Route path="/catalog" component={Catalog} />
             <Route
               path="/"
               component={(component) => (
@@ -124,9 +128,27 @@ class App extends React.Component {
               component={(component) => <Payment {...component} user={user} />}
             />
             <Route
+              path="/products"
+              component={(component) => (
+                <ProductDomain {...component} user={user} products={products} />
+              )}
+            />
+            <Route
               path="/register"
               component={(component) => <Register {...component} users={users} />}
               exact
+            />
+            <Route
+              path="/stores"
+              component={(component) => (
+                <StoreDomain
+                  {...component}
+                  user={user}
+                  products={products}
+                  stores={stores}
+                  orders={orders}
+                />
+              )}
             />
             <Route path="/user" component={(component) => <User {...component} user={user} />} />
           </Router>
@@ -149,10 +171,11 @@ class App extends React.Component {
 // End Component
 
 const mapStateToProps = ({
-  auth, user, product, store, testimonial, loading
+  auth, user, product, store, testimonial, loading, order
 }) => ({
   isSignedIn: auth.isSignedIn,
   loading: loading && loading.pending,
+  orders: order.all,
   user: user.selected,
   users: user.all,
   products: product.all,

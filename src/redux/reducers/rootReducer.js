@@ -11,7 +11,7 @@ import testimonialReducer from './testimonialReducer.js';
 import subscriptionReducer from './subscriptionReducer.js';
 import deliveryCompanyReducer from './deliveryCompanyReducer.js';
 import deliveryPackageReducer from './deliveryPackageReducer.js';
-import loadingReducer from './loadingReducer.js';
+// import loadingReducer from './loadingReducer.js';
 import orderReducer from './orderReducer.js';
 import cardReducer from './cardReducer.js';
 
@@ -21,7 +21,7 @@ export default combineReducers({
   deliveryCompany: deliveryCompanyReducer,
   deliveryPackage: deliveryPackageReducer,
   form: formReducer,
-  loading: loadingReducer,
+  // loading: loadingReducer,
   order: orderReducer,
   product: productReducer,
   store: storeReducer,

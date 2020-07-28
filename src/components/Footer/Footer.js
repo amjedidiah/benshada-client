@@ -96,10 +96,10 @@ class Footer extends Component {
             </div>
             <div className="col-12 col-sm-6 col-lg-3 mb-4 mb-lg-0 text-capitalize">
               <h5 className="mb-3">Quick Links</h5>
-              <Link to="/stores">
+              {/* <Link to="/stores">
                 <p className="mb-1">Stores</p>
-              </Link>
-              <Link to="/products">
+              </Link> */}
+              <Link to="/catalog?a=p">
                 <p className="mb-1">Products</p>
               </Link>
               <Link to="/user/cart">

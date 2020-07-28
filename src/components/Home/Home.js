@@ -112,7 +112,7 @@ class Home extends React.Component {
               <ProductList
                 products={products || []}
                 count={12}
-                type={{ name: 'discountPercentage', value: 100 }}
+                type={{ name: 'discountPercentage', value: 0 }}
                 title="Discounted"
               />
             </div>

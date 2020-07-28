@@ -1,31 +1,31 @@
-body#body #dashboardHeader {
+body#body main #app #dashboardHeader {
   width: 100%;
   z-index: 4;
 }
 
-body#body #userSide {
+body#body main #app #userSide {
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 2;
 }
 
-body#body #userSide.user-side-main {
+body#body main #app #userSide.user-side-main {
   z-index: 3;
 }
 
-body#body #userNav li a {
+body#body main #app #userNav li a {
   padding: 12px;
   margin-bottom: 10px;
   color: #fff;
 }
 
-body#body #userNav li a:hover {
+body#body main #app #userNav li a:hover {
   padding: 15px 15px 15px 25px;
   border-radius: 22px 0 0 22px;
   color: #fff;
 }
 
-body#body #userNav li a.active {
+body#body main #app #userNav li a.active {
   padding: 15px 15px 15px 25px;
   background: #fff;
   color: #ef932e;
@@ -33,78 +33,78 @@ body#body #userNav li a.active {
   font-weight: bolder;
 }
 
-body#body .user-side-main #userNav li a:hover,
-body#body .user-side-main #userNav li a.active {
-  padding: 9.33px 35px;
-}
-
-body#body #userNav li a:hover .img-holder,
-body#body #userNav li a.active .img-holder {
-  transform: scale(1.1);
-  border: 2px solid #ef932e;
-}
-
-body#body .user-notification {
-  position: relative;
-  top: 8px;
-  font-size: 40px;
-}
-
-body#body #userSide .img-holder {
+body#body main #app #userSide .img-holder {
   margin-left: auto;
   margin-right: auto;
   margin-bottom: -20px;
 }
 
-body#body .user-section {
+body#body main #app .user-side-main #userNav li a:hover,
+body#body main #app .user-side-main #userNav li a.active {
+  padding: 9.33px 35px;
+}
+
+body#body main #app #userNav li a:hover .img-holder,
+body#body main #app #userNav li a.active .img-holder {
+  transform: scale(1.1);
+  border: 2px solid #ef932e;
+}
+
+body#body main #app .user-notification {
+  position: relative;
+  top: 8px;
+  font-size: 40px;
+}
+
+body#body main #app .user-section {
   padding: 40px 2.5%;
 }
 
-body#body #pills-tabContent {
+body#body main #app #pills-tabContent {
   overflow: hidden;
 }
 
-body#body small.message {
+body#body main #app small.message {
   width: 30%;
   display: block;
 }
 
-body#body #messageFooter {
+body#body main #app #messageFooter {
   bottom: 0;
   width: auto;
 }
 
-body#body .message-div {
+body#body main #app .message-div {
   position: relative;
   left: -2.5%;
 }
 
-body#body .chat-form-holder {
+body#body main #app .chat-form-holder {
   bottom: 15px;
   width: 100%;
   left: -0.5%;
 }
 
-body#body .chat-form-holder > div {
+body#body main #app .chat-form-holder > div {
   padding: 0;
 }
 
 @media (min-width: 768px) {
-  body#body #dashboardHeader {
+  body#body main #app #dashboardHeader {
     width: 75%;
     z-index: 4;
   }
 
-  body#body #userNav li a:hover,
-  body#body #userNav li a.active {
+  body#body main #app #userNav li a:hover,
+  body#body main #app #userNav li a.active {
     padding: 12px 45px;
   }
 
-  body#body .user-side-main #userNav li a.active {
+  body#body main #app .user-side-main #userNav li a.active {
     background: #fff;
   }
 
-  body#body #userSide .img-holder {
+  body#body main #app #userSide .img-holder {
     position: relative;
     float: left;
     top: -3.5px;
@@ -112,28 +112,28 @@ body#body .chat-form-holder > div {
     height: 45px;
   }
 
-  body#body #userNav li a:hover .img-holder,
-  body#body #userNav li a.active .img-holder {
+  body#body main #app #userNav li a:hover .img-holder,
+  body#body main #app #userNav li a.active .img-holder {
     transform: scale(1);
     border: 1px solid #ccc;
   }
 
-  body#body .message-div {
+  body#body main #app .message-div {
     left: 2.5%;
   }
 
-  body#body .chat-form-holder {
+  body#body main #app .chat-form-holder {
     padding: 0 30px;
     left: 0;
   }
 }
 
 @media (min-width: 992px) {
-  body#body #dashboardHeader {
+  body#body main #app #dashboardHeader {
     width: 83.33%;
   }
 
-  body#body .message-div {
+  body#body main #app .message-div {
     left: 1%;
   }
 }
