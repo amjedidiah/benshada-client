@@ -122,8 +122,8 @@ class Catalog extends Component {
   };
 
   setOldOnes = (type, newValue) => {
-    const { host, pathname } = window.location;
-    const url = new URL(`${host}${pathname}`);
+    const { pathname, origin } = window.location;
+    const url = new URL(`${origin}${pathname}`);
     const { searchParams } = url;
     const qO = qs.parse(window.location.search);
     const { products } = this.props;
@@ -174,7 +174,7 @@ class Catalog extends Component {
     }
 
     url.search = searchParams.toString();
-    const newUrl = `http://${url.toString()}`;
+    const newUrl = `${url.toString()}`;
 
     return window.history.pushState('', '', newUrl);
   };
