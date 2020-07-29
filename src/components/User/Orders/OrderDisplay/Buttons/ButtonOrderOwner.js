@@ -16,6 +16,7 @@ import PackageDisplay from '../../../Packages/PackageDisplay/PackageDisplay.js';
 
 // Action imports
 import { orderDelete, ordersMultipleSelected } from '../../../../../redux/actions/orders.js';
+import payment from '../../../../../redux/actions/payment.js';
 
 class ButtonOrderOwner extends React.Component {
   INIT = {
@@ -32,6 +33,7 @@ class ButtonOrderOwner extends React.Component {
     order: PropTypes.object,
     orderDelete: PropTypes.func,
     ordersMultipleSelected: PropTypes.func,
+    payment: PropTypes.func,
     products: PropTypes.array,
     selectedOrders: PropTypes.array,
     user: PropTypes.object
@@ -74,8 +76,12 @@ class ButtonOrderOwner extends React.Component {
     return (
       <>
         {order.user && order.user._id === user._id ? (
-          <span className="mx-2 px-2 pointer">
-          <FontAwesomeIcon icon={faMoneyBill} /></span>
+          <span
+            className="mx-2 px-2 pointer"
+            onClick={() => this.props.payment(user, totalPrice).then((res) => console.log(res))}
+          >
+            <FontAwesomeIcon icon={faMoneyBill} />
+          </span>
         ) : (
           ''
         )}
@@ -94,7 +100,6 @@ class ButtonOrderOwner extends React.Component {
           data-target="#orderView"
           onClick={() => this.props.ordersMultipleSelected([order])}
         >
-
           <FontAwesomeIcon icon={faEye} />
         </span>
 
@@ -111,61 +116,62 @@ class ButtonOrderOwner extends React.Component {
             <div className="modal-content">
               <div className="modal-body">
                 <div className="container">
-                <hgroup>
-                  <h4>Order No: {orderNumber}</h4>
-                  <h2>
-                    Total: <Price price={totalPrice} />
-                  </h2>
-                  <h5>Status: {status}</h5>
-                </hgroup>
-                <div className="text-left">
-                  <p>Placed on: {d.toLocaleString()}</p>
+                  <hgroup>
+                    <h4>Order No: {orderNumber}</h4>
+                    <h2>
+                      Total: <Price price={totalPrice} />
+                    </h2>
+                    <h5>Status: {status}</h5>
+                  </hgroup>
+                  <div className="text-left">
+                    <p>Placed on: {d.toLocaleString()}</p>
 
-                  <p className="text-uppercase mt-3">Product</p>
-                  <div className="d-flex">
-                    <Image
-                      name={product && product.name}
-                      image={product && product.image}
-                      type="product"
-                      size={6}
-                      id={product && product._id}
-                    />
-                    <div className="flex-grow-1 pl-2">
-                      <p>{product && product.name}</p>
-                      <p className="font-weight-bold">QTY: {count}</p>
-                      <Price
-                        price={(product && product.price) * count}
-                        discount={product && product.discountPercentage}
+                    <p className="text-uppercase mt-3">Product</p>
+                    <div className="d-flex">
+                      <Image
+                        name={product && product.name}
+                        image={product && product.image}
+                        type="product"
+                        size={6}
+                        id={product && product._id}
                       />
+                      <div className="flex-grow-1 pl-2">
+                        <p>{product && product.name}</p>
+                        <p className="font-weight-bold">QTY: {count}</p>
+                        <Price
+                          price={(product && product.price) * count}
+                          discount={product && product.discountPercentage}
+                        />
+                      </div>
                     </div>
-                  </div>
 
-                  <div className="row mt-3">
-                    <div className="col-12 col-lg-6 border border-secondary py-3">
-                      <small className="text-uppercase mb-4 d-block">payment information</small>
-                      {this.renderPaymentMethod(
-                        selectedOrders[0],
-                        deliveryPackage && deliveryPackage.cost
-                      )}
-                    </div>
-                    <div className="col-12 col-lg-6 border border-secondary py-3">
-                      <small className="text-uppercase mb-4 d-block">delivery information</small>
-                      <h5>Delivery Package</h5>
-                      <PackageDisplay
-                        deliveryPackage={deliveryPackage}
-                        onPackageSelect={() => {}}
-                      />
+                    <div className="row mt-3">
+                      <div className="col-12 col-lg-6 border border-secondary py-3">
+                        <small className="text-uppercase mb-4 d-block">payment information</small>
+                        {this.renderPaymentMethod(
+                          selectedOrders[0],
+                          deliveryPackage && deliveryPackage.cost
+                        )}
+                      </div>
+                      <div className="col-12 col-lg-6 border border-secondary py-3">
+                        <small className="text-uppercase mb-4 d-block">delivery information</small>
+                        <h5>Delivery Package</h5>
+                        <PackageDisplay
+                          deliveryPackage={deliveryPackage}
+                          onPackageSelect={() => {}}
+                        />
 
-                      <h5 className="mt-3">Shipping Address</h5>
-                      <p>{details && details.name}</p>
-                      <p>
-                        {details && details.address},{details && details.state}
-                      </p>
-                      <p>{details && details.phone}</p>
+                        <h5 className="mt-3">Shipping Address</h5>
+                        <p>{details && details.name}</p>
+                        <p>
+                          {details && details.address},{details && details.state}
+                        </p>
+                        <p>{details && details.phone}</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-                </div></div>
+              </div>
             </div>
           </div>
         </div>
@@ -186,7 +192,9 @@ class ButtonOrderOwner extends React.Component {
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
-              <div className="modal-body">Are you sure you want to cancel order <strong>{orderNumber}</strong>?</div>
+              <div className="modal-body">
+                Are you sure you want to cancel order <strong>{orderNumber}</strong>?
+              </div>
               <div className="modal-footer border-0">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">
                   Go back
@@ -237,4 +245,6 @@ const mapStateToProps = ({ order, product, deliveryPackage }) => ({
   deliveryPackages: deliveryPackage.all
 });
 
-export default connect(mapStateToProps, { orderDelete, ordersMultipleSelected })(ButtonOrderOwner);
+export default connect(mapStateToProps, { orderDelete, ordersMultipleSelected, payment })(
+  ButtonOrderOwner
+);

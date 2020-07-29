@@ -17,17 +17,18 @@ import Onboarding from './components/Onboarding/Onboarding.js';
 import Checkout from './components/Checkout/Checkout.js';
 import Payment from './components/Payment/Payment.js';
 import ProductDomain from './components/ProductList/ProductDomain/ProductDomain.js';
+import StoreDomain from './components/StoreList/StoreDomain/StoreDomain.js';
 
 // Asset imports
 import './assets/css/app.css';
 
 // Action imports
+import { ordersAll } from './redux/actions/orders.js';
 import { productsAll } from './redux/actions/products.js';
 import { shopsAll } from './redux/actions/stores.js';
 import { testimonialsAll } from './redux/actions/testimonials.js';
 import { subscriptionsAll } from './redux/actions/subscriptions.js';
 import { usersAll, userOne } from './redux/actions/users.js';
-import StoreDomain from './components/StoreList/StoreDomain/StoreDomain.js';
 
 // Start Component
 class App extends React.Component {
@@ -37,6 +38,7 @@ class App extends React.Component {
     loading: PropTypes.bool,
     orders: PropTypes.array,
     products: PropTypes.array,
+    ordersAll: PropTypes.func,
     productsAll: PropTypes.func,
     shopsAll: PropTypes.func,
     stores: PropTypes.array,
@@ -51,6 +53,7 @@ class App extends React.Component {
 
   componentDidMount = () => {
     this.props.productsAll();
+    this.props.ordersAll();
     this.props.shopsAll();
     this.props.subscriptionsAll();
     this.props.testimonialsAll();
@@ -186,6 +189,7 @@ const mapStateToProps = ({
 
 // Export component as React-functional-Component
 export default connect(mapStateToProps, {
+  ordersAll,
   productsAll,
   shopsAll,
   testimonialsAll,
