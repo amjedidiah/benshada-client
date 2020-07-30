@@ -21,7 +21,61 @@ export const genUniqueNumber = (d, arr) => {
   return g;
 };
 
+export const randWord = (length) => {
+  let consonants = 'bcdfghjlmnpqrstv';
+  let vowels = 'aeiou';
+  const rand = (limit) => Math.floor(Math.random() * limit);
+  let i;
+  let word = '';
+  const newLength = parseInt(length, 10);
+  consonants = consonants.split('');
+  vowels = vowels.split('');
+  for (i = 0; i < newLength / 2; i += 1) {
+    const randConsonant = consonants[rand(consonants.length)];
+    const randVowel = vowels[rand(vowels.length)];
+    word += i === 0 ? randConsonant.toUpperCase() : randConsonant;
+    word += i * 2 < newLength - 1 ? randVowel : '';
+  }
+  return word;
+};
+
 export const sortNumAsc = (array) => array.sort((a, b) => a - b);
+
+export const strToNum = (string) => {
+  if (typeof string !== 'string') return 'This function accepts only a string';
+
+  const arr = string.toLowerCase().split('');
+  const guide = {
+    a: 1,
+    b: 2,
+    c: 3,
+    d: 4,
+    e: 5,
+    f: 6,
+    g: 7,
+    h: 8,
+    i: 9,
+    j: 10,
+    k: 11,
+    l: 12,
+    m: 13,
+    n: 14,
+    o: 15,
+    p: 16,
+    q: 17,
+    r: 18,
+    s: 19,
+    t: 20,
+    u: 21,
+    v: 22,
+    w: 23,
+    x: 24,
+    y: 25,
+    z: 26
+  };
+
+  return Number(arr.map((i) => guide[i]).join(''));
+};
 
 export const toSplittedString = (str) => {
   let inputString = str;
