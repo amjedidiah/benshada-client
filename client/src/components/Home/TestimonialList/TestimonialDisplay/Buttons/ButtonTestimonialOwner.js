@@ -10,6 +10,7 @@ import {
   testimonialsOneSelected
 } from '../../../../../redux/actions/testimonials.js';
 import TestimonialForm from '../TestimonialForm.js';
+import Loading from '../../../../../assets/js/loading.js';
 
 class ButtonTestimonialOwner extends React.Component {
   INIT = {
@@ -30,11 +31,7 @@ class ButtonTestimonialOwner extends React.Component {
 
   submit = ({ _id, testimony }) => {
     this.setState({
-      buttonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonValue: <Loading />
     });
 
     this.props

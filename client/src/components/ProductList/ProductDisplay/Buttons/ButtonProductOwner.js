@@ -12,6 +12,7 @@ import {
   productsOneSelected
 } from '../../../../redux/actions/products.js';
 import ProductForm from '../ProductForm.js';
+import Loading from '../../../../assets/js/loading.js';
 
 class ButtonProductOwner extends React.Component {
   INIT = {
@@ -36,9 +37,7 @@ class ButtonProductOwner extends React.Component {
   submit = (product) => {
     this.setState({
       buttonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <Loading />
       )
     });
 

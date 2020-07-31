@@ -14,6 +14,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import { subscriptionAdd } from '../../redux/actions/subscriptions.js';
+import Loading from '../../assets/js/loading.js';
 
 class Footer extends Component {
   constructor(props) {
@@ -32,11 +33,7 @@ class Footer extends Component {
 
   submit = (subEmail) => {
     this.setState({
-      buttonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonValue: <Loading />
     });
 
     if (!subEmail) toast.error('What email do you want to subscribe for?');

@@ -16,6 +16,7 @@ import { deliveryCompaniesAdd } from '../../redux/actions/deliveryCompanies.js';
 
 import types from '../../assets/data/types.json';
 import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
+import Loading from '../../assets/js/loading.js';
 
 class Onboarding extends Component {
   INIT = {
@@ -42,9 +43,7 @@ class Onboarding extends Component {
   typeSubmit = (typeData) => {
     this.setState({
       typeButton: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <Loading />
       )
     });
 
@@ -74,9 +73,7 @@ class Onboarding extends Component {
   storeSubmit = (storeData) => {
     this.setState({
       storeButton: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <Loading />
       )
     });
 
@@ -109,9 +106,7 @@ class Onboarding extends Component {
   userSubmit = (userData) => {
     this.setState({
       userButton: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <Loading />
       )
     });
 
@@ -162,9 +157,7 @@ class Onboarding extends Component {
   }) => {
     this.setState({
       deliveryCompanyButton: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
+        <Loading />
       )
     });
 

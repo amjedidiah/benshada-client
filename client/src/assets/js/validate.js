@@ -7,6 +7,7 @@ import types from '../data/types.json';
 import sizes from '../data/sizes.json';
 import categories from './categories.js';
 import genders from './genders.js';
+import ticketTypes from './ticketTypes.js';
 
 export const productValidate = (productData) => {
   const errors = {};
@@ -85,6 +86,29 @@ export const productValidate = (productData) => {
       .every((val) => sizes.map(({ value }) => value).includes(val))
   ) {
     errors.categories = 'Do select at least one of our categories';
+  }
+
+  return errors;
+};
+
+export const ticketValidate = (ticketData) => {
+  const errors = {};
+  const {
+    type, title, description
+  } = ticketData;
+
+  if (!title) {
+    errors.title = 'What is the title of your ticket?';
+  }
+
+  if (!description) {
+    errors.description = 'What are you raising a ticket for?';
+  }
+
+  if (!type) {
+    errors.type = 'What is your ticket about?';
+  } else if (!ticketTypes.map(({ name }) => name).includes(type)) {
+    errors.type = 'Do select one of our ticket types';
   }
 
   return errors;

@@ -23,6 +23,7 @@ import { orderAdd } from '../../redux/actions/orders.js';
 
 // Asset imports
 import { genUniqueNumber } from '../../assets/js/prototypes.js';
+import Loading from '../../assets/js/loading.js';
 
 // Start Component
 class CheckOut extends Component {
@@ -113,11 +114,7 @@ class CheckOut extends Component {
 
   orderCreate = (order) => {
     this.setState({
-      btnOrder: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      btnOrder: <Loading />
     });
 
     const orderNumbers = (this.props.orders || []).map(({ orderNumber }) => orderNumber);

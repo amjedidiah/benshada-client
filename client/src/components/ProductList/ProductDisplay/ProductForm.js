@@ -100,12 +100,11 @@ class ProductForm extends Component {
       batchQuality: batchQuality || 0
     };
 
-    Object.entries(productData).forEach(([key, value]) => (key === 'sizes'
-      ? data.append(
-        key,
-        value.map((size) => size.value)
-      )
-      : data.append(key, value)));
+    Object.entries(productData).forEach(([key, value]) => {
+      const v = key === 'sizes' ? value.map((size) => size.value) : value;
+
+      return data.get(key) ? '' : data.append(key, v);
+    });
 
     return this.props.onSubmit(data);
   };
@@ -120,7 +119,7 @@ class ProductForm extends Component {
           Image should be 680x850 pixels
         </p>
         <div
-          className="position-absolute w-100 text-center"
+          className="position-absolute w-100 text-center item-upload"
           id="productUpload"
           style={{
             top: '0'
@@ -284,7 +283,8 @@ class ProductForm extends Component {
               placeholder="e.g: 10"
               className="col-12 col-md-6"
             />
-            {(this.props.product && this.props.product.isBatch) || (this.props.user && this.props.user.type === 'UA') ? (
+            {(this.props.product && this.props.product.isBatch)
+            || (this.props.user && this.props.user.type === 'UA') ? (
               <Field
                 action="product"
                 name="batchQuality"
@@ -294,9 +294,9 @@ class ProductForm extends Component {
                 placeholder="e.g: 30"
                 className="col-12 col-md-6"
               />
-            ) : (
-              ''
-            )}
+              ) : (
+                ''
+              )}
           </div>
 
           <div className="form-row">

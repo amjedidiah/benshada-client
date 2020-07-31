@@ -20,7 +20,8 @@ import payment from '../../../../../redux/actions/payment.js';
 
 class ButtonOrderOwner extends React.Component {
   INIT = {
-    btnCancelVal: 'Cancel', link: undefined
+    btnCancelVal: 'Cancel',
+    link: undefined
   };
 
   constructor(props) {
@@ -78,15 +79,18 @@ class ButtonOrderOwner extends React.Component {
     ) : (
       <>
         {order.user && order.user._id === user._id ? (
-          <span
-            className="mx-2 px-2 pointer"
-            onClick={() => this.props
-              .payment(user, totalPrice, orderNumber)
-              .then(({ data }) => this.setState({ link: data.data.link }))
-            }
-          >
-            <FontAwesomeIcon icon={faMoneyBill} />
-          </span>
+
+            <span
+              className="mx-2 px-2 pointer"
+              onClick={() => this.props
+                .payment(user, totalPrice, orderNumber)
+                .then(({ data }) => this.setState({ link: data.data.link }))
+              }
+            >
+              <FontAwesomeIcon icon={faMoneyBill} />
+            </span>
+
+
         ) : (
           ''
         )}
