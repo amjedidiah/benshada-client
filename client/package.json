@@ -57,6 +57,7 @@
     "lodash": "^4.17.15",
     "luhn": "^2.4.1",
     "popper.js": "^1.16.1",
+    "pre-commit": "^1.2.2",
     "prop-types": "^15.7.2",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
@@ -87,8 +88,7 @@
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.1.0",
     "eslint-plugin-import": "^2.20.2",
-    "eslint-plugin-react": "^7.20.0",
-    "pre-commit": "^1.2.2"
+    "eslint-plugin-react": "^7.20.0"
   },
   "browserslist": {
     "production": [
