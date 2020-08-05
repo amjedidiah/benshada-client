@@ -33,7 +33,7 @@ import TicketForm from './Tickets/TicketForm.js';
 import { productAdd, productsOneSelected } from '../../redux/actions/products.js';
 import { deliveryPackagesAdd } from '../../redux/actions/deliveryPackages.js';
 import { userUpdate } from '../../redux/actions/users.js';
-import { ticketAdd } from '../../redux/actions/tickets.js';
+import { ticketAdd, ticketsOneSelected } from '../../redux/actions/tickets.js';
 import { ordersMultipleSelected } from '../../redux/actions/orders.js';
 
 // Asset imports
@@ -85,6 +85,7 @@ class UserBody extends Component {
     store: PropTypes.object,
     ticketAdd: PropTypes.func,
     tickets: PropTypes.array,
+    ticketsOneSelected: PropTypes.func,
     user: PropTypes.object,
     users: PropTypes.array,
     userUpdate: PropTypes.func,
@@ -259,6 +260,7 @@ class UserBody extends Component {
 
     return {
       product: this.props.productsOneSelected({}),
+      ticket: this.props.ticketsOneSelected({}),
       order: this.props.ordersMultipleSelected([])
     }[name];
   };
@@ -470,5 +472,5 @@ export default connect(mapStateToProps, {
   deliveryPackagesAdd,
   productsOneSelected,
   ticketAdd,
-  ordersMultipleSelected
+  ordersMultipleSelected,ticketsOneSelected
 })(UserBody);

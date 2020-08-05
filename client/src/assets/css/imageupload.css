@@ -17,7 +17,7 @@
   background: transparent !important
 }
 
-.item-upload#ticketUpload + form {
+.item-upload.ticket-upload + form {
   margin-top: 300px;
 }
 

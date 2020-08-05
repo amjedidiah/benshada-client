@@ -23,21 +23,24 @@ export default class Input extends Component {
       icon, action, input, label, type, placeholder, touched, error, disabled, val, maxLength
     } = this.props;
 
+    const id = `${action}${input.name}${Math.random() * 1099511627776}`;
+
+
     return (
       <div className="d-flex align-items-center">
         <FormIcon icon={icon} />
         <div className="flex-grow-1">
-          <label htmlFor={`${action}${input.name}`}>{label}</label>
+          <label htmlFor={id}>{label}</label>
           <input
             {...input}
             component="input"
             type={type}
             className="form-control"
-            id={`${action}${input.name}`}
+            id={id}
             placeholder={placeholder}
             autoComplete="off"
             disabled={disabled}
-            value={val}
+            value={val || input.value}
             maxLength={maxLength}
           />
         </div>

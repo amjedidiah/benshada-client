@@ -57,12 +57,14 @@ class TicketForm extends Component {
   });
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize) return this.props.initialize(this.props.ticket);
+    if (snapshot.shouldInitialize && this.props.action !== 'create') {
+      return this.props.initialize(this.props.ticket);
+    }
 
     return false;
   }
 
-  componentDidMount = () => this.props.initialize(this.props.ticket);
+  componentDidMount = () => (this.props.action === 'create' ? this.props.initialize(this.props.ticket) : '');
 
   ifTicketExists = (tD) => {
     this.props.tickets.filter(
@@ -73,13 +75,6 @@ class TicketForm extends Component {
 
   ifWrongTypeIdentifier = (type, order, shop, user) => {
     const { users, shops, orders } = this.props;
-
-    console.log(
-      order,
-      orders.map(({ orderNumber }) => orderNumber),
-      shops.map(({ _id }) => _id),
-      users.map(({ _id }) => _id)
-    );
 
     if (!order && !shop && !user && type !== 'other') return true;
     if (
@@ -132,8 +127,7 @@ class TicketForm extends Component {
           Image should be 680x850 pixels
         </p>
         <div
-          className="position-absolute w-100 text-center item-upload"
-          id="ticketUpload"
+          className="position-absolute w-100 text-center item-upload ticket-upload"
           style={{
             top: '0'
           }}
@@ -148,7 +142,6 @@ class TicketForm extends Component {
         <form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className={`animate__animated ${animationClass}`}
-          id="ticketForm"
         >
           <div className="form-row">
             <Field
@@ -232,7 +225,7 @@ class TicketForm extends Component {
                   />
                 </div>
               )
-            }[this.props.formData.type]
+            }[this.props.formData && this.props.formData.type]
           }
 
           <div className="button-group">

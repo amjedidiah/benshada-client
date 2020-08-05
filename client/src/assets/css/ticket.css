@@ -1,0 +1,111 @@
+#ticketTable > div {
+  /* box-shadow: 0 0.1rem 0.2rem rgba(0, 0, 0, 0.075) !important; */
+  flex-wrap: wrap;
+  background: #fff;
+  padding: 10px 15px;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+#ticketTable .ticket-row {
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+#ticketTable .ticket-row.active {
+  box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15) !important;
+}
+
+#ticketTable .ticket-row .cell {
+  padding: 10px;
+  flex-grow: 1 !important;
+  /* min-width: fit-content; */
+  display: flex;
+  justify-content: flex-center;
+}
+
+#ticketTable .ticket-row .cell.header {
+  justify-content: flex-start;
+  align-items: center;
+}
+
+#ticketTable .ticket-row .cell.header #ticketID {
+  font-weight: 300;
+}
+
+#ticketTable .ticket-row .cell.header .ticket-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
+}
+
+#ticketTable .ticket-row .cell.title {
+  justify-content: flex-start;
+  font-weight: 500;
+  font-size: large;
+  min-width: 100px;
+  max-width: 150px;
+  padding-right: 20px;
+}
+
+#ticketTable .ticket-row .cell.status {
+  font-weight: 700;
+  font-size: smaller;
+  text-transform: uppercase;
+}
+
+#ticketTable .ticket-row .cell.createdAt {
+  justify-content: flex-end;
+}
+
+#ticketTable .ticket-row .ticket-actions {
+  justify-content: flex-end;
+}
+
+#ticketTable .ticket-row .ticket-actions .action {
+  margin: 0 5px;
+}
+
+#ticketTable .misc {
+  padding: 10px 2%;
+}
+
+#ticketTable .misc .img-holder, #ticketTable .misc .img-holder img {
+  width: 50px;
+  height: 50px;
+}
+
+#ticketTable .misc .img-holder {
+  border-radius: 50%;
+  margin-right: 2.5%;
+}
+
+#ticketTable .misc .info .name {
+  font-weight: bold;
+}
+
+#ticketTable .misc .info .name {
+  font-weight: bold;
+}
+
+#ticketTable .misc .info img {
+  width: 150px;
+  height: 100px;
+  margin: 0;
+}
+
+@media (min-width: 992px) {
+  #ticketTable .ticket-row {
+    flex-wrap: nowrap;
+  }
+
+  #ticketTable .ticket-row .cell.header,
+  #ticketTable .ticket-row .cell.status,
+  #ticketTable .ticket-row .cell.createdAt {
+    justify-content: center;
+  }
+
+  #ticketTable .ticket-row .cell.header .ticket-actions.ticket-actions-small {
+    display: none;
+  }
+}
