@@ -23,6 +23,7 @@ import {
 import Loading from '../../../../../assets/js/loading.js';
 import Image from '../../../../Image/Image.js';
 import TicketResponseForm from './TicketResponse/TicketResponseForm.js';
+import TicketResponseList from './TicketResponse/TicketResponseList/TicketResponseList.js';
 
 // Start Component
 class TicketDisplay extends Component {
@@ -176,6 +177,7 @@ class TicketDisplay extends Component {
     const description = ticket && ticket.description;
     const image = ticket && ticket.image;
     const owner = ticket && ticket.owner;
+    const responses = ticket && ticket.responses;
     const { name, email } = owner;
     const usersImage = users.filter((i) => i.email === email)[0].image;
     const d = new Date(createdAt);
@@ -242,7 +244,7 @@ class TicketDisplay extends Component {
               <Image image={image} />
             </div>
           </div>
-          <div className="responses"></div>
+          <div className="responses"><TicketResponseList ticketUpdate={this.props.ticketUpdate} selectedTicket={selectedTicket} users={users} display={display} responses={responses} /></div>
         </div>
 
         <div
