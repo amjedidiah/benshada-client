@@ -7,6 +7,226 @@ import types from '../data/types.json';
 import sizes from '../data/sizes.json';
 import categories from './categories.js';
 import genders from './genders.js';
+import ticketTypes from './ticketTypes.js';
+
+export const addressValidate = ({
+  firstName, familyName, address, phone, state
+}) => {
+  const errors = {};
+
+  if (!firstName) {
+    errors.firstName = 'What is your first name?';
+  }
+
+  if (!familyName) {
+    errors.familyName = 'What is your family name?';
+  }
+
+  if (!phone) {
+    errors.phone = 'What is your phone number?';
+  } else if (!/^[234]\d{12}$/i.test(phone)) {
+    errors.phone = 'A valid Nigerian phone number starting with 234 is required';
+  }
+
+  if (!address) {
+    errors.address = 'Where do you live?';
+  }
+
+  if (!state) {
+    errors.state = 'In what state do you live in?';
+  } else if (!states.map((store) => store.name).includes(state)) {
+    errors.state = 'Please select a Nigerian state';
+  }
+
+  return errors;
+};
+
+export const ifMaster = (inputtxt) => {
+  const cardno = /^(?:5[1-5][0-9]{14})$/;
+  return !!inputtxt.match(cardno);
+};
+
+export const ifVisa = (inputtxt) => {
+  const cardno = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
+
+  return !!inputtxt.match(cardno);
+};
+
+export const cardValidate = ({
+  cvv, expiry, name, number
+}) => {
+  const errors = {};
+
+  if (!cvv) {
+    errors.cvv = 'What is the 3 digit pin at the back of your card?';
+  } else if (cvv.length !== 3) {
+    errors.cvv = `The 3 digit pin is ${3 - cvv.length} ${cvv.length > 3 ? 'more' : 'less'}`;
+  }
+
+  if (!expiry) {
+    errors.expiry = 'What is the expiry date of your card?';
+  } else if (expiry.length !== 7) {
+    errors.expiry = 'The format is MM/YYYY';
+  } else if ((expiry || []).includes('/')) {
+    const expiryArr = expiry.split('/');
+    const mm = Number(expiryArr[0]);
+    const yyyy = Number(expiryArr[1]);
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = d.getMonth() + 1;
+
+    if (mm > 12 || mm < 1) {
+      errors.expiry = 'Please enter a valid month';
+    }
+
+    if (yyyy < y || (yyyy === y && mm <= m)) {
+      errors.expiry = 'Date entered shows that card has expired';
+    }
+  }
+
+  if (!name) {
+    errors.name = 'What is the name on your card?';
+  }
+
+  const num = (number || '').replace(/\s/g, '');
+
+  if (!num) {
+    errors.number = 'What is the number on your card?';
+  } else if (!luhn.validate(num)) {
+    errors.number = 'Invalid card number';
+  } else if (luhn.validate(num)) {
+    if (!ifVisa(num) && !ifMaster(num)) errors.number = 'Please use either a visa or master card';
+  }
+
+  return errors;
+};
+
+export const deliveryCompanyValidate = ({
+  name, email, phone, headOffice
+}) => {
+  const errors = {};
+
+  if (!name) {
+    errors.name = "Where is your company's name?";
+  }
+
+  if (!email) {
+    errors.email = "What is your company's email address?";
+  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
+    errors.email = 'The email provided is not valid';
+  }
+
+  if (!phone) {
+    errors.phone = "What is your company's contact phone number?";
+  } else if (!/^[234]\d{12}$/i.test(phone)) {
+    errors.phone = 'A valid Nigerian phone number starting with 234 is required';
+  }
+
+  if (!headOffice) {
+    errors.headOffice = "Where is your company's head office?";
+  }
+
+  return errors;
+};
+
+export const loginValidate = ({ email, password }) => {
+  const errors = {};
+
+  if (!email) {
+    errors.email = 'What is your email address?';
+  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
+    errors.email = 'The email provided is not valid';
+  }
+
+  if (!password) {
+    errors.password = 'What is your password';
+  }
+
+  return errors;
+};
+
+export const packageValidate = (packageData) => {
+  const errors = {};
+  const { method, cost, maxDeliverySize } = packageData;
+
+  if (!method) {
+    errors.method = 'What is the delivery method for this package?';
+  }
+
+  if (!cost) {
+    errors.cost = 'What is the cost of this package?';
+  } else if (cost < 1) {
+    errors.cost = 'Enter your cost in naira';
+  }
+
+  if (!maxDeliverySize) {
+    errors.maxDeliverySize = 'What is the maximum size in kg that you can deliver on this package?';
+  } else if (maxDeliverySize < 1) {
+    errors.maxDeliverySize = 'Enter size in kg';
+  }
+
+  if (method === 'pickup') {
+    const { pickupStationName, pickupStationAddress, pickupStationState } = packageData;
+
+    if (!pickupStationName) {
+      errors.pickupStationName = 'What is the name for the pickup station or a place nearby for this package?';
+    }
+
+    if (!pickupStationAddress) {
+      errors.pickupStationAddress = 'What is the address for the pickup station for this package?';
+    }
+
+    if (!pickupStationState) {
+      errors.pickupStationState = 'Required';
+    } else if (!states.map((store) => store.name).includes(pickupStationState)) {
+      errors.pickupStationState = 'Please select a Nigerian state';
+    }
+  }
+
+  if (method === 'delivery') {
+    const { from, to, duration } = packageData;
+
+    if (!from) {
+      errors.from = 'Required';
+    } else if (!states.map((store) => store.name).includes(from)) {
+      errors.from = 'Please select a Nigerian state';
+    }
+
+    if (!to) {
+      errors.to = 'Required';
+    } else if (!states.map((store) => store.name).includes(to)) {
+      errors.to = 'Please select a Nigerian state';
+    }
+
+    if (!duration) {
+      errors.duration = 'How long will it take to deliver?';
+    } else if (maxDeliverySize < 1) {
+      errors.maxDeliverySize = 'Enter size in kg';
+    }
+  }
+
+  return errors;
+};
+
+export const passwordValidate = ({ password, oldPassword }) => {
+  const errors = {};
+
+  if (!password) {
+    errors.password = 'What is your new password';
+  } else if (!/\d/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain a number';
+  } else if (!/[A-Z]/.test(password)) {
+    errors.password = 'To be secure enough, your new password must contain an upperCase letter';
+  } else if (password.length < 6) {
+    errors.password = 'To be secure enough, your new password must be at least 6 characters long';
+  }
+
+  if (!oldPassword) {
+    errors.oldPassword = 'What is your old password';
+  }
+
+  return errors;
+};
 
 export const productValidate = (productData) => {
   const errors = {};
@@ -90,17 +310,44 @@ export const productValidate = (productData) => {
   return errors;
 };
 
-export const loginValidate = ({ email, password }) => {
+export const profileValidate = (profileData) => {
   const errors = {};
+  const {
+    firstName, familyName, address, phone, state
+  } = profileData;
 
-  if (!email) {
-    errors.email = 'What is your email address?';
-  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
-    errors.email = 'The email provided is not valid';
+  if (!firstName) {
+    errors.firstName = 'What is your first name?';
   }
 
-  if (!password) {
-    errors.password = 'What is your password';
+  if (!familyName) {
+    errors.familyName = 'What is your family name?';
+  }
+
+  if (!phone) {
+    errors.phone = 'What is your phone number?';
+  } else if (!/^[234]\d{12}$/i.test(phone)) {
+    errors.phone = 'A valid Nigerian phone number starting with 234 is required';
+  }
+
+  if (!address) {
+    errors.address = 'Where do you live?';
+  }
+
+  if (!state) {
+    errors.state = 'In what state do you live in?';
+  } else if (!states.map((store) => store.name).includes(state)) {
+    errors.state = 'Please select a Nigerian state';
+  }
+
+  if (!profileData.categories) {
+    errors.categories = 'What categories are you interested in?';
+  } else if (
+    !profileData.categories
+      .map(({ value }) => value)
+      .every((val) => categories.map(({ name }) => name).includes(val))
+  ) {
+    errors.categories = 'Do select at least one of our categories';
   }
 
   return errors;
@@ -162,38 +409,6 @@ export const registerValidate = ({
   return errors;
 };
 
-export const passwordValidate = ({ password, oldPassword }) => {
-  const errors = {};
-
-  if (!password) {
-    errors.password = 'What is your new password';
-  } else if (!/\d/.test(password)) {
-    errors.password = 'To be secure enough, your new password must contain a number';
-  } else if (!/[A-Z]/.test(password)) {
-    errors.password = 'To be secure enough, your new password must contain an upperCase letter';
-  } else if (password.length < 6) {
-    errors.password = 'To be secure enough, your new password must be at least 6 characters long';
-  }
-
-  if (!oldPassword) {
-    errors.oldPassword = 'What is your old password';
-  }
-
-  return errors;
-};
-
-export const typeValidate = ({ type }) => {
-  const errors = {};
-
-  if (!type) {
-    errors.type = 'What is your user type?';
-  } else if (!types.includes(type)) {
-    errors.type = 'Do select one of our user types';
-  }
-
-  return errors;
-};
-
 export const storeValidate = ({
   name, description, address, state, phone
 }) => {
@@ -226,76 +441,54 @@ export const storeValidate = ({
   return errors;
 };
 
-export const profileValidate = (profileData) => {
+export const testimonialValidate = ({ testimony }) => {
   const errors = {};
-  const {
-    firstName, familyName, address, phone, state
-  } = profileData;
 
-  if (!firstName) {
-    errors.firstName = 'What is your first name?';
-  }
-
-  if (!familyName) {
-    errors.familyName = 'What is your family name?';
-  }
-
-  if (!phone) {
-    errors.phone = 'What is your phone number?';
-  } else if (!/^[234]\d{12}$/i.test(phone)) {
-    errors.phone = 'A valid Nigerian phone number starting with 234 is required';
-  }
-
-  if (!address) {
-    errors.address = 'Where do you live?';
-  }
-
-  if (!state) {
-    errors.state = 'In what state do you live in?';
-  } else if (!states.map((store) => store.name).includes(state)) {
-    errors.state = 'Please select a Nigerian state';
-  }
-
-  if (!profileData.categories) {
-    errors.categories = 'What categories are you interested in?';
-  } else if (
-    !profileData.categories
-      .map(({ value }) => value)
-      .every((val) => categories.map(({ name }) => name).includes(val))
-  ) {
-    errors.categories = 'Do select at least one of our categories';
+  if (!testimony) {
+    errors.testimony = 'What do you have to say about Benshada?';
   }
 
   return errors;
 };
 
-export const addressValidate = ({
-  firstName, familyName, address, phone, state
-}) => {
+export const ticketResponseValidate = ({ description }) => {
   const errors = {};
 
-  if (!firstName) {
-    errors.firstName = 'What is your first name?';
+  if (!description) {
+    errors.description = 'What is your response on this ticket?';
   }
 
-  if (!familyName) {
-    errors.familyName = 'What is your family name?';
+  return errors;
+};
+
+export const ticketValidate = (ticketData) => {
+  const errors = {};
+  const { type, title, description } = ticketData;
+
+  if (!title) {
+    errors.title = 'What is the title of your ticket?';
   }
 
-  if (!phone) {
-    errors.phone = 'What is your phone number?';
-  } else if (!/^[234]\d{12}$/i.test(phone)) {
-    errors.phone = 'A valid Nigerian phone number starting with 234 is required';
+  if (!description) {
+    errors.description = 'What are you raising a ticket for?';
   }
 
-  if (!address) {
-    errors.address = 'Where do you live?';
+  if (!type) {
+    errors.type = 'What is your ticket about?';
+  } else if (!ticketTypes.map(({ name }) => name).includes(type)) {
+    errors.type = 'Do select one of our ticket types';
   }
 
-  if (!state) {
-    errors.state = 'In what state do you live in?';
-  } else if (!states.map((store) => store.name).includes(state)) {
-    errors.state = 'Please select a Nigerian state';
+  return errors;
+};
+
+export const typeValidate = ({ type }) => {
+  const errors = {};
+
+  if (!type) {
+    errors.type = 'What is your user type?';
+  } else if (!types.includes(type)) {
+    errors.type = 'Do select one of our user types';
   }
 
   return errors;
@@ -329,167 +522,6 @@ export const userValidate = (userData) => {
       .every((val) => categories.map(({ name }) => name).includes(val))
   ) {
     errors.categories = 'Do select at least one of our categories';
-  }
-
-  return errors;
-};
-
-export const packageValidate = (packageData) => {
-  const errors = {};
-  const { method, cost, maxDeliverySize } = packageData;
-
-  if (!method) {
-    errors.method = 'What is the delivery method for this package?';
-  }
-
-  if (!cost) {
-    errors.cost = 'What is the cost of this package?';
-  } else if (cost < 1) {
-    errors.cost = 'Enter your cost in naira';
-  }
-
-  if (!maxDeliverySize) {
-    errors.maxDeliverySize = 'What is the maximum size in kg that you can deliver on this package?';
-  } else if (maxDeliverySize < 1) {
-    errors.maxDeliverySize = 'Enter size in kg';
-  }
-
-  if (method === 'pickup') {
-    const { pickupStationName, pickupStationAddress, pickupStationState } = packageData;
-
-    if (!pickupStationName) {
-      errors.pickupStationName = 'What is the name for the pickup station or a place nearby for this package?';
-    }
-
-    if (!pickupStationAddress) {
-      errors.pickupStationAddress = 'What is the address for the pickup station for this package?';
-    }
-
-    if (!pickupStationState) {
-      errors.pickupStationState = 'Required';
-    } else if (!states.map((store) => store.name).includes(pickupStationState)) {
-      errors.pickupStationState = 'Please select a Nigerian state';
-    }
-  }
-
-  if (method === 'delivery') {
-    const { from, to, duration } = packageData;
-
-    if (!from) {
-      errors.from = 'Required';
-    } else if (!states.map((store) => store.name).includes(from)) {
-      errors.from = 'Please select a Nigerian state';
-    }
-
-    if (!to) {
-      errors.to = 'Required';
-    } else if (!states.map((store) => store.name).includes(to)) {
-      errors.to = 'Please select a Nigerian state';
-    }
-
-    if (!duration) {
-      errors.duration = 'How long will it take to deliver?';
-    } else if (maxDeliverySize < 1) {
-      errors.maxDeliverySize = 'Enter size in kg';
-    }
-  }
-
-  return errors;
-};
-
-export const ifVisa = (inputtxt) => {
-  const cardno = /^(?:4[0-9]{12}(?:[0-9]{3})?)$/;
-
-  return !!inputtxt.match(cardno);
-};
-
-export const ifMaster = (inputtxt) => {
-  const cardno = /^(?:5[1-5][0-9]{14})$/;
-  return !!inputtxt.match(cardno);
-};
-
-export const cardValidate = ({
-  cvv, expiry, name, number
-}) => {
-  const errors = {};
-
-  if (!cvv) {
-    errors.cvv = 'What is the 3 digit pin at the back of your card?';
-  } else if (cvv.length !== 3) {
-    errors.cvv = `The 3 digit pin is ${3 - cvv.length} ${cvv.length > 3 ? 'more' : 'less'}`;
-  }
-
-  if (!expiry) {
-    errors.expiry = 'What is the expiry date of your card?';
-  } else if (expiry.length !== 7) {
-    errors.expiry = 'The format is MM/YYYY';
-  } else if ((expiry || []).includes('/')) {
-    const expiryArr = expiry.split('/');
-    const mm = Number(expiryArr[0]);
-    const yyyy = Number(expiryArr[1]);
-    const d = new Date();
-    const y = d.getFullYear();
-    const m = d.getMonth() + 1;
-
-    if (mm > 12 || mm < 1) {
-      errors.expiry = 'Please enter a valid month';
-    }
-
-    if (yyyy < y || (yyyy === y && mm <= m)) {
-      errors.expiry = 'Date entered shows that card has expired';
-    }
-  }
-
-  if (!name) {
-    errors.name = 'What is the name on your card?';
-  }
-
-  const num = (number || '').replace(/\s/g, '');
-
-  if (!num) {
-    errors.number = 'What is the number on your card?';
-  } else if (!luhn.validate(num)) {
-    errors.number = 'Invalid card number';
-  } else if (luhn.validate(num)) {
-    if (!ifVisa(num) && !ifMaster(num)) errors.number = 'Please use either a visa or master card';
-  }
-
-  return errors;
-};
-
-export const deliveryCompanyValidate = ({
-  name, email, phone, headOffice
-}) => {
-  const errors = {};
-
-  if (!name) {
-    errors.name = "Where is your company's name?";
-  }
-
-  if (!email) {
-    errors.email = "What is your company's email address?";
-  } else if (!/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/i.test(email)) {
-    errors.email = 'The email provided is not valid';
-  }
-
-  if (!phone) {
-    errors.phone = "What is your company's contact phone number?";
-  } else if (!/^[234]\d{12}$/i.test(phone)) {
-    errors.phone = 'A valid Nigerian phone number starting with 234 is required';
-  }
-
-  if (!headOffice) {
-    errors.headOffice = "Where is your company's head office?";
-  }
-
-  return errors;
-};
-
-export const testimonialValidate = ({ testimony }) => {
-  const errors = {};
-
-  if (!testimony) {
-    errors.testimony = 'What do you have to say about Benshada?';
   }
 
   return errors;

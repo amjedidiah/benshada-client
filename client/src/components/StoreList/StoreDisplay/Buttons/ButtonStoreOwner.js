@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import $ from 'jquery';
 import { shopUpdate, shopsOneSelected } from '../../../../redux/actions/stores.js';
 import StoreForm from '../StoreForm.js';
+import Loading from '../../../../assets/js/loading.js';
 
 class ButtonStoreOwner extends React.Component {
   INIT = {
@@ -29,11 +30,7 @@ class ButtonStoreOwner extends React.Component {
     _id, name, description, address, state, CACNumber, phone
   }) => {
     this.setState({
-      buttonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonValue: <Loading />
     });
 
     const store = {

@@ -19,24 +19,28 @@ import Products from './Products/Products.js';
 import Profile from './Profile/Profile.js';
 import Saved from './Saved.js';
 import Store from './Store/Store.js';
-import Tickets from './Tickets.js';
+import Tickets from './Tickets/Tickets.js';
 import Image from '../Image/Image.js';
 import ProductForm from '../ProductList/ProductDisplay/ProductForm.js';
 import Deliveries from './Deliveries.js';
 import Packages from './Packages/Packages.js';
 import Company from './Company.js';
 import PackageForm from './Packages/PackageForm.js';
+import CardForm from './Bank/CardList/CardForm.js';
+import TicketForm from './Tickets/TicketForm.js';
 
 // Action imports
 import { productAdd, productsOneSelected } from '../../redux/actions/products.js';
 import { deliveryPackagesAdd } from '../../redux/actions/deliveryPackages.js';
+import { userUpdate } from '../../redux/actions/users.js';
+import { ticketAdd, ticketsOneSelected } from '../../redux/actions/tickets.js';
+import { ordersMultipleSelected } from '../../redux/actions/orders.js';
 
 // Asset imports
 import ifSeller from '../../assets/js/ifSeller.js';
 import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
 import newItems from '../../assets/js/newItems.js';
-import CardForm from './Bank/CardList/CardForm.js';
-import { userUpdate } from '../../redux/actions/users.js';
+import Loading from '../../assets/js/loading.js';
 
 const Components = {
   Analytics,
@@ -58,6 +62,7 @@ class UserBody extends Component {
     buttonProduct: 'Upload',
     buttonPackage: 'Add',
     buttonCard: 'Add',
+    buttonTicket: 'Add',
     newItemsClass: 'hidden',
     plusButtonIcon: 'plus'
   };
@@ -72,25 +77,28 @@ class UserBody extends Component {
     deliveryCompany: PropTypes.object,
     deliveryPackagesAdd: PropTypes.func,
     list: PropTypes.array,
+    orders: PropTypes.array,
+    ordersMultipleSelected: PropTypes.func,
     productAdd: PropTypes.func,
     productsOneSelected: PropTypes.func,
+    shops: PropTypes.array,
     store: PropTypes.object,
+    ticketAdd: PropTypes.func,
+    tickets: PropTypes.array,
+    ticketsOneSelected: PropTypes.func,
     user: PropTypes.object,
+    users: PropTypes.array,
     userUpdate: PropTypes.func,
     pathname: PropTypes.string
   };
 
   productSubmit = (productData) => {
     this.setState({
-      buttonProduct: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonProduct: <Loading />
     });
 
-    productData.append('shop', this.props.store && this.props.store._id);
-    productData.append('isBatch', this.props.user && this.props.user.type === 'UA');
+    if (!productData.get('shop')) productData.append('shop', this.props.store && this.props.store._id);
+    if (!productData.get('isBatch')) productData.append('isBatch', this.props.user && this.props.user.type === 'UA');
     productData.delete('_id');
 
     this.props
@@ -118,11 +126,7 @@ class UserBody extends Component {
 
   packageSubmit = (packageData) => {
     this.setState({
-      buttonPackage: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonPackage: <Loading />
     });
 
     const {
@@ -185,11 +189,7 @@ class UserBody extends Component {
 
   cardSubmit = (cardData, user) => {
     this.setState({
-      buttonCard: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonCard: <Loading />
     });
 
     const email = user && user.email;
@@ -220,13 +220,49 @@ class UserBody extends Component {
         });
   };
 
+  ticketSubmit = (ticketData) => {
+    this.setState({
+      buttonTicket: <Loading />
+    });
+
+    const _id = this.props.user && this.props.user._id;
+
+    if (!ticketData.get('owner')) ticketData.append('owner', _id);
+    ticketData.delete('_id');
+
+    return this.props
+      .ticketAdd(ticketData)
+      .then((response) => toast.success(
+        (response && response.value && response.value.data && response.value.data.message)
+                || (response && response.statusText)
+                || 'Success'
+      ))
+      .catch((err) => toast.error(
+        (err && err.response && err.response.data && err.response.data.message)
+                || (err
+                  && err.response
+                  && err.response.data
+                  && err.response.data.message
+                  && err.response.data.message.name)
+                || (err && err.response && err.response.statusText)
+                || 'Network error'
+      ))
+      .finally(() => {
+        this.setState(this.INIT);
+      });
+  };
+
   handleNewItems = (name) => {
     this.setState({
       newItemsClass: this.state.newItemsClass === 'hidden' ? '' : 'hidden',
       plusButtonIcon: this.state.plusButtonIcon === 'plus' ? 'times' : 'plus'
     });
 
-    return { product: this.props.productsOneSelected({}) }[name];
+    return {
+      product: this.props.productsOneSelected({}),
+      ticket: this.props.ticketsOneSelected({}),
+      order: this.props.ordersMultipleSelected([])
+    }[name];
   };
 
   productUploadRenderer = (user) => {
@@ -304,6 +340,27 @@ class UserBody extends Component {
                   buttonValue={this.state.buttonCard}
                   onSubmit={(cardData) => this.cardSubmit(cardData, user)}
                 />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          className="modal fade"
+          id="ticketModal"
+          tabIndex="-1"
+          role="dialog"
+          aria-labelledby="ticketModalLabel"
+          aria-hidden="true"
+        >
+          <div className="modal-dialog modal-lg" role="document">
+            <div className="modal-content" id="formContainer">
+              <div className="modal-body form-container-holder">
+                <TicketForm
+                  action="create"
+                  buttonValue={this.state.buttonTicket}
+                  onSubmit={this.ticketSubmit}
+                  user={this.props.user}
+                />{' '}
               </div>
             </div>
           </div>
@@ -399,13 +456,22 @@ class UserBody extends Component {
   }
 }
 
-const mapStateToProps = ({ user, deliveryCompany }) => ({
-  deliveryCompany: getDeliveryCompany(user, deliveryCompany)
+const mapStateToProps = ({
+  user, deliveryCompany, ticket, store, order
+}) => ({
+  deliveryCompany: getDeliveryCompany(user, deliveryCompany),
+  tickets: ticket.all,
+  users: user.all,
+  shops: store.all,
+  orders: order.all
 });
 
 export default connect(mapStateToProps, {
   userUpdate,
   productAdd,
   deliveryPackagesAdd,
-  productsOneSelected
+  productsOneSelected,
+  ticketAdd,
+  ordersMultipleSelected,
+  ticketsOneSelected
 })(UserBody);

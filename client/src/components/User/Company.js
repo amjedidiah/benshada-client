@@ -7,6 +7,7 @@ import { deliveryCompanyUpdate } from '../../redux/actions/deliveryCompanies.js'
 import ImageUpload from '../Image/ImageUpload.js';
 import DeliveryCompanyForm from '../Onboarding/DeliveryCompanyForm.js';
 import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
+import Loading from '../../assets/js/loading.js';
 
 class Company extends Component {
   INIT = {
@@ -30,11 +31,7 @@ class Company extends Component {
     _id, name, email, phone, states
   }) => {
     this.setState({
-      buttonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonValue: <Loading />
     });
 
     const company = {
@@ -66,11 +63,7 @@ class Company extends Component {
 
   handleImageChange = (fd) => {
     this.setState({
-      changeButtonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      changeButtonValue: <Loading />
     });
 
     this.props

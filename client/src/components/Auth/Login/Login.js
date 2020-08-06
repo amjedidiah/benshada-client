@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import Auth from '../Auth.js';
 import LoginForm from './LoginForm.js';
 import { authLogin } from '../../../redux/actions/auth.js';
+import Loading from '../../../assets/js/loading.js';
 
 class Login extends Component {
   INIT = {
@@ -22,11 +23,7 @@ class Login extends Component {
 
   submit = (loginData) => {
     this.setState({
-      buttonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonValue: <Loading />
     });
 
     return this.props

@@ -196,16 +196,11 @@ class Catalog extends Component {
     this.setState({ [type]: newValue });
   };
 
-  getSnapshotBeforeUpdate = (prevProps, prevState) => ({
-    shouldInitialize: prevState.q !== qs.parse(window.location.search).q
+  getSnapshotBeforeUpdate = (prvP, prvS) => ({
+    shouldInitialize: prvS.q !== qs.parse(window.location.search).q
   });
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize) {
-      this.setOldOnes();
-    }
-    return false;
-  }
+  componentDidUpdate = (prvP, prvS, snapshot) => (snapshot.shouldInitialize ? this.setOldOnes() : '');
 
   componentDidMount = () => this.setOldOnes();
 
@@ -221,7 +216,7 @@ class Catalog extends Component {
     const prices = unique(sortNumAsc(initProd.map((i) => i && i.price)));
 
     return !(a === 'p') ? (
-      <Redirect to='/' />
+      <Redirect to="/" />
     ) : (
       <HrFr>
         <div className="container mt-5 py-5">

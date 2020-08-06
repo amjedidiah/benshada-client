@@ -6,6 +6,7 @@ import ProfileForm from './ProfileForm.js';
 import { userUpdate, userChangePassword } from '../../../redux/actions/users.js';
 import PasswordForm from './PasswordForm.js';
 import ImageUpload from '../../Image/ImageUpload.js';
+import Loading from '../../../assets/js/loading.js';
 
 class Profile extends Component {
   INIT = {
@@ -28,11 +29,7 @@ class Profile extends Component {
 
   submitProfile = (profileData) => {
     this.setState({
-      profileButtonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      profileButtonValue: <Loading />
     });
 
     const {
@@ -77,11 +74,7 @@ class Profile extends Component {
 
   submitPassword = (passwordData) => {
     this.setState({
-      passwordButtonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      passwordButtonValue: <Loading />
     });
 
     const data = { ...passwordData, email: this.props.user && this.props.user.email };
@@ -111,11 +104,7 @@ class Profile extends Component {
 
   handleImageChange = (fd) => {
     this.setState({
-      changeButtonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      changeButtonValue: <Loading />
     });
 
     this.props

@@ -8,6 +8,7 @@ import { toast } from 'react-toastify';
 import $ from 'jquery';
 import { userUpdate } from '../../../../../redux/actions/users.js';
 import { cardsOneSelected, cardDelete } from '../../../../../redux/actions/cards.js';
+import Loading from '../../../../../assets/js/loading.js';
 
 class ButtonCardOwner extends React.Component {
   INIT = {
@@ -31,11 +32,7 @@ class ButtonCardOwner extends React.Component {
 
   cardSubmit = (cardData, user) => {
     this.setState({
-      buttonCard: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonCard: <Loading />
     });
 
     const email = user && user.email;

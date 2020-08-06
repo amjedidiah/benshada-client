@@ -22,7 +22,7 @@ export default class DataList extends Component {
       icon, action, input, label, touched, error, options, placeholder
     } = this.props;
 
-    const id = `${action}${input.name}`;
+    const id = `${action}${input.name}${Math.random() * 1099511627776}`;
 
     return (
       <div className="d-flex align-items-center">

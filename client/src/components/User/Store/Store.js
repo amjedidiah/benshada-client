@@ -7,6 +7,7 @@ import $ from 'jquery';
 import StoreForm from '../../StoreList/StoreDisplay/StoreForm.js';
 import { shopUpdate } from '../../../redux/actions/stores.js';
 import ImageUpload from '../../Image/ImageUpload.js';
+import Loading from '../../../assets/js/loading.js';
 
 class Store extends Component {
   INIT = {
@@ -29,11 +30,7 @@ class Store extends Component {
     _id, name, description, address, state, CACNumber, phone
   }) => {
     this.setState({
-      storeButtonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      storeButtonValue: <Loading />
     });
 
     const store = {
@@ -80,11 +77,7 @@ class Store extends Component {
 
   handleImageChange = (fd) => {
     this.setState({
-      changeButtonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      changeButtonValue: <Loading />
     });
 
     this.props

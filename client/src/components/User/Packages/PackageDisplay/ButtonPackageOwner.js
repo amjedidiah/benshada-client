@@ -12,6 +12,7 @@ import {
   deliveryPackagesOneSelected
 } from '../../../../redux/actions/deliveryPackages.js';
 import PackageForm from '../PackageForm.js';
+import Loading from '../../../../assets/js/loading.js';
 
 class ButtonPackageOwner extends React.Component {
   INIT = {
@@ -35,11 +36,7 @@ class ButtonPackageOwner extends React.Component {
 
   submit = (deliveryPackage) => {
     this.setState({
-      buttonValue: (
-        <div className="spinner-border text-white" role="status">
-          <span className="sr-only">Loading...</span>
-        </div>
-      )
+      buttonValue: <Loading />
     });
 
     const { _id } = deliveryPackage;
