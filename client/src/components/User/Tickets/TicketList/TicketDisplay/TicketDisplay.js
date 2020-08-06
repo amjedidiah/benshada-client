@@ -97,6 +97,19 @@ class TicketDisplay extends Component {
       });
   };
 
+  getStatusColor = (status) => ({ pending: 'light', awaiting: 'success text-white', resolved: 'primary text-white' }[status]);
+
+  getTypeColor = (type) => ({
+    order: 'light',
+    shop: 'success text-white',
+    user: 'primary text-white',
+    other: 'secondary text-white'
+  }[type]);
+
+  getTypeReference = ({
+    type, user, orderNumber, shop
+  }) => (type === 'other' ? '' : ` #${{ order: orderNumber, shop, user }[type]}`);
+
   render = () => {
     const { btnDelete, btnUpdate, display } = this.state;
     const {
@@ -109,9 +122,6 @@ class TicketDisplay extends Component {
     const createdAt = ticket && ticket.createdAt;
     const description = ticket && ticket.description;
     const image = ticket && ticket.image;
-    const problemUser = ticket && ticket.user;
-    const shop = ticket && ticket.shop;
-    const orderNumber = ticket && ticket.orderNumber;
     const owner = ticket && ticket.owner;
     const { name, email } = owner;
     const usersImage = users.filter((i) => i.email === email)[0].image;
@@ -128,7 +138,8 @@ class TicketDisplay extends Component {
               </div>
               <div className="ticket-actions ticket-actions-small">
                 <TicketDisplayButtons
-                  expand={() => this.setState({ display: display === 'd-none' ? 'd-flex' : 'd-none' })}
+                  expand={() => this.setState({ display: display === 'd-none' ? 'd-flex' : 'd-none' })
+                  }
                   ticket={ticket}
                   user={user}
                 />
@@ -138,13 +149,18 @@ class TicketDisplay extends Component {
               <span className="text-truncate">{title}</span>
             </div>
             <div className="cell status">
-              <span className="rounded-pill bg-success text-white px-3 py-1 mr-2">{type}</span>
-              <span className="rounded-pill bg-success text-white px-3 py-1">{status}</span>
+              <span
+                className={`rounded-pill bg-${this.getTypeColor(type)} px-3 py-1 mr-2`}
+              >{type + this.getTypeReference(ticket)}</span>
+              <span className={`rounded-pill bg-${this.getStatusColor(status)} px-3 py-1`}>
+                {status}
+              </span>
             </div>
             <div className="cell createdAt">{date}</div>
             <div className="cell d-none ticket-actions d-lg-flex">
               <TicketDisplayButtons
-                expand={() => this.setState({ display: display === 'd-none' ? 'd-flex' : 'd-none' })}
+                expand={() => this.setState({ display: display === 'd-none' ? 'd-flex' : 'd-none' })
+                }
                 ticket={ticket}
                 user={user}
               />
@@ -157,7 +173,6 @@ class TicketDisplay extends Component {
             <div className="info">
               <p className="name">{name}</p>
               <p className="response">{description}</p>
-              <p>{[problemUser, shop, orderNumber].filter((i) => i !== 'undefined')[0]}</p>
               <Image image={image} />
             </div>
           </div>

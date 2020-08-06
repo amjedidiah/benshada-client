@@ -91,7 +91,9 @@
 #ticketTable .misc .info img {
   width: 150px;
   height: 100px;
-  margin: 0;
+  margin: 10px 0 0 0;
+  position: relative;
+  left: -5%;
 }
 
 @media (min-width: 992px) {

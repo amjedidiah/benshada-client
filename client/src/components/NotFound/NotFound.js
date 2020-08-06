@@ -14,13 +14,7 @@ export default class NotFound extends React.Component {
 
   renderHelper = () => ({
     product: window.location.href.includes('user') && !['saved', 'cart'].includes(this.props.action) ? (
-      <span
-        className="pointer text-primary-benshada"
-        data-toggle="modal"
-        data-target="#productModal"
-      >
-        Upload one
-      </span>
+      ''
     ) : (
       <Link
         to="/catalog/?a=p"

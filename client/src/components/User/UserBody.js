@@ -472,5 +472,6 @@ export default connect(mapStateToProps, {
   deliveryPackagesAdd,
   productsOneSelected,
   ticketAdd,
-  ordersMultipleSelected,ticketsOneSelected
+  ordersMultipleSelected,
+  ticketsOneSelected
 })(UserBody);
