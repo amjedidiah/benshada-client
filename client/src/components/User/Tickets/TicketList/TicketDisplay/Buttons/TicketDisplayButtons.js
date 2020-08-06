@@ -13,6 +13,7 @@ import { ticketsOneSelected } from '../../../../../../redux/actions/tickets.js';
 class TicketDisplayButtons extends React.Component {
   static propTypes = {
     expand: PropTypes.func,
+    state: PropTypes.object,
     ticket: PropTypes.object,
     ticketsOneSelected: PropTypes.func,
     user: PropTypes.object
@@ -21,7 +22,7 @@ class TicketDisplayButtons extends React.Component {
   render = () => (
     <>
       <div className="d-lg-none">
-        <FontAwesomeIcon className="action" icon={faEye} onClick={() => this.props.expand()} />
+        <FontAwesomeIcon className="action" icon={this.props.state.displayIcon} onClick={() => this.props.expand()} />
         <span className="action" data-toggle="modal" data-target="#ticketEditModal">
           <FontAwesomeIcon
             icon={faPencilAlt}
@@ -36,7 +37,7 @@ class TicketDisplayButtons extends React.Component {
         </span>
       </div>
       <div className="d-none d-lg-flex">
-        <button className="btn btn-link text-uppercase action" onClick={() => this.props.expand()}>view</button>
+        <button className="btn btn-link text-uppercase action" onClick={() => this.props.expand()}>{this.props.state.displayText}</button>
         <button
           className="btn btn-primary text-uppercase action"
           data-toggle="modal"

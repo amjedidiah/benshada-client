@@ -43,17 +43,13 @@ class PackageForm extends Component {
     this.setState({ animationClass: 'animate__slideOutLeft' });
   }
 
-  getSnapshotBeforeUpdate = (prevProps) => ({
+  getSnapshotBeforeUpdate = (prvP) => ({
     shouldInitialize:
-      (prevProps.package && prevProps.package._id)
+      (prvP.package && prvP.package._id)
       !== (this.props.package && this.props.package._id)
   });
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize) return this.props.initialize(this.props.package);
-
-    return false;
-  }
+  componentDidUpdate = (prvP, prvS, snapshot) => (snapshot.shouldInitialize ? this.props.initialize(this.props.package) : '')
 
   componentDidMount = () => this.props.initialize(this.props.package);
 

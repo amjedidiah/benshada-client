@@ -39,21 +39,15 @@ class StoreForm extends Component {
     this.setState({ animationClass: 'animate__slideOutLeft' });
   }
 
-  getSnapshotBeforeUpdate = (prevProps) => ({
-    shouldInitialize:
-      prevProps.store && prevProps.store._id !== this.props.store && this.props.store._id
+  getSnapshotBeforeUpdate = (prvP) => ({
+    shouldInitialize: prvP.store && prvP.store._id !== this.props.store && this.props.store._id
   });
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if ((snapshot.shouldInitialize && this.props.type !== 'create') && this.props.type !== 'user') {
-      this.props.initialize(this.props.store);
-    }
-  }
+  componentDidUpdate = (prvP, prvS, snapshot) => (snapshot.shouldInitialize && this.props.type !== 'create' && this.props.type !== 'user'
+    ? this.props.initialize(this.props.store)
+    : '');
 
-  componentDidMount = () => (
-    this.props.type === 'user'
-      ? this.props.initialize(this.props.userStore)
-      : '');
+  componentDidMount = () => (this.props.type === 'user' ? this.props.initialize(this.props.userStore) : '');
 
   render() {
     const { animationClass } = this.state;
@@ -62,7 +56,9 @@ class StoreForm extends Component {
     return (
       <form
         onSubmit={this.props.handleSubmit}
-        className={`animate__animated ${animationClass} m-0 ${this.props.type === 'user' ? '' : 'px-lg-5'}`}
+        className={`animate__animated ${animationClass} m-0 ${
+          this.props.type === 'user' ? '' : 'px-lg-5'
+        }`}
         autoComplete="off"
       >
         <h2 className="mb-0">{type === 'create' ? 'New store' : `Edit ${store && store.name}`}</h2>

@@ -7,21 +7,21 @@ import { Field, reduxForm } from 'redux-form';
 import { faFlag } from '@fortawesome/free-regular-svg-icons';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
-import { productValidate as validate } from '../../../assets/js/validate.js';
+import { ticketResponseValidate as validate } from '../../../assets/js/validate.js';
 
 import '../../../assets/css/form.css';
 import FormField from '../../form/formField.js';
 import categories from '../../../assets/js/categories.js';
 import genders from '../../../assets/js/genders.js';
-import productSizes from '../../../assets/data/sizes.json';
+import ticketResponseSizes from '../../../assets/data/sizes.json';
 import ImageUpload from '../../Image/ImageUpload.js';
 
-class ProductForm extends Component {
+class TicketResponseForm extends Component {
   INIT = {
     animationClass: 'animate__zoomIn',
     imageButtonValue: 'Select Image',
     data: null,
-    buttonProduct: 'Upload Product'
+    buttonTicketResponse: 'respond'
   };
 
   constructor(props) {
@@ -35,9 +35,8 @@ class ProductForm extends Component {
     buttonValue: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     handleSubmit: PropTypes.func,
     user: PropTypes.object,
-    product: PropTypes.object,
+    ticketResponse: PropTypes.object,
     onSubmit: PropTypes.func,
-    initialValues: PropTypes.object,
     initialize: PropTypes.func
   };
 
@@ -47,13 +46,13 @@ class ProductForm extends Component {
 
   getSnapshotBeforeUpdate = (prvP) => ({
     shouldInitialize:
-      (prvP.product && prvP.product._id)
-      !== (this.props.product && this.props.product._id)
+      (prvP.ticketResponse && prvP.ticketResponse._id)
+      !== (this.props.ticketResponse && this.props.ticketResponse._id)
   });
 
-  componentDidUpdate = (prvP, prvS, snapshot) => (snapshot.shouldInitialize ? this.props.initialize(this.props.product) : '')
+  componentDidUpdate = (prvP, prvS, snapshot) => (snapshot.shouldInitialize ? this.props.initialize(this.props.ticketResponse) : '');
 
-  componentDidMount = () => this.props.initialize(this.props.product);
+  componentDidMount = () => this.props.initialize(this.props.ticketResponse);
 
   onSubmit = ({
     _id,
@@ -67,7 +66,7 @@ class ProductForm extends Component {
     category,
     gender,
     mainMaterial,
-    productionCountry,
+    ticketResponseionCountry,
     guarantee,
     sizes,
     batchQuality
@@ -78,7 +77,7 @@ class ProductForm extends Component {
       return toast.error('Do select an image');
     }
 
-    const productData = {
+    const ticketResponseData = {
       _id,
       name,
       shortDescription,
@@ -90,13 +89,13 @@ class ProductForm extends Component {
       category,
       gender,
       mainMaterial,
-      productionCountry,
+      ticketResponseionCountry,
       guarantee,
       sizes,
       batchQuality: batchQuality || 0
     };
 
-    Object.entries(productData).forEach(([key, value]) => {
+    Object.entries(ticketResponseData).forEach(([key, value]) => {
       const v = key === 'sizes' ? value.map((size) => size.value) : value;
 
       return data.get(key) ? '' : data.append(key, v);
@@ -110,37 +109,39 @@ class ProductForm extends Component {
 
     return (
       <>
-        <h2 className="mb-0 px-3 pt-4">{this.props.action ? 'Upload Product' : 'Edit Product'}</h2>
+        <h2 className="mb-0 px-3 pt-4">
+          {this.props.action ? 'Upload TicketResponse' : 'Edit TicketResponse'}
+        </h2>
         <p className="px-3 pb-4 text-danger font-weight-bold lead">
           Image should be 680x850 pixels
         </p>
         <div
           className="position-absolute w-100 text-center item-upload"
-          id="productUpload"
+          id="ticketResponseUpload"
           style={{
             top: '0'
           }}
         >
           <ImageUpload
             buttonValue={this.state.imageButtonValue}
-            object={this.props.product}
+            object={this.props.ticketResponse}
             onImageChange={(data) => this.setState({ data })}
-            type="product"
+            type="ticketResponse"
           />
         </div>
         <form
           onSubmit={this.props.handleSubmit(this.onSubmit)}
           className={`animate__animated ${animationClass} m-0`}
           autoComplete="off"
-          id="productForm"
+          id="ticketResponseForm"
         >
           <div className="form-row">
             <Field
-              action="product"
+              action="ticketResponse"
               name="name"
               type="text"
               component={FormField}
-              label="Product Name"
+              label="TicketResponse Name"
               className="col-12"
               placeholder="e.g Oxford Shoes"
             />
@@ -148,7 +149,7 @@ class ProductForm extends Component {
 
           <div className="form-row">
             <Field
-              action="product"
+              action="ticketResponse"
               name="shortDescription"
               type="textarea"
               component={FormField}
@@ -157,7 +158,7 @@ class ProductForm extends Component {
               placeholder="e.g: Cooperate unisex shoes"
             />
             <Field
-              action="product"
+              action="ticketResponse"
               name="longDescription"
               type="textarea"
               component={FormField}
@@ -169,7 +170,7 @@ class ProductForm extends Component {
 
           <div className="form-row">
             <Field
-              action="product"
+              action="ticketResponse"
               name="price"
               type="number"
               component={FormField}
@@ -179,7 +180,7 @@ class ProductForm extends Component {
               placeholder="e.g: 50000"
             />
             <Field
-              action="product"
+              action="ticketResponse"
               name="discountPercentage"
               type="number"
               component={FormField}
@@ -192,7 +193,7 @@ class ProductForm extends Component {
 
           <div className="form-row">
             <Field
-              action="product"
+              action="ticketResponse"
               name="quantity"
               type="number"
               component={FormField}
@@ -202,7 +203,7 @@ class ProductForm extends Component {
             />
 
             <Field
-              action="product"
+              action="ticketResponse"
               name="color"
               type="color"
               component={FormField}
@@ -217,7 +218,7 @@ class ProductForm extends Component {
           <div className="form-row align-items-center">
             {categories.map(({ name, icon }) => (
               <Field
-                action="product"
+                action="ticketResponse"
                 name="category"
                 type="radio"
                 component={FormField}
@@ -225,7 +226,7 @@ class ProductForm extends Component {
                 icon={icon}
                 className="col form-holder-select"
                 value={name}
-                key={`product-category-${name}`}
+                key={`ticketResponse-category-${name}`}
               />
             ))}
           </div>
@@ -234,7 +235,7 @@ class ProductForm extends Component {
           <div className="form-row align-items-center">
             {genders.map(({ name, icon }) => (
               <Field
-                action="product"
+                action="ticketResponse"
                 name="gender"
                 type="radio"
                 component={FormField}
@@ -242,14 +243,14 @@ class ProductForm extends Component {
                 icon={icon}
                 className="col form-holder-select"
                 value={name}
-                key={`product-gender-${name}`}
+                key={`ticketResponse-gender-${name}`}
               />
             ))}
           </div>
 
           <div className="form-row">
             <Field
-              action="product"
+              action="ticketResponse"
               name="mainMaterial"
               type="text"
               component={FormField}
@@ -258,8 +259,8 @@ class ProductForm extends Component {
               placeholder="e.g: Leather"
             />
             <Field
-              action="product"
-              name="productionCountry"
+              action="ticketResponse"
+              name="ticketResponseionCountry"
               type="text"
               component={FormField}
               label="Made In"
@@ -271,7 +272,7 @@ class ProductForm extends Component {
 
           <div className="form-row">
             <Field
-              action="product"
+              action="ticketResponse"
               name="guarantee"
               type="number"
               component={FormField}
@@ -279,10 +280,10 @@ class ProductForm extends Component {
               placeholder="e.g: 10"
               className="col-12 col-md-6"
             />
-            {(this.props.product && this.props.product.isBatch)
+            {(this.props.ticketResponse && this.props.ticketResponse.isBatch)
             || (this.props.user && this.props.user.type === 'UA') ? (
               <Field
-                action="product"
+                action="ticketResponse"
                 name="batchQuality"
                 type="number"
                 component={FormField}
@@ -297,13 +298,13 @@ class ProductForm extends Component {
 
           <div className="form-row">
             <Field
-              action="product"
+              action="ticketResponse"
               name="sizes"
               type="multi"
               component={FormField}
               label="Available Sizes"
               className="col-12"
-              options={productSizes}
+              options={ticketResponseSizes}
             />
           </div>
 
@@ -323,12 +324,12 @@ class ProductForm extends Component {
 
 const warn = () => ({});
 
-const mapStateToProps = ({ product }) => ({
-  product: product.selected
+const mapStateToProps = ({ ticketResponse }) => ({
+  ticketResponse: ticketResponse.selected
 });
 
 export default reduxForm({
-  form: 'productForm',
+  form: 'ticketResponseForm',
   validate,
   warn
-})(connect(mapStateToProps)(ProductForm));
+})(connect(mapStateToProps)(TicketResponseForm));

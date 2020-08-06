@@ -60,11 +60,11 @@ export default class ProductDomain extends Component {
 
   getProduct = (ID) => this.props.products.filter(({ _id }) => _id === ID)[0];
 
-  getSnapshotBeforeUpdate = (prevProps, prevState) => ({
-    shouldRerender: prevState._id !== this.state._id
+  getSnapshotBeforeUpdate = (prvP, prvS) => ({
+    shouldRerender: prvS._id !== this.state._id
   });
 
-  componentDidUpdate = (prevProps, prevState, snapshot) => {
+  componentDidUpdate = (prvP, prvS, snapshot) => {
     const ID = window.location.pathname.split('/')[2];
     if (snapshot.shouldRerender) {
       this.setState({ _id: ID, product: this.getProduct(ID) });

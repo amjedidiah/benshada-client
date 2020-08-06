@@ -7,6 +7,7 @@ import $ from 'jquery';
 import { toast } from 'react-toastify';
 
 // Component imports
+import { faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
 import TicketDisplayButtons from './Buttons/TicketDisplayButtons.js';
 import TicketForm from '../../TicketForm.js';
 
@@ -27,7 +28,9 @@ class TicketDisplay extends Component {
   INIT = {
     btnDelete: 'delete',
     btnUpdate: 'update',
-    display: 'd-none'
+    display: 'd-none',
+    displayIcon: faEye,
+    displayText: 'view'
   };
 
   constructor(props) {
@@ -110,6 +113,12 @@ class TicketDisplay extends Component {
     type, user, orderNumber, shop
   }) => (type === 'other' ? '' : ` #${{ order: orderNumber, shop, user }[type]}`);
 
+  expandTicket = (display) => this.setState({
+    display: display === 'd-none' ? 'd-flex' : 'd-none',
+    displayIcon: display === 'd-none' ? faTimes : faEye,
+    displayText: display === 'd-none' ? 'close' : 'view'
+  });
+
   render = () => {
     const { btnDelete, btnUpdate, display } = this.state;
     const {
@@ -138,8 +147,8 @@ class TicketDisplay extends Component {
               </div>
               <div className="ticket-actions ticket-actions-small">
                 <TicketDisplayButtons
-                  expand={() => this.setState({ display: display === 'd-none' ? 'd-flex' : 'd-none' })
-                  }
+                  expand={() => this.expandTicket(display)}
+                  state={this.state}
                   ticket={ticket}
                   user={user}
                 />
@@ -149,9 +158,9 @@ class TicketDisplay extends Component {
               <span className="text-truncate">{title}</span>
             </div>
             <div className="cell status">
-              <span
-                className={`rounded-pill bg-${this.getTypeColor(type)} px-3 py-1 mr-2`}
-              >{type + this.getTypeReference(ticket)}</span>
+              <span className={`rounded-pill bg-${this.getTypeColor(type)} px-3 py-1 mr-2`}>
+                {type + this.getTypeReference(ticket)}
+              </span>
               <span className={`rounded-pill bg-${this.getStatusColor(status)} px-3 py-1`}>
                 {status}
               </span>
@@ -159,8 +168,8 @@ class TicketDisplay extends Component {
             <div className="cell createdAt">{date}</div>
             <div className="cell d-none ticket-actions d-lg-flex">
               <TicketDisplayButtons
-                expand={() => this.setState({ display: display === 'd-none' ? 'd-flex' : 'd-none' })
-                }
+                expand={() => this.expandTicket(display)}
+                state={this.state}
                 ticket={ticket}
                 user={user}
               />
@@ -176,7 +185,19 @@ class TicketDisplay extends Component {
               <Image image={image} />
             </div>
           </div>
-          <div className="responses"></div>
+          <div className={`misc ${display}`}>
+            <div className="img-holder">
+              <Image image={usersImage} />
+            </div>
+            <div className="info">
+              <p className="name">{name}</p>
+              <p className="response">{description}</p>
+              <Image image={image} />
+            </div>
+          </div>
+          <div className="responses">
+
+          </div>
         </div>
 
         <div

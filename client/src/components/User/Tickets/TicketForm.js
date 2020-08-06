@@ -51,18 +51,14 @@ class TicketForm extends Component {
     this.setState({ animationClass: 'animate__slideOutLeft' });
   }
 
-  getSnapshotBeforeUpdate = (prevProps) => ({
+  getSnapshotBeforeUpdate = (prvP) => ({
     shouldInitialize:
-      (prevProps.ticket && prevProps.ticket._id) !== (this.props.ticket && this.props.ticket._id)
+      (prvP.ticket && prvP.ticket._id) !== (this.props.ticket && this.props.ticket._id)
   });
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize && this.props.action !== 'create') {
-      return this.props.initialize(this.props.ticket);
-    }
-
-    return false;
-  }
+  componentDidUpdate = (prvP, prvS, snapshot) => (snapshot.shouldInitialize && this.props.action !== 'create'
+    ? this.props.initialize(this.props.ticket)
+    : '');
 
   componentDidMount = () => (this.props.action === 'create' ? this.props.initialize(this.props.ticket) : '');
 
@@ -110,7 +106,9 @@ class TicketForm extends Component {
 
     Object.entries(ticketData).forEach(([key, value]) => (data.get(key) ? '' : data.append(key, value)));
 
-    if (this.ifTicketExists(ticketData)) { return toast.warn('You have already created a similar ticket'); }
+    if (this.ifTicketExists(ticketData)) {
+      return toast.warn('You have already created a similar ticket');
+    }
 
     return this.ifWrongTypeIdentifier(type, orderNumber, shop, user)
       ? toast.warn(`This ${type} does not exist`)

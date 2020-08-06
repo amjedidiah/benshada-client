@@ -32,19 +32,13 @@ class TestimonialForm extends Component {
     this.setState({ animationClass: 'animate__slideOutLeft' });
   }
 
-  getSnapshotBeforeUpdate = (prevProps) => ({
+  getSnapshotBeforeUpdate = (prvP) => ({
     shouldInitialize:
-      (prevProps.testimonial
-      && prevProps.testimonial._id) !== (this.props.testimonial
-      && this.props.testimonial._id)
+      (prvP.testimonial && prvP.testimonial._id)
+      !== (this.props.testimonial && this.props.testimonial._id)
   });
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (snapshot.shouldInitialize) {
-      return this.props.initialize(this.props.testimonial);
-    }
-    return false;
-  }
+  componentDidUpdate = (prvP, prvS, snapshot) => (snapshot.shouldInitialize ? this.props.initialize(this.props.testimonial) : '');
 
   render() {
     const { animationClass } = this.state;
