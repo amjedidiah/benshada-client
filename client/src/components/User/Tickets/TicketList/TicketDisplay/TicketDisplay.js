@@ -7,7 +7,7 @@ import $ from 'jquery';
 import { toast } from 'react-toastify';
 
 // Component imports
-import { faEye, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faTimes, faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import TicketDisplayButtons from './Buttons/TicketDisplayButtons.js';
 import TicketForm from '../../TicketForm.js';
 
@@ -22,6 +22,7 @@ import {
 } from '../../../../../redux/actions/tickets.js';
 import Loading from '../../../../../assets/js/loading.js';
 import Image from '../../../../Image/Image.js';
+import TicketResponseForm from './TicketResponse/TicketResponseForm.js';
 
 // Start Component
 class TicketDisplay extends Component {
@@ -30,7 +31,8 @@ class TicketDisplay extends Component {
     btnUpdate: 'update',
     display: 'd-none',
     displayIcon: faEye,
-    displayText: 'view'
+    displayText: 'view',
+    btnResponse: faPaperPlane
   };
 
   constructor(props) {
@@ -43,9 +45,45 @@ class TicketDisplay extends Component {
     selectedTicket: PropTypes.object,
     ticket: PropTypes.object,
     ticketDelete: PropTypes.func,
+    ticketsOneSelected: PropTypes.func,
     ticketUpdate: PropTypes.func,
     user: PropTypes.object,
     users: PropTypes.array
+  };
+
+  hashString = () => {};
+
+  ticketResponseSubmit = (ticketData) => {
+    this.setState({ btnUpdate: <Loading /> });
+
+    const { userID } = ticketData;
+    const { _id, responses } = this.props.selectedTicket;
+
+    // Generate new response ID
+    const d = new Date();
+    const createdAt = d.getTime();
+    const hex = `${createdAt}${_id}${userID}`;
+
+    return this.props
+      .ticketUpdate(_id, { responses: [...responses, { ...ticketData, _id: hex, createdAt }] })
+      .then((response) => toast.success(
+        (response && response.value && response.value.data && response.value.data.message)
+            || (response && response.statusText)
+            || 'Success'
+      ))
+      .catch((err) => toast.error(
+        (err && err.response && err.response.data && err.response.data.message)
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
+      ))
+      .finally(() => {
+        this.setState(this.INIT);
+      });
   };
 
   ticketSubmit = (id, ticketData) => {
@@ -113,14 +151,20 @@ class TicketDisplay extends Component {
     type, user, orderNumber, shop
   }) => (type === 'other' ? '' : ` #${{ order: orderNumber, shop, user }[type]}`);
 
-  expandTicket = (display) => this.setState({
-    display: display === 'd-none' ? 'd-flex' : 'd-none',
-    displayIcon: display === 'd-none' ? faTimes : faEye,
-    displayText: display === 'd-none' ? 'close' : 'view'
-  });
+  expandTicket = (ticket, display) => {
+    this.props.ticketsOneSelected(ticket);
+
+    this.setState({
+      display: display === 'd-none' ? 'd-flex' : 'd-none',
+      displayIcon: display === 'd-none' ? faTimes : faEye,
+      displayText: display === 'd-none' ? 'close' : 'view'
+    });
+  };
 
   render = () => {
-    const { btnDelete, btnUpdate, display } = this.state;
+    const {
+      btnDelete, btnUpdate, display, btnResponse
+    } = this.state;
     const {
       ticket, user, selectedTicket, users
     } = this.props;
@@ -147,7 +191,7 @@ class TicketDisplay extends Component {
               </div>
               <div className="ticket-actions ticket-actions-small">
                 <TicketDisplayButtons
-                  expand={() => this.expandTicket(display)}
+                  expand={(t) => this.expandTicket(t, display)}
                   state={this.state}
                   ticket={ticket}
                   user={user}
@@ -168,9 +212,22 @@ class TicketDisplay extends Component {
             <div className="cell createdAt">{date}</div>
             <div className="cell d-none ticket-actions d-lg-flex">
               <TicketDisplayButtons
-                expand={() => this.expandTicket(display)}
+                expand={(t) => this.expandTicket(t, display)}
                 state={this.state}
                 ticket={ticket}
+                user={user}
+              />
+            </div>
+          </div>
+          <div className={`misc ${display}`}>
+            <div className="img-holder">
+              <Image image={usersImage} />
+            </div>
+            <div className="info">
+              <TicketResponseForm
+                buttonValue={btnResponse}
+                action="create"
+                onSubmit={this.ticketResponseSubmit}
                 user={user}
               />
             </div>
@@ -185,19 +242,7 @@ class TicketDisplay extends Component {
               <Image image={image} />
             </div>
           </div>
-          <div className={`misc ${display}`}>
-            <div className="img-holder">
-              <Image image={usersImage} />
-            </div>
-            <div className="info">
-              <p className="name">{name}</p>
-              <p className="response">{description}</p>
-              <Image image={image} />
-            </div>
-          </div>
-          <div className="responses">
-
-          </div>
+          <div className="responses"></div>
         </div>
 
         <div

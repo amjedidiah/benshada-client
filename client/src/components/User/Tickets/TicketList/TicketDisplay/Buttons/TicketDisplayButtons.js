@@ -4,7 +4,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 // Action imports
@@ -22,7 +21,7 @@ class TicketDisplayButtons extends React.Component {
   render = () => (
     <>
       <div className="d-lg-none">
-        <FontAwesomeIcon className="action" icon={this.props.state.displayIcon} onClick={() => this.props.expand()} />
+        <FontAwesomeIcon className="action" icon={this.props.state.displayIcon} onClick={() => this.props.expand(this.props.ticket)} />
         <span className="action" data-toggle="modal" data-target="#ticketEditModal">
           <FontAwesomeIcon
             icon={faPencilAlt}
@@ -37,7 +36,7 @@ class TicketDisplayButtons extends React.Component {
         </span>
       </div>
       <div className="d-none d-lg-flex">
-        <button className="btn btn-link text-uppercase action" onClick={() => this.props.expand()}>{this.props.state.displayText}</button>
+        <button className="btn btn-link text-uppercase action" onClick={() => this.props.expand(this.props.ticket)}>{this.props.state.displayText}</button>
         <button
           className="btn btn-primary text-uppercase action"
           data-toggle="modal"
