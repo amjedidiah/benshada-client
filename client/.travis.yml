@@ -6,6 +6,9 @@ cache: npm
 install:
   - npm ci
 
+before_script:
+  - cd client
+
 script:
   - npm run build
 
