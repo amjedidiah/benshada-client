@@ -5,8 +5,7 @@ import {
   TICKET_DELETE,
   TICKETS_ONE,
   TICKETS_ONE_SELECTED,
-  TICKET_ADD,
-  TICKET_ADD_RESPONSE
+  TICKET_ADD
 } from './types/ticketTypes.js';
 
 export const ticketsAll = () => ({ type: TICKETS_ALL, payload: api.get('/tickets/') });
@@ -49,12 +48,3 @@ export const ticketsOneSelected = (payload) => ({
   type: TICKETS_ONE_SELECTED,
   payload
 });
-
-export const ticketAddResponse = (id, ticketData) => (dispatch) => {
-  const response = dispatch({
-    type: TICKET_ADD_RESPONSE,
-    payload: api.delete(`/tickets/add-response/${id}`, ticketData)
-  });
-
-  return response.then(() => dispatch(ticketsAll()));
-};

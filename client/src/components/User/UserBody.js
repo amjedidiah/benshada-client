@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import $ from 'jquery';
 
 // Component imports
-import Analytics from './Analytics.js';
+import Analytics from './Analytics/Analytics.js';
 import Bank from './Bank/Bank.js';
 import Cart from './Cart.js';
 import Notifications from './Notifications.js';
