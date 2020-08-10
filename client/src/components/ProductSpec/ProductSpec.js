@@ -11,7 +11,7 @@ import ProductList from '../ProductList/ProductList.js';
 // Asset imports
 import { randNum } from '../../assets/js/prototypes.js';
 
-// Component Starts
+// Start Component
 class ProductSpec extends Component {
   static propTypes = {
     title: PropTypes.string,

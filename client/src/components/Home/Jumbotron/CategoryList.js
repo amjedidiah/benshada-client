@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 // Category imports
 import categories from '../../../assets/js/categories.js';
 
-// Component Start
+// Start Component
 export default class CategoryList extends Component {
   // categories
   renderCats = () => categories.map(({ name, icon }, i) => (
@@ -25,4 +25,4 @@ export default class CategoryList extends Component {
       <div className="d-none col-lg-2 d-lg-flex flex-column">{this.renderCats()}</div>
   );
 }
-// Component Ends
+// End Component

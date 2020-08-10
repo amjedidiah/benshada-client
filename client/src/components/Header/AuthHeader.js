@@ -5,8 +5,6 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-regular-svg-icons';
 import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
-
-// Asset imports
 import ContainerDimensions from 'react-container-dimensions';
 
 class AuthHeader extends React.Component {
