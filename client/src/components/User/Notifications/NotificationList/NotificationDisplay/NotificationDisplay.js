@@ -86,10 +86,7 @@ class NotificationDisplay extends Component {
   render = () => {
     const { notification } = this.props;
     const read = notification && notification.read;
-    const _id = notification && notification._id;
-    const title = notification && notification.title;
     const type = notification && notification.type;
-    const identifier = notification && notification.identifier;
     const description = notification && notification.description;
     const createdAt = notification && notification.createdAt;
 
