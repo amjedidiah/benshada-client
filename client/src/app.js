@@ -29,6 +29,7 @@ import { shopsAll } from './redux/actions/stores.js';
 import { testimonialsAll } from './redux/actions/testimonials.js';
 import { subscriptionsAll } from './redux/actions/subscriptions.js';
 import { usersAll, userOne } from './redux/actions/users.js';
+import { notificationsAll } from './redux/actions/notifications.js';
 
 // Start Component
 class App extends React.Component {
@@ -36,9 +37,10 @@ class App extends React.Component {
     email: PropTypes.string,
     isSignedIn: PropTypes.bool,
     loading: PropTypes.bool,
+    notificationsAll: PropTypes.func,
     orders: PropTypes.array,
-    products: PropTypes.array,
     ordersAll: PropTypes.func,
+    products: PropTypes.array,
     productsAll: PropTypes.func,
     shopsAll: PropTypes.func,
     stores: PropTypes.array,
@@ -58,6 +60,7 @@ class App extends React.Component {
     this.props.subscriptionsAll();
     this.props.testimonialsAll();
     this.props.usersAll();
+    this.props.notificationsAll();
 
     if (this.props.isSignedIn) {
       const { email } = this.props;
@@ -85,7 +88,14 @@ class App extends React.Component {
 
   render = () => {
     const {
-      isSignedIn, loading, products, stores, testimonials, user, users, orders
+      isSignedIn,
+      loading,
+      products,
+      stores,
+      testimonials,
+      user,
+      users,
+      orders
     } = this.props;
 
     return loading ? (
@@ -153,7 +163,12 @@ class App extends React.Component {
                 />
               )}
             />
-            <Route path="/user" component={(component) => <User {...component} user={user} />} />
+            <Route
+              path="/user"
+              component={(component) => (
+                <User {...component} user={user} />
+              )}
+            />
           </Router>
         </div>
         <ToastContainer
@@ -189,6 +204,7 @@ const mapStateToProps = ({
 
 // Export component as React-functional-Component
 export default connect(mapStateToProps, {
+  notificationsAll,
   ordersAll,
   productsAll,
   shopsAll,

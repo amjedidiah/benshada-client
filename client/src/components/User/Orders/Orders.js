@@ -15,7 +15,10 @@ class Orders extends Component {
 
     const userOrders = orders.filter(
       (order) => (order.user && order.user._id === user._id)
-        || (user && user.shops[0].products.map(({ _id }) => _id).includes(order && order.product))
+        || (
+          (user && user.shops && user.shops[0] && user.shops[0].products.map(({ _id }) => _id))
+          || []
+        ).includes(order && order.product)
     );
 
     return (

@@ -3,6 +3,7 @@ import api from '../api/api.js';
 import { LOGIN, LOGOUT, SIGNUP } from './types/authTypes.js';
 import { userOne, usersAll } from './users.js';
 import { shopsAll } from './stores.js';
+import { notificationsAll } from './notifications.js';
 
 export const authLogin = (payload) => (dispatch) => {
   const response = dispatch({
@@ -10,8 +11,12 @@ export const authLogin = (payload) => (dispatch) => {
     payload: api.post('/users/login', payload)
   });
 
-  return response
-    .then(() => dispatch([userOne(payload.email), usersAll(), shopsAll()]));
+  return response.then(() => dispatch([
+    userOne(payload.email),
+    usersAll(),
+    shopsAll(),
+    notificationsAll()
+  ]));
 };
 
 export const authSignup = (payload) => (dispatch) => {
@@ -20,8 +25,12 @@ export const authSignup = (payload) => (dispatch) => {
     payload: api.post('/users/signup', payload)
   });
 
-  return response
-    .then(() => dispatch(authLogin({ email: payload.email, password: payload.password })));
+  return response.then(() => dispatch(
+    authLogin({
+      email: payload.email,
+      password: payload.password
+    })
+  ));
 };
 
 export const authLogout = () => ({
