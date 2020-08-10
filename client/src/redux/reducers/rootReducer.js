@@ -16,6 +16,7 @@ import orderReducer from './orderReducer.js';
 import cardReducer from './cardReducer.js';
 import ticketReducer from './ticketReducer.js';
 import transactionReducer from './transactionReducer.js';
+import notificationReducer from './notificationReducer.js';
 
 export default combineReducers({
   auth: authReducer,
@@ -24,6 +25,7 @@ export default combineReducers({
   deliveryPackage: deliveryPackageReducer,
   form: formReducer,
   // loading: loadingReducer,
+  notification: notificationReducer,
   order: orderReducer,
   product: productReducer,
   store: storeReducer,

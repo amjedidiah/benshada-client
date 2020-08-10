@@ -8,7 +8,8 @@ import {
   faUserEdit,
   faTruck,
   faTruckMoving,
-  faTicketAlt
+  faTicketAlt,
+  faBell
 } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
@@ -31,7 +32,8 @@ function Image({
             review: faUserEdit,
             package: faTruckMoving,
             card: faCreditCard,
-            ticket: faTicketAlt
+            ticket: faTicketAlt,
+            notification: faBell
           }[type]
         }
         className={`fa-${size}x text-secondary`}

@@ -58,6 +58,7 @@ body#body main #app .user-notification {
 
 body#body main #app .user-section {
   padding: 40px 2.5%;
+  margin-top: 36px;
 }
 
 body#body main #app #pills-tabContent {

@@ -1,7 +1,12 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable import/no-cycle */
 import api from '../api/api.js';
 import {
-  USER_ONE, USERS_ALL, USER_UPDATE, USER_DELETE, USER_CHANGE_PASSWORD
+  USER_ONE,
+  USERS_ALL,
+  USER_UPDATE,
+  USER_DELETE,
+  USER_CHANGE_PASSWORD
 } from './types/userTypes.js';
 import { authLogout } from './auth.js';
 import { deliveryCompaniesAll } from './deliveryCompanies.js';

@@ -4,12 +4,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 
+import { connect } from 'react-redux';
 import headerMenuAnimation from '../../assets/js/headerMenuAnimation.js';
 
 class UserNav extends React.Component {
   static propTypes = {
     className: PropTypes.string,
     list: PropTypes.array,
+    notifications: PropTypes.array,
     pathname: PropTypes.string
   };
 
@@ -18,6 +20,8 @@ class UserNav extends React.Component {
   renderList = (list) => list.map((item, index) => {
     const active = this.props.pathname.includes(item.Title.toLowerCase()) ? 'active' : '';
     // const selected = this.props.pathname.includes(item.Title.toLowerCase()) ? 'selected' : '';
+
+    const notificationLength = this.props.notifications.filter(({ read }) => !read).length;
 
     return (
         <li className="nav-item" key={`user-nav-${index}`}>
@@ -33,6 +37,9 @@ class UserNav extends React.Component {
           >
             <FontAwesomeIcon icon={item.icon} />
             <span className="ml-2">{item.Title}</span>
+            {item.Title === 'Notifications' && notificationLength > 0
+              ? <span className="badge badge-success mt-1 float-right">{notificationLength}</span>
+              : ''}
           </Link>
         </li>
     );
@@ -63,4 +70,6 @@ class UserNav extends React.Component {
   );
 }
 
-export default UserNav;
+const mapStateToProps = ({ notification }) => ({ notifications: notification.all });
+
+export default connect(mapStateToProps)(UserNav);
