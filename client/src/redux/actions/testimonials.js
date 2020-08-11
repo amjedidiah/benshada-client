@@ -2,6 +2,7 @@ import api from '../api/api.js';
 import {
   TESTIMONIALS_ONE,
   TESTIMONIALS_ONE_SELECTED,
+  TESTIMONIAL_ADD,
   TESTIMONIALS_ALL,
   TESTIMONIAL_UPDATE,
   TESTIMONIAL_DELETE
@@ -32,10 +33,19 @@ export const testimonialUpdate = (id, testimonialData) => (dispatch) => {
     .then(() => dispatch([testimonialsOne(id), testimonialsAll()]));
 };
 
-export const testimonialDelete = (id) => (dispatch) => {
+export const testimonialAdd = (testimonial) => (dispatch) => {
+  const response = dispatch({
+    type: TESTIMONIAL_ADD,
+    payload: api.post('/testimonials', testimonial)
+  });
+
+  return response.then(() => dispatch(testimonialsAll()));
+};
+
+export const testimonialDelete = ({ _id }) => (dispatch) => {
   const response = dispatch({
     type: TESTIMONIAL_DELETE,
-    payload: api.delete(`/testimonials/${id}`)
+    payload: api.delete(`/testimonials/${_id}`)
   });
 
   return response.then(() => dispatch(testimonialsAll()));

@@ -1,94 +1,35 @@
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPencilAlt } from '@fortawesome/free-solid-svg-icons';
+import { faPencilAlt, faTrash } from '@fortawesome/free-solid-svg-icons';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { toast } from 'react-toastify';
-import $ from 'jquery';
-import {
-  testimonialUpdate,
-  testimonialsOneSelected
-} from '../../../../../redux/actions/testimonials.js';
-import TestimonialForm from '../TestimonialForm.js';
-import Loading from '../../../../../assets/js/loading.js';
+import { testimonialsOneSelected } from '../../../../../redux/actions/testimonials.js';
 
 class ButtonTestimonialOwner extends React.Component {
-  INIT = {
-    buttonValue: 'Update Testimonial'
-  };
-
-  constructor(props) {
-    super(props);
-    this.state = this.INIT;
-  }
-
   static propTypes = {
     testimonial: PropTypes.object,
-    user: PropTypes.object,
-    testimonialsOneSelected: PropTypes.func,
-    testimonialUpdate: PropTypes.func
-  };
-
-  submit = ({ _id, testimony }) => {
-    this.setState({
-      buttonValue: <Loading />
-    });
-
-    this.props
-      .testimonialUpdate(_id, {
-        testimony
-      })
-      .then((response) => toast.success(
-        (response && response.value && response.value.data && response.value.data.message)
-        || (response && response.statusText)
-        || 'Success'
-      ))
-      .catch((err) => toast.error(
-        (err && err.response && err.response.data && err.response.data.message)
-              || (err
-                && err.response
-                && err.response.data
-                && err.response.data.message
-                && err.response.data.message.name)
-              || (err && err.response && err.response.statusText)
-              || 'Network error'
-      ))
-      .finally(() => {
-        this.setState(this.INIT);
-        $('.modal-backdrop').remove();
-      });
+    testimonialsOneSelected: PropTypes.func
   };
 
   render = () => (
     <>
-      <span className="pointer ml-2" data-toggle="modal" data-target="#testimonialEdit">
+      <span className="pointer" data-toggle="modal" data-target="#testimonialModal">
         <FontAwesomeIcon
           icon={faPencilAlt}
           onClick={() => this.props.testimonialsOneSelected(this.props.testimonial)}
         />
       </span>
-
-      {/* Modal */}
-      <div
-        className="modal fade"
-        id="testimonialEdit"
-        tabIndex="-1"
-        role="dialog"
-        aria-labelledby="modelTitleId"
-        aria-hidden="true"
-      >
-        <div className="modal-dialog modal-lg" role="document">
-          <div className="modal-content" id="formContainer">
-            <div className="modal-body form-container-holder">
-              <TestimonialForm buttonValue={this.state.buttonValue} onSubmit={this.submit} />
-            </div>
-          </div>
-        </div>
-      </div>
+      <span className="pointer ml-2" data-toggle="modal" data-target="#testimonialDeleteModal">
+        <FontAwesomeIcon
+          icon={faTrash}
+          onClick={() => this.props.testimonialsOneSelected(this.props.testimonial)}
+        />
+      </span>
     </>
-  )
+  );
 }
 
-export default connect(null, { testimonialUpdate, testimonialsOneSelected })(
+
+export default connect(null, { testimonialsOneSelected })(
   ButtonTestimonialOwner
 );

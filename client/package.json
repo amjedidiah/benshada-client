@@ -20,7 +20,8 @@
     "check": "npm run lint && npm test",
     "build": "npm run check && react-scripts build",
     "start": "serve -s build",
-    "dev": "npm run check && cross-env HTTPS=true react-scripts start",
+    "dev": "npm run check && react-scripts start",
+    "dev:secure": "npm run check && cross-env HTTPS=true react-scripts start",
     "prod": "npm run build && serve -s build",
     "aws": "npm run build && aws s3 cp build s3://benshada/ --recursive"
   },
