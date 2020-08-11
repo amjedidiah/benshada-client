@@ -3,7 +3,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { faPlus, faStream, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faStream } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
@@ -41,6 +41,7 @@ import ifSeller from '../../assets/js/ifSeller.js';
 import getDeliveryCompany from '../../assets/js/getDeliveryCompany.js';
 import newItems from '../../assets/js/newItems.js';
 import Loading from '../../assets/js/loading.js';
+import Plus from '../Plus/Plus.js';
 
 const Components = {
   Analytics,
@@ -62,9 +63,7 @@ class UserBody extends Component {
     buttonProduct: 'Upload',
     buttonPackage: 'Add',
     buttonCard: 'Add',
-    buttonTicket: 'Add',
-    newItemsClass: 'hidden',
-    plusButtonIcon: 'plus'
+    buttonTicket: 'Add'
   };
 
   constructor(props) {
@@ -252,18 +251,11 @@ class UserBody extends Component {
       });
   };
 
-  handleNewItems = (name) => {
-    this.setState({
-      newItemsClass: this.state.newItemsClass === 'hidden' ? '' : 'hidden',
-      plusButtonIcon: this.state.plusButtonIcon === 'plus' ? 'times' : 'plus'
-    });
-
-    return {
-      product: this.props.productsOneSelected({}),
-      ticket: this.props.ticketsOneSelected({}),
-      order: this.props.ordersMultipleSelected([])
-    }[name];
-  };
+  handleNewItems = (name) => ({
+    product: this.props.productsOneSelected({}),
+    ticket: this.props.ticketsOneSelected({}),
+    order: this.props.ordersMultipleSelected([])
+  }[name]);
 
   productUploadRenderer = (user) => {
     const type = user && user.type;
@@ -365,30 +357,7 @@ class UserBody extends Component {
             </div>
           </div>
         </div>
-        <div className={`shadow ${this.state.newItemsClass}`} id="newItems">
-          {newItems
-            .filter(({ users }) => users.includes(this.props.user && this.props.user.type))
-            .map(({ icon, name }, i) => (
-              <div
-                key={`newItem-${i}`}
-                data-toggle="modal"
-                data-target={`#${name}Modal`}
-                className={`pointer ${i === 0 ? '' : 'border border-top-secondary'}`}
-                onClick={() => this.handleNewItems(name)}
-              >
-                <div data-toggle="tooltip" title={name}>
-                  <FontAwesomeIcon icon={icon} />
-                </div>
-              </div>
-            ))}
-        </div>
-        <div
-          className="btn btn-primary rounded-circle shadow-sm"
-          id="addProductButton"
-          onClick={this.handleNewItems}
-        >
-          <FontAwesomeIcon icon={this.state.plusButtonIcon === 'plus' ? faPlus : faTimes} />
-        </div>
+        <Plus handleNewItems={this.handleNewItems} newItems={newItems} user={this.props.user} />
       </>
     );
   };
