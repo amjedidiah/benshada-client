@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+import { VerifyTransaction } from 'react-flutterwave-rave';
 import api from '../api/api.js';
 import {
   TRANSACTIONS_ALL,
@@ -7,16 +9,32 @@ import {
   TRANSACTIONS_ONE_SELECTED,
   TRANSACTION_ADD
 } from './types/transactionTypes.js';
+import { orderUpdate } from './orders.js';
 
-export const transactionsAll = () => ({ type: TRANSACTIONS_ALL, payload: api.get('/transactions/') });
+export const transactionsAll = () => ({
+  type: TRANSACTIONS_ALL,
+  payload: api.get('/transactions/')
+});
 
 export const transactionAdd = (data) => (dispatch) => {
+  const { order, transactionData } = data;
+
   const response = dispatch({
     type: TRANSACTION_ADD,
-    payload: api.post('/transactions', data)
+    payload: api.post('/transactions', transactionData)
   });
 
-  return response.then(() => dispatch(transactionsAll()));
+  return response.then(() => dispatch([orderUpdate(order._id, { status: 'paid' }), transactionsAll()]));
+};
+
+export const transactionVerify = (response, order, transactionData) => (dispatch) => {
+  const res = VerifyTransaction({
+    live: false,
+    txref: response.tx.txRef,
+    SECKEY: process.env.REACT_APP_RAVE_TEST_SECKEY
+  });
+
+  return res.then(() => dispatch(transactionAdd({ order, transactionData })));
 };
 
 export const transactionsOne = (id) => ({

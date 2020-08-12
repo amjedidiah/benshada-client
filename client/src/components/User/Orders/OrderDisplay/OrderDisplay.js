@@ -3,8 +3,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTicketAlt } from '@fortawesome/free-solid-svg-icons';
 
 // Component imports
 import Image from '../../../Image/Image.js';
@@ -18,7 +16,7 @@ class OrderDisplay extends Component {
   };
 
   renderActionButtons = (order) => {
-    const { status, updatedAt } = order;
+    const { status } = order;
     const { user } = this.props;
 
     if (
@@ -26,19 +24,7 @@ class OrderDisplay extends Component {
       || (user && user.shops[0].products.map(({ _id }) => _id).includes(order && order.product))
       || (user && user.type === 'ADMIN')
     ) {
-      return (
-        {
-          unpaid: (
-            <ButtonOrderOwner user={user} order={order} />
-          ),
-          delivered: (
-            <p>
-              <FontAwesomeIcon icon={faTicketAlt} className="text-success" />
-              Delivered on {updatedAt}
-            </p>
-          )
-        }[status] || <p>{status}</p>
-      );
+      return <ButtonOrderOwner user={user} order={order} />;
     }
 
     return <p>{status}</p>;

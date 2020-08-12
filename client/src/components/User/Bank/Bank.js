@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 // Component imports
 import CardList from './CardList/CardList.js';
 
-export default class Orders extends Component {
+export default class Bank extends Component {
   static propTypes = {
     user: PropTypes.object
   };

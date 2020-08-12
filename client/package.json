@@ -66,6 +66,7 @@
     "react-bootstrap": "^1.0.1",
     "react-container-dimensions": "^1.4.1",
     "react-dom": "^16.13.1",
+    "react-flutterwave-rave": "^1.0.4",
     "react-js-pagination": "^3.0.3",
     "react-loading-screen": "0.0.17",
     "react-redux": "^7.2.0",

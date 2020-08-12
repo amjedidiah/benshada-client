@@ -10,6 +10,7 @@ import {
 } from './types/orderTypes.js';
 import { userUpdate } from './users.js';
 import { productUpdateMultiple, productUpdate } from './products.js';
+import { notificationsAll } from './notifications.js';
 
 export const ordersAll = () => ({ type: ORDERS_ALL, payload: api.get('/orders/') });
 
@@ -29,7 +30,7 @@ export const orderUpdate = (id, orderData) => (dispatch) => {
     payload: api.put(`/orders/${id}`, orderData)
   });
 
-  return response.then(() => dispatch([ordersOne(id), ordersAll()]));
+  return response.then(() => dispatch([ordersOne(id), ordersAll(), notificationsAll()]));
 };
 
 export const orderAdd = (orders) => (dispatch, getState) => {

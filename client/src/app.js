@@ -1,6 +1,6 @@
 // Module Imports
 import React from 'react';
-import { Route, BrowserRouter as Router } from 'react-router-dom';
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
@@ -15,7 +15,6 @@ import Register from './components/Auth/Register/Register.js';
 import User from './components/User/User.js';
 import Onboarding from './components/Onboarding/Onboarding.js';
 import Checkout from './components/Checkout/Checkout.js';
-import Payment from './components/Payment/Payment.js';
 import ProductDomain from './components/ProductList/ProductDomain/ProductDomain.js';
 import StoreDomain from './components/StoreList/StoreDomain/StoreDomain.js';
 
@@ -88,14 +87,7 @@ class App extends React.Component {
 
   render = () => {
     const {
-      isSignedIn,
-      loading,
-      products,
-      stores,
-      testimonials,
-      user,
-      users,
-      orders
+      isSignedIn, loading, products, stores, testimonials, user, users, orders
     } = this.props;
 
     return loading ? (
@@ -110,65 +102,58 @@ class App extends React.Component {
       <>
         <div id="app" className="h-100">
           <Router>
-            <Route path="/catalog" component={Catalog} />
-            <Route
-              path="/"
-              component={(component) => (
-                <Home
-                  {...component}
-                  isSignedIn={isSignedIn}
-                  products={products}
-                  stores={stores}
-                  testimonials={testimonials}
-                  user={user}
-                />
-              )}
-              exact
-            />
-            <Route
-              path="/checkout"
-              component={(component) => <Checkout {...component} user={user} />}
-            />
-            <Route path="/login" component={Login} exact />
-            <Route path="/logout" component={Logout} exact />
-            <Route
-              path="/onboarding"
-              component={(component) => <Onboarding {...component} user={user} />}
-              exact
-            />
-            <Route
-              path="/payment"
-              component={(component) => <Payment {...component} user={user} />}
-            />
-            <Route
-              path="/products"
-              component={(component) => (
-                <ProductDomain {...component} user={user} products={products} />
-              )}
-            />
-            <Route
-              path="/register"
-              component={(component) => <Register {...component} users={users} />}
-              exact
-            />
-            <Route
-              path="/stores"
-              component={(component) => (
-                <StoreDomain
-                  {...component}
-                  user={user}
-                  products={products}
-                  stores={stores}
-                  orders={orders}
-                />
-              )}
-            />
-            <Route
-              path="/user"
-              component={(component) => (
-                <User {...component} user={user} />
-              )}
-            />
+            <Switch>
+              <Route path="/catalog" component={Catalog} />
+              <Route
+                path="/"
+                component={(component) => (
+                  <Home
+                    {...component}
+                    isSignedIn={isSignedIn}
+                    products={products}
+                    stores={stores}
+                    testimonials={testimonials}
+                    user={user}
+                  />
+                )}
+                exact
+              />
+              <Route
+                path="/checkout"
+                component={(component) => <Checkout {...component} user={user} />}
+              />
+              <Route path="/login" component={Login} exact />
+              <Route path="/logout" component={Logout} exact />
+              <Route
+                path="/onboarding"
+                component={(component) => <Onboarding {...component} user={user} />}
+                exact
+              />
+              <Route
+                path="/products"
+                component={(component) => (
+                  <ProductDomain {...component} user={user} products={products} />
+                )}
+              />
+              <Route
+                path="/register"
+                component={(component) => <Register {...component} users={users} />}
+                exact
+              />
+              <Route
+                path="/stores"
+                component={(component) => (
+                  <StoreDomain
+                    {...component}
+                    user={user}
+                    products={products}
+                    stores={stores}
+                    orders={orders}
+                  />
+                )}
+              />
+              <Route path="/user" component={(component) => <User {...component} user={user} />} />
+            </Switch>
           </Router>
         </div>
         <ToastContainer
