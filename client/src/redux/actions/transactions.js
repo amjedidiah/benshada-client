@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import { VerifyTransaction } from 'react-flutterwave-rave';
+import { toast } from 'react-toastify';
 import api from '../api/api.js';
 import {
   TRANSACTIONS_ALL,
@@ -16,8 +17,13 @@ export const transactionsAll = () => ({
   payload: api.get('/transactions/')
 });
 
-export const transactionAdd = (data) => (dispatch) => {
+export const transactionAdd = (data) => (dispatch, getState) => {
   const { order, transactionData } = data;
+  const transactions = getState().transaction.all;
+
+  if (transactions.filter(({ trxnRef }) => trxnRef === transactionData.trxnRef).length > 0) {
+    return toast.warn('Transaction already exists');
+  }
 
   const response = dispatch({
     type: TRANSACTION_ADD,
@@ -34,10 +40,9 @@ export const transactionVerify = (response, order, transactionData) => (dispatch
     SECKEY: process.env.REACT_APP_RAVE_TEST_SECKEY
   });
 
-  return res.then((r) => {
-    console.log(r, r.data);
-    dispatch(transactionAdd({ order, transactionData }));
-  });
+  return res
+    .then(() => dispatch(transactionAdd({ order, transactionData })))
+    .catch(() => dispatch(transactionAdd({ order, transactionData })));
 };
 
 export const transactionsOne = (id) => ({

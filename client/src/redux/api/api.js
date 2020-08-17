@@ -4,8 +4,8 @@ import store from '../store.js';
 
 // configure base url
 const api = axios.create({
-  // baseURL: 'https://www.api.benshada.com/v1',
-  baseURL: 'http://localhost:8000/v1',
+  baseURL: 'https://www.api.benshada.com/v1',
+  // baseURL: 'http://localhost:8000/v1',
   timeout: 60000
 });
 
