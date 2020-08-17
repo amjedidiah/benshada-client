@@ -8,7 +8,7 @@ import {
   faBell,
   faHeart,
   faShoppingCart,
-  faPiggyBank,
+  faFunnelDollar,
   faStoreAlt
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -20,7 +20,7 @@ export default [
   { icon: faHeart, Title: 'Saved' },
   { icon: faShoppingCart, Title: 'Cart' },
   { icon: faShoppingBag, Title: 'Orders' },
-  { icon: faPiggyBank, Title: 'Bank' },
+  { icon: faFunnelDollar, Title: 'Transactions' },
   { icon: faBell, Title: 'Notifications' },
   { icon: faChartPie, Title: 'Analytics' },
   { icon: faTicketAlt, Title: 'Tickets' }

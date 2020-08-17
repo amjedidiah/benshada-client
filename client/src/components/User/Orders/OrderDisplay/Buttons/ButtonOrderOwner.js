@@ -5,9 +5,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { toast } from 'react-toastify';
 import $ from 'jquery';
-import { faTimes, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { faEye } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Rave from 'react-flutterwave-rave';
 
 // Component imports
 import Image from '../../../../Image/Image.js';
@@ -16,7 +17,7 @@ import PackageDisplay from '../../../Packages/PackageDisplay/PackageDisplay.js';
 
 // Action imports
 import { orderDelete, ordersMultipleSelected } from '../../../../../redux/actions/orders.js';
-import payment from '../../../../../redux/actions/payment.js';
+import { transactionVerify } from '../../../../../redux/actions/transactions.js';
 
 class ButtonOrderOwner extends React.Component {
   INIT = {
@@ -34,9 +35,9 @@ class ButtonOrderOwner extends React.Component {
     order: PropTypes.object,
     orderDelete: PropTypes.func,
     ordersMultipleSelected: PropTypes.func,
-    payment: PropTypes.func,
     products: PropTypes.array,
     selectedOrders: PropTypes.array,
+    transactionVerify: PropTypes.func,
     user: PropTypes.object
   };
 
@@ -56,6 +57,25 @@ class ButtonOrderOwner extends React.Component {
       <p>Unpaid</p>
   ));
 
+  callback = (res, order, transactionData) => this.props
+    .transactionVerify(res, order, transactionData)
+    .then((response) => toast.success(
+      (response && response.value && response.value.data && response.value.data.message)
+            || (response && response.statusText)
+            || 'Success'
+    ))
+    .catch((err) => toast.error(
+      (err && err.response && err.response.data && err.response.data.message)
+            || (err
+              && err.response
+              && err.response.data
+              && err.response.data.message
+              && err.response.data.message.name)
+            || (err && err.response && err.response.statusText)
+            || 'Network error'
+    ))
+    .finally(() => this.setState(this.INIT));
+
   render = () => {
     const {
       order, selectedOrders, user, products, deliveryPackages
@@ -74,34 +94,112 @@ class ButtonOrderOwner extends React.Component {
     const createdAt = selectedOrders[0] && selectedOrders[0].createdAt;
     const d = new Date(createdAt);
 
+    console.log(order, user, productID);
+
     return this.state.link ? (
       window.location.replace(this.state.link)
     ) : (
       <>
-        {order.user && order.user._id === user._id ? (
-
+        {order && order.status === 'unpaid' ? (
+          <>
+            <Rave
+              amount={((order && order.totalPrice) || '').toString()}
+              callback={(res) => this.callback(res, order, {
+                amount: order && order.totalPrice,
+                trxnRef: order && order.orderNumber,
+                user: user && user._id,
+                type: 'order',
+                description: `Paid for ${order && order.count} of ${product && product.name}`
+              })
+              }
+              class="btn btn-primary-benshada"
+              custom_title="Pay for your order"
+              custom_description={`OrderNo:  ${order && order.orderNumber}`}
+              custom_logo={`${window.location.origin}/icon.png`}
+              customer_email={user && user.email}
+              customer_firstname={(user && user.name).split(' ')[0]}
+              customer_lastname={(user && user.name).split(' ')[1]}
+              customer_phone={user && user.phone}
+              metadata={[{ metaname: 'Product', metavalue: order && order.product }]}
+              onclose={() => console.log('Payment closed')}
+              pay_button_text="Pay With FlutterWave"
+              ravePubKey={process.env.REACT_APP_RAVE_TEST_PUBKEY}
+              redirect_url=""
+              txref={((order && order.orderNumber) || '').toString()}
+            />
             <span
               className="mx-2 px-2 pointer"
-              onClick={() => this.props
-                .payment(user, totalPrice, orderNumber)
-                .then(({ data }) => this.setState({ link: data.data.link }))
-              }
+              data-toggle="modal"
+              data-target="#orderDelete"
+              onClick={() => this.props.ordersMultipleSelected([order])}
             >
-              <FontAwesomeIcon icon={faMoneyBill} />
+              <FontAwesomeIcon icon={faTimes} />
             </span>
-
-
+            <div
+              className="modal text-secondary fade"
+              id="orderDelete"
+              tabIndex="-1"
+              role="dialog"
+              aria-labelledby="modelTitleId"
+              aria-hidden="true"
+            >
+              <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                  <div className="modal-header border-0">
+                    <h5 className="modal-title">Cancel Order</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div className="modal-body">
+                    Are you sure you want to cancel order <strong>{orderNumber}</strong>?
+                  </div>
+                  <div className="modal-footer border-0">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">
+                      Go back
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-danger"
+                      onClick={() => this.props
+                        .orderDelete(selectedOrders[0])
+                        .then((response) => toast.success(
+                          (response
+                                && response.value
+                                && response.value.data
+                                && response.value.data.message)
+                                || (response && response.statusText)
+                                || 'Success'
+                        ))
+                        .catch((err) => toast.error(
+                          (err
+                                && err.response
+                                && err.response.data
+                                && err.response.data.message)
+                                || (err
+                                  && err.response
+                                  && err.response.data
+                                  && err.response.data.message
+                                  && err.response.data.message.name)
+                                || (err && err.response && err.response.statusText)
+                                || 'Network error'
+                        ))
+                        .finally(() => {
+                          this.setState(this.INIT);
+                          $('.modal-backdrop').remove();
+                        })
+                      }
+                    >
+                      {this.state.btnCancelVal}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </>
         ) : (
           ''
         )}
-        <span
-          className="mx-2 px-2 pointer"
-          data-toggle="modal"
-          data-target="#orderDelete"
-          onClick={() => this.props.ordersMultipleSelected([order])}
-        >
-          <FontAwesomeIcon icon={faTimes} />
-        </span>
 
         <span
           className="mx-2 px-2 pointer"
@@ -184,65 +282,6 @@ class ButtonOrderOwner extends React.Component {
             </div>
           </div>
         </div>
-
-        <div
-          className="modal text-secondary fade"
-          id="orderDelete"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="modelTitleId"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header border-0">
-                <h5 className="modal-title">Cancel Order</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                Are you sure you want to cancel order <strong>{orderNumber}</strong>?
-              </div>
-              <div className="modal-footer border-0">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">
-                  Go back
-                </button>
-                <button
-                  type="button"
-                  className="btn btn-danger"
-                  onClick={() => this.props
-                    .orderDelete(selectedOrders[0])
-                    .then((response) => toast.success(
-                      (response
-                            && response.value
-                            && response.value.data
-                            && response.value.data.message)
-                            || (response && response.statusText)
-                            || 'Success'
-                    ))
-                    .catch((err) => toast.error(
-                      (err && err.response && err.response.data && err.response.data.message)
-                            || (err
-                              && err.response
-                              && err.response.data
-                              && err.response.data.message
-                              && err.response.data.message.name)
-                            || (err && err.response && err.response.statusText)
-                            || 'Network error'
-                    ))
-                    .finally(() => {
-                      this.setState(this.INIT);
-                      $('.modal-backdrop').remove();
-                    })
-                  }
-                >
-                  {this.state.btnCancelVal}
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
       </>
     );
   };
@@ -254,6 +293,6 @@ const mapStateToProps = ({ order, product, deliveryPackage }) => ({
   deliveryPackages: deliveryPackage.all
 });
 
-export default connect(mapStateToProps, { orderDelete, ordersMultipleSelected, payment })(
+export default connect(mapStateToProps, { orderDelete, ordersMultipleSelected, transactionVerify })(
   ButtonOrderOwner
 );

@@ -12,7 +12,7 @@ export default class TicketResponseList extends Component {
     responses: PropTypes.array,
     selectedTicket: PropTypes.object,
     ticketUpdate: PropTypes.func,
-    users: PropTypes.object
+    users: PropTypes.array
   };
 
   renderList = () => this.props.responses.map((response, i) => (

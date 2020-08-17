@@ -9,7 +9,8 @@ import {
   faTruck,
   faTruckMoving,
   faTicketAlt,
-  faBell
+  faBell,
+  faFunnelDollar
 } from '@fortawesome/free-solid-svg-icons';
 
 import PropTypes from 'prop-types';
@@ -33,6 +34,7 @@ function Image({
             package: faTruckMoving,
             card: faCreditCard,
             ticket: faTicketAlt,
+            transaction: faFunnelDollar,
             notification: faBell
           }[type]
         }

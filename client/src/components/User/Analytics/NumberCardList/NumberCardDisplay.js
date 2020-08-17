@@ -6,7 +6,7 @@ export default class NumberCardDisplay extends Component {
   static propTypes = {
     isNaira: PropTypes.bool,
     title: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.number
   };
 
   render = () => (

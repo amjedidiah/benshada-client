@@ -9,7 +9,7 @@ import {
 
 export const notificationsAll = () => (dispatch, getState) => {
   const uID = getState().user.selected._id;
-  dispatch({
+  return dispatch({
     type: NOTIFICATIONS_ALL,
     payload: api.get(`/notifications/${uID}`)
   });

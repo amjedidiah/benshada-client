@@ -13,14 +13,12 @@ import deliveryCompanyReducer from './deliveryCompanyReducer.js';
 import deliveryPackageReducer from './deliveryPackageReducer.js';
 // import loadingReducer from './loadingReducer.js';
 import orderReducer from './orderReducer.js';
-import cardReducer from './cardReducer.js';
 import ticketReducer from './ticketReducer.js';
 import transactionReducer from './transactionReducer.js';
 import notificationReducer from './notificationReducer.js';
 
 export default combineReducers({
   auth: authReducer,
-  card: cardReducer,
   deliveryCompany: deliveryCompanyReducer,
   deliveryPackage: deliveryPackageReducer,
   form: formReducer,

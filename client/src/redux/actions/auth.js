@@ -6,17 +6,16 @@ import { shopsAll } from './stores.js';
 import { notificationsAll } from './notifications.js';
 
 export const authLogin = (payload) => (dispatch) => {
-  const response = dispatch({
+  const res = dispatch({
     type: LOGIN,
     payload: api.post('/users/login', payload)
   });
 
-  return response.then(() => dispatch([
+  return res.then(() => dispatch([
     userOne(payload.email),
     usersAll(),
     shopsAll(),
-    notificationsAll()
-  ]));
+    notificationsAll()]));
 };
 
 export const authSignup = (payload) => (dispatch) => {
