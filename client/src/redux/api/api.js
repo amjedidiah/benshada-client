@@ -4,9 +4,9 @@ import store from '../store.js';
 
 // configure base url
 const api = axios.create({
-  // baseURL: 'http://benshadaapi-env.eba-22ptjdqr.us-west-2.elasticbeanstalk.com/api',
-  baseURL: 'http://localhost:8000/api',
-  timeout: 30000
+  // baseURL: 'https://www.api.benshada.com/v1',
+  baseURL: 'http://localhost:8000/v1',
+  timeout: 60000
 });
 
 // intercept requests and add authorization token

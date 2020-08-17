@@ -94,6 +94,8 @@ class ButtonOrderOwner extends React.Component {
     const createdAt = selectedOrders[0] && selectedOrders[0].createdAt;
     const d = new Date(createdAt);
 
+    console.log(order, user, productID);
+
     return this.state.link ? (
       window.location.replace(this.state.link)
     ) : (
@@ -105,7 +107,9 @@ class ButtonOrderOwner extends React.Component {
               callback={(res) => this.callback(res, order, {
                 amount: order && order.totalPrice,
                 trxnRef: order && order.orderNumber,
-                user: user && user._id
+                user: user && user._id,
+                type: 'order',
+                description: `Paid for ${order && order.count} of ${product && product.name}`
               })
               }
               class="btn btn-primary-benshada"
@@ -116,7 +120,7 @@ class ButtonOrderOwner extends React.Component {
               customer_firstname={(user && user.name).split(' ')[0]}
               customer_lastname={(user && user.name).split(' ')[1]}
               customer_phone={user && user.phone}
-              metadata={[{ metaname: 'Product', metavalue: productID }]}
+              metadata={[{ metaname: 'Product', metavalue: order && order.product }]}
               onclose={() => console.log('Payment closed')}
               pay_button_text="Pay With FlutterWave"
               ravePubKey={process.env.REACT_APP_RAVE_TEST_PUBKEY}

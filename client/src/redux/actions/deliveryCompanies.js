@@ -15,13 +15,19 @@ export const deliveryCompaniesOneSelected = (payload) => ({
   payload
 });
 
-export const deliveryCompaniesAll = () => (dispatch) => {
+export const deliveryCompaniesAll = (isAuthed) => (dispatch, getState) => {
+  const headers = isAuthed
+    ? {
+      Authorization: `Bearer ${process.env.REACT_APP_DEF_AUTH}`
+    }
+    : {};
+
   const response = dispatch({
     type: DELIVERY_COMPANIES_ALL,
-    payload: api.get('/delivery-company/')
+    payload: api.get('/delivery-company/', { headers })
   });
 
-  return response.then(() => dispatch(deliveryPackagesAll()));
+  return response.then(() => dispatch(deliveryPackagesAll(!getState().auth.isSigned)));
 };
 
 export const deliveryCompaniesAdd = (deliveryCompanyData) => (dispatch) => {

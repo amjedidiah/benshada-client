@@ -11,7 +11,7 @@ import $ from 'jquery';
 
 // Component imports
 import Analytics from './Analytics/Analytics.js';
-import Bank from './Bank/Bank.js';
+import Transactions from './Transactions/Transactions.js';
 import Cart from './Cart.js';
 import Notifications from './Notifications/Notifications.js';
 import Orders from './Orders/Orders.js';
@@ -26,7 +26,6 @@ import Deliveries from './Deliveries.js';
 import Packages from './Packages/Packages.js';
 import Company from './Company.js';
 import PackageForm from './Packages/PackageForm.js';
-import CardForm from './Bank/CardList/CardForm.js';
 import TicketForm from './Tickets/TicketForm.js';
 
 // Action imports
@@ -45,7 +44,7 @@ import Plus from '../Plus/Plus.js';
 
 const Components = {
   Analytics,
-  Bank,
+  Transactions,
   Cart,
   Company,
   Deliveries,
@@ -62,7 +61,6 @@ class UserBody extends Component {
   INIT = {
     buttonProduct: 'Upload',
     buttonPackage: 'Add',
-    buttonCard: 'Add',
     buttonTicket: 'Add'
   };
 
@@ -186,39 +184,6 @@ class UserBody extends Component {
       });
   };
 
-  cardSubmit = (cardData, user) => {
-    this.setState({
-      buttonCard: <Loading />
-    });
-
-    const email = user && user.email;
-    const cards = (user && user.cards) || [];
-
-    return cards.filter(({ number }) => number === cardData.number).length > 0
-      ? (toast.warn('You have already added this card'), this.setState(this.INIT))
-      : this.props
-        .userUpdate(email, { cards: [...cards, cardData] })
-        .then((response) => toast.success(
-          (response && response.value && response.value.data && response.value.data.message)
-                || (response && response.statusText)
-                || 'Success'
-        ))
-        .catch((err) => toast.error(
-          (err && err.response && err.response.data && err.response.data.message)
-                || (err
-                  && err.response
-                  && err.response.data
-                  && err.response.data.message
-                  && err.response.data.message.name)
-                || (err && err.response && err.response.statusText)
-                || 'Network error'
-        ))
-        .finally(() => {
-          this.setState(this.INIT);
-          $('.modal-backdrop').remove();
-        });
-  };
-
   ticketSubmit = (ticketData) => {
     this.setState({
       buttonTicket: <Loading />
@@ -316,26 +281,6 @@ class UserBody extends Component {
     return (
       <>
         {all}
-        <div
-          className="modal fade"
-          id="cardModal"
-          tabIndex="-1"
-          role="dialog"
-          aria-labelledby="cardModalLabel"
-          aria-hidden="true"
-        >
-          <div className="modal-dialog modal-md" role="document">
-            <div className="modal-content" id="formContainer">
-              <div className="modal-body form-container-holder">
-                <CardForm
-                  action="create"
-                  buttonValue={this.state.buttonCard}
-                  onSubmit={(cardData) => this.cardSubmit(cardData, user)}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
         <div
           className="modal fade"
           id="ticketModal"

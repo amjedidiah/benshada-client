@@ -135,8 +135,12 @@ body#body main #app .bg-warning-benshada {
   background: #ffdcb0;
 }
 
-body#body main #app .text-primary-benshada {
+body#body main #app .text-primary-benshada  {
   color: #ef932e;
+}
+
+body#body main #app .border-primary-benshada  {
+  border-color: #ef932e !important;
 }
 
 body#body main #app .text-ash {

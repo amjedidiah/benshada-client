@@ -29,10 +29,17 @@ import { testimonialsAll } from './redux/actions/testimonials.js';
 import { subscriptionsAll } from './redux/actions/subscriptions.js';
 import { usersAll, userOne } from './redux/actions/users.js';
 import { notificationsAll } from './redux/actions/notifications.js';
+import { transactionsAll } from './redux/actions/transactions.js';
+import { ticketsAll } from './redux/actions/tickets.js';
+import { deliveryCompaniesAll } from './redux/actions/deliveryCompanies.js';
+import { deliveryPackagesAll } from './redux/actions/deliveryPackages.js';
+
 
 // Start Component
 class App extends React.Component {
   static propTypes = {
+    deliveryCompaniesAll: PropTypes.func,
+    deliveryPackagesAll: PropTypes.func,
     email: PropTypes.string,
     isSignedIn: PropTypes.bool,
     loading: PropTypes.bool,
@@ -46,6 +53,8 @@ class App extends React.Component {
     subscriptionsAll: PropTypes.func,
     testimonials: PropTypes.array,
     testimonialsAll: PropTypes.func,
+    ticketsAll: PropTypes.func,
+    transactionsAll: PropTypes.func,
     user: PropTypes.object,
     users: PropTypes.array,
     userOne: PropTypes.func,
@@ -54,15 +63,16 @@ class App extends React.Component {
 
   componentDidMount = () => {
     this.props.productsAll();
-    this.props.ordersAll();
     this.props.shopsAll();
-    this.props.subscriptionsAll();
     this.props.testimonialsAll();
-    this.props.usersAll();
-    this.props.notificationsAll();
 
     if (this.props.isSignedIn) {
       const { email } = this.props;
+
+      this.props.ordersAll();
+      this.props.notificationsAll();
+      this.props.transactionsAll();
+      this.props.ticketsAll();
 
       this.props
         .userOne(email)
@@ -82,6 +92,10 @@ class App extends React.Component {
               || 'Network error'
         ))
         .finally(() => this.setState(this.INIT));
+    } else {
+      this.props.usersAll(true);
+      this.props.deliveryCompaniesAll(true);
+      this.props.subscriptionsAll(true);
     }
   };
 
@@ -189,6 +203,8 @@ const mapStateToProps = ({
 
 // Export component as React-functional-Component
 export default connect(mapStateToProps, {
+  deliveryCompaniesAll,
+  deliveryPackagesAll,
   notificationsAll,
   ordersAll,
   productsAll,
@@ -196,5 +212,7 @@ export default connect(mapStateToProps, {
   testimonialsAll,
   subscriptionsAll,
   userOne,
-  usersAll
+  usersAll,
+  ticketsAll,
+  transactionsAll
 })(App);

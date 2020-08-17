@@ -5,16 +5,14 @@ import {
   SUBSCRIPTION_REMOVE
 } from './types/subscriptionTypes.js';
 
-export const subscriptionsAll = () => (dispatch, getState) => {
-  const { token } = getState().auth;
-  let headers = {};
+export const subscriptionsAll = (isAuthed) => () => {
+  const headers = isAuthed
+    ? {
+      Authorization: `Bearer ${process.env.REACT_APP_DEF_AUTH}`
+    }
+    : {};
 
-  if (!token) {
-    headers = {
-      Authorization:
-        'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRhdmlkdGVlQGdtYWlsLmNvbSIsImlkIjoiNWVjM2FjOTAwYWJlMTVjMmI2MmNiYzI4IiwiZXhwIjoxNTk3MzUxNzQyLCJpYXQiOjE1OTIxNjc3NDJ9.Y-Fg4HKIZWa6dZVVqMn0nxavyjnNfjvYxIQ2SDCTjbs'
-    };
-  }
+  console.log('Running subscriptions with these headers...', headers);
 
   return {
     type: SUBSCRIPTIONS_ALL,

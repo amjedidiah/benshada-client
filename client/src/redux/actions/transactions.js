@@ -34,7 +34,10 @@ export const transactionVerify = (response, order, transactionData) => (dispatch
     SECKEY: process.env.REACT_APP_RAVE_TEST_SECKEY
   });
 
-  return res.then(() => dispatch(transactionAdd({ order, transactionData })));
+  return res.then((r) => {
+    console.log(r, r.data);
+    dispatch(transactionAdd({ order, transactionData }));
+  });
 };
 
 export const transactionsOne = (id) => ({

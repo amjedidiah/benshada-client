@@ -22,7 +22,7 @@ class AuthRedirect extends Component {
 
     if (type === 'checkout') {
       if (!auth.isSignedIn) return <Redirect to="/" />;
-      if (order.length > 0 && (user && user.cart).length < 1) return <Redirect to="/payment" />;
+      if (order.length > 0 && (user && user.cart).length < 1) return <Redirect to="/user/orders" />;
       if ((user && user.cart).length < 1) return <Redirect to="/user/cart" />;
 
       return false;

@@ -3,9 +3,9 @@ import {
   faUser,
   faTicketAlt,
   faBell,
-  faPiggyBank,
   faBoxes,
-  faTruckMoving
+  faTruckMoving,
+  faFunnelDollar
 } from '@fortawesome/free-solid-svg-icons';
 import { faBuilding } from '@fortawesome/free-regular-svg-icons';
 
@@ -15,7 +15,7 @@ export default [
   { icon: faBuilding, Title: 'Company' },
   { icon: faBoxes, Title: 'Packages' },
   { icon: faTruckMoving, Title: 'Deliveries' },
-  { icon: faPiggyBank, Title: 'Bank' },
+  { icon: faFunnelDollar, Title: 'Transactions' },
   { icon: faBell, Title: 'Notifications' },
   { icon: faTicketAlt, Title: 'Tickets' }
 ];

@@ -14,10 +14,18 @@ export const deliveryPackagesOneSelected = (payload) => ({
   payload
 });
 
-export const deliveryPackagesAll = () => ({
-  type: DELIVERY_PACKAGES_ALL,
-  payload: api.get('/delivery-package/')
-});
+export const deliveryPackagesAll = (isAuthed) => {
+  const headers = isAuthed
+    ? {
+      Authorization: `Bearer ${process.env.REACT_APP_DEF_AUTH}`
+    }
+    : {};
+
+  return ({
+    type: DELIVERY_PACKAGES_ALL,
+    payload: api.get('/delivery-package', { headers })
+  });
+};
 
 export const deliveryPackagesAdd = (deliveryPackageData) => (dispatch) => {
   const response = dispatch({
