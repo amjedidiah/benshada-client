@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - 12.13.1
+cache: npm
+
+install:
+  - npm ci
+
+before_script:
+  - cd client
+
+script:
+  - npm run build
+
+deploy:
+  provider: heroku
+  skip_cleanup: true
+  api_key:
+    secure: G63ZY2Gcfumxo+9NFGD611xsMJIRsGTX26C+totyIrou7ujUXGHrswmt2seaSH4nbS1qqhOIIFMsi02TUYSPV3dDG+x+doOKImebQ1lj2SZveoj+/YdVtL1gawBZqGvhcq45TFSPVSf19S7M5nO154xFavRBHwKIgJjRvd9Yv3vXC1Wd1Gow/m68tm+f1zQtOuU2cuq/bdy1F8sEwHnhFQl2EMKz0bhpk9sx2tpBkf2E3LuGT5UEM07mjU1GdcJZhbC1YqIu0nrznhIeIXinYs+wJ2x5Gnrtxql6B2q59ZSbHDHapXaYuzhP+HdCRnAF40w45gtJ9CucA6cPi1/kquu1sA8GtQ+blth7oh06VJ89Vl8E8mSBCNCDBjW/dPYvBbVs5VrhG84pWdTB3bGyefyEPSwRf0MVG95KjuF4j60/Jd5kGGEV6o+Ve9hara9ya0UVwmXHCZZzi2LTGoyPn9ylWbBEiH0Jd5sZ3rXtNQlR8ivirFXpissTYZq+i4uN+1mGZ8eZ+RUCuSQ8O7o2d2PoxCVKnoli99amgKZ8MSI5zeUht6e9e0MIFY0D5xBk3VLBrw7TUN7Al1F1y/2Er2EeCxnV11Dt39PrWp9U9xF3YjjMxS3ntY4jK5vevl9iERKTou/5B5a5tCyYejXniCfF+69z0btZ5a/Ap+tbUf4=
+  local_dir: build
+  app:
+    ft-travis: benshada-staging-refactor-app
+  on:
+    branch: ft-travis
